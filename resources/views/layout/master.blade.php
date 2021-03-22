@@ -75,7 +75,7 @@
                         <hr class="my-3">
                         @endif
 
-                        @if(Session::get('role') == 'master' || Session::get('role') == 'manajer'||  Session::get('role') == 'admin' && (Session::get('otoritas')->pedagang || Session::get('otoritas')->tempatusaha || Session::get('otoritas')->tagihan || Session::get('otoritas')->publish || Session::get('otoritas')->layanan || Session::get('otoritas')->neraca))
+                        @if(Session::get('role') == 'master' || Session::get('role') == 'manajer'||  Session::get('role') == 'admin' && (Session::get('otoritas')->pedagang || Session::get('otoritas')->tempatusaha || Session::get('otoritas')->tagihan || Session::get('otoritas')->publish || Session::get('otoritas')->layanan))
                         <h6 class="navbar-heading p-0 text-muted">Sumber&nbsp;Daya</h6>
                         <ul class="navbar-nav">
                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->layanan))
@@ -105,7 +105,7 @@
                             </li>
                             @endif
 
-                            @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan || Session::get('otoritas')->publish || Session::get('otoritas')->neraca))
+                            @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan || Session::get('otoritas')->publish))
                             <!-- Nav Item - Tagihan -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('tagihan*')) ? 'active' : '' }}" href="{{url('tagihan')}}">
@@ -177,12 +177,12 @@
                                         </li>
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->alatmeter))
-                                            <a class="nav-link {{ (request()->is('utilities/alatmeter*')) ? 'active' : '' }}" href="{{url('utilities/alatmeter')}}">Alat Meter</a>
+                                            <a class="nav-link {{ (request()->is('utilities/alatmeter*')) ? 'active' : '' }}" href="{{url('utilities/alatmeter')}}">Alat&nbsp;Meter</a>
                                             @endif
                                         </li>
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->harilibur))
-                                            <a class="nav-link {{ (request()->is('utilities/harilibur*')) ? 'active' : '' }}" href="{{url('utilities/harilibur')}}">Hari Libur</a>
+                                            <a class="nav-link {{ (request()->is('utilities/harilibur*')) ? 'active' : '' }}" href="{{url('utilities/harilibur')}}">Hari&nbsp;Libur</a>
                                             @endif
                                         </li>
                                         <li class="nav-item">
@@ -219,7 +219,7 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('log*')) ? 'active' : '' }}" href="{{url('log')}}">
                                     <i class="fas fa-history text-primary"></i>
-                                    <span class="nav-link-text">Riwayat Login</span></a>
+                                    <span class="nav-link-text">Riwayat&nbsp;Login</span></a>
                             </li>
                             @endif
                             <!-- Divider -->

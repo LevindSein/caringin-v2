@@ -10,8 +10,12 @@ use App\Http\Controllers\DashboardController;
 //Pedagang
 use App\Http\Controllers\PedagangController;
 
-//Tempat Controller
+//Tempat Usaha
 use App\Http\Controllers\TempatController;
+
+//Laporan
+use App\Http\Controllers\PemakaianController;
+use App\Http\Controllers\PendapatanController;
 
 //Search
 use App\Http\Controllers\SearchController;
@@ -124,6 +128,11 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
     Route::post('tempatusaha/update', [TempatController::class, 'update']);
     Route::get('tempatusaha/destroy/{id}', [TempatController::class, 'destroy']);
     Route::resource('tempatusaha', TempatController::class);
+});
+
+Route::middleware('ceklogin:pemakaian')->group(function(){
+    Route::get('rekap/pemakaian', [PemakaianController::class, 'index']);
+    Route::post('rekap/pemakaian',[PemakaianController::class, 'fasilitas']);
 });
 
 Route::middleware('ceklogin:log')->group(function(){

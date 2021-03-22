@@ -15,16 +15,19 @@ class PemakaianController extends Controller
     }
 
     public function index(){
-        return view('pemakaian.index',[
+        return view('laporan.pemakaian.index',[
             'dataset'=>Pemakaian::data()
         ]);
     }
 
-    public function fasilitas(Request $request, $fasilitas, $bulan){
+    public function fasilitas(Request $request){
+        $fasilitas = $request->fasilitas;
+        $bulan     = $request->hidden_value;
+
         if($fasilitas == 'listrik'){
             $rekap = Pemakaian::rekapListrik($bulan);
 
-            return view('pemakaian.listrik',[
+            return view('laporan.pemakaian.listrik',[
                 'bln'=>IndoDate::bulanB($bulan,' '),
                 'rekap'=>$rekap,
                 'ttlRekap'=>Pemakaian::ttlRekapListrik($rekap),
@@ -35,7 +38,7 @@ class PemakaianController extends Controller
         if($fasilitas == 'airbersih'){
             $rekap = Pemakaian::rekapAirBersih($bulan);
 
-            return view('pemakaian.airbersih',[
+            return view('laporan.pemakaian.airbersih',[
                 'bln'=>IndoDate::bulanB($bulan,' '),
                 'rekap'=>$rekap,
                 'ttlRekap'=>Pemakaian::ttlRekapAirBersih($rekap),
@@ -49,7 +52,7 @@ class PemakaianController extends Controller
             $time = strtotime($bulan);
             $bln = date("Y-m", strtotime("+1 month", $time));
 
-            return view('pemakaian.keamananipk',[
+            return view('laporan.pemakaian.keamananipk',[
                 'bln'=>IndoDate::bulanB($bln,' '),
                 'rekap'=>$rekap,
                 'ttlRekap'=>Pemakaian::ttlRekapKeamananIpk($rekap),
@@ -63,18 +66,26 @@ class PemakaianController extends Controller
             $time = strtotime($bulan);
             $bln = date("Y-m", strtotime("+1 month", $time));
 
-            return view('pemakaian.kebersihan',[
+            return view('laporan.pemakaian.kebersihan',[
                 'bln'=>IndoDate::bulanB($bln,' '),
                 'rekap'=>$rekap,
                 'ttlRekap'=>Pemakaian::ttlRekapKebersihan($rekap),
                 'rincian'=>Pemakaian::rincianKebersihan($bulan),
             ]);
         }
+        
+        if($fasilitas == 'airkotor'){
+            return view('laporan.pemakaian.airkotor');
+        }
+            
+        if($fasilitas == 'lain'){
+            return view('laporan.pemakaian.lain');
+        }
 
         if($fasilitas == 'total'){
             $rekap = Pemakaian::rekapTotal($bulan);
 
-            return view('pemakaian.total',[
+            return view('laporan.pemakaian.total',[
                 'bln'=>IndoDate::bulanB($bulan,' '),
                 'rekap'=>$rekap,
                 'ttlRekap'=>Pemakaian::ttlRekapTotal($rekap),
@@ -91,7 +102,7 @@ class PemakaianController extends Controller
             $time = strtotime($bulan);
             $bln = date("Y-m", strtotime("+1 month", $time));
 
-            return view('pemakaian.diskon',[
+            return view('laporan.pemakaian.diskon',[
                 'bln'=>IndoDate::bulanB($bln,' '),
                 'bulan'=>IndoDate::bulanB($bulan,' '),
                 'rekapKeamananIpk'=>$rekapKeamananIpk,
