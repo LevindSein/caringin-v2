@@ -106,7 +106,6 @@ body
 hr
 {
     overflow: visible; 
-
     box-sizing: content-box;
     height: 0;
 }
@@ -618,7 +617,7 @@ hr
     margin-bottom: .875rem;
 
     border: 0;
-    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .modal-body-short{
@@ -21796,7 +21795,8 @@ textarea[resize='horizontal']
     margin-left: .5rem;
     padding-right: 1rem;
     padding-left: 1rem;
-
+    color: #000;
+    font-weight:700;
     border-radius: .375rem; 
     background: #f6f9fc;
 }

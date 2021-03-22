@@ -126,6 +126,29 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
     Route::resource('tempatusaha', TempatController::class);
 });
 
+Route::middleware('ceklogin:log')->group(function(){
+    Route::get('log',function(Request $request){
+        if($request->ajax())
+        {
+            $data = LoginLog::orderBy('id','desc');
+            return DataTables::of($data)
+                    ->editColumn('ktp', function ($ktp) {
+                        if ($ktp->ktp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
+                        else return $ktp->ktp;
+                    })
+                    ->editColumn('created_at', function ($user) {
+                        return [
+                           'display' => $user->created_at->format('d-m-Y H:i:s'),
+                           'timestamp' => $user->created_at->timestamp
+                        ];
+                     })
+                    ->rawColumns(['ktp'])
+                    ->make(true);
+        }
+        return view('log.index');
+    })->middleware('log');
+});
+
 Route::middleware('ceklogin:human')->group(function(){
     Route::get('cari/blok',[SearchController::class, 'cariBlok']);
     Route::get('cari/nasabah',[SearchController::class, 'cariNasabah']);
@@ -150,5 +173,5 @@ Route::get('optimize.p3cmaster',function(){
     Artisan::call('optimize');
     Artisan::call('cron:log');
     Artisan::call('cron:login');
-    return view('danger');
+    return "Oops";
 });

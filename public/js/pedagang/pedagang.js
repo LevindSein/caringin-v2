@@ -7,7 +7,7 @@ $(document).ready(function(){
 		},
 		columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', class : 'text-center' },
-			{ data: 'nama', name: 'nama', class : 'text-center' },
+			{ data: 'nama', name: 'nama', class : 'text-center-td' },
 			{ data: 'action', name: 'action', class : 'text-center' },
 			{ data: 'show', name: 'show', class : 'text-center' },
         ],
