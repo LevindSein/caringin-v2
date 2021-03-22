@@ -240,9 +240,9 @@
                                 </div>
                             </div>
                         </div>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                            </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">&times; Close</button>
+                        </div>
                     </div>
                 </div>
             </div>

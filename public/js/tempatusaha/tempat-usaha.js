@@ -592,6 +592,12 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.details', function(){
+        $('.divListrik').hide();
+        $('.divAirBersih').hide();
+        $('.divKeamananIpk').hide();
+        $('.divKebersihan').hide();
+        $('.divAirKotor').hide();
+        $('.divLain').hide();
 		id = $(this).attr('id');
 		kontrol = $(this).attr('nama');
 		$('.titles').html("<h1 style='color:white;font-weight:700;'>" + kontrol + "</h1>");
@@ -632,6 +638,59 @@ $(document).ready(function(){
                     $('.status').html("<span style='color:red;'>Pasif</span");
                     $('.keterangan').text(data.result.ket_tempat);
                 }
+
+                //Fasilitas
+                if(data.result.faslistrik != null){
+                    $('.divListrik').show();
+                    if(data.result.diskonlistrik != null)
+                        $('.diskon-listrik').html("<span style='color:red;'>&check;</span>");
+                    else
+                        $('.diskon-listrik').html("&times;");
+
+                    $('.alat-listrik').text(data.result.alatlistrik);
+                    $('.daya-listrik').text(data.result.dayalistrik.toLocaleString("en-US"));
+                    $('.stand-listrik').text(data.result.standlistrik.toLocaleString("en-US"));
+                }
+                if(data.result.fasairbersih != null){
+                    $('.divAirBersih').show();
+                    if(data.result.diskonairbersih != null)
+                        $('.diskon-airbersih').html("<span style='color:red;'>&check;</span>");
+                    else
+                        $('.diskon-airbersih').html("&times;");
+
+                    $('.alat-airbersih').text(data.result.alatairbersih);
+                    $('.stand-airbersih').text(data.result.standairbersih.toLocaleString("en-US"));
+                }
+                if(data.result.faskeamananipk != null){
+                    $('.divKeamananIpk').show();
+                    if(data.result.diskonkeamananipk != null)
+                        $('.diskon-keamananipk').html("<span style='color:red;'>" + data.result.diskonkeamananipk.toLocaleString("en-US") + "</span>");
+                    else
+                        $('.diskon-keamananipk').html("&times;");
+                    
+                    $('.per-unit-keamananipk').html("<span style='color:blue;text-transform:lowercase;'>(" + data.result.perunitkeamananipk.toLocaleString("en-US") + " / unit)</span>");
+                    $('.subtotal-keamananipk').html("<span style='color:blue;'>" + data.result.subtotalkeamananipk.toLocaleString("en-US") + "</span>");
+                    $('.total-keamananipk').html("<span style='color:green;'>" + data.result.totalkeamananipk.toLocaleString("en-US") + "</span>");
+                }
+                if(data.result.faskebersihan != null){
+                    $('.divKebersihan').show();
+                    if(data.result.diskonkebersihan != null)
+                        $('.diskon-kebersihan').html("<span style='color:red;'>" + data.result.diskonkebersihan.toLocaleString("en-US") + "</span>");
+                    else
+                        $('.diskon-kebersihan').html("&times;");
+                    
+                    $('.per-unit-kebersihan').html("<span style='color:blue;text-transform:lowercase;'>(" + data.result.perunitkebersihan.toLocaleString("en-US") + " / unit)</span>");
+                    $('.subtotal-kebersihan').html("<span style='color:blue;'>" + data.result.subtotalkebersihan.toLocaleString("en-US") + "</span>");
+                    $('.total-kebersihan').html("<span style='color:green;'>" + data.result.totalkebersihan.toLocaleString("en-US") + "</span>");
+                }
+                if(data.result.fasairkotor != null){
+                    $('.divAirKotor').show();
+                    $('.total-airkotor').html("<span style='color:green;'>" + data.result.totalairkotor.toLocaleString("en-US") + "</span>");
+                }
+                if(data.result.faslain != null){
+                    $('.divLain').show();
+                    $('.total-lain').html("<span style='color:green;'>" + data.result.totallain.toLocaleString("en-US") + "</span>");
+                }
                 
                 if(data.result.hp_pengguna != null){
                     $('#whatsapp-number').attr("href", "https://api.whatsapp.com/send?phone=" + data.result.hp_pengguna + "&text=Halo%20" + data.result.pengguna + 
@@ -652,6 +711,102 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+    $(document).on('click', '.details-rekap', function(){
+        $('#rincianrow').html('');
+		blok = $(this).attr('nama');
+		$('.titles').html("<h1 style='color:white;font-weight:700;'>" + blok + "</h1>");
+        $.ajax({
+			url :"/tempatusaha/rekap/"+blok,
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.result.penggunalistrik > 0)
+                    $('.pengguna-listrik').text(data.result.penggunalistrik.toLocaleString('en-US'));
+                else
+                    $('.pengguna-listrik').text(0);
+                
+                if(data.result.penggunaairbersih > 0)
+                    $('.pengguna-airbersih').text(data.result.penggunaairbersih.toLocaleString('en-US'));
+                else
+                    $('.pengguna-airbersih').text(0);
+
+                if(data.result.penggunakeamananipk > 0)
+                    $('.pengguna-keamananipk').text(data.result.penggunakeamananipk.toLocaleString('en-US'));
+                else
+                    $('.pengguna-keamananipk').text(0);
+                
+                if(data.result.penggunakebersihan > 0)
+                    $('.pengguna-kebersihan').text(data.result.penggunakebersihan.toLocaleString('en-US'));
+                else
+                    $('.pengguna-kebersihan').text(0);
+
+                if(data.result.potensilistrik > 0)
+                    $('.potensi-listrik').text(data.result.potensilistrik.toLocaleString('en-US'));
+                else
+                    $('.potensi-listrik').text(0);
+                
+                if(data.result.potensiairbersih > 0)
+                    $('.potensi-airbersih').text(data.result.potensiairbersih.toLocaleString('en-US'));
+                else
+                    $('.potensi-airbersih').text(0);
+
+                if(data.result.potensikeamananipk > 0)
+                    $('.potensi-keamananipk').text(data.result.potensikeamananipk.toLocaleString('en-US'));
+                else
+                    $('.potensi-keamananipk').text(0);
+                
+                if(data.result.potensikebersihan > 0)
+                    $('.potensi-kebersihan').text(data.result.potensikebersihan.toLocaleString('en-US'));
+                else
+                    $('.potensi-kebersihan').text(0);
+
+                for(i = 0; i < data.result.rincian.length; i++){
+                    var pengguna = "";
+                    if(data.result.rincian[i].trf_listrik != null)
+                        pengguna += '<i class="fas fa-bolt" style="color:#fd7e14;" title="Listrik"></i>&nbsp;';
+                    else
+                        pengguna += '<i class="fas fa-bolt" style="color:dark;" title="Non Listrik"></i>&nbsp;';
+
+                    if(data.result.rincian[i].trf_airbersih != null)
+                        pengguna += '<i class="fas fa-tint" style="color:#36b9cc" title="Air Bersih"></i>&nbsp;';
+                    else
+                        pengguna += '<i class="fas fa-tint" style="color:dark" title="Non Air Bersih"></i>&nbsp;';
+
+                    if(data.result.rincian[i].trf_keamananipk != null)
+                        pengguna += '<i class="fas fa-lock" style="color:#e74a3b" title="Keamanan IPK"></i>&nbsp;';
+                    else
+                        pengguna += '<i class="fas fa-lock" style="color:dark" title="Non Keamanan IPK"></i>&nbsp;';
+
+                    if(data.result.rincian[i].trf_kebersihan != null)
+                        pengguna += '<i class="fas fa-leaf" style="color:#1cc88a;" title="Kebersihan"></i>&nbsp;';
+                    else
+                        pengguna += '<i class="fas fa-leaf" style="color:dark" title="Non Kebersihan"></i>&nbsp;';
+
+                    html = '';
+                    html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
+                    html +=     '<div>';
+                    html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].kd_kontrol + '</span>';
+                    html +=     '</div>';
+                    html +=     '<div>';
+                    if(data.result.rincian[i].stt_tempat == 1)
+                    html +=         '<span class="heading" style="font-size:.875rem;color:green">Aktif</span>';
+                    if(data.result.rincian[i].stt_tempat == 2)
+                    html +=         '<span class="heading" style="font-size:.875rem;color:red">Pasif</span>';
+                    html +=     '</div>';
+                    html +=     '<div>';
+                    html +=         '<span class="heading" style="font-size:.875rem;">' + pengguna + '</span>';
+                    html +=     '</div>';
+                    html += '</div>';
+
+                    $('#rincianrow').append(html);
+                }
+                
+                $('#show-details').modal('show');
+            }
+        });
+    });
 
     $('#los').on('keypress', function (event) {
         var regex = new RegExp("^[a-zA-Z0-9,]+$");

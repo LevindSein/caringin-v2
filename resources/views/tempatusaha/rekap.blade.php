@@ -1,3 +1,4 @@
+<?php use Jenssegers\Agent\Agent; $agent = new Agent();?>
 @extends('tempatusaha.index')
 
 @section('titles')
@@ -17,7 +18,9 @@
                 <th class="text-center">Kontrol</th>
                 <th class="text-center">Aktif</th>
                 <th class="text-center">Pasif</th>
+                @if($agent->isDesktop())
                 <th class="text-center">Action</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -35,13 +38,11 @@
                 <td class="text-center">{{number_format($d->total)}}</td>
                 <td class="text-center">{{number_format($d->aktif)}}</td>
                 <td class="text-center">{{number_format($d->total - $d->aktif)}}</td>
+                @if($agent->isDesktop())
                 <td class="text-center">
-                    <a
-                        href="javascript:void(0)" 
-                        onclick="location.href='{{url('tempatusaha/rekap',[$d->blok])}}'" 
-                        type="submit" 
-                        class="btn btn-sm btn-primary">Details</a>
+                    <button title="Show Details" name="show" id="{{$d->blok}}" nama="{{$d->blok}}" class="details-rekap btn btn-sm btn-primary">Show</button>
                 </td>
+                @endif
             </tr>
             @endforeach
         </tbody>
@@ -51,7 +52,9 @@
             <td style="font-weight: bold;" class="text-center">{{number_format($unit)}}</td>
             <td style="font-weight: bold;" class="text-center">{{number_format($aktif)}}</td>
             <td style="font-weight: bold;" class="text-center">{{number_format($unit - $aktif)}}</td>
+            @if($agent->isDesktop())
             <td></td>
+            @endif
             </tr>
         </tfoot>
     </table>
@@ -59,6 +62,94 @@
 @endsection
 
 @section('modals')
+<div class="modal fade" id="show-details" tabindex="-1" role="dialog" aria-labelledby="show-details" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-header bg-gradient-vine">
+                        <div class="text-white text-center titles"></div>
+                    </div>
+                    <div class="card-body px-lg-3 py-lg-3">
+                        <div class="card-body modal-body-short">
+                            <div class="card-profile-stats d-flex justify-content-center">
+                                <div class="col">
+                                    <span class="heading">Pengguna</span>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="heading pengguna-listrik" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Listrik</span>
+                                                </div>
+                                                <div>
+                                                    <span class="heading pengguna-airbersih" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Air Bersih</span>
+                                                </div>
+                                                <div>
+                                                    <span class="heading pengguna-keamananipk" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Keamanan IPK</span>
+                                                </div>
+                                                <div>
+                                                    <span class="heading pengguna-kebersihan" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Kebersihan</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="heading">Potensi</span>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="heading potensi-listrik" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Listrik</span>
+                                                </div>
+                                                <div>
+                                                    <span class="heading potensi-airbersih" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Air Bersih</span>
+                                                </div>
+                                                <div>
+                                                    <span class="heading potensi-keamananipk" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Keamanan IPK</span>
+                                                </div>
+                                                <div>
+                                                    <span class="heading potensi-kebersihan" style="font-size:.875rem;">&mdash;</span>
+                                                    <span class="description">Kebersihan</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="heading">Rincian</span>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">
+                                                <div>
+                                                    <span class="description" style="font-size:.875rem;">Kontrol</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description" style="font-size:.875rem;">Status</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description" style="font-size:.875rem;">Fasilitas</span>
+                                                </div>
+                                            </div>
+                                            <div id="rincianrow">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">&times; Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('jss')
@@ -87,7 +178,6 @@ $(document).ready(function(){
                     }
                 },
                 pageLength: 8,
-                scrollX: true,
                 order: [ 0, "asc" ],
                 responsive:true
             };

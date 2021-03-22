@@ -1,3 +1,4 @@
+<?php use Jenssegers\Agent\Agent; $agent = new Agent();?>
 @extends('layout.master')
 
 @section('title')
@@ -9,6 +10,7 @@
 @endsection
 
 @section('button')
+@if($agent->isDesktop())
 <a 
     href="{{url('tempatusaha')}}" 
     type="submit"
@@ -23,8 +25,17 @@
     class="btn btn-sm btn-success">
     <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> Tempat Usaha</button>
 @endif
+@endif
 <a class="dropdown-toggle btn btn-sm btn-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
 <div class="dropdown-menu dropdown-menu-right">
+    @if($agent->isMobile())
+    <a class="dropdown-item" href="{{url('tempatusaha')}}">Home</a>
+    <div class="dropdown-divider"></div>
+    @if(Session::get('role') == 'master')
+    <a href="#" class="dropdown-item" type="button" name="add_tempat" id="add_tempat">Tambah Tempat</a>
+    <div class="dropdown-divider"></div>
+    @endif
+    @endif
     @if(Session::get('role') == 'master' || Session::get('role') == 'manajer')
     <div class="dropdown-header">Manajemen:</div>
     <a class="dropdown-item {{ (request()->is('tempatusaha/rekap')) ? 'active' : '' }}" href="{{url('tempatusaha/rekap')}}">Data Rekap</a>

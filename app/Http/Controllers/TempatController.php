@@ -326,6 +326,15 @@ class TempatController extends Controller
             $data['hp_pengguna'] = NULL;
             $data['email_pengguna'] = NULL;
             $data['pemilik'] = NULL;
+
+            //fasilitas 
+            $data['faslistrik'] = NULL;
+            $data['fasairbersih'] = NULL;
+            $data['faskeamananipk'] = NULL;
+            $data['faskebersihan'] = NULL;
+            $data['fasairkotor'] = NULL;
+            $data['faslain'] = NULL;
+
             if($data != null){
                 if($data->id_pengguna != null){
                     $pedagang = Pedagang::find($data->id_pengguna);
@@ -336,6 +345,55 @@ class TempatController extends Controller
                 if($data->id_pemilik != null){
                     $pedagang = Pedagang::find($data->id_pemilik);
                     $data['pemilik'] = $pedagang->nama;
+                }
+
+                //Fasilitas
+                if($data->trf_listrik != null){
+                    $data['faslistrik'] = $data->trf_listrik;
+                    $data['diskonlistrik'] = $data->dis_listrik;
+
+                    $alat = AlatListrik::find($data->id_meteran_listrik);
+                    $data['alatlistrik'] = $alat->kode;
+                    $data['dayalistrik'] = $alat->daya;
+                    $data['standlistrik'] = $alat->akhir;
+                }
+                if($data->trf_airbersih != null){
+                    $data['fasairbersih'] = $data->trf_airbersih;
+                    $data['diskonairbersih'] = $data->dis_airbersih;
+
+                    $alat = AlatAir::find($data->id_meteran_air);
+                    $data['alatairbersih'] = $alat->kode;
+                    $data['standairbersih'] = $alat->akhir;
+                }
+                if($data->trf_keamananipk != null){
+                    $data['faskeamananipk'] = $data->trf_keamananipk;
+                    $data['diskonkeamananipk'] = $data->dis_keamananipk;
+
+                    $tarif = TarifKeamananIpk::find($data->trf_keamananipk);
+                    $data['perunitkeamananipk'] = $tarif->tarif;
+                    $data['subtotalkeamananipk'] = $tarif->tarif * $data->jml_alamat;
+                    $data['totalkeamananipk'] = ($tarif->tarif * $data->jml_alamat) - $data->dis_keamananipk;
+                }
+                if($data->trf_kebersihan != null){
+                    $data['faskebersihan'] = $data->trf_kebersihan;
+                    $data['diskonkebersihan'] = $data->dis_kebersihan;
+
+                    $tarif = TarifKebersihan::find($data->trf_kebersihan);
+                    $data['perunitkebersihan'] = $tarif->tarif;
+                    $data['subtotalkebersihan'] = $tarif->tarif * $data->jml_alamat;
+                    $data['totalkebersihan'] = ($tarif->tarif * $data->jml_alamat) - $data->dis_kebersihan;
+                }
+                if($data->trf_airkotor != null){
+                    $data['fasairkotor'] = $data->trf_airkotor;
+
+                    $tarif = TarifAirKotor::find($data->trf_airkotor);
+                    $data['totalairkotor'] = $tarif->tarif;
+                }
+                if($data->trf_lain != null){
+                    $data['faslain'] = $data->trf_lain;
+
+                    $tarif = TarifLain::find($data->trf_lain);
+                    $data['totallain'] = $tarif->tarif;
                 }
             }
 
@@ -753,10 +811,21 @@ class TempatController extends Controller
     }
 
     public function rekapdetail($blok){
-        return view('tempatusaha.details-rekap',[
-            'dataset' => TempatUsaha::detailRekap($blok),
-            'blok'=>$blok
-        ]);
+        if(request()->ajax()){
+            $data['total'] = count(TempatUsaha::where('blok',$blok)->get());
+            $data['penggunalistrik'] = count(TempatUsaha::where([['blok',$blok],['trf_listrik','!=',NULL]])->get());
+            $data['penggunaairbersih'] = count(TempatUsaha::where([['blok',$blok],['trf_airbersih','!=',NULL]])->get());
+            $data['penggunakeamananipk'] = count(TempatUsaha::where([['blok',$blok],['trf_keamananipk','!=',NULL]])->get());
+            $data['penggunakebersihan'] = count(TempatUsaha::where([['blok',$blok],['trf_kebersihan','!=',NULL]])->get());
+            $data['potensilistrik'] = $data['total'] - $data['penggunalistrik'];
+            $data['potensiairbersih'] = $data['total'] - $data['penggunaairbersih'];
+            $data['potensikeamananipk'] = $data['total'] - $data['penggunakeamananipk'];
+            $data['potensikebersihan'] = $data['total'] - $data['penggunakebersihan'];
+
+            $data['rincian'] = TempatUsaha::where('blok',$blok)->orderBy('kd_kontrol','asc')->get();
+
+            return response()->json(['result' => $data]);
+        }
     }
 
     public function fasilitas($fas){

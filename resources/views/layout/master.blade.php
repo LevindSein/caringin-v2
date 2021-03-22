@@ -30,7 +30,7 @@
     </head>
  
     <body>
-        <div class="se-pre-con"></div>
+        <!-- <div class="se-pre-con"></div> -->
         <!-- Sidenav -->
         <nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-dark bg-gradient-vine" id="sidenav-main">
             <div class="scrollbar-inner">
@@ -211,13 +211,13 @@
         
         @yield('modal')
 
-        <script>
+        <!-- <script>
             $(document).ready(function () {
                 $(window).on('load', function() {
                     $(".se-pre-con").fadeIn("slow").fadeOut("slow");
                 });
             });
-        </script>
+        </script> -->
         
         <!-- Argon Scripts -->
         <!-- Core -->

@@ -54,21 +54,9 @@ class TempatUsaha extends Model
             select(
                 'blok',
                 DB::raw('COUNT(*) as total'),
-                DB::raw("SUM(CASE WHEN trf_airbersih != 'NULL' THEN 1 ELSE 0 END) as airbersih"),
-                DB::raw("SUM(CASE WHEN trf_listrik != 'NULL' THEN 1 ELSE 0 END) as listrik"),
-                DB::raw("SUM(CASE WHEN trf_keamananipk != 'NULL' THEN 1 ELSE 0 END) as keamananipk"),
-                DB::raw("SUM(CASE WHEN trf_kebersihan != 'NULL' THEN 1 ELSE 0 END) as kebersihan"),
                 DB::raw("SUM(CASE WHEN stt_tempat = '1' THEN 1 ELSE 0 END) as aktif"),
                 )
             ->groupBy('blok')
-            ->get();
-    }
-
-    public static function detailRekap($blok){
-        return TempatUsaha::where('blok',$blok)
-            ->leftJoin('user as user_pengguna','tempat_usaha.id_pengguna','=','user_pengguna.id')
-            ->leftJoin('user as user_pemilik','tempat_usaha.id_pemilik','=','user_pemilik.id')
-            ->select('kd_kontrol','stt_tempat','blok','user_pengguna.nama as pengguna','user_pemilik.nama as pemilik')
             ->get();
     }
 

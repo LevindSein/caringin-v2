@@ -614,11 +614,18 @@ h6,
 
 hr
 {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-top: .875rem;
+    margin-bottom: .875rem;
 
     border: 0;
     border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+.modal-body-short{
+    position: relative;
+    flex: 1 1 auto;
+    height: 55vh;
+    overflow-y: auto;
 }
 
 small,
