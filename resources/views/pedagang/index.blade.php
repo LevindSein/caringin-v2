@@ -32,10 +32,9 @@
                     <table class="table table-flush" width="100%" id="tabelPedagang">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:10%">No</th>
                                 <th class="text-center" style="max-width:70%">Nama</th>
-                                <th class="text-center" width="10%">Action</th>
-                                <th class="text-center" width="10%">Details</th>
+                                <th class="text-center" style="max-width:15%">Action</th>
+                                <th class="text-center" style="max-width:15%">Details</th>
                             </tr>
                         </thead>
                     </table>

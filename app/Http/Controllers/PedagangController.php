@@ -29,7 +29,6 @@ class PedagangController extends Controller
         {
             $data = Pedagang::where('role','nasabah')->get();
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';

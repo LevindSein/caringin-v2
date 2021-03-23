@@ -6,7 +6,6 @@ $(document).ready(function(){
             cache:false,
 		},
 		columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', class : 'text-center' },
 			{ data: 'nama', name: 'nama', class : 'text-center-td' },
 			{ data: 'action', name: 'action', class : 'text-center' },
 			{ data: 'show', name: 'show', class : 'text-center' },
@@ -21,8 +20,8 @@ $(document).ready(function(){
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [0,2,3] }, 
-            { "bSearchable": false, "aTargets": [0,2,3] }
+            { "bSortable": false, "aTargets": [1,2] }, 
+            { "bSearchable": false, "aTargets": [1,2] }
         ],
         order:[[1, 'asc']],
         responsive:true
