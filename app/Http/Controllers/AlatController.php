@@ -24,12 +24,11 @@ class AlatController extends Controller
         {
             $data = AlatListrik::orderBy('id','desc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') ==  'master'){
                         $button = '<a type="button" title="Print QR" name="qr" id="'.$data->id.'" fas="listrik" class="qr"><i class="fas fa-qrcode" style="color:#fd7e14;"></i></a>';
                         $button .= '&nbsp;&nbsp;<a type="button" title="Edit" name="edit" id="'.$data->id.'" fas="listrik" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" fas="listrik" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->kode.'" fas="listrik" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
@@ -49,7 +48,7 @@ class AlatController extends Controller
                 ->rawColumns(['action','tempat'])
                 ->make(true);
         }
-        return view('alatmeter.index');
+        return view('utilities.alat-meter.index');
     }
 
     public function air(Request $request){
@@ -57,12 +56,11 @@ class AlatController extends Controller
         {
             $data = AlatAir::orderBy('id','desc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Print QR" name="edit" id="'.$data->id.'" fas="air" class="qr"><i class="fas fa-qrcode fa-sm" style="color:#fd7e14;"></i></a>';
                         $button .= '&nbsp;&nbsp;<a type="button" title="Edit" name="edit" id="'.$data->id.'" fas="air" class="edit"><i class="fas fa-edit fa-sm" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" fas="air" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->kode.'" fas="air" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
@@ -255,13 +253,14 @@ class AlatController extends Controller
 
         $dataset = array();
         try{
-            $dataset['status'] = 'Data telah dihapus';
+            $dataset['success'] = 'Data telah dihapus';
             $dataset['role'] = $role;
             $data->delete();
             return response()->json(['result' => $dataset]);
         }
         catch(\Exception $e){
-            $dataset['status'] = 'Data gagal dihapus';
+            $dataset['errors'] = 'Data gagal dihapus';
+            $dataset['role'] = '';
             return response()->json(['result' => $dataset]);
         }
     }

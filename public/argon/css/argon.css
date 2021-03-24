@@ -17324,7 +17324,7 @@ button.bg-darker:focus
 {
     text-align: center !important;
     white-space: normal !important;
-    word-break: break-word !important;
+    word-break: break-word;
 }
 
 @media (min-width: 576px)
