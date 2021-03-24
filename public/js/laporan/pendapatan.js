@@ -8,10 +8,10 @@ $(document).ready(function(){
 		columns: [
             { data: 'tgl_bayar', name: 'tgl_bayar', class : 'text-center' },
             { data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
-            { data: 'pengguna', name: 'pengguna', class : 'text-center-td' },
             { data: 'ttl_tagihan', name: 'ttl_tagihan', class : 'text-center' },
             { data: 'realisasi', name: 'realisasi', class : 'text-center' },
             { data: 'sel_tagihan', name: 'sel_tagihan', class : 'text-center' },
+            { data: 'pengguna', name: 'pengguna', class : 'text-center-td' },
             { data: 'show', name: 'show', class : 'text-center' },
         ],
         stateSave: true,

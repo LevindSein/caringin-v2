@@ -8,8 +8,8 @@ $(document).ready(function(){
 		columns: [
 			{ data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
 			{ data: 'pengguna', name: 'pengguna', class : 'text-center-td' },
-			{ data: 'jml_alamat', name: 'jml_alamat', class : 'text-center' },
 			{ data: 'lok_tempat', name: 'lok_tempat', class : 'text-center-td' },
+			{ data: 'jml_alamat', name: 'jml_alamat', class : 'text-center' },
 			{ data: 'bentuk_usaha', name: 'bentuk_usaha', class : 'text-center-td' },
 			{ data: 'action', name: 'action', class : 'text-center' },
 			{ data: 'show', name: 'show', class : 'text-center' },

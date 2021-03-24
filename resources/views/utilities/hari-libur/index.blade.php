@@ -32,7 +32,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:45%">Tanggal</th>
-                                <th class="text-center" style="max-width:40%">Keterangan</th>
+                                <th class="text-center" style="max-width:40%">Ket</th>
                                 <th class="text-center" style="max-width:15%">Action</th>
                             </tr>
                         </thead>
@@ -62,7 +62,6 @@
         </div>
     </div>
 </div>
-
 
 <div
     class="modal fade"
