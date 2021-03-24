@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#userAdmin').DataTable({
+    var dtable = $('#userAdmin').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/user",
@@ -27,10 +27,11 @@ $(document).ready(function(){
         ],
         responsive:true
     });
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
 
     $("#tab-c-1").click(function(){
         if (!$.fn.dataTable.isDataTable('#userManajer')) {
-            $('#userManajer').DataTable({
+            var dtable1 = $('#userManajer').DataTable({
                 serverSide: true,
                 ajax: '/user/manajer',
                 columns: [
@@ -54,12 +55,13 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     $("#tab-c-2").click(function(){
         if (!$.fn.dataTable.isDataTable('#userKeuangan')) {
-            $('#userKeuangan').DataTable({
+            var dtable2 = $('#userKeuangan').DataTable({
                 serverSide: true,
                 ajax: '/user/keuangan',
                 columns: [
@@ -83,12 +85,13 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable2.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     $("#tab-c-3").click(function(){
         if (!$.fn.dataTable.isDataTable('#userKasir')) {
-            $('#userKasir').DataTable({
+            var dtable3 = $('#userKasir').DataTable({
                 serverSide: true,
                 ajax: '/user/kasir',
                 columns: [
@@ -112,12 +115,13 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable3.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     $("#tab-c-4").click(function(){
         if (!$.fn.dataTable.isDataTable('#userNasabah')) {
-            $('#userNasabah').DataTable({
+            var dtable4 = $('#userNasabah').DataTable({
                 serverSide: true,
                 ajax: '/user/nasabah',
                 columns: [
@@ -141,11 +145,11 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable4.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     var id;
-
     $('#add_user').click(function(){
 		$('.titles').text('Tambah User');
 		$('#action_btn').val('Tambah');

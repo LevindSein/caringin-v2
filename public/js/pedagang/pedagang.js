@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var table = $('#tabelPedagang').DataTable({
+	var dtable = $('#tabelPedagang').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/pedagang",
@@ -26,9 +26,10 @@ $(document).ready(function(){
         order:[[0, 'asc']],
         responsive:true
     });
+    
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
 
     var id;
-    
     $('.alamatPemilik').select2();
     $('.alamatPengguna').select2();
 

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var table = $('#tabelLog').DataTable({
+	var dtable = $('#tabelLog').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/log",
@@ -25,5 +25,5 @@ $(document).ready(function(){
         responsive: true
     });
 
-    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 60000);
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
 });

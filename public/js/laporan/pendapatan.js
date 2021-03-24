@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#harian').DataTable({
+    var dtable = $('#harian').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/rekap/pendapatan",
@@ -30,9 +30,11 @@ $(document).ready(function(){
         responsive:true
     });
 
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
+
     $("#tab-c-1").click(function(){
         if (!$.fn.dataTable.isDataTable('#bulanan')) {
-            $('#bulanan').DataTable({
+            var dtable1 = $('#bulanan').DataTable({
                 serverSide: true,
                 ajax: {
                     url: "/rekap/pendapatan/bulanan",
@@ -58,12 +60,14 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            
+            setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     $("#tab-c-2").click(function(){
         if (!$.fn.dataTable.isDataTable('#tahunan')) {
-            $('#tahunan').DataTable({
+            var dtable2 = $('#tahunan').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -90,6 +94,7 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable2.ajax.reload(function(){}, false); }, 30000);
         }
     });
 });

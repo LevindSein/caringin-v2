@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var table = $('#tabelTempat').DataTable({
+    var dtable = $('#tabelTempat').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/tempatusaha",
@@ -31,7 +31,9 @@ $(document).ready(function(){
         responsive:true
     });
 
-    var table1 = $('#tabelTempat1').DataTable({
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
+
+    var dtable1 = $('#tabelTempat1').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/tempatusaha",
@@ -62,6 +64,7 @@ $(document).ready(function(){
         order:[[0, 'asc']],
         responsive:true
     });
+    setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
 
     //Search
     $('#meterAir').select2();

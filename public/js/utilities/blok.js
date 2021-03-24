@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#tabelBlok').DataTable({
+    var dtable = $('#tabelBlok').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/utilities/blok",
@@ -25,6 +25,7 @@ $(document).ready(function () {
         ],
         responsive:true
     });
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
 
     $('#add_blok').click(function(){
 		$('.titles').text('Tambah Blok');

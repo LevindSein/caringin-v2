@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#tabelHariLibur').DataTable({
+    var dtable = $('#tabelHariLibur').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/utilities/harilibur",
@@ -25,6 +25,7 @@ $(document).ready(function () {
         ],
         responsive:true
     });
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
 
     $('#add_tanggal').click(function(){
 		$('.titles').text('Tambah Hari Libur');

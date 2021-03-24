@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#tabelAlatListrik').DataTable({
+    var dtable = $('#tabelAlatListrik').DataTable({
 		serverSide: true,
 		ajax: {
 			url: "/utilities/alatmeter",
@@ -29,33 +29,40 @@ $(document).ready(function () {
         responsive:true
     });
 
-    $('#tabelAlatAir').DataTable({
-		serverSide: true,
-		ajax: {
-			url: "/utilities/alatmeter/air",
-            cache:false,
-		},
-		columns: [
-			{ data: 'kode', name: 'kode', class : 'text-center' },
-			{ data: 'nomor', name: 'nomor', class : 'text-center-td' },
-			{ data: 'akhir', name: 'akhir', class : 'text-center' },
-			{ data: 'tempat', name: 'tempat', class : 'text-center' },
-			{ data: 'action', name: 'action', class : 'text-center' },
-        ],
-        stateSave: true,
-        deferRender: true,
-        pageLength: 8,
-        language: {
-            paginate: {
-                previous: "<i class='fas fa-angle-left'>",
-                next: "<i class='fas fa-angle-right'>"
-            }
-        },
-        aoColumnDefs: [
-            { "bSortable": false, "aTargets": [3,4] }, 
-            { "bSearchable": false, "aTargets": [3,4] }
-        ],
-        responsive:true
+    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
+
+    $("#tab-c-1").click(function(){
+        if (!$.fn.dataTable.isDataTable('#tabelAlatAir')) {
+            var dtable1 = $('#tabelAlatAir').DataTable({
+                serverSide: true,
+                ajax: {
+                    url: "/utilities/alatmeter/air",
+                    cache:false,
+                },
+                columns: [
+                    { data: 'kode', name: 'kode', class : 'text-center' },
+                    { data: 'nomor', name: 'nomor', class : 'text-center-td' },
+                    { data: 'akhir', name: 'akhir', class : 'text-center' },
+                    { data: 'tempat', name: 'tempat', class : 'text-center' },
+                    { data: 'action', name: 'action', class : 'text-center' },
+                ],
+                stateSave: true,
+                deferRender: true,
+                pageLength: 8,
+                language: {
+                    paginate: {
+                        previous: "<i class='fas fa-angle-left'>",
+                        next: "<i class='fas fa-angle-right'>"
+                    }
+                },
+                aoColumnDefs: [
+                    { "bSortable": false, "aTargets": [3,4] }, 
+                    { "bSearchable": false, "aTargets": [3,4] }
+                ],
+                responsive:true
+            });
+            setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
+        }
     });
 
     $('#add_alat').click(function(){
