@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    $('#tabelBlok').DataTable({
+    $('#tabelHariLibur').DataTable({
 		serverSide: true,
 		ajax: {
-			url: "/utilities/blok",
+			url: "/utilities/harilibur",
             cache:false,
 		},
 		columns: [
-			{ data: 'nama', name: 'nama', class : 'text-center' },
-			{ data: 'jumlah', name: 'jumlah', class : 'text-center' },
+			{ data: 'tanggal', name: 'tanggal', class : 'text-center' },
+			{ data: 'ket', name: 'ket', class : 'text-center-td' },
 			{ data: 'action', name: 'action', class : 'text-center' },
         ],
         stateSave: true,
@@ -26,12 +26,12 @@ $(document).ready(function () {
         responsive:true
     });
 
-    $('#add_blok').click(function(){
-		$('.titles').text('Tambah Blok');
+    $('#add_tanggal').click(function(){
+		$('.titles').text('Tambah Hari Libur');
 		$('#action_btn').val('Tambah');
 		$('#action').val('Add');
 		$('#form_result').html('');
-        $('#form_blok')[0].reset();
+        $('#form_harilibur')[0].reset();
 		$('#myModal').modal('show');
     });
 
@@ -39,12 +39,13 @@ $(document).ready(function () {
 		id = $(this).attr('id');
 		$('#form_result').html('');
 		$.ajax({
-			url :"/utilities/blok/edit/"+id,
+			url :"/utilities/harilibur/edit/"+id,
             cache:false,
 			dataType:"json",
 			success:function(data)
 			{
-                $('#blokInput').val(data.result.nama);                
+                $('#tanggal').val(data.result.tanggal);
+                $('#ket').val(data.result.ket);                
 				$('#hidden_id').val(id);
 				$('.titles').text('Edit Blok');
 				$('#action_btn').val('Update');
@@ -54,18 +55,18 @@ $(document).ready(function () {
 		})
     });
 
-    $('#form_blok').on('submit', function(event){
+    $('#form_harilibur').on('submit', function(event){
 		event.preventDefault();
 		var action_url = '';
 
 		if($('#action').val() == 'Add')
 		{
-			action_url = "/utilities/blok/store";
+			action_url = "/utilities/harilibur/store";
         }
 
         if($('#action').val() == 'Edit')
 		{
-			action_url = "/utilities/blok/update";
+			action_url = "/utilities/harilibur/update";
 		}
 
 		$.ajax({
@@ -84,8 +85,8 @@ $(document).ready(function () {
 				if(data.success)
 				{
 					html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
-                    $('#form_blok')[0].reset();
-					$('#tabelBlok').DataTable().ajax.reload(function(){}, false);
+                    $('#form_harilibur')[0].reset();
+					$('#tabelHariLibur').DataTable().ajax.reload(function(){}, false);
 				}
 				$('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
@@ -97,25 +98,25 @@ $(document).ready(function () {
 			}
 		});
     });
-  
+
     var user_id;
     $(document).on('click', '.delete', function(){
 		user_id = $(this).attr('id');
-		nama = $(this).attr('nama');
+        nama = $(this).attr('nama');
 		$('#confirmModal').modal('show');
 		$('.titles').text('Hapus data ' + nama + ' ?');
 	});
 
 	$('#ok_button').click(function(){
 		$.ajax({
-			url:"/utilities/blok/destroy/"+user_id,
+			url:"/utilities/harilibur/destroy/"+user_id,
             cache:false,
 			beforeSend:function(){
 				$('#ok_button').text('Menghapus...');
 			},
 			success:function(data)
 			{
-                $('#tabelBlok').DataTable().ajax.reload(function(){}, false);
+				$('#tabelHariLibur').DataTable().ajax.reload(function(){}, false);
                 if(data.success)
                     html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
                 if(data.errors)
@@ -132,23 +133,5 @@ $(document).ready(function () {
                 $('#ok_button').text('Hapus');
             }
         })
-    });
-
-    $('#blokInput').on('keypress', function (event) {
-        var regex = new RegExp("^[a-zA-Z0-9\s\-]+$");
-        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-        if (!regex.test(key)) {
-        event.preventDefault();
-        return false;
-        }
-    });
-
-    $("#blokInput").on("input", function() {
-    if (/^,/.test(this.value)) {
-        this.value = this.value.replace(/^,/, "")
-    }
-    else if (/^0/.test(this.value)) {
-        this.value = this.value.replace(/^0/, "")
-    }
     });
 });

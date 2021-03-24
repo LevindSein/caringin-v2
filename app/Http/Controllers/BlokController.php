@@ -62,14 +62,6 @@ class BlokController extends Controller
         try{
             $blok = new Blok;
             $blok->nama = strtoupper($request->blokInput);
-            // $keamanan = $request->get('keamanan');
-            // $ipk = $request->get('ipk');
-            // if($keamanan != NULL){
-            //     $blok->prs_keamanan = $keamanan;
-            // }
-            // if($ipk != NULL){
-            //     $blok->prs_ipk = $keamanan;
-            // }
             $blok->save();
 
             return response()->json(['success' => 'Data Blok Berhasil Ditambah']);  

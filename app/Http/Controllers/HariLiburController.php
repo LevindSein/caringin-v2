@@ -23,23 +23,19 @@ class HariLiburController extends Controller
         {
             $data = HariLibur::orderBy('id','desc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tanggal.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
-                ->editColumn('tanggal', function ($data) {
-                    return IndoDate::tanggal($data->tanggal,' ');
-                })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('harilibur.index');
+        return view('utilities.hari-libur.index');
     }
 
     public function store(Request $request){
@@ -108,10 +104,10 @@ class HariLiburController extends Controller
         try{
             $tanggal = HariLibur::find($id);
             $tanggal->delete();
-            return response()->json(['status' => 'Data telah dihapus.']);
+            return response()->json(['success' => 'Data telah dihapus.']);
         }
         catch(\Exception $e){
-            return response()->json(['status' => 'Data gagal dihapus.']);
+            return response()->json(['errors' => 'Data gagal dihapus.']);
         }
     }
 }

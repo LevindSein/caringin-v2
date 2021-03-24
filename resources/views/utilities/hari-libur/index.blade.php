@@ -1,11 +1,11 @@
 @extends('layout.master')
 
 @section('title')
-<title>Data Blok | BP3C</title>
+<title>Data Hari Libur | BP3C</title>
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">Data Blok</h6>
+<h6 class="h2 text-white d-inline-block mb-0">Data Hari Libur</h6>
 @endsection
 
 @section('button')
@@ -13,8 +13,8 @@
 <div>
     <button 
         type="button"
-        name="add_blok"
-        id="add_blok" 
+        name="add_tanggal"
+        id="add_tanggal" 
         class="btn btn-sm btn-success">
         <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> Blok</button>
 </div>
@@ -28,11 +28,11 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="tabelBlok">
+                    <table class="table table-flush" width="100%" id="tabelHariLibur">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:45%">Blok</th>
-                                <th class="text-center" style="max-width:40%">Jumlah</th>
+                                <th class="text-center" style="max-width:45%">Tanggal</th>
+                                <th class="text-center" style="max-width:40%">Keterangan</th>
                                 <th class="text-center" style="max-width:15%">Action</th>
                             </tr>
                         </thead>
@@ -49,12 +49,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title titles">Apakah yakin hapus data blok?</h5>
+                <h5 class="modal-title titles">Apakah yakin hapus data hari libur?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Pilih "Hapus" di bawah ini jika anda yakin untuk menghapus data blok.</div>
+            <div class="modal-body">Pilih "Hapus" di bawah ini jika anda yakin untuk menghapus data hari libur.</div>
             <div class="modal-footer">
             	<button type="button" name="ok_button" id="ok_button" class="btn btn-danger">Hapus</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
@@ -62,6 +62,7 @@
         </div>
     </div>
 </div>
+
 
 <div
     class="modal fade"
@@ -78,21 +79,30 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form id="form_blok" class="user" method="POST">
+            <form id="form_harilibur" class="user" method="POST">
                 <div class="modal-body">
                     @csrf
                     <div class="form-group col-lg-12">
-                        <label class="form-control-label" for="blokInput">Blok <span style="color:red;">*</span></label>
+                        <label class="form-control-label" for="tanggal">Tanggal <span style="color:red;">*</span></label>
+                        <input
+                            required
+                            autocomplete="off"
+                            type="date"
+                            name="tanggal"
+                            class="form-control"
+                            id="tanggal">
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="form-control-label" for="ket">Keterangan <span style="color:red;">*</span></label>
                         <input
                             required
                             autocomplete="off"
                             type="text"
-                            name="blokInput"
-                            id="blokInput"
-                            maxlength="8"
-                            style="text-transform:uppercase;"
+                            name="ket"
+                            maxlength="30"
                             class="form-control"
-                            placeholder="EX : A-10">
+                            id="ket"
+                            placeholder="Keterangan Libur">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -106,6 +116,7 @@
 </div>
 @endsection
 
+
 @section('js')
-<script src="{{asset('js/utilities/blok.js')}}"></script>
+<script src="{{asset('js/utilities/hari-libur.js')}}"></script>
 @endsection
