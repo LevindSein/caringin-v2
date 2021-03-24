@@ -53,8 +53,8 @@ class MasterController extends Controller
             ->where('tgl_bayar',Session::get('masterkasir'));
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Restore" name="restore" id="'.$data->ref.'" class="restore"><i class="fas fa-undo" style="color:#4e73df;"></i></a>&nbsp;&nbsp;';
-                    $button .= '<a type="button" title="Edit" name="edit" id="'.$data->ref.'" class="edit"><i class="fas fa-edit" style="color:#e74a3b;"></i></a>&nbsp;&nbsp;';
+                    $button = '<a type="button" title="Restore" name="restore" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#4e73df;"></i></a>&nbsp;&nbsp;';
+                    $button .= '<a type="button" title="Edit" name="edit" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="edit"><i class="fas fa-edit" style="color:#e74a3b;"></i></a>&nbsp;&nbsp;';
                     $button .= '<a type="button" title="Cetak" name="cetak" id="'.$data->ref.'" class="cetak"><i class="fas fa-print" style="color:#1cc88a;"></a>';
                     return $button;
                 })
@@ -89,7 +89,7 @@ class MasterController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('master.kasir');
+        return view('master.kasir.index');
     }
 
     public function kasirRestore(Request $request, $ref){
@@ -757,7 +757,7 @@ class MasterController extends Controller
         $t_rekap['diskon']       = $diskon;
         $t_rekap['jumlah']       = $jumlah;
 
-        return view('master.sisa',[
+        return view('master.kasir.sisa',[
             'dataset' => $dataset,
             'bulan' => $bulan,
             'rekap'     => $rekap,

@@ -26,6 +26,9 @@ use App\Http\Controllers\HariLiburController;
 //Blok
 use App\Http\Controllers\BlokController;
 
+//
+use App\Http\Controllers\MasterController;
+
 //User
 use App\Http\Controllers\UserController;
 
@@ -177,6 +180,18 @@ Route::middleware('ceklogin:blok')->group(function(){
     Route::get('utilities/blok/edit/{id}', [BlokController::class, 'edit']);
     Route::post('utilities/blok/update', [BlokController::class, 'update']);
     Route::get('utilities/blok/destroy/{id}', [BlokController::class, 'destroy']);
+});
+
+Route::middleware('ceklogin:master')->group(function(){
+    Route::get('master/kasir/sisa',[MasterController::class, 'getsisa']);
+
+    Route::get('master/kasir/harian/data/perkiraan',[MasterController::class, 'dataPerkiraan']);
+    Route::get('master/kasir/harian/data/perkiraan/destroy/{id}',[MasterController::class, 'dataPerkiraanDestroy']);
+
+    Route::get('master/kasir', [MasterController::class, 'kasir']);
+    Route::post('master/kasir/restore/{id}', [MasterController::class, 'kasirRestore']);
+    Route::post('master/kasir/edit', [MasterController::class, 'kasirEdit']);
+    Route::get('master/kasir/struk/{struk}/{id}',[MasterController::class, 'cetakStruk']);
 });
 
 Route::middleware('ceklogin:user')->group(function(){
