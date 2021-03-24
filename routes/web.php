@@ -26,6 +26,9 @@ use App\Http\Controllers\HariLiburController;
 //Blok
 use App\Http\Controllers\BlokController;
 
+//User
+use App\Http\Controllers\UserController;
+
 //Search
 use App\Http\Controllers\SearchController;
 
@@ -174,6 +177,20 @@ Route::middleware('ceklogin:blok')->group(function(){
     Route::get('utilities/blok/edit/{id}', [BlokController::class, 'edit']);
     Route::post('utilities/blok/update', [BlokController::class, 'update']);
     Route::get('utilities/blok/destroy/{id}', [BlokController::class, 'destroy']);
+});
+
+Route::middleware('ceklogin:user')->group(function(){
+    Route::get('user/details/{id}', [PedagangController::class, 'show']);
+    Route::post('user/update', [UserController::class, 'update']);
+    Route::get('user/destroy/{id}', [UserController::class, 'destroy']);
+    Route::post('user/reset/{id}', [UserController::class, 'reset']);
+    Route::get('user/{id}/otoritas', [UserController::class, 'etoritas']);
+    Route::post('user/otoritas', [UserController::class, 'otoritas']);
+    Route::get('user/manajer', [UserController::class, 'manajer']);
+    Route::get('user/keuangan', [UserController::class, 'keuangan']);
+    Route::get('user/kasir', [UserController::class, 'kasir']);
+    Route::get('user/nasabah', [UserController::class, 'nasabah']);
+    Route::resource('user', UserController::class);
 });
 
 Route::middleware('ceklogin:log')->group(function(){

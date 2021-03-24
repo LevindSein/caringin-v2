@@ -23,35 +23,26 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax())
+        if(request()->ajax())
         {
-            $data = User::where('role','admin')->orderBy('nama','asc')->get();
+            $data = User::where('role','admin')->orderBy('nama','asc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Otoritas" name="otoritas" id="'.$data->id.'" class="otoritas"><i class="fas fa-hand-point-up" style="color:#36b9cc;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" title="Reset" name="reset" id="'.$data->id.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button = '<a type="button" title="Otoritas" name="otoritas" id="'.$data->id.'" nama="'.$data->nama.'" class="otoritas"><i class="fas fa-hand-point-up" style="color:#36b9cc;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" title="Reset" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
                     $button .= '&nbsp;&nbsp;<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
-                ->editColumn('ktp', function ($ktp) {
-                    if ($ktp->ktp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $ktp->ktp;
-                })
-                ->editColumn('email', function ($email) {
-                    if ($email->email == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $email->email;
-                })
-                ->editColumn('hp', function ($hp) {
-                    if ($hp->hp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $hp->hp;
-                })
-                ->editColumn('otoritas', function ($otoritas) {
-                    if ($otoritas->otoritas == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
+                ->editColumn('otoritas', function ($data) {
+                    if ($data->otoritas == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
                     else return '<span class="text-center"><i class="fas fa-check fa-sm"></i></span>';
                 })
-                ->rawColumns(['action','ktp','email','hp','otoritas'])
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
+                })
+                ->rawColumns(['action','show','otoritas'])
                 ->make(true);
         }
         return view('user.index');
@@ -59,111 +50,75 @@ class UserController extends Controller
 
     public function manajer(Request $request){
         if($request->ajax()){
-            $data = User::where('role','manajer')->orderBy('nama','asc')->get();
+            $data = User::where('role','manajer')->orderBy('nama','asc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
                     $button .= '&nbsp;&nbsp;<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
-                ->editColumn('ktp', function ($ktp) {
-                    if ($ktp->ktp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $ktp->ktp;
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
                 })
-                ->editColumn('email', function ($email) {
-                    if ($email->email == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $email->email;
-                })
-                ->editColumn('hp', function ($hp) {
-                    if ($hp->hp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $hp->hp;
-                })
-                ->rawColumns(['action','ktp','email','hp'])
+                ->rawColumns(['action','show'])
                 ->make(true);
         }
     }
 
     public function keuangan(Request $request){
         if($request->ajax()){
-            $data = User::where('role','keuangan')->orderBy('nama','asc')->get();
+            $data = User::where('role','keuangan')->orderBy('nama','asc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
                     $button .= '&nbsp;&nbsp;<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
-                ->editColumn('ktp', function ($ktp) {
-                    if ($ktp->ktp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $ktp->ktp;
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
                 })
-                ->editColumn('email', function ($email) {
-                    if ($email->email == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $email->email;
-                })
-                ->editColumn('hp', function ($hp) {
-                    if ($hp->hp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $hp->hp;
-                })
-                ->rawColumns(['action','ktp','email','hp'])
+                ->rawColumns(['action','show'])
                 ->make(true);
         }
     }
 
     public function kasir(Request $request){
         if($request->ajax()){
-            $data = User::where('role','kasir')->orderBy('nama','asc')->get();
+            $data = User::where('role','kasir')->orderBy('nama','asc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
                     $button .= '&nbsp;&nbsp;<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
-                ->editColumn('ktp', function ($ktp) {
-                    if ($ktp->ktp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $ktp->ktp;
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
                 })
-                ->editColumn('email', function ($email) {
-                    if ($email->email == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $email->email;
-                })
-                ->editColumn('hp', function ($hp) {
-                    if ($hp->hp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $hp->hp;
-                })
-                ->rawColumns(['action','ktp','email','hp'])
+                ->rawColumns(['action','show'])
                 ->make(true);
         }
     }
 
     public function nasabah(Request $request){
         if($request->ajax()){
-            $data = User::where('role','nasabah')->orderBy('nama','asc')->get();
+            $data = User::where('role','nasabah')->orderBy('nama','asc');
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
-                ->editColumn('ktp', function ($ktp) {
-                    if ($ktp->ktp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $ktp->ktp;
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
                 })
-                ->editColumn('email', function ($email) {
-                    if ($email->email == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $email->email;
-                })
-                ->editColumn('hp', function ($hp) {
-                    if ($hp->hp == NULL) return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
-                    else return $hp->hp;
-                })
-                ->rawColumns(['action','ktp','email','hp'])
+                ->rawColumns(['action','show'])
                 ->make(true);
         }
     }
@@ -211,7 +166,6 @@ class UserController extends Controller
             'nama'     => ucwords($request->nama),
             'username' => strtolower($request->username),
             'password' => sha1(md5(hash('gost',$request->password))),
-            'anggota'  => strtoupper($request->anggota),
             'email'    => strtolower($request->email.'@gmail.com'),
             'role'     => $request->role,
         ];
@@ -252,7 +206,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        if(request()->ajax())
+        {
+            $data = User::findOrFail($id);
+            return response()->json(['result' => $data]);
+        }
     }
 
     /**
@@ -311,7 +269,6 @@ class UserController extends Controller
             'ktp'      => $request->ktp,
             'nama'     => ucwords($request->nama),
             'username' => strtolower($request->username),
-            'anggota'  => strtoupper($request->anggota),
             'email'    => strtolower($request->email.'@gmail.com'),
             'role'     => $request->role,
         ];
@@ -363,13 +320,14 @@ class UserController extends Controller
         $dataset = array();
         try{
             $role = $data->role;
-            $dataset['status'] = 'Data telah dihapus';
+            $dataset['success'] = 'Data telah dihapus';
             $dataset['role'] = $role;
             $data->delete();
             return response()->json(['result' => $dataset]);
         }
         catch(\Exception $e){
-            $dataset['status'] = 'Data gagal dihapus';
+            $dataset['errors'] = 'Data gagal dihapus';
+            $dataset['role'] = '';
             return response()->json(['result' => $dataset]);
         }
     }

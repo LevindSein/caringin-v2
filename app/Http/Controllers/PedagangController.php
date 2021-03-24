@@ -39,9 +39,7 @@ class PedagangController extends Controller
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    if(Session::get('role') == 'master'){
-                        $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
-                    }
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns(['action','show','ktp','email','hp'])

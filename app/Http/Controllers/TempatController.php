@@ -62,9 +62,7 @@ class TempatController extends Controller
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    if(Session::get('role') == 'master'){
-                        $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
-                    }
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->editColumn('no_alamat', function ($data) {

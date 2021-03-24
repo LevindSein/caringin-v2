@@ -102,8 +102,8 @@ $(document).ready(function () {
     $(document).on('click', '.delete', function(){
 		user_id = $(this).attr('id');
 		nama = $(this).attr('nama');
-		$('#confirmModal').modal('show');
 		$('.titles').text('Hapus data ' + nama + ' ?');
+		$('#confirmModal').modal('show');
 	});
 
 	$('#ok_button').click(function(){
