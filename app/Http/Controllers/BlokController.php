@@ -31,7 +31,7 @@ class BlokController extends Controller
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
@@ -44,7 +44,7 @@ class BlokController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('blok.index');
+        return view('utilities.blok.index');
     }
 
     public function store(Request $request){
@@ -104,14 +104,6 @@ class BlokController extends Controller
             $blokLama = $blok->nama;
             $nama = strtoupper($request->blokInput);
             $blok->nama = $nama;
-            // $keamanan = $request->get('keamanan');
-            // $ipk = $request->get('ipk');
-            // if($keamanan != NULL){
-            //     $blok->prs_keamanan = $keamanan;
-            // }
-            // if($ipk != NULL){
-            //     $blok->prs_ipk = $ipk;
-            // }
 
             $blok->save();
 
@@ -190,15 +182,15 @@ class BlokController extends Controller
             $nama = $blok->nama;
             $pengguna = Tempatusaha::where('blok',$nama)->count();
             if($pengguna != 0 || $pengguna != NULL){
-                return response()->json(['status' => 'Data gagal dihapus.']);
+                return response()->json(['errors' => 'Data gagal dihapus.']);
             }
             else{
                 $blok->delete();
-                return response()->json(['status' => 'Data telah dihapus.']);
+                return response()->json(['success' => 'Data telah dihapus.']);
             }
         }
         catch(\Exception $e){
-            return response()->json(['status' => 'Data gagal dihapus.']);
+            return response()->json(['errors' => 'Data gagal dihapus.']);
         }
     }
 }

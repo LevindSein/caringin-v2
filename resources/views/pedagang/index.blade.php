@@ -212,7 +212,7 @@
             <div class="modal-body p-0">
                 <div class="card bg-secondary border-0 mb-0">
                     <div class="card-header bg-gradient-vine">
-                        <div class="text-white text-center titles">Sign in with</div>
+                        <div class="text-white text-center titles"></div>
                     </div>
                     <div class="card-body px-lg-3 py-lg-3">
                         <div class="card-header text-center">

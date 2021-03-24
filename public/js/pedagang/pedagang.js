@@ -23,7 +23,7 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [1,2] }, 
             { "bSearchable": false, "aTargets": [1,2] }
         ],
-        order:[[1, 'asc']],
+        order:[[0, 'asc']],
         responsive:true
     });
 

@@ -17,6 +17,15 @@ use App\Http\Controllers\TempatController;
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PendapatanController;
 
+//Alat Meter
+use App\Http\Controllers\AlatController;
+
+//Hari Libur Tagihan
+use App\Http\Controllers\HariLiburController;
+
+//Blok
+use App\Http\Controllers\BlokController;
+
 //Search
 use App\Http\Controllers\SearchController;
 
@@ -133,6 +142,38 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 Route::middleware('ceklogin:pemakaian')->group(function(){
     Route::get('rekap/pemakaian', [PemakaianController::class, 'index']);
     Route::post('rekap/pemakaian',[PemakaianController::class, 'fasilitas']);
+});
+
+Route::middleware('ceklogin:pendapatan')->group(function(){
+    Route::get('rekap/pendapatan/tahunan', [PendapatanController::class, 'tahunan']);
+    Route::get('rekap/pendapatan/bulanan', [PendapatanController::class, 'bulanan']);
+    Route::resource('rekap/pendapatan', PendapatanController::class);
+});
+
+Route::middleware('ceklogin:alatmeter')->group(function(){
+    Route::get('utilities/alatmeter', [AlatController::class, 'index']);
+    Route::get('utilities/alatmeter/air', [AlatController::class, 'air']);
+    Route::post('utilities/alatmeter/store', [AlatController::class, 'store']);
+    Route::get('utilities/alatmeter/edit/{fasilitas}/{id}', [AlatController::class, 'edit']);
+    Route::post('utilities/alatmeter/update', [AlatController::class, 'update']);
+    Route::get('utilities/alatmeter/destroy/{fasilitas}/{id}', [AlatController::class, 'destroy']);
+    Route::get('utilities/alatmeter/qr/{fasilitas}/{id}', [AlatController::class, 'qr']);
+});
+
+Route::middleware('ceklogin:harilibur')->group(function(){
+    Route::get('utilities/harilibur', [HariLiburController::class, 'index']);
+    Route::post('utilities/harilibur/store', [HariLiburController::class, 'store']);
+    Route::get('utilities/harilibur/edit/{id}', [HariLiburController::class, 'edit']);
+    Route::post('utilities/harilibur/update', [HariLiburController::class, 'update']);
+    Route::get('utilities/harilibur/destroy/{id}', [HariLiburController::class, 'destroy']);
+});
+
+Route::middleware('ceklogin:blok')->group(function(){
+    Route::get('utilities/blok', [BlokController::class, 'index']);
+    Route::post('utilities/blok/store', [BlokController::class, 'store']);
+    Route::get('utilities/blok/edit/{id}', [BlokController::class, 'edit']);
+    Route::post('utilities/blok/update', [BlokController::class, 'update']);
+    Route::get('utilities/blok/destroy/{id}', [BlokController::class, 'destroy']);
 });
 
 Route::middleware('ceklogin:log')->group(function(){
