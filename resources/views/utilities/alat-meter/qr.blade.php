@@ -14,6 +14,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
         <script src="{{asset('argon/vendor/jquery/dist/jquery.min.js')}}"></script>
         
+        <!-- Custom fonts for this template -->
         <link
             href="{{asset('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i')}}"
             rel="stylesheet">
@@ -26,7 +27,7 @@
 
     <body id="page-top">
         <div style="text-align:center">
-            <h1>Print QR Code Tempat dengan Alamat {{$kontrol}}</h1>
+            <h1>Print QR Code Alat {{$fasilitas}} untuk {{$kontrol}}</h1>
             <hr />
             <button type="button" class="btn btn-primary" onclick="print();" id="printqr">Print</button><br><br>
             <span id="spanqr"></span>
@@ -71,8 +72,8 @@
                     //Create Zebra ZPL commands for sample label
                     var cmds =  "^XA";
                     cmds += "^FO150,50^ABB,30,18^BQN,2,10^FDQA {{$kode}} ^FS";
-                    cmds += "^FO110,50^ABB,25,12^FD {{$kontrol}} ^FS";
-                    cmds += "^FO70,50^ABB,25,12^FD KONTROL ^FS";
+                    cmds += "^FO110,50^ABB,25,12^FD {{$fasilitas}} ^FS";
+                    cmds += "^FO70,50^ABB,25,12^FD {{$kontrol}} ^FS";
                     cmds += "^XZ";
                     
                     cpj.printerCommands = cmds;

@@ -280,7 +280,7 @@ class AlatController extends Controller
             $kode = 'IDENTITY-BP3C-'.$kode->kode;
         }
 
-        return view('alatmeter.qr',[
+        return view('utilities.alat-meter.qr',[
             'id'=>$id,
             'kode'=>$kode,
             'kontrol'=>$kontrol,
