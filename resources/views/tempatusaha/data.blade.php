@@ -16,8 +16,8 @@
             <tr>
                 <th class="text-center" style="max-width:15%">Kontrol</th>
                 <th class="text-center" style="max-width:20%">Pengguna</th>
-                <th class="text-center" style="max-width:20%">Lokasi</th>
                 <th class="text-center" style="max-width:5%">Jml.Los</th>
+                <th class="text-center" style="max-width:20%">Lokasi</th>
                 <th class="text-center" style="max-width:20%">Usaha</th>
                 <th class="text-center" style="max-width:10%">Action</th>
                 <th class="text-center" style="max-width:10%">Details</th>
