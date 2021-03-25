@@ -22,7 +22,7 @@ class SimulasiController extends Controller
         ->groupBy('thn_tagihan')
         ->get();
         
-        return view('simulasi.index',[
+        return view('utilities.simulasi.index',[
             'listrik'  => TarifListrik::first(),
             'airbersih'=> TarifAirBersih::first(),
             'tahun'    => $dataTahun,
@@ -58,7 +58,7 @@ class SimulasiController extends Controller
             ];
 
             $rekap = Simulasi::rekapListrik($bulan);
-            return view('simulasi.listrik',[
+            return view('utilities.simulasi.listrik',[
                 'bln'     =>IndoDate::bulanB($bulan,' '),
                 'rekap'   =>$rekap,
                 'ttlRekap'=>Simulasi::ttlRekapListrik($rekap),
@@ -95,7 +95,7 @@ class SimulasiController extends Controller
             ];
 
             $rekap = Simulasi::rekapAirBersih($bulan);
-            return view('simulasi.airbersih',[
+            return view('utilities.simulasi.airbersih',[
                 'bln'     =>IndoDate::bulanB($bulan,' '),
                 'rekap'   =>$rekap,
                 'ttlRekap'=>Simulasi::ttlRekapAirBersih($rekap),

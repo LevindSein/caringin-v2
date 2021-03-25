@@ -29,6 +29,9 @@ use App\Http\Controllers\HariLiburController;
 //Blok
 use App\Http\Controllers\BlokController;
 
+//Simulasi
+use App\Http\Controllers\SimulasiController;
+
 //Master
 use App\Http\Controllers\MasterController;
 
@@ -195,6 +198,11 @@ Route::middleware('ceklogin:blok')->group(function(){
     Route::get('utilities/blok/edit/{id}', [BlokController::class, 'edit']);
     Route::post('utilities/blok/update', [BlokController::class, 'update']);
     Route::get('utilities/blok/destroy/{id}', [BlokController::class, 'destroy']);
+});
+
+Route::middleware('ceklogin:simulasi')->group(function(){
+    Route::get('utilities/simulasi', [SimulasiController::class, 'index']);
+    Route::post('utilities/simulasi', [SimulasiController::class, 'store']);
 });
 
 Route::middleware('ceklogin:master')->group(function(){
