@@ -17,6 +17,9 @@ use App\Http\Controllers\TempatController;
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PendapatanController;
 
+//Tarif
+use App\Http\Controllers\TarifController;
+
 //Alat Meter
 use App\Http\Controllers\AlatController;
 
@@ -26,7 +29,7 @@ use App\Http\Controllers\HariLiburController;
 //Blok
 use App\Http\Controllers\BlokController;
 
-//
+//Master
 use App\Http\Controllers\MasterController;
 
 //User
@@ -154,6 +157,18 @@ Route::middleware('ceklogin:pendapatan')->group(function(){
     Route::get('rekap/pendapatan/tahunan', [PendapatanController::class, 'tahunan']);
     Route::get('rekap/pendapatan/bulanan', [PendapatanController::class, 'bulanan']);
     Route::resource('rekap/pendapatan', PendapatanController::class);
+});
+
+Route::middleware('ceklogin:tarif')->group(function(){
+    Route::get('utilities/tarif', [TarifController::class, 'index']);
+    Route::get('utilities/tarif/keamananipk', [TarifController::class, 'keamananipk']);
+    Route::get('utilities/tarif/kebersihan', [TarifController::class, 'kebersihan']);
+    Route::get('utilities/tarif/airkotor', [TarifController::class, 'airkotor']);
+    Route::get('utilities/tarif/lain', [TarifController::class, 'lain']);
+    Route::post('utilities/tarif/store', [TarifController::class, 'store']);
+    Route::get('utilities/tarif/edit/{fasilitas}/{id}', [TarifController::class, 'edit']);
+    Route::post('utilities/tarif/update', [TarifController::class, 'update']);
+    Route::get('utilities/tarif/destroy/{fasilitas}/{id}', [TarifController::class, 'destroy']);
 });
 
 Route::middleware('ceklogin:alatmeter')->group(function(){

@@ -24,18 +24,18 @@
     <div class="col-xl-12">
         <div class="card shadow mb-4">
             <div class="card-body">
-                <div class="text-right">
-                <form action="{{url('master/kasir')}}" method="GET">
-                    <input
-                        required
-                        style="color: #6e707e;background-color: #fff;background-clip: padding-box;border: 1px solid #d1d3e2;border-radius: 0.35rem;"
-                        autocomplete="off"
-                        type="date"
-                        name="tanggal"
-                        id="tanggal"
-                        value="<?php echo Session::get('masterkasir'); ?>">
-                    <input type="submit" class="btn btn-sm btn-info" style="margin-top:-1.5px;" value="Cari"/>
-                </form>
+                <div class="form-group text-right">
+                    <form action="{{url('master/kasir')}}" method="GET">
+                        <input
+                            required
+                            style="color: #6e707e;background-color: #fff;background-clip: padding-box;border: 1px solid #d1d3e2;border-radius: 0.35rem;"
+                            autocomplete="off"
+                            type="date"
+                            name="tanggal"
+                            id="tanggal"
+                            value="<?php echo Session::get('masterkasir'); ?>">
+                        <input type="submit" class="btn btn-sm btn-info" style="margin-top:-3px;" value="Cari"/>
+                    </form>
                 </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" width="100%" id="tabel">

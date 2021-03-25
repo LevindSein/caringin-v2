@@ -23,7 +23,7 @@ class TarifController extends Controller
     }
 
     public function index(){
-        return view('tarif.index',[
+        return view('utilities.tarif.index',[
             'listrik'  => TarifListrik::first(),
             'airbersih'=> TarifAirBersih::first()
         ]);
@@ -37,7 +37,7 @@ class TarifController extends Controller
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" fas="keamananipk" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" fas="keamananipk" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="keamananipk" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
@@ -59,7 +59,7 @@ class TarifController extends Controller
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" fas="kebersihan" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" fas="kebersihan" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="kebersihan" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
@@ -81,7 +81,7 @@ class TarifController extends Controller
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" fas="airkotor" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" fas="airkotor" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="airkotor" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
@@ -103,7 +103,7 @@ class TarifController extends Controller
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
                         $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" fas="lain" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" fas="lain" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="lain" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
@@ -173,15 +173,14 @@ class TarifController extends Controller
                 $role = 'lain';
             }
 
-            $dataset['status'] = 'success';
-            $dataset['message'] = 'Data Berhasil Ditambah';
+            $dataset['success'] = 'Data Berhasil Ditambah';
             $dataset['role'] = $role;
 
             return response()->json(['result' => $dataset]);
         }
         catch(\Exception $e){
-            $dataset['status'] = 'error';
-            $dataset['message'] = 'Data Gagal Ditambah';
+            $dataset['success'] = 'Data Gagal Ditambah';
+            $dataset['role'] = '';
             return response()->json(['result' => $dataset]);
         }
     }
@@ -356,15 +355,14 @@ class TarifController extends Controller
                     $role = 'lain';
                 }
 
-                $dataset['status'] = 'success';
-                $dataset['message'] = 'Data Berhasil Diedit';
+                $dataset['success'] = 'Data Berhasil Diupdate';
                 $dataset['role'] = $role;
 
                 return response()->json(['result' => $dataset]);
             }
             catch(\Exception $e){
-                $dataset['status'] = 'error';
-                $dataset['message'] = 'Data Gagal Diedit';
+                $dataset['errors'] = 'Data Gagal Diupdate';
+                $dataset['role'] = '';
                 return response()->json(['result' => $dataset]);
             }
         }
@@ -390,13 +388,14 @@ class TarifController extends Controller
             $role = 'lain';
         }
         try{
-            $dataset['status'] = 'Data telah dihapus';
+            $dataset['success'] = 'Data telah dihapus';
             $dataset['role'] = $role;
             $data->delete();
             return response()->json(['result' => $dataset]);
         }
         catch(\Exception $e){
-            $dataset['status'] = 'Data gagal dihapus';
+            $dataset['errors'] = 'Data gagal dihapus';
+            $dataset['role'] = '';
             return response()->json(['result' => $dataset]);
         }
     }
