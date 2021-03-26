@@ -46,7 +46,7 @@ class MasterController extends Controller
             Session::put('masterkasir',$request->tanggal);
         else
             Session::put('masterkasir',date('Y-m-d',strtotime(Carbon::now())));
-        if($request->ajax()){
+        if(request()->ajax()){
             $data = Pembayaran::select('ref','kd_kontrol')
             ->groupBy('kd_kontrol','ref')
             ->orderBy('kd_kontrol','asc')
@@ -93,7 +93,7 @@ class MasterController extends Controller
     }
 
     public function kasirRestore(Request $request, $ref){
-        if($request->ajax()){
+        if(request()->ajax()){
             try{
                 $pembayaran = Pembayaran::where('ref',$ref)->get();
                 foreach($pembayaran as $p){
@@ -212,7 +212,7 @@ class MasterController extends Controller
     }
 
     public function kasirEdit(Request $request){
-        if($request->ajax()){
+        if(request()->ajax()){
             try{
                 $pembayaran = Pembayaran::where('ref',$request->hidden_ref)->get();
                 if($pembayaran != NULL){
@@ -621,7 +621,7 @@ class MasterController extends Controller
         ->groupBy('thn_tagihan')
         ->get();
 
-        if($request->ajax()){
+        if(request()->ajax()){
             $data = Perkiraan::orderBy('id','desc');
             return DataTables::of($data)
             ->addColumn('action', function($data){

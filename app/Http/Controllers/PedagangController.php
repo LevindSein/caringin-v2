@@ -27,7 +27,7 @@ class PedagangController extends Controller
     {
         if(request()->ajax())
         {
-            $data = Pedagang::where('role','nasabah')->get();
+            $data = Pedagang::where('role','nasabah');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){

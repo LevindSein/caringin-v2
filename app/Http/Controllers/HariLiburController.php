@@ -19,7 +19,7 @@ class HariLiburController extends Controller
     }
 
     public function index(Request $request){
-        if($request->ajax())
+        if(request()->ajax())
         {
             $data = HariLibur::orderBy('id','desc');
             return DataTables::of($data)

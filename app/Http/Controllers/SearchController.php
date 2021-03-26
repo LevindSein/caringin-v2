@@ -83,7 +83,7 @@ class SearchController extends Controller
     }
 
     public function cariTagihan(Request $request, $id){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $data = Tagihan::find($id);
@@ -165,7 +165,7 @@ class SearchController extends Controller
     }
 
     public function cariListrik(Request $request, $id){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $data = Tagihan::find($id);
@@ -247,7 +247,7 @@ class SearchController extends Controller
     }
 
     public function cariAirBersih(Request $request, $id){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $data = Tagihan::find($id);
@@ -329,7 +329,7 @@ class SearchController extends Controller
     }
 
     public function cariKeamananIpk(Request $request, $id){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $data = Tagihan::find($id);
@@ -411,7 +411,7 @@ class SearchController extends Controller
     }
 
     public function cariKebersihan(Request $request, $id){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $data = Tagihan::find($id);
@@ -493,7 +493,7 @@ class SearchController extends Controller
     }
 
     public function cariAirKotor(Request $request, $id){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $data = Tagihan::find($id);
@@ -575,7 +575,7 @@ class SearchController extends Controller
     }
 
     public function cariLain(Request $request, $id){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $data = Tagihan::find($id);
@@ -657,7 +657,7 @@ class SearchController extends Controller
     }
 
     public function cariTagihanku(Request $request, $fasilitas, $kontrol){
-        if($request->ajax()) {
+        if(request()->ajax()) {
             $result = array();
 
             $bulan = strtotime(Carbon::now());

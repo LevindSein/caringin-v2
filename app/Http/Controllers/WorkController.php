@@ -14,7 +14,7 @@ class WorkController extends Controller
     }
     
     public function work(Request $request){
-        if($request->ajax()){
+        if(request()->ajax()){
             if(Session::get('role') == 'kasir'){
                 $user = User::find(Session::get('userId'));
                 $result = $user->stt_aktif;
@@ -25,7 +25,7 @@ class WorkController extends Controller
     }
 
     public function update(Request $request){
-        if($request->ajax()){
+        if(request()->ajax()){
             if(Session::get('role') == 'kasir'){
                 $user = User::find(Session::get('userId'));
                 $result = $user->stt_aktif;

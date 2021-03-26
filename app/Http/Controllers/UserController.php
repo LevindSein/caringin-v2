@@ -49,7 +49,7 @@ class UserController extends Controller
     }
 
     public function manajer(Request $request){
-        if($request->ajax()){
+        if(request()->ajax()){
             $data = User::where('role','manajer')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
@@ -68,7 +68,7 @@ class UserController extends Controller
     }
 
     public function keuangan(Request $request){
-        if($request->ajax()){
+        if(request()->ajax()){
             $data = User::where('role','keuangan')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
@@ -87,7 +87,7 @@ class UserController extends Controller
     }
 
     public function kasir(Request $request){
-        if($request->ajax()){
+        if(request()->ajax()){
             $data = User::where('role','kasir')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
@@ -106,7 +106,7 @@ class UserController extends Controller
     }
 
     public function nasabah(Request $request){
-        if($request->ajax()){
+        if(request()->ajax()){
             $data = User::where('role','nasabah')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
@@ -340,7 +340,7 @@ class UserController extends Controller
      */
     public function reset(Request $request,$id)
     {
-        if($request->ajax()){
+        if(request()->ajax()){
             try{
                 $pass = str_shuffle('abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789');
                 $pass = substr($pass,0,8);

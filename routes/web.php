@@ -234,7 +234,7 @@ Route::middleware('ceklogin:user')->group(function(){
 
 Route::middleware('ceklogin:log')->group(function(){
     Route::get('log',function(Request $request){
-        if($request->ajax())
+        if(request()->ajax())
         {
             $data = LoginLog::orderBy('id','desc');
             return DataTables::of($data)

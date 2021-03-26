@@ -23,7 +23,7 @@ class BlokController extends Controller
     }
 
     public function index(Request $request){
-        if($request->ajax())
+        if(request()->ajax())
         {
             $data = Blok::orderBy('nama','asc');
             return DataTables::of($data)
