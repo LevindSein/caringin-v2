@@ -48,6 +48,260 @@
 @endsection
 
 @section('modal')
+<div class="modal fade" id="harian-details" tabindex="-1" role="dialog" aria-labelledby="show-details" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-header bg-gradient-vine">
+                        <div class="text-white text-center titles"></div>
+                        <div class="text-white text-center bayars"></div>
+                    </div>
+                    <div class="card-body px-lg-3 py-lg-3">
+                        <div class="card-body">
+                            <div class="card-profile-stats d-flex justify-content-center">
+                                <div class="col">
+                                    <div>
+                                        <span class="description">Pengguna</span>
+                                        <span class="heading pengguna">&mdash;</span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Kasir</span>
+                                        <span class="heading kasir">&mdash;</span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Tagihan</span>
+                                        <span class="heading tagihan">&mdash;</span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Realisasi</span>
+                                        <span class="heading realisasi">&mdash;</span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Selisih</span>
+                                        <span class="heading selisih">&mdash;</span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Disc</span>
+                                        <span class="heading diskon" style="color:red;">&mdash;</span>
+                                    </div>
+                                    <hr>
+                                    <span class="heading">Rincian</span>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Listrik</span>
+                                                    <span class="heading bayar-listrik">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Denda Listrik</span>
+                                                    <span class="heading denda-listrik">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-listrik" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Air Brs</span>
+                                                    <span class="heading bayar-airbersih">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Denda Air Brs</span>
+                                                    <span class="heading denda-airbersih">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-airbersih" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Keamanan IPK</span>
+                                                    <span class="heading bayar-keamananipk">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-keamananipk" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Kebersihan</span>
+                                                    <span class="heading bayar-kebersihan">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-kebersihan" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-center">
+                                                <div>
+                                                    <span class="description">Bayar Air Kotor</span>
+                                                    <span class="heading bayar-airkotor">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-center">
+                                                <div>
+                                                    <span class="description">Bayar Lain Lain</span>
+                                                    <span class="heading bayar-lain">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">&times; Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="show-details" tabindex="-1" role="dialog" aria-labelledby="show-details" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-header bg-gradient-vine">
+                        <div class="text-white text-center titles"></div>
+                    </div>
+                    <div class="card-body px-lg-3 py-lg-3">
+                        <div class="card-body">
+                            <div class="card-profile-stats d-flex justify-content-center">
+                                <div class="col">
+                                    <div>
+                                        <span class="description">Pendapatan</span>
+                                        <span class="heading realisasi">&mdash;</span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Disc</span>
+                                        <span class="heading diskon" style="color:red;">&mdash;</span>
+                                    </div>
+                                    <hr>
+                                    <span class="heading">Rincian</span>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Listrik</span>
+                                                    <span class="heading bayar-listrik">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Denda Listrik</span>
+                                                    <span class="heading denda-listrik">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-listrik" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Air Brs</span>
+                                                    <span class="heading bayar-airbersih">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Denda Air Brs</span>
+                                                    <span class="heading denda-airbersih">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-airbersih" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Keamanan IPK</span>
+                                                    <span class="heading bayar-keamananipk">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-keamananipk" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Kebersihan</span>
+                                                    <span class="heading bayar-kebersihan">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-kebersihan" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-center">
+                                                <div>
+                                                    <span class="description">Bayar Air Kotor</span>
+                                                    <span class="heading bayar-airkotor">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:-1rem">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-center">
+                                                <div>
+                                                    <span class="description">Bayar Lain Lain</span>
+                                                    <span class="heading bayar-lain">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">&times; Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')

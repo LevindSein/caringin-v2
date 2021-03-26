@@ -157,6 +157,7 @@ Route::middleware('ceklogin:pemakaian')->group(function(){
 });
 
 Route::middleware('ceklogin:pendapatan')->group(function(){
+    Route::get('rekap/pendapatan/show/{fas}/{id}', [PendapatanController::class, 'show']);
     Route::get('rekap/pendapatan/tahunan', [PendapatanController::class, 'tahunan']);
     Route::get('rekap/pendapatan/bulanan', [PendapatanController::class, 'bulanan']);
     Route::resource('rekap/pendapatan', PendapatanController::class);

@@ -61,7 +61,7 @@ $(document).ready(function(){
 
     $("#tab-c-2").click(function(){
         if (!$.fn.dataTable.isDataTable('#tabelKeamananIpk')) {
-            $('#tabelKeamananIpk').DataTable({
+            var dtable = $('#tabelKeamananIpk').DataTable({
                 serverSide: true,
                 ajax: '/utilities/tarif/keamananipk',
                 columns: [
@@ -86,12 +86,13 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     $("#tab-c-3").click(function(){
         if (!$.fn.dataTable.isDataTable('#tabelKebersihan')) {
-            $('#tabelKebersihan').DataTable({
+            var dtable1 = $('#tabelKebersihan').DataTable({
                 serverSide: true,
                 ajax: '/utilities/tarif/kebersihan',
                 columns: [
@@ -114,12 +115,13 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     $("#tab-c-4").click(function(){
         if (!$.fn.dataTable.isDataTable('#tabelAirKotor')) {
-            $('#tabelAirKotor').DataTable({
+            var dtable2 = $('#tabelAirKotor').DataTable({
                 serverSide: true,
                 ajax: '/utilities/tarif/airkotor',
                 columns: [
@@ -142,12 +144,13 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable2.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
     $("#tab-c-6").click(function(){
         if (!$.fn.dataTable.isDataTable('#tabelLain')) {
-            $('#tabelLain').DataTable({
+            var dtable3 = $('#tabelLain').DataTable({
                 serverSide: true,
                 ajax: '/utilities/tarif/lain',
                 columns: [
@@ -170,6 +173,7 @@ $(document).ready(function(){
                 ],
                 responsive:true
             });
+            setInterval(function(){ dtable3.ajax.reload(function(){}, false); }, 30000);
         }
     });
 
