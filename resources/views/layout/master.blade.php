@@ -199,7 +199,11 @@
                                 </div>
                             </li>
                             @endif
-                            
+                        </ul>
+                        <!-- Divider -->
+                        <hr class="my-3">
+                        @endif
+                        <ul class="navbar-nav">
                             @if(Session::get('role') == 'master')
                             <!-- Nav Item - Kasir -->
                             <li class="nav-item">
@@ -222,10 +226,14 @@
                                     <span class="nav-link-text">Riwayat&nbsp;Login</span></a>
                             </li>
                             @endif
-                            <!-- Divider -->
-                            <hr class="my-3">
+                            
+                            <!-- Nav Item - Log -->
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request()->is('information*')) ? 'active' : '' }}" href="{{url('information')}}">
+                                    <i class="fas fa-info text-yellow"></i>
+                                    <span class="nav-link-text">Patch Info</span></a>
+                            </li>
                         </ul>
-                        @endif
                     </div>
                 </div>
             </div>

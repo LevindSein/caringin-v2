@@ -16,7 +16,7 @@
         name="add_tanggal"
         id="add_tanggal" 
         class="btn btn-sm btn-success">
-        <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> Blok</button>
+        <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> Hari&nbsp;Libur</button>
 </div>
 @endif
 @endsection

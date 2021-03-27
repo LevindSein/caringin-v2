@@ -79,6 +79,7 @@ class Kernel extends HttpKernel
         'simulasi' => \App\Http\Middleware\Simulasi::class,
         'master' => \App\Http\Middleware\Master::class,
         'user' => \App\Http\Middleware\User::class,
+        'information' => \App\Http\Middleware\Information::class,
         'log' => \App\Http\Middleware\Log::class,
         'human' => \App\Http\Middleware\Human::class,
 

@@ -38,6 +38,9 @@ use App\Http\Controllers\MasterController;
 //User
 use App\Http\Controllers\UserController;
 
+//Information
+use App\Http\Controllers\InformationController;
+
 //Search
 use App\Http\Controllers\SearchController;
 
@@ -253,6 +256,12 @@ Route::middleware('ceklogin:log')->group(function(){
         }
         return view('log.index');
     })->middleware('log');
+});
+
+Route::middleware('ceklogin:information')->group(function(){
+    Route::post('information/update', [InformationController::class, 'update']);
+    Route::get('information/destroy/{id}', [InformationController::class, 'destroy']);
+    Route::resource('information', InformationController::class);
 });
 
 Route::middleware('ceklogin:human')->group(function(){
