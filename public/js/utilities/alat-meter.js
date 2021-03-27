@@ -43,7 +43,7 @@ $(document).ready(function () {
                     { data: 'kode', name: 'kode', class : 'text-center' },
                     { data: 'nomor', name: 'nomor', class : 'text-center-td' },
                     { data: 'akhir', name: 'akhir', class : 'text-center' },
-                    { data: 'tempat', name: 'tempat', class : 'text-center' },
+                    { data: 'kd_kontrol', name: 'tempat_usaha.kd_kontrol', class : 'text-center' },
                     { data: 'action', name: 'action', class : 'text-center' },
                 ],
                 stateSave: true,
@@ -56,8 +56,8 @@ $(document).ready(function () {
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [3,4] }, 
-                    { "bSearchable": false, "aTargets": [3,4] }
+                    { "bSortable": false, "aTargets": [4] }, 
+                    { "bSearchable": false, "aTargets": [4] }
                 ],
                 responsive:true
             });

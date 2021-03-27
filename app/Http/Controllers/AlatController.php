@@ -55,7 +55,8 @@ class AlatController extends Controller
     public function air(Request $request){
         if(request()->ajax())
         {
-            $data = AlatAir::orderBy('id','desc');
+            $data = DB::table('meteran_air')->leftJoin('tempat_usaha','meteran_air.id','=','tempat_usaha.id_meteran_air')
+            ->select('meteran_air.id as id', 'meteran_air.kode as kode', 'meteran_air.nomor as nomor', 'meteran_air.akhir as akhir', 'tempat_usaha.kd_kontrol as kd_kontrol');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
@@ -67,15 +68,14 @@ class AlatController extends Controller
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
-                ->addColumn('tempat', function($data){
-                    $tempat = TempatUsaha::where('id_meteran_air',$data->id)->select('kd_kontrol')->first();
-                    if($tempat == null) return '<span class="text-center" style="color:#1cc88a;">idle</span>';
-                    else return $tempat['kd_kontrol'];
-                })
                 ->editColumn('akhir', function ($data) {
                     return number_format($data->akhir);
                 })
-                ->rawColumns(['action','tempat'])
+                ->editColumn('kd_kontrol', function($data){
+                    if($data->kd_kontrol == null) return '<span style="color:green;">idle</span>';
+                    return $data->kd_kontrol;
+                })
+                ->rawColumns(['action', 'kd_kontrol'])
                 ->make(true);
         }
     }
