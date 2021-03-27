@@ -7,7 +7,7 @@ $(document).ready(function(){
 		},
 		columns: [
 			{ data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
-			{ data: 'pengguna', name: 'pengguna', class : 'text-center-td' },
+			{ data: 'id_pengguna', name: 'user.nama', class : 'text-center-td' },
 			{ data: 'lok_tempat', name: 'lok_tempat', class : 'text-center-td' },
 			{ data: 'jml_alamat', name: 'jml_alamat', class : 'text-center' },
 			{ data: 'bentuk_usaha', name: 'bentuk_usaha', class : 'text-center-td' },

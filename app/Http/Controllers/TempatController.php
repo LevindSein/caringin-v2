@@ -49,7 +49,7 @@ class TempatController extends Controller
     {
         if(request()->ajax())
         {
-            $data = DB::table('tempat_usaha');
+            $data = DB::table('tempat_usaha')->leftJoin('user','tempat_usaha.id_pengguna','=','user.id');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
@@ -68,16 +68,24 @@ class TempatController extends Controller
                 ->editColumn('no_alamat', function ($data) {
                     return '<span style="white-space:normal;">'.$data->no_alamat.'</span>';
                 })
-                ->addColumn('pengguna', function($data){
-                    $pengguna = Pedagang::find($data->id_pengguna);
-                    if($pengguna == null) return '<span style="color:#1cc88a;">idle</span>';
-                    else return $pengguna->nama;
+                ->editColumn('kd_kontrol', function ($data) {
+                    if($data->stt_tempat == 1)
+                        return '<span style="color:green;">'.$data->kd_kontrol.'</span>';
+                    else if($data->stt_tempat == 2)
+                        return '<span style="color:red;">'.$data->kd_kontrol.'</span>';
+                    else
+                        return '<span>'.$data->kd_kontrol.'</span>';
+                })
+                ->editColumn('id_pengguna', function($data){
+                    if($data->nama == null) return '<span style="color:green;">idle</span>';
+                    return $data->nama;
                 })
                 ->rawColumns([
                     'action',
                     'show',
                     'no_alamat',
-                    'pengguna'])
+                    'id_pengguna',
+                    'kd_kontrol'])
                 ->make(true);
         }
         return view('tempatusaha.data',[

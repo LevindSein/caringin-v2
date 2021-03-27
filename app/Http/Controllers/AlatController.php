@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 use DataTables;
 use Validator;
 use Exception;
@@ -22,7 +23,8 @@ class AlatController extends Controller
     public function index(Request $request){
         if(request()->ajax())
         {
-            $data = AlatListrik::orderBy('id','desc');
+            $data = DB::table('meteran_listrik')->leftJoin('tempat_usaha','meteran_listrik.id','=','tempat_usaha.id_meteran_listrik')
+            ->select('meteran_listrik.id as id', 'meteran_listrik.kode as kode', 'meteran_listrik.nomor as nomor', 'meteran_listrik.akhir as akhir', 'meteran_listrik.daya as daya', 'tempat_usaha.kd_kontrol as kd_kontrol');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') ==  'master'){
@@ -34,18 +36,17 @@ class AlatController extends Controller
                         $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
-                ->addColumn('tempat', function($data){
-                    $tempat = TempatUsaha::where('id_meteran_listrik',$data->id)->select('kd_kontrol')->first();
-                    if($tempat == null) return '<span class="text-center" style="color:#1cc88a;">idle</span>';
-                    else return $tempat['kd_kontrol'];
-                })
                 ->editColumn('akhir', function ($data) {
                     return number_format($data->akhir);
                 })
                 ->editColumn('daya', function ($data) {
                     return number_format($data->daya);
                 })
-                ->rawColumns(['action','tempat'])
+                ->editColumn('kd_kontrol', function($data){
+                    if($data->kd_kontrol == null) return '<span style="color:green;">idle</span>';
+                    return $data->kd_kontrol;
+                })
+                ->rawColumns(['action', 'kd_kontrol'])
                 ->make(true);
         }
         return view('utilities.alat-meter.index');
