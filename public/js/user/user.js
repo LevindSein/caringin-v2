@@ -232,7 +232,6 @@ $(document).ready(function(){
     
     $(document).on('click', '.edit', function(){
 		id = $(this).attr('id');
-		$('#form_result').html('');
 		$.ajax({
 			url :"/user/"+id+"/edit",
             cache:false,

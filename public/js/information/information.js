@@ -33,6 +33,7 @@ $(document).ready(function(){
     $('#add_information').click(function(){
 		$('.titles').text('Tambah Info Patch');
 		$('#action_btn').val('Tambah');
+        $('#action').val('Add');
 		$('#myModal').modal('show');
     });
     
@@ -41,7 +42,49 @@ $(document).ready(function(){
     })  
 
     $(document).on('click', '.edit', function(){
-		
+		id = $(this).attr('id');
+		$.ajax({
+			url :"/information/"+id+"/edit",
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+				$('#ket_info').val(data.result.keterangan);
+
+                if(data.result.admin)
+                    $("#admin").prop("checked", true);
+                else
+                    $("#admin").prop("checked", false);
+                
+                if(data.result.manajer)
+                    $("#manajer").prop("checked", true);
+                else
+                    $("#manajer").prop("checked", false);
+
+                if(data.result.keuangan)
+                    $("#keuangan").prop("checked", true);
+                else
+                    $("#keuangan").prop("checked", false);
+
+                if(data.result.kasir)
+                    $("#kasir").prop("checked", true);
+                else
+                    $("#kasir").prop("checked", false);
+
+                if(data.result.nasabah)
+                    $("#nasabah").prop("checked", true);
+                else
+                    $("#nasabah").prop("checked", false);
+                
+                console.log(data.result.pengaruh);
+
+				$('#hidden_id').val(id);
+				$('.titles').text('Edit Info Patch');
+				$('#action_btn').val('Update');
+				$('#action').val('Edit');
+                $('#myModal').modal('show');
+			}
+		})
     });
 
     $('#form_information').on('submit', function(event){

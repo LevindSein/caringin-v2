@@ -75,20 +75,22 @@ class InformationController extends Controller
             try{
                 $pengaruh = '';
                 if(empty($request->admin) == FALSE){
-                    $pengaruh .= "Admin ";
+                    $pengaruh .= "Admin, ";
                 }
                 if(empty($request->manajer) == FALSE){
-                    $pengaruh .= "Manajer ";
+                    $pengaruh .= "Manajer, ";
                 }
                 if(empty($request->keuangan) == FALSE){
-                    $pengaruh .= "Keuangan ";
+                    $pengaruh .= "Keuangan, ";
                 }
                 if(empty($request->kasir) == FALSE){
-                    $pengaruh .= "Kasir ";
+                    $pengaruh .= "Kasir, ";
                 }
                 if(empty($request->nasabah) == FALSE){
-                    $pengaruh .= "Nasabah ";
+                    $pengaruh .= "Nasabah, ";
                 }
+
+                $pengaruh = rtrim($pengaruh, ", ");
                 
                 $data = [
                     'tanggal'    => date("Y-m-d",strtotime(Carbon::now())),
@@ -125,7 +127,40 @@ class InformationController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(request()->ajax()){
+            $data = Information::find($id);
+            
+            $pengaruh = explode(", ", $data->pengaruh);
+
+            if(in_array('Admin', $pengaruh))
+                $data['admin'] = true;
+            else
+                $data['admin'] = false;
+
+            if(in_array('Manajer', $pengaruh))
+                $data['manajer'] = true;
+            else
+                $data['manajer'] = false;
+
+            if(in_array('Keuangan', $pengaruh))
+                $data['keuangan'] = true;
+            else
+                $data['keuangan'] = false;
+
+            if(in_array('Kasir', $pengaruh))
+                $data['kasir'] = true;
+            else
+                $data['kasir'] = false;
+
+            if(in_array('Nasabah', $pengaruh))
+                $data['nasabah'] = true;
+            else
+                $data['nasabah'] = false;
+
+            $data['pengaruh'] = $pengaruh;
+
+            return response()->json(['result' => $data]);
+        }
     }
 
     /**
@@ -135,9 +170,52 @@ class InformationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        if(request()->ajax()){
+            $rules = array(
+                'ket_info' => 'required',
+            );
+    
+            $error = Validator::make($request->all(), $rules);
+            if($error->fails())
+            {
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
+
+            try{
+                $pengaruh = '';
+                if(empty($request->admin) == FALSE){
+                    $pengaruh .= "Admin, ";
+                }
+                if(empty($request->manajer) == FALSE){
+                    $pengaruh .= "Manajer, ";
+                }
+                if(empty($request->keuangan) == FALSE){
+                    $pengaruh .= "Keuangan, ";
+                }
+                if(empty($request->kasir) == FALSE){
+                    $pengaruh .= "Kasir, ";
+                }
+                if(empty($request->nasabah) == FALSE){
+                    $pengaruh .= "Nasabah, ";
+                }
+
+                $pengaruh = rtrim($pengaruh, ", ");
+                
+                $data = [
+                    'keterangan' => $request->ket_info,
+                    'pengaruh'   => $pengaruh
+                ];
+
+                Information::find($request->hidden_id)->update($data);
+                
+                return response()->json(['success' => 'Data Berhasil Ditambah.']);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
+        }
     }
 
     /**
