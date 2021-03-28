@@ -2014,7 +2014,7 @@ class TagihanController extends Controller
                             $beban_listrik = $daya * $tarif->trf_beban;
 
                             $c = $blok1_listrik + $blok2_listrik + $beban_listrik;
-                            $rekmin_listrik = 53.44 * $daya;
+                            $rekmin_listrik = $tarif->trf_rekmin * $daya;
 
                             if($pakai_listrik <= $batas_rekmin){
                                 $bpju_listrik = ($tarif->trf_bpju / 100) * $rekmin_listrik;

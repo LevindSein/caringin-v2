@@ -237,7 +237,7 @@ class TarifController extends Controller
             $pasangListrik = implode('',$pasangListrik);
 
             $data = [
-                'trf_rekmin'        => $request->rekmin,
+                'trf_rekmin'       => $request->rekmin,
                 'trf_beban'        => $beban,
                 'trf_blok1'        => $blok1,
                 'trf_blok2'        => $blok2,

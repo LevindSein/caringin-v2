@@ -50,7 +50,7 @@ $ppn = $data['trf_ppn'];
                     <thead>
                         <tr>
                             <th colspan="12" style="border-style:none;">
-                                <h3 style="text-align:center;">SIMULASI RINCIAN PEMAKAIAN AIR BERSIH<br>{{$bln}}<br>{{$data[0]}}</h3>
+                                <h3 style="text-align:center;">SIMULASI RINCIAN TAGIHAN AIR BERSIH<br>{{$bln}}<br>{{$data[0]}}</h3>
                             </th>
                         </tr>
                         <tr>

@@ -47,6 +47,7 @@ class SimulasiController extends Controller
             $denda1 = implode('',$denda1);
 
             $data = [
+                'trf_rekmin'       => $request->rekmin,
                 'trf_beban'        => $beban,
                 'trf_blok1'        => $blok1,
                 'trf_blok2'        => $blok2,
