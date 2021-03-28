@@ -4,6 +4,26 @@
             <form class="user" id="form_listrik" method="POST">
                 @csrf
                 <div class="form-group col-lg-12">
+                    <label class="form-control-label" for="rekmin">Tarif Rekmin <span style="color:red;">*</span></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                        </div>
+                        <input 
+                            required
+                            <?php if($listrik != NULL) { ?>
+                            value="{{$listrik->trf_rekmin}}"
+                            <?php } ?>
+                            type="text" 
+                            autocomplete="off" 
+                            class="form-control shadow"
+                            name="rekmin" 
+                            id="rekmin" 
+                            placeholder="Tarif Rekmin"
+                            aria-describedby="inputGroupPrepend">
+                    </div>
+                </div>
+                <div class="form-group col-lg-12">
                     <label class="form-control-label" for="blok1">Tarif Blok 1 <span style="color:red;">*</span></label>
                     <div class="input-group">
                         <div class="input-group-prepend">
