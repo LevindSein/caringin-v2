@@ -49,7 +49,16 @@ class TempatController extends Controller
     {
         if(request()->ajax())
         {
-            $data = DB::table('tempat_usaha')->leftJoin('user','tempat_usaha.id_pengguna','=','user.id');
+            $data = DB::table('tempat_usaha')->leftJoin('user','tempat_usaha.id_pengguna','=','user.id')
+            ->select('tempat_usaha.id as id',
+                'tempat_usaha.kd_kontrol as kd_kontrol',
+                'tempat_usaha.no_alamat as no_alamat',
+                'tempat_usaha.id_pengguna as id_pengguna',
+                'tempat_usaha.lok_tempat as lok_tempat',
+                'tempat_usaha.jml_alamat as jml_alamat',
+                'tempat_usaha.bentuk_usaha as bentuk_usaha',
+                'tempat_usaha.stt_tempat as stt_tempat',
+                'user.nama as nama');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
