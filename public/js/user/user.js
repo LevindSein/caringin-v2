@@ -271,9 +271,9 @@ $(document).ready(function(){
 				}
 				$('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
-                    .fadeTo(2000, 1000)
-                    .slideUp(2000, function () {
-                        $("#success-alert,#error-alert").slideUp(1000);
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
                 });
                 $('#myModal').modal('hide');
 			}
@@ -400,11 +400,11 @@ $(document).ready(function(){
                     html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.success + '</div>';
                 if(data.result.errors)
                     html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.errors + '</div>';
-                $('#form_result').html(html);     
+                $('#form_result').html(html);  
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
-                    .fadeTo(2000, 1000)
-                    .slideUp(2000, function () {
-                        $("#success-alert,#error-alert").slideUp(1000);
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
                 });
                 $('#confirmModal').modal('hide');
             },
@@ -568,9 +568,9 @@ $(document).ready(function(){
                 }
 				$('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
-                    .fadeTo(2000, 1000)
-                    .slideUp(2000, function () {
-                        $("#success-alert,#error-alert").slideUp(1000);
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
                 });
                 $('#myOtoritas').modal('hide');
             }

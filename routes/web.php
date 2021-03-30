@@ -158,6 +158,9 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 });
 
 Route::middleware('ceklogin:tagihan')->group(function (){
+    Route::post('tagihan/sync/synchronize/{tanggal}',[TagihanController::class, 'synchronize']);
+    Route::post('tagihan/sync/unsynchronize/{tanggal}',[TagihanController::class, 'unsynchronize']);
+    Route::get('tagihan/sync/initiate',[TagihanController::class, 'initiate']);
     Route::resource('tagihan', TagihanController::class);
 });
 

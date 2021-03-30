@@ -526,9 +526,9 @@ $(document).ready(function(){
                 $('#tabelTempat').DataTable().ajax.reload(function(){}, false);
 				$('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
-                    .fadeTo(2000, 1000)
-                    .slideUp(2000, function () {
-                        $("#success-alert,#error-alert").slideUp(1000);
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
                 });
                 $('#myModal').modal('hide');
 			}
@@ -559,9 +559,9 @@ $(document).ready(function(){
                     html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
                 $('#form_result').html(html);     
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
-                    .fadeTo(2000, 1000)
-                    .slideUp(2000, function () {
-                        $("#success-alert,#error-alert").slideUp(1000);
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
                 });
                 $('#confirmModal').modal('hide');
             },

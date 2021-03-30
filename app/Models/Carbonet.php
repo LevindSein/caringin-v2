@@ -26,7 +26,7 @@ class Carbonet extends Model
         $time = strtotime($this->tanggal);
         $time = date("d",$time);
         $newDate = $date->add($this->add_months($this->tambah, $date));
-        $dateReturned = $newDate->format('Y-m-'.$time); 
+        $dateReturned = $newDate->format("Y-m-".$time); 
 
         return $dateReturned;
     }

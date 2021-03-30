@@ -11,29 +11,57 @@
 
 @section('button')
 @if($agent->isDesktop())
+<a 
+    href="{{url('tagihan')}}"
+    class="btn btn-sm btn-success">
+    <i class="fas fa-home text-white"></i>
+</a>
 @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
 <button 
     name="add_listrik"
     id="add_listrik" 
     class="btn btn-sm btn-warning">
-    <i class="fas fa-fw fa-plus fa-sm text-white-50"></i>Listrik<span class="badge badge-pill badge-light badge-listrik"></span>
+    <i class="fas fa-plus text-white-50"></i>Listrik<span class="badge badge-pill badge-light badge-listrik"></span>
 </button>
 <button 
     name="add_air"
     id="add_air" 
     class="btn btn-sm btn-info">
-    <i class="fas fa-fw fa-plus fa-sm text-white-50"></i>Air Bersih<span class="badge badge-pill badge-light badge-air"></span>
+    <i class="fas fa-plus text-white-50"></i>Air Bersih<span class="badge badge-pill badge-light badge-air"></span>
 </button>
 @endif
 @endif
 <a class="dropdown-toggle btn btn-sm btn-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
 <div class="dropdown-menu dropdown-menu-right">
     @if($agent->isMobile())
+    <a 
+    href="{{url('tagihan')}}"
+    class="dropdown-item">
+    <i class="fas fa-home text-gray"></i><span>Home</span>
+</a>
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
-    <button class="dropdown-item" name="add_listrik" id="add_listrik">Tambah Listrik <span class="badge badge-pill badge-warning badge-air"></span></button>
-    <button class="dropdown-item" name="add_air" id="add_air">Tambah Air <span class="badge badge-pill badge-primary badge-air"></span></button>
+    <button class="dropdown-item" name="add_listrik" id="add_listrik"><i class="fas fa-plus text-gray"></i><span>Tambah Listrik</span><span class="badge badge-pill badge-warning badge-air"></span></button>
+    <button class="dropdown-item" name="add_air" id="add_air"><i class="fas fa-plus text-gray"></i><span>Tambah Air</span><span class="badge badge-pill badge-primary badge-air"></span></button>
     <div class="dropdown-divider"></div>
     @endif
+    @endif
+
+    @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
+    <button
+        class="dropdown-item" 
+        id="sinkronisasi">
+        <i class="fas fa-sync text-gray"></i><span id="sinkronisasi-data"></span>
+    </button>
+    <a 
+        class="dropdown-item" 
+        id="tambah_manual"
+        href="#" 
+        data-toggle="modal" 
+        data-target="#myManual"
+        type="button">
+        <i class="fas fa-plus text-gray"></i><span>Manual</span>
+    </a>
+    <div class="dropdown-divider"></div>
     @endif
 </div>
 @endsection
@@ -82,6 +110,30 @@
                 </div>
                 @endif
             </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('modal')
+<div id="syncModal" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title titles"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_sync" method="POST">
+                @csrf
+                <div class="modal-body"><span id="sync-notif"></span></div>
+                <div class="modal-footer">
+                    <input type="hidden" name="sync_status" id="sync_status"/>
+                    <input type="submit" name="sync_button" id="sync_button" class="btn btn-primary" value="Submit" />
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

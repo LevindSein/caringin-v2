@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use DataTables;
 use Validator;
 use Exception;
+use Artisan;
 
 use App\Models\Tagihan;
 use App\Models\TempatUsaha;
@@ -38,15 +39,10 @@ class TagihanController extends Controller
         $this->middleware('tagihan');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $now = date("Y-m-d",strtotime(Carbon::now()));
-        $check = date("Y-m-25",strtotime(Carbon::now()));
+        $check = date("Y-m-23",strtotime(Carbon::now()));
 
         if($now < $check){
             $sekarang = date("Y-m", strtotime(Carbon::now()));
@@ -216,5 +212,74 @@ class TagihanController extends Controller
         return view('tagihan.index',[
             'periode' => IndoDate::bulan(Session::get('periodetagihan'),' '),
         ]);
+    }
+
+    public function initiate(){
+        try{
+            $data = array();
+            
+            $now = date("Y-m-d",strtotime(Carbon::now()));
+            $check = date("Y-m-23",strtotime(Carbon::now()));
+            if($now >= $check)
+                $data['status'] = true;
+            else
+                $data['status'] = false;
+
+            $carbon = Carbon::now();
+            $carbon = strtotime($carbon);
+            $date = date('Y-m-01',$carbon);
+            $tanggal = new Carbonet($date, 1);
+            $sync = Sinkronisasi::where('sinkron',$tanggal)->first();
+            if($sync == NULL)
+                $data['sync_text'] = "Synchronize";
+            else
+                $data['sync_text'] = "Unsynchronize";
+                
+            $data['sync'] = "$tanggal";
+
+            $periode = '';
+            if($now < $check){
+                $sekarang = date("Y-m", strtotime(Carbon::now()));
+                $time     = strtotime($sekarang);
+                $periode  = date("Y-m", strtotime(Carbon::now()));
+            }
+            else if($now >= $check){
+                $sekarang = date("Y-m", strtotime(Carbon::now()));
+                $time     = strtotime($sekarang);
+                $periode  = date("Y-m", strtotime("+1 month", $time));
+            }
+            $data['periode'] = IndoDate::bulan($periode, " ");
+
+            return response()->json(['result' => $data]);
+        }
+        catch(\Exception $e){
+            return response()->json(['result' => $e]);
+        }
+    }
+
+    public function synchronize($tanggal){
+        if(request()->ajax()){
+            try{
+                Artisan::call('cron:tagihan');
+                return response()->json(['success' => "Berhasil Melakukan Sinkronisasi"]);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => "Gagal Melakukan Sinkronisasi"]);
+            }
+        }
+    }
+
+    public function unsynchronize($tanggal){
+        if(request()->ajax()){
+            try{
+                Artisan::call('cron:alatmeter');
+                Sinkronisasi::where('sinkron',$tanggal)->delete();
+                Tagihan::where([['tgl_tagihan',$tanggal],['stt_bayar',0]])->delete();
+                return response()->json(['success' => "Berhasil Membatalkan Tagihan"]);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => "Gagal Membatalkan Tagihan"]);
+            }
+        }
     }
 }

@@ -29,9 +29,9 @@ $(document).ready(function () {
 				}
 				$('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
-                    .fadeTo(2000, 1000)
-                    .slideUp(2000, function () {
-                        $("#success-alert,#error-alert").slideUp(1000);
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
                 });
                 $('#myModal').modal('hide');
 			}
