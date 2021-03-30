@@ -3,7 +3,7 @@
         <thead class="thead-light">
             <tr>
                 <th class="text-center" style="max-width:15%">Kode</th>
-                <th class="text-center" style="max-width:20%">Nomor</th>
+                <th class="text-center" style="min-width:80px;max-width:20%">Nomor</th>
                 <th class="text-center" style="max-width:20%">Stand</th>
                 <th class="text-center" style="max-width:15%">Daya</th>
                 <th class="text-center" style="max-width:15%">Status</th>

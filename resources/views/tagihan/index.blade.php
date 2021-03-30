@@ -6,7 +6,7 @@
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">{{$periode}}</h6>
+<h6 class="h2 text-white d-inline-block mb-0">Tagihan {{$periode}}</h6>
 @endsection
 
 @section('button')
@@ -47,6 +47,7 @@
                 <div class="text-right">
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
+                @if($agent->isDesktop())
                 <div class="table-responsive py-4">
                     <table class="table table-flush" width="100%" id="tabelTagihan">
                         <thead class="thead-light">
@@ -66,6 +67,20 @@
                         </thead>
                     </table>
                 </div>
+                @else
+                <div class="table-responsive py-4">
+                    <table class="table table-flush" width="100%" id="tabelTagihan">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="max-width:50%;">Kontrol</th>
+                                <th class="text-center" style="min-width:80px;max-width:20%;">Nama</th>
+                                <th class="text-center" style="max-width:15%">Action</th>
+                                <th class="text-center" style="max-width:15%">Details</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -75,6 +90,7 @@
 @section('js')
 <script>
 $(document).ready(function(){
+    <?php if($agent->isDesktop()){ ?>
     var dtable = $('#tabelTagihan').DataTable({
 		serverSide: true,
 		ajax: {
@@ -115,7 +131,39 @@ $(document).ready(function(){
             "rightColumns": 3,
         }
     });
+    <?php } ?>
     
+    <?php if($agent->isDesktop() == false){ ?>
+    var dtable = $('#tabelTagihan').DataTable({
+		serverSide: true,
+		ajax: {
+			url: "/tagihan/?periode=" + <?php echo Session::get('periodetagihan')?>,
+            cache:false,
+		},
+		columns: [
+            { data: 'kd_kontrol'     , name: 'kd_kontrol'     , class : 'text-center' },
+            { data: 'nama'           , name: 'nama'           , class : 'text-center-td' },
+            { data: 'action'         , name: 'action'         , class : 'text-center' },
+            { data: 'show'           , name: 'show'           , class : 'text-center' },
+        ],
+        order: [[ 0, "asc" ]],
+        stateSave: true,
+        deferRender: true,
+        aLengthMenu: [[10,25,50,100,-1], [10,25,50,100,"All"]],
+        language: {
+            paginate: {
+                previous: "<i class='fas fa-angle-left'>",
+                next: "<i class='fas fa-angle-right'>"
+            }
+        },
+        aoColumnDefs: [
+            { "bSortable": false, "aTargets": [2,3] }, 
+            { "bSearchable": false, "aTargets": [2,3] }
+        ],
+        responsive: true
+    });
+    <?php } ?>
+
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
     $('#refresh').click(function(){
         $('#refresh-img').show();

@@ -3,7 +3,7 @@
         <thead class="thead-light">
             <tr>
                 <th class="text-center" style="max-width:35%">Username</th>
-                <th class="text-center" style="max-width:35%">Nama</th>
+                <th class="text-center" style="min-width:100px;max-width:35%">Nama</th>
                 <th class="text-center" style="max-width:15%">Action</th>
                 <th class="text-center" style="max-width:15%">Details</th>
             </tr>

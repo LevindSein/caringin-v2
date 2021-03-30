@@ -17,8 +17,8 @@
         <thead class="thead-light">
             <tr>
                 <th class="text-center" style="max-width:15%">Kontrol</th>
-                <th class="text-center" style="max-width:20%">Pengguna</th>
-                <th class="text-center" style="max-width:20%">Lok</th>
+                <th class="text-center" style="min-width:100px;max-width:20%">Pengguna</th>
+                <th class="text-center" style="min-width:100px;max-width:20%">Lok</th>
                 <th class="text-center" style="max-width:5%">Jml.Los</th>
                 <th class="text-center" style="max-width:20%">Usaha</th>
                 <th class="text-center" style="max-width:10%">Action</th>

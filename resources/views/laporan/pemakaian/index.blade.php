@@ -36,7 +36,7 @@ function indoDate($tanggal){
                         <tbody>
                             @foreach($dataset as $d)
                             <tr>
-                                <td class="text-center" <?php $bulan = indoDate($d->bln_pakai); ?>>{{$bulan}}</td>
+                                <td class="text-center-td" <?php $bulan = indoDate($d->bln_pakai); ?>>{{$bulan}}</td>
                                 <td class="text-center">
                                     <button title="Cetak Pemakaian" name="cetak" id="{{$d->bln_pakai}}" nama="{{$bulan}}" class="cetak btn btn-sm btn-primary">Cetak</button>
                                 </td>

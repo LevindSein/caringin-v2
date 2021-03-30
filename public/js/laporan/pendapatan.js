@@ -27,7 +27,6 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [6] }, 
             { "bSearchable": false, "aTargets": [6] }
         ],
-        scrollY: "50vh",
         responsive:true
     });
 
@@ -57,7 +56,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2] }, 
                     { "bSearchable": false, "aTargets": [2] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -101,7 +99,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2] }, 
                     { "bSearchable": false, "aTargets": [2] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);

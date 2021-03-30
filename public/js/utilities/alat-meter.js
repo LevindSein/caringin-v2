@@ -26,7 +26,6 @@ $(document).ready(function () {
             { "bSortable": false, "aTargets": [5] }, 
             { "bSearchable": false, "aTargets": [5] }
         ],
-        scrollY: "50vh",
         responsive:true
     });
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -69,7 +68,6 @@ $(document).ready(function () {
                     { "bSortable": false, "aTargets": [4] }, 
                     { "bSearchable": false, "aTargets": [4] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);

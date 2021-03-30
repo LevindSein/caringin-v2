@@ -34,8 +34,8 @@
                     <table class="table table-flush" width="100%" id="tabelHariLibur">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:45%">Tanggal</th>
-                                <th class="text-center" style="max-width:40%">Ket</th>
+                                <th class="text-center" style="max-width:25%">Tanggal</th>
+                                <th class="text-center" style="min-width:200px;max-width:60%">Ket</th>
                                 <th class="text-center" style="max-width:15%">Action</th>
                             </tr>
                         </thead>

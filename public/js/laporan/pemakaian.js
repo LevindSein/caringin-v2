@@ -10,7 +10,6 @@ $(document).ready(function () {
         bSortable: false,
         deferRender: true,
         ordering: false,
-        scrollY: "50vh",
         responsive:true
     });
 

@@ -18,7 +18,7 @@ use App\Models\Tagihan;
         <thead class="thead-light">
             <tr>
                 <th class="text-center" style="max-width:30%">Kontrol</th>
-                <th class="text-center" style="max-width:20%">Pengguna</th>
+                <th class="text-center" style="min-width:100px;max-width:20%">Pengguna</th>
                 <th class="text-center" style="max-width:20%">Jml.Los</th>
                 <th class="text-center" style="max-width:20%">Tagihan</th>
                 <th class="text-center" style="max-width:10%">Details</th>
@@ -31,7 +31,7 @@ use App\Models\Tagihan;
             ?>
             <tr>
                 <td class="text-center">{{$data->kd_kontrol}}</td>
-                <td class="text-center">{{$data->pengguna}}</td>
+                <td class="text-center-td">{{$data->pengguna}}</td>
                 <td class="text-center">{{$data->jml_alamat}}</td>
                 <td class="text-center">{{number_format($tagihan)}}</td>
                 <td class="text-center">

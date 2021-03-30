@@ -17326,7 +17326,7 @@ button.bg-darker:focus
     text-align: center !important;
     white-space: normal !important;
     word-break: break-word !important;
-    overflow-wrap: break-word;
+    overflow-wrap: break-word !important;
 }
 
 .background-gray

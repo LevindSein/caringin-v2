@@ -46,7 +46,7 @@
                             <tr>
                                 <th class="text-center" style="max-width:25%">Kontrol</th>
                                 <th class="text-center" style="max-width:25%">Tagihan</th>
-                                <th class="text-center" style="max-width:20%">Pengguna</th>
+                                <th class="text-center" style="min-width:100px;max-width:20%">Pengguna</th>
                                 <th class="text-center" style="max-width:20%">Ket</th>
                                 <th class="text-center" style="max-width:10%">Action</th>
                             </tr>
@@ -180,7 +180,6 @@ $(document).ready(function () {
                 next: "<i class='fas fa-angle-right'>"
             }
         },
-        scrollY: "50vh",
         deferRender: true,
         pageLength: 8,
         responsive: true

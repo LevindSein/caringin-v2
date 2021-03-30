@@ -7,7 +7,7 @@ $(document).ready(function(){
 		},
 		columns: [
 			{ data: 'username', name: 'username', class : 'text-center' },
-			{ data: 'nama', name: 'nama', class : 'text-center' },
+			{ data: 'nama', name: 'nama', class : 'text-center-td' },
 			{ data: 'otoritas', name: 'otoritas', class : 'text-center' },
 			{ data: 'action', name: 'action', class : 'text-center' },
 			{ data: 'show', name: 'show', class : 'text-center' },
@@ -25,7 +25,6 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [2,3,4] }, 
             { "bSearchable": false, "aTargets": [2,3,4] }
         ],
-        scrollY: "50vh",
         responsive:true
     });
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -47,7 +46,7 @@ $(document).ready(function(){
                 ajax: '/user/manajer',
                 columns: [
                     { data: 'username', name: 'username', class : 'text-center' },
-                    { data: 'nama', name: 'nama', class : 'text-center' },
+                    { data: 'nama', name: 'nama', class : 'text-center-td' },
                     { data: 'action', name: 'action', class : 'text-center' },
                     { data: 'show', name: 'show', class : 'text-center' },
                 ],
@@ -64,7 +63,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2,3] }, 
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -88,7 +86,7 @@ $(document).ready(function(){
                 ajax: '/user/keuangan',
                 columns: [
                     { data: 'username', name: 'username', class : 'text-center' },
-                    { data: 'nama', name: 'nama', class : 'text-center' },
+                    { data: 'nama', name: 'nama', class : 'text-center-td' },
                     { data: 'action', name: 'action', class : 'text-center' },
                     { data: 'show', name: 'show', class : 'text-center' },
                 ],
@@ -105,7 +103,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2,3] }, 
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -129,7 +126,7 @@ $(document).ready(function(){
                 ajax: '/user/kasir',
                 columns: [
                     { data: 'username', name: 'username', class : 'text-center' },
-                    { data: 'nama', name: 'nama', class : 'text-center' },
+                    { data: 'nama', name: 'nama', class : 'text-center-td' },
                     { data: 'action', name: 'action', class : 'text-center' },
                     { data: 'show', name: 'show', class : 'text-center' },
                 ],
@@ -146,7 +143,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2,3] }, 
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -170,7 +166,7 @@ $(document).ready(function(){
                 ajax: '/user/nasabah',
                 columns: [
                     { data: 'username', name: 'username', class : 'text-center' },
-                    { data: 'nama', name: 'nama', class : 'text-center' },
+                    { data: 'nama', name: 'nama', class : 'text-center-td' },
                     { data: 'action', name: 'action', class : 'text-center' },
                     { data: 'show', name: 'show', class : 'text-center' },
                 ],
@@ -187,7 +183,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2,3] }, 
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);

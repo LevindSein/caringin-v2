@@ -21,12 +21,12 @@
                     <table class="table table-flush" width="100%" id="tabelLog">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:20%">Username</th>
-                                <th class="text-center" style="max-width:20%">Nama</th>
-                                <th class="text-center" style="max-width:15%">KTP</th>
+                                <th class="text-center" style="min-width:100px;max-width:20%">Username</th>
+                                <th class="text-center" style="min-width:100px;max-width:20%">Nama</th>
+                                <th class="text-center" style="min-width:70px;max-width:15%">KTP</th>
                                 <th class="text-center" style="max-width:15%">Role</th>
-                                <th class="text-center" style="max-width:15%">Platform</th>
-                                <th class="text-center" style="max-width:15%">Login</th>
+                                <th class="text-center" style="min-width:90px;max-width:15%">Platform</th>
+                                <th class="text-center" style="min-width:90px;max-width:15%">Login</th>
                             </tr>
                         </thead>
                     </table>

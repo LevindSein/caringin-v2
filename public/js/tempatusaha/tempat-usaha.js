@@ -27,7 +27,6 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [5,6] }, 
             { "bSearchable": false, "aTargets": [5,6] }
         ],
-        scrollY: "50vh",
         order:[[0, 'asc']],
         responsive:true
     });

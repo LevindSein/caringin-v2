@@ -85,7 +85,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,4] }, 
                     { "bSearchable": false, "aTargets": [0,4] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -126,7 +125,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -167,7 +165,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -208,7 +205,6 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
-                scrollY: "50vh",
                 responsive:true
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);

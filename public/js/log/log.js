@@ -20,7 +20,6 @@ $(document).ready(function(){
                 next: "<i class='fas fa-angle-right'>"
             }
         },
-        scrollY: "50vh",
         deferRender: true,
         pageLength: 8,
         responsive: true
