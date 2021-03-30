@@ -158,6 +158,7 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 });
 
 Route::middleware('ceklogin:tagihan')->group(function (){
+    Route::get('tagihan/periode', [TagihanController::class, 'periode']);
     Route::post('tagihan/unpublish/{id}', [TagihanController::class, 'unpublish']);
     Route::get('tagihan/penghapusan', [TagihanController::class, 'penghapusan']);
     Route::get('tagihan/destroy/edit/{id}', [TagihanController::class, 'destroyEdit']);
@@ -166,7 +167,7 @@ Route::middleware('ceklogin:tagihan')->group(function (){
     Route::post('tagihan/sync/unsynchronize/{tanggal}',[TagihanController::class, 'unsynchronize']);
     Route::get('tagihan/sync/initiate',[TagihanController::class, 'initiate']);
     Route::get('tagihan/sync/badge',[TagihanController::class, 'badge']);
-    Route::resource('tagihan', TagihanController::class);
+    Route::get('tagihan', [TagihanController::class, 'index'])->name('tagihan');
 });
 
 Route::middleware('ceklogin:pemakaian')->group(function(){

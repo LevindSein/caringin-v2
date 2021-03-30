@@ -591,4 +591,9 @@ class TagihanController extends Controller
             }
         }
     }
+
+    public function periode(Request $request){
+        $periode = $request->tahun."-".$request->bulan;
+        return redirect()->route('tagihan', ['periode' => $periode]);
+    }
 }

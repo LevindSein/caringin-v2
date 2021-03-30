@@ -1,4 +1,4 @@
-<?php use Jenssegers\Agent\Agent; $agent = new Agent();?>
+<?php use App\Models\Tagihan; use Jenssegers\Agent\Agent; $agent = new Agent();?>
 @extends('layout.master')
 
 @section('title')
@@ -220,6 +220,54 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" name="ok_button" id="ok_button" class="btn btn-danger" value="Hapus" />
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cari Periode Tagihan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{url('tagihan/periode')}}" method="GET">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-control-label" for="bulan">Bulan</label>
+                        <select class="form-control" name="bulan" id="bulan" required>
+                            <option selected hidden value="">Pilih Bulan</option>
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="tahun">Tahun</label>
+                        <select class="form-control" name="tahun" id="tahun" required>
+                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','asc')->get();?>
+                            @foreach($tahun as $t)
+                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" name="periode_button" id="periode_button" class="btn btn-primary" value="Cari" />
                     <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
                 </div>
             </form>
