@@ -8,10 +8,10 @@ $(document).ready(function(){
 		columns: [
             { data: 'tgl_bayar', name: 'tgl_bayar', class : 'text-center' },
             { data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
+            { data: 'pengguna', name: 'pengguna', class : 'text-center-td' },
             { data: 'ttl_tagihan', name: 'ttl_tagihan', class : 'text-center' },
             { data: 'realisasi', name: 'realisasi', class : 'text-center' },
             { data: 'sel_tagihan', name: 'sel_tagihan', class : 'text-center' },
-            { data: 'pengguna', name: 'pengguna', class : 'text-center-td' },
             { data: 'show', name: 'show', class : 'text-center' },
         ],
         stateSave: true,
@@ -27,14 +27,13 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [6] }, 
             { "bSearchable": false, "aTargets": [6] }
         ],
+        scrollY: "50vh",
         responsive:true
     });
 
-    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
-
     $("#tab-c-1").click(function(){
         if (!$.fn.dataTable.isDataTable('#bulanan')) {
-            var dtable1 = $('#bulanan').DataTable({
+            var dtable = $('#bulanan').DataTable({
                 serverSide: true,
                 ajax: {
                     url: "/rekap/pendapatan/bulanan",
@@ -58,16 +57,26 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2] }, 
                     { "bSearchable": false, "aTargets": [2] }
                 ],
+                scrollY: "50vh",
                 responsive:true
             });
-            
-            setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
+            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+            $('#refresh').click(function(){
+                $('#refresh-img').show();
+                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                }, 2000);
+            });
         }
     });
 
     $("#tab-c-2").click(function(){
         if (!$.fn.dataTable.isDataTable('#tahunan')) {
-            var dtable2 = $('#tahunan').DataTable({
+            var dtable = $('#tahunan').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -92,10 +101,33 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [2] }, 
                     { "bSearchable": false, "aTargets": [2] }
                 ],
+                scrollY: "50vh",
                 responsive:true
             });
-            setInterval(function(){ dtable2.ajax.reload(function(){}, false); }, 30000);
+            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+            $('#refresh').click(function(){
+                $('#refresh-img').show();
+                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                }, 2000);
+            });
         }
+    });
+    
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
     });
     
     $(document).on('click', '.harian', function(){

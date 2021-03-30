@@ -28,11 +28,14 @@
     <div class="col-xl-12">
         <div class="card shadow mb-4">
             <div class="card-body">
+                <div class="text-right">
+                    <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" width="100%" id="tabelPedagang">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:70%">Nama</th>
+                                <th class="text-center" style="min-width:100px;max-width:70%">Nama</th>
                                 <th class="text-center" style="max-width:15%">Action</th>
                                 <th class="text-center" style="max-width:15%">Details</th>
                             </tr>

@@ -17325,7 +17325,13 @@ button.bg-darker:focus
 {
     text-align: center !important;
     white-space: normal !important;
-    word-break: break-word;
+    word-break: break-word !important;
+    overflow-wrap: break-word;
+}
+
+.background-gray
+{
+    background-color: rgb(227, 227, 227, 0.4);
 }
 
 @media (min-width: 576px)

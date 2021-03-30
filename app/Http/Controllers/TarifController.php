@@ -40,7 +40,7 @@ class TarifController extends Controller
                         $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="keamananipk" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
-                        $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
+                        $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->editColumn('tarif', function ($data) {
@@ -62,7 +62,7 @@ class TarifController extends Controller
                         $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="kebersihan" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
-                        $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
+                        $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->editColumn('tarif', function ($data) {
@@ -84,7 +84,7 @@ class TarifController extends Controller
                         $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="airkotor" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
-                        $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
+                        $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->editColumn('tarif', function ($data) {
@@ -106,7 +106,7 @@ class TarifController extends Controller
                         $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="lain" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
-                        $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
+                        $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->editColumn('tarif', function ($data) {

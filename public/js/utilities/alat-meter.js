@@ -26,14 +26,24 @@ $(document).ready(function () {
             { "bSortable": false, "aTargets": [5] }, 
             { "bSearchable": false, "aTargets": [5] }
         ],
+        scrollY: "50vh",
         responsive:true
     });
-
-    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
+    });
 
     $("#tab-c-1").click(function(){
         if (!$.fn.dataTable.isDataTable('#tabelAlatAir')) {
-            var dtable1 = $('#tabelAlatAir').DataTable({
+            var dtable = $('#tabelAlatAir').DataTable({
                 serverSide: true,
                 ajax: {
                     url: "/utilities/alatmeter/air",
@@ -59,9 +69,20 @@ $(document).ready(function () {
                     { "bSortable": false, "aTargets": [4] }, 
                     { "bSearchable": false, "aTargets": [4] }
                 ],
+                scrollY: "50vh",
                 responsive:true
             });
-            setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
+            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+            $('#refresh').click(function(){
+                $('#refresh-img').show();
+                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                }, 2000);
+            });
         }
     });
 

@@ -27,44 +27,22 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [5,6] }, 
             { "bSearchable": false, "aTargets": [5,6] }
         ],
+        scrollY: "50vh",
         order:[[0, 'asc']],
         responsive:true
     });
 
-    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
-
-    var dtable1 = $('#tabelTempat1').DataTable({
-		serverSide: true,
-		ajax: {
-			url: "/tempatusaha",
-            cache:false,
-		},
-		columns: [
-			{ data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
-			{ data: 'pengguna', name: 'pengguna', class : 'text-center' },
-			{ data: 'lok_tempat', name: 'lok_tempat', class : 'text-center' },
-			{ data: 'jml_alamat', name: 'jml_alamat', class : 'text-center' },
-			{ data: 'bentuk_usaha', name: 'bentuk_usaha', class : 'text-center' },
-			{ data: 'show', name: 'show', class : 'text-center' }
-        ],
-        stateSave: true,
-        scrollX: true,
-        deferRender: true,
-        pageLength: 8,
-        language: {
-            paginate: {
-                previous: "<i class='fas fa-angle-left'>",
-                next: "<i class='fas fa-angle-right'>"
-            }
-        },
-        aoColumnDefs: [
-            { "bSortable": false, "aTargets": [5] }, 
-            { "bSearchable": false, "aTargets": [5] }
-        ],
-        order:[[0, 'asc']],
-        responsive:true
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
     });
-    setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
 
     //Search
     $('#meterAir').select2();

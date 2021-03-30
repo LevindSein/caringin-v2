@@ -13,6 +13,9 @@ use App\Http\Controllers\PedagangController;
 //Tempat Usaha
 use App\Http\Controllers\TempatController;
 
+//Tagihan
+use App\Http\Controllers\TagihanController;
+
 //Laporan
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PendapatanController;
@@ -152,6 +155,10 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
     Route::post('tempatusaha/update', [TempatController::class, 'update']);
     Route::get('tempatusaha/destroy/{id}', [TempatController::class, 'destroy']);
     Route::resource('tempatusaha', TempatController::class);
+});
+
+Route::middleware('ceklogin:tagihan')->group(function (){
+    Route::resource('tagihan', TagihanController::class);
 });
 
 Route::middleware('ceklogin:pemakaian')->group(function(){

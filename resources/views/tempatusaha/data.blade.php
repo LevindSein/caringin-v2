@@ -9,7 +9,9 @@
 @endsection
 
 @section('contents')
-@if(Session::get('role') == 'master' || Session::get('role') == 'admin')
+<div class="text-right">
+    <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+</div>
 <div class="table-responsive py-4">
     <table class="table table-flush" width="100%" id="tabelTempat">
         <thead class="thead-light">
@@ -25,22 +27,6 @@
         </thead>
     </table>
 </div>
-@else
-<div class="table-responsive py-4">
-    <table class="table table-flush" width="100%" id="tabelTempat1">
-        <thead class="thead-light">
-            <tr>
-                <th class="text-center" style="max-width:20%">Kontrol</th>
-                <th class="text-center" style="max-width:20%">Pengguna</th>
-                <th class="text-center" style="max-width:20%">Lokasi</th>
-                <th class="text-center" style="max-width:10%">Jml.Los</th>
-                <th class="text-center" style="max-width:20%">Usaha</th>
-                <th class="text-center" style="max-width:10%">Details</th>
-            </tr>
-        </thead>
-    </table>
-</div>
-@endif
 @endsection
 
 @section('modals')

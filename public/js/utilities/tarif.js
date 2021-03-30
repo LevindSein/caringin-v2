@@ -60,6 +60,7 @@ $(document).ready(function(){
     });
 
     $("#tab-c-2").click(function(){
+        $('#div-refresh').show();
         if (!$.fn.dataTable.isDataTable('#tabelKeamananIpk')) {
             var dtable = $('#tabelKeamananIpk').DataTable({
                 serverSide: true,
@@ -84,15 +85,27 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,4] }, 
                     { "bSearchable": false, "aTargets": [0,4] }
                 ],
+                scrollY: "50vh",
                 responsive:true
             });
-            setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
+            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+            $('#refresh').click(function(){
+                $('#refresh-img').show();
+                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                }, 2000);
+            });
         }
     });
 
     $("#tab-c-3").click(function(){
+        $('#div-refresh').show();
         if (!$.fn.dataTable.isDataTable('#tabelKebersihan')) {
-            var dtable1 = $('#tabelKebersihan').DataTable({
+            var dtable = $('#tabelKebersihan').DataTable({
                 serverSide: true,
                 ajax: '/utilities/tarif/kebersihan',
                 columns: [
@@ -113,15 +126,27 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
+                scrollY: "50vh",
                 responsive:true
             });
-            setInterval(function(){ dtable1.ajax.reload(function(){}, false); }, 30000);
+            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+            $('#refresh').click(function(){
+                $('#refresh-img').show();
+                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                }, 2000);
+            });
         }
     });
 
     $("#tab-c-4").click(function(){
+        $('#div-refresh').show();
         if (!$.fn.dataTable.isDataTable('#tabelAirKotor')) {
-            var dtable2 = $('#tabelAirKotor').DataTable({
+            var dtable = $('#tabelAirKotor').DataTable({
                 serverSide: true,
                 ajax: '/utilities/tarif/airkotor',
                 columns: [
@@ -142,15 +167,27 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
+                scrollY: "50vh",
                 responsive:true
             });
-            setInterval(function(){ dtable2.ajax.reload(function(){}, false); }, 30000);
+            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+            $('#refresh').click(function(){
+                $('#refresh-img').show();
+                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                }, 2000);
+            });
         }
     });
 
     $("#tab-c-6").click(function(){
+        $('#div-refresh').show();
         if (!$.fn.dataTable.isDataTable('#tabelLain')) {
-            var dtable3 = $('#tabelLain').DataTable({
+            var dtable = $('#tabelLain').DataTable({
                 serverSide: true,
                 ajax: '/utilities/tarif/lain',
                 columns: [
@@ -171,10 +208,29 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
+                scrollY: "50vh",
                 responsive:true
             });
-            setInterval(function(){ dtable3.ajax.reload(function(){}, false); }, 30000);
+            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+            $('#refresh').click(function(){
+                $('#refresh-img').show();
+                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                }, 2000);
+            });
         }
+    });
+    
+    $("#tab-c-0").click(function(){
+        $('#div-refresh').hide();
+    });
+    
+    $("#tab-c-1").click(function(){
+        $('#div-refresh').hide();
     });
 
     $('#add_tarif').click(function(){

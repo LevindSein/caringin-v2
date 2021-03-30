@@ -49,6 +49,9 @@
                         </li>
                     </ul>
                 </div>
+                <div class="text-right" id="div-refresh" style="display:none;">
+                    <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                </div>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-animated-0" role="tabpanel">
                         @include('utilities.tarif.listrik')

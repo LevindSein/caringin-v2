@@ -4,10 +4,10 @@
             <tr>
                 <th class="text-center" style="max-width:10%">Tgl.Bayar</th>
                 <th class="text-center" style="max-width:15%">Kontrol</th>
+                <th class="text-center" style="min-width:90px;max-width:20%">Pengguna</th>
                 <th class="text-center" style="max-width:15%">Tagihan</th>
                 <th class="text-center" style="max-width:15%">Realisasi</th>
                 <th class="text-center" style="max-width:15%">Selisih</th>
-                <th class="text-center" style="max-width:20%">Pengguna</th>
                 <th class="text-center" style="max-width:10%">Details</th>
             </tr>
         </thead>

@@ -37,6 +37,9 @@
                         <input type="submit" class="btn btn-sm btn-info" style="margin-top:-3px;" value="Cari"/>
                     </form>
                 </div>
+                <div class="text-right">
+                    <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" width="100%" id="tabel">
                         <thead class="thead-light">
@@ -177,12 +180,23 @@ $(document).ready(function () {
                 next: "<i class='fas fa-angle-right'>"
             }
         },
+        scrollY: "50vh",
         deferRender: true,
         pageLength: 8,
         responsive: true
     }).columns.adjust().draw();
 
-    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
+    });
     
     var restore_id
     $(document).on('click', '.restore', function(){

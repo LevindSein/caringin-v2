@@ -33,7 +33,7 @@ class AlatController extends Controller
                         $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->kode.'" fas="listrik" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
-                        $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
+                        $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->editColumn('akhir', function ($data) {
@@ -65,7 +65,7 @@ class AlatController extends Controller
                         $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->kode.'" fas="air" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
-                        $button = '<span style="color:#4e73df;"><i class="fas fa-ban"></i></span>';
+                        $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->editColumn('akhir', function ($data) {

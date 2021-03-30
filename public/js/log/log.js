@@ -20,10 +20,21 @@ $(document).ready(function(){
                 next: "<i class='fas fa-angle-right'>"
             }
         },
+        scrollY: "50vh",
         deferRender: true,
         pageLength: 8,
         responsive: true
     });
 
-    setInterval(function(){ dtable.ajax.reload(function(){}, false); }, 30000);
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
+    });
 });
