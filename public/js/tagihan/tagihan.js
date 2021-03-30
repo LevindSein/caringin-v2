@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    badge();
     var sync_text = '';
     var periode = '';
     var sync = '';
@@ -25,6 +26,22 @@ $(document).ready(function(){
             }
         }
     })
+
+    function badge(){
+        $.ajax({
+            url :"/tagihan/sync/badge",
+            cache:false,
+            dataType:"json",
+            success:function(data)
+            {
+                $('.badge-listrik').html(data.result.listrik);
+                $('.badge-air').html(data.result.air);
+            }
+        })
+    }
+    setInterval(function(){ 
+        badge()
+    }, 5000);
 
     $(document).on('click', '.synchronize', function(){
 		$('.titles').text("Sinkronisasi Tagihan Periode " + periode + " ?");

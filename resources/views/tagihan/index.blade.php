@@ -40,7 +40,7 @@
     <i class="fas fa-home text-gray"></i><span>Home</span>
 </a>
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
-    <button class="dropdown-item" name="add_listrik" id="add_listrik"><i class="fas fa-plus text-gray"></i><span>Tambah Listrik</span><span class="badge badge-pill badge-warning badge-air"></span></button>
+    <button class="dropdown-item" name="add_listrik" id="add_listrik"><i class="fas fa-plus text-gray"></i><span>Tambah Listrik</span><span class="badge badge-pill badge-warning badge-listrik"></span></button>
     <button class="dropdown-item" name="add_air" id="add_air"><i class="fas fa-plus text-gray"></i><span>Tambah Air</span><span class="badge badge-pill badge-primary badge-air"></span></button>
     <div class="dropdown-divider"></div>
     @endif
@@ -181,8 +181,17 @@ $(document).ready(function(){
         fixedColumns:   {
             "leftColumns": 2,
             "rightColumns": 3,
-        }
-    });
+        },
+        "preDrawCallback": function( settings ) {
+            scrollPosition = $(".dataTables_scrollBody").scrollTop();
+        },
+        "drawCallback": function( settings ) {
+            $(".dataTables_scrollBody").scrollTop(scrollPosition);
+            if(typeof rowIndex != 'undefined') {
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+            }
+        },
+    }).columns.adjust().draw();
     <?php } ?>
     
     <?php if($agent->isDesktop() == false){ ?>
@@ -212,8 +221,17 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [2,3] }, 
             { "bSearchable": false, "aTargets": [2,3] }
         ],
-        responsive: true
-    });
+        responsive: true,
+        "preDrawCallback": function( settings ) {
+            scrollPosition = $(".dataTables_scrollBody").scrollTop();
+        },
+        "drawCallback": function( settings ) {
+            $(".dataTables_scrollBody").scrollTop(scrollPosition);
+            if(typeof rowIndex != 'undefined') {
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+            }
+        },
+    }).columns.adjust().draw();
     <?php } ?>
 
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);

@@ -282,4 +282,31 @@ class TagihanController extends Controller
             }
         }
     }
+
+    public function badge(){
+        $data = array();
+        if(Session::get('role') == 'admin'){
+            $wherein = Session::get('otoritas')->otoritas;
+            $listrik = Tagihan::where([['tagihan.stt_listrik',0],['tempat_usaha.trf_listrik',1]])
+            ->leftJoin('tempat_usaha','tagihan.kd_kontrol','=','tempat_usaha.kd_kontrol')
+            ->whereIn('tagihan.blok',$wherein)
+            ->count();
+
+            $air = Tagihan::where([['tagihan.stt_airbersih',0],['tempat_usaha.trf_airbersih',1]])
+            ->leftJoin('tempat_usaha','tagihan.kd_kontrol','=','tempat_usaha.kd_kontrol')
+            ->whereIn('tagihan.blok',$wherein)
+            ->count();
+        }
+        else{
+            $listrik = Tagihan::where('stt_listrik',0)
+            ->count();
+            $air = Tagihan::where('stt_airbersih',0)
+            ->count();
+        }
+
+        $data['listrik'] = $listrik;
+        $data['air']     = $air;
+
+        return response()->json(['result' => $data]);
+    }
 }
