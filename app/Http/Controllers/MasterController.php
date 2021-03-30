@@ -616,39 +616,6 @@ class MasterController extends Controller
         }
     }
 
-    public function dataPerkiraan(Request $request){
-        $dataTahun = Tagihan::select('thn_tagihan')
-        ->groupBy('thn_tagihan')
-        ->get();
-
-        if(request()->ajax()){
-            $data = Perkiraan::orderBy('id','desc');
-            return DataTables::of($data)
-            ->addColumn('action', function($data){
-                $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
-                return $button;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-        }
-
-        return view('master.harian.perkiraan',[
-            'dataTahun' => $dataTahun
-        ]);
-    }
-
-    public function dataPerkiraanDestroy($id){
-        $data = Perkiraan::findOrFail($id);
-        try{
-            $data->delete();
-        }
-        catch(\Exception $e){
-            return response()->json(['error' => 'Data gagal dihapus.']);
-        }
-        return response()->json(['success' => 'Data berhasil dihapus.']);
-    }
-
     public function getsisa(Request $request){
         $bulan   = IndoDate::bulan(date('Y-m',strtotime(Carbon::now())),' ');
         

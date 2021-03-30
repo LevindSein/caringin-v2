@@ -34,34 +34,33 @@
 <a class="dropdown-toggle btn btn-sm btn-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
 <div class="dropdown-menu dropdown-menu-right">
     @if($agent->isMobile())
-    <a 
-    href="{{url('tagihan')}}"
-    class="dropdown-item">
-    <i class="fas fa-home text-gray"></i><span>Home</span>
-</a>
+    <a type="button" href="{{url('tagihan')}}" class="dropdown-item"><i class="fas fa-fw fa-home text-gray"></i><span>Home</span></a>
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
-    <button class="dropdown-item" name="add_listrik" id="add_listrik"><i class="fas fa-plus text-gray"></i><span>Tambah Listrik</span><span class="badge badge-pill badge-warning badge-listrik"></span></button>
-    <button class="dropdown-item" name="add_air" id="add_air"><i class="fas fa-plus text-gray"></i><span>Tambah Air</span><span class="badge badge-pill badge-primary badge-air"></span></button>
+    <button class="dropdown-item" name="add_listrik" id="add_listrik"><i class="fas fa-fw fa-plus text-gray"></i><span>Tambah Listrik</span><span class="badge badge-pill badge-warning badge-listrik"></span></button>
+    <button class="dropdown-item" name="add_air" id="add_air"><i class="fas fa-fw fa-plus text-gray"></i><span>Tambah Air</span><span class="badge badge-pill badge-primary badge-air"></span></button>
     <div class="dropdown-divider"></div>
     @endif
     @endif
 
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
-    <button
-        class="dropdown-item" 
-        id="sinkronisasi">
-        <i class="fas fa-sync text-gray"></i><span id="sinkronisasi-data"></span>
-    </button>
-    <a 
-        class="dropdown-item" 
-        id="tambah_manual"
-        href="#" 
-        data-toggle="modal" 
-        data-target="#myManual"
-        type="button">
-        <i class="fas fa-plus text-gray"></i><span>Manual</span>
-    </a>
+    <button class="dropdown-item" id="sinkronisasi"><i class="fas fa-fw fa-sync text-gray"></i><span id="sinkronisasi-data"></span></button>
+    <a class="dropdown-item" id="tambah_manual" href="#" data-toggle="modal" data-target="#myManual" type="button"><i class="fas fa-fw fa-plus text-gray"></i><span>Manual</span></a>
+    <a type="button" href="{{url('tagihan/penghapusan')}}" class="dropdown-item"><i class="fas fa-fw fa-eraser text-gray"></i><span>Penghapusan</span></a>
     <div class="dropdown-divider"></div>
+    @endif
+    
+    @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->publish))
+    <button class="dropdown-item" id="publish"><i class="fas fa-fw fa-paper-plane text-gray"></i><span>Publish Tagihan</span></button>
+    <div class="dropdown-divider"></div>
+    @endif
+
+    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal" type="button"><i class="fas fa-fw fa-search text-gray"></i><span>Cari Periode</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myTempat"><i class="far fa-fw fa-file text-gray"></i><span>Form Tagihan</span></a>
+    <a type="button" class="dropdown-item" href="{{url('tagihan/print')}}" target="_blank"><i class="far fa-fw fa-file text-gray"></i><span>Form Pendataan</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPemberitahuan"><i class="fas fa-fw fa-exclamation text-gray"></i><span>Pemberitahuan</span></a>
+    
+    @if(Session::get('role') == 'master')
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPembayaran"><i class="fas fa-fw fa-dollar-sign text-gray"></i><span>Pembayaran</span></a>
     @endif
 </div>
 @endsection
@@ -131,6 +130,96 @@
                 <div class="modal-footer">
                     <input type="hidden" name="sync_status" id="sync_status"/>
                     <input type="submit" name="sync_button" id="sync_button" class="btn btn-primary" value="Submit" />
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="confirmModal" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title titles">Apakah yakin hapus data tagihan?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_destroy">
+                @csrf
+                <div class="modal-body">Pilih Data Tagihan yang ingin dihapus, jika sudah yakin Klik "Hapus".<br><br>
+                    <div class="col-lg-12 justify-content-between" style="display:flex;flex-wrap:wrap;">
+                        <div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="checkListrik"
+                                    id="checkListrik"
+                                    value="listrik">
+                                <label class="form-control-label" for="checkListrik">
+                                    Listrik
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="checkAirBersih"
+                                    id="checkAirBersih"
+                                    value="airbersih">
+                                <label class="form-control-label" for="checkAirBersih">
+                                    Air Bersih
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="checkKeamananIpk"
+                                    id="checkKeamananIpk"
+                                    value="keamananipk">
+                                <label class="form-control-label" for="checkKeamananIpk">
+                                    Keamanan IPK
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="checkKebersihan"
+                                    id="checkKebersihan"
+                                    value="kebersihan">
+                                <label class="form-control-label" for="checkKebersihan">
+                                    Kebersihan
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="checkAirKotor"
+                                    id="checkAirKotor"
+                                    value="airkotor">
+                                <label class="form-control-label" for="checkAirKotor">
+                                    Air Kotor
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="checkLain"
+                                    id="checkLain"
+                                    value="lain">
+                                <label class="form-control-label" for="checkLain">
+                                    Lain Lain
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" name="ok_button" id="ok_button" class="btn btn-danger" value="Hapus" />
                     <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
                 </div>
             </form>
@@ -244,6 +333,113 @@ $(document).ready(function(){
             $('#refresh-data').text("Refresh Data");
             $('#refresh-img').hide();
         }, 2000);
+    });
+
+    var id_tagihan;
+    $(document).on('click', '.delete', function(){
+		id_tagihan = $(this).attr('id');
+		username = $(this).attr('nama');
+		$('.titles').text('Hapus data ' + username + ' ?');
+        $('#checkListrik').prop("disabled",false);
+        $('#checkAirBersih').prop("disabled",false);
+        $('#checkKeamananIpk').prop("disabled",false);
+        $('#checkKebersihan').prop("disabled",false);
+        $('#checkAirKotor').prop("disabled",false);
+        $('#checkLain').prop("disabled",false);
+        $('#checkListrik').prop("checked",false);
+        $('#checkAirBersih').prop("checked",false);
+        $('#checkKeamananIpk').prop("checked",false);
+        $('#checkKebersihan').prop("checked",false);
+        $('#checkAirKotor').prop("checked",false);
+        $('#checkLain').prop("checked",false);
+        $.ajax({
+			url:"/tagihan/destroy/edit/"+id_tagihan,
+            cache:false,
+            method:"get",
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.result.stt_listrik === null)
+                    $('#checkListrik').prop("disabled",true);
+
+                if(data.result.stt_airbersih === null)
+                    $('#checkAirBersih').prop("disabled",true);
+                
+                if(data.result.stt_keamananipk === null)
+                    $('#checkKeamananIpk').prop("disabled",true);
+                    
+                if(data.result.stt_kebersihan === null)
+                    $('#checkKebersihan').prop("disabled",true);
+                    
+                if(data.result.stt_airkotor === null)
+                    $('#checkAirKotor').prop("disabled",true);
+                
+                if(data.result.stt_lain === null)
+                    $('#checkLain').prop("disabled",true);
+            }
+        })
+		$('#confirmModal').modal('show');
+	});
+
+    $('#form_destroy').on('submit',function(e){
+        e.preventDefault();
+		$.ajax({
+			url:"/tagihan/destroy/"+id_tagihan,
+            cache:false,
+            method:"POST",
+			data:$(this).serialize(),
+			dataType:"json",
+			beforeSend:function(){
+				$('#ok_button').text('Menghapus...');
+			},
+			success:function(data)
+			{
+                $("#tabelTagihan").DataTable().ajax.reload(function(){}, false);
+                if(data.success)
+                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
+                if(data.errors)
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
+                $('#form_result').html(html);     
+                $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
+                });
+                $('#confirmModal').modal('hide');
+            },
+            complete:function(){
+                $('#ok_button').text('Hapus');
+            }
+        })
+    });
+
+    $(document).on('click', '.unpublish', function(){
+        id = $(this).attr('id');
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+		$.ajax({
+			url :"/tagihan/unpublish/"+id,
+            cache:false,
+			method:"POST",
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.errors){
+                    alert(data.errors);
+                }
+
+                if(data.unsuccess){
+                    alert(data.unsuccess);
+                }
+
+                if(data.success){
+                    $('#tabelTagihan').DataTable().ajax.reload(function(){}, false);
+                }
+            }
+        });
     });
 });
 </script>

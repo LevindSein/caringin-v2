@@ -11,6 +11,7 @@ class Penghapusan extends Model
     protected $table ='penghapusan';
     protected $fillable = [
         'id',
+        'no_faktur',
         'nama',
         'blok',
         'kd_kontrol',
@@ -21,6 +22,7 @@ class Penghapusan extends Model
         'tgl_expired',
         'stt_lunas',
         'stt_bayar',
+        'stt_prabayar',
         'awal_airbersih',
         'akhir_airbersih',
         'pakai_airbersih',
@@ -51,6 +53,7 @@ class Penghapusan extends Model
         'sel_listrik',
         'den_listrik',
         'jml_alamat',
+        'no_alamat',
         'sub_keamananipk',
         'dis_keamananipk',
         'ttl_keamananipk',
@@ -84,6 +87,13 @@ class Penghapusan extends Model
         'stt_lain',
         'ket',
         'via_tambah',
+        'stt_publish',
+        'via_publish',
+        'warna_airbersih',
+        'warna_listrik',
+        'review',
+        'reviewer',
+        'lok_tempat',
         'via_hapus',
         'updated_at',
         'created_at'

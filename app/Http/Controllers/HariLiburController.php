@@ -38,30 +38,33 @@ class HariLiburController extends Controller
         return view('utilities.hari-libur.index');
     }
 
-    public function store(Request $request){
-        $rules = array(
-            'tanggal' => 'required',
-            'ket'     => 'required'
-        );
+    public function store(Request $request)
+    {
+        if(request()->ajax()){
+            $rules = array(
+                'tanggal' => 'required',
+                'ket'     => 'required'
+            );
 
-        $error = Validator::make($request->all(), $rules);
+            $error = Validator::make($request->all(), $rules);
 
-        if($error->fails())
-        {
-            return response()->json(['errors' => 'Data Gagal Ditambah.']);
-        }
+            if($error->fails())
+            {
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
 
-        $data = [
-            'tanggal' => $request->tanggal,
-            'ket'     => ucwords($request->ket),
-        ];
+            $data = [
+                'tanggal' => $request->tanggal,
+                'ket'     => ucwords($request->ket),
+            ];
 
-        try{
-            HariLibur::create($data);
-            return response()->json(['success' => 'Data Tanggal Berhasil Ditambah']);  
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            try{
+                HariLibur::create($data);
+                return response()->json(['success' => 'Data Tanggal Berhasil Ditambah']);  
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
         }
     }
 
@@ -73,41 +76,47 @@ class HariLiburController extends Controller
         }
     }
 
-    public function update(Request $request, HariLibur $harilibur){
-        $rules = array(
-            'tanggal' => 'required',
-            'ket'     => 'required'
-        );
+    public function update(Request $request, HariLibur $harilibur)
+    {
+        if(request()->ajax()){
+            $rules = array(
+                'tanggal' => 'required',
+                'ket'     => 'required'
+            );
 
-        $error = Validator::make($request->all(), $rules);
+            $error = Validator::make($request->all(), $rules);
 
-        if($error->fails())
-        {
-            return response()->json(['errors' => 'Data Gagal Ditambah.']);
-        }
+            if($error->fails())
+            {
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
 
-        $data = [
-            'tanggal' => $request->tanggal,
-            'ket'     => ucwords($request->ket),
-        ];
+            $data = [
+                'tanggal' => $request->tanggal,
+                'ket'     => ucwords($request->ket),
+            ];
 
-        try{
-            HariLibur::whereId($request->hidden_id)->update($data);
-            return response()->json(['success' => 'Data Berhasil Diupdate.']);
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Data Gagal Diupdate.']);
+            try{
+                HariLibur::whereId($request->hidden_id)->update($data);
+                return response()->json(['success' => 'Data Berhasil Diupdate.']);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Data Gagal Diupdate.']);
+            }
         }
     }
 
-    public function destroy($id){
-        try{
-            $tanggal = HariLibur::find($id);
-            $tanggal->delete();
-            return response()->json(['success' => 'Data telah dihapus.']);
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Data gagal dihapus.']);
+    public function destroy($id)
+    {
+        if(request()->ajax()){
+            try{
+                $tanggal = HariLibur::find($id);
+                $tanggal->delete();
+                return response()->json(['success' => 'Data telah dihapus.']);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Data gagal dihapus.']);
+            }
         }
     }
 }

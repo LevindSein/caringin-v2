@@ -226,13 +226,15 @@ class InformationController extends Controller
      */
     public function destroy($id)
     {
-        $data = Information::findOrFail($id);
-        try{
-            $data->delete();
-            return response()->json(['success' => 'Data telah dihapus.']);
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Data gagal dihapus.']);
+        if(request()->ajax()){
+            $data = Information::findOrFail($id);
+            try{
+                $data->delete();
+                return response()->json(['success' => 'Data telah dihapus.']);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Data gagal dihapus.']);
+            }
         }
     }
 }

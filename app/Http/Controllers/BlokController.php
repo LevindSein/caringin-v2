@@ -48,26 +48,28 @@ class BlokController extends Controller
     }
 
     public function store(Request $request){
-        $rules = array(
-            'blokInput' => 'required'
-        );
+        if(request()->ajax()){
+            $rules = array(
+                'blokInput' => 'required'
+            );
 
-        $error = Validator::make($request->all(), $rules);
+            $error = Validator::make($request->all(), $rules);
 
-        if($error->fails())
-        {
-            return response()->json(['errors' => 'Data Gagal Ditambah.']);
-        }
+            if($error->fails())
+            {
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
 
-        try{
-            $blok = new Blok;
-            $blok->nama = strtoupper($request->blokInput);
-            $blok->save();
+            try{
+                $blok = new Blok;
+                $blok->nama = strtoupper($request->blokInput);
+                $blok->save();
 
-            return response()->json(['success' => 'Data Blok Berhasil Ditambah']);  
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Data Gagal Ditambah.']);
+                return response()->json(['success' => 'Data Blok Berhasil Ditambah']);  
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
         }
     }
 
@@ -80,109 +82,112 @@ class BlokController extends Controller
     }
 
     public function update(Request $request, Blok $blok){
-        $rules = array(
-            'blokInput' => 'required'
-        );
+        if(request()->ajax()){
+            $rules = array(
+                'blokInput' => 'required'
+            );
 
-        $error = Validator::make($request->all(), $rules);
+            $error = Validator::make($request->all(), $rules);
 
-        if($error->fails())
-        {
-            return response()->json(['errors' => 'Data Gagal Diupdate.']);
+            if($error->fails())
+            {
+                return response()->json(['errors' => 'Data Gagal Diupdate.']);
+            }
+
+            try{
+                $blok = Blok::find($request->hidden_id);
+                $blokLama = $blok->nama;
+                $nama = strtoupper($request->blokInput);
+                $blok->nama = $nama;
+
+                $blok->save();
+
+                $tempat = TempatUsaha::where('blok',$blokLama)->get();
+                $tagihan = Tagihan::where('blok',$blokLama)->get();
+                $penghapusan = Penghapusan::where('blok',$blokLama)->get();
+                $pembayaran = Pembayaran::where('blok',$blokLama)->get();
+                $pasangalat = PasangAlat::where('blok',$blokLama)->get();
+                
+                if($tempat != NULL){
+                    foreach($tempat as $t){
+                        $kontrol = $t->kd_kontrol;
+                        $pattern = '/'.$blokLama.'/i';
+                        $kontrol = preg_replace($pattern, $nama, $kontrol);
+                        $t->kd_kontrol = $kontrol;
+                        $t->blok = $nama;
+                        $t->save();
+                    }
+                }
+
+                if($tagihan != NULL){
+                    foreach($tagihan as $t){
+                        $kontrol = $t->kd_kontrol;
+                        $pattern = '/'.$blokLama.'/i';
+                        $kontrol = preg_replace($pattern, $nama, $kontrol);
+                        $t->kd_kontrol = $kontrol;
+                        $t->blok = $nama;
+                        $t->save();
+                    }
+                }
+
+                if($penghapusan != NULL){
+                    foreach($penghapusan as $t){
+                        $kontrol = $t->kd_kontrol;
+                        $pattern = '/'.$blokLama.'/i';
+                        $kontrol = preg_replace($pattern, $nama, $kontrol);
+                        $t->kd_kontrol = $kontrol;
+                        $t->blok = $nama;
+                        $t->save();
+                    }
+                }
+                
+                if($pembayaran != NULL){
+                    foreach($pembayaran as $t){
+                        $kontrol = $t->kd_kontrol;
+                        $pattern = '/'.$blokLama.'/i';
+                        $kontrol = preg_replace($pattern, $nama, $kontrol);
+                        $t->kd_kontrol = $kontrol;
+                        $t->blok = $nama;
+                        $t->save();
+                    }
+                }
+
+                if($pasangalat != NULL){
+                    foreach($pasangalat as $t){
+                        $kontrol = $t->kd_kontrol;
+                        $pattern = '/'.$blokLama.'/i';
+                        $kontrol = preg_replace($pattern, $nama, $kontrol);
+                        $t->kd_kontrol = $kontrol;
+                        $t->blok = $nama;
+                        $t->save();
+                    }
+                }
+
+                return response()->json(['success' => 'Data Berhasil Diupdate.']);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Data Gagal Diupdate.']);
+            }
         }
-
-        try{
-            $blok = Blok::find($request->hidden_id);
-            $blokLama = $blok->nama;
-            $nama = strtoupper($request->blokInput);
-            $blok->nama = $nama;
-
-            $blok->save();
-
-            $tempat = TempatUsaha::where('blok',$blokLama)->get();
-            $tagihan = Tagihan::where('blok',$blokLama)->get();
-            $penghapusan = Penghapusan::where('blok',$blokLama)->get();
-            $pembayaran = Pembayaran::where('blok',$blokLama)->get();
-            $pasangalat = PasangAlat::where('blok',$blokLama)->get();
-            
-            if($tempat != NULL){
-                foreach($tempat as $t){
-                    $kontrol = $t->kd_kontrol;
-                    $pattern = '/'.$blokLama.'/i';
-                    $kontrol = preg_replace($pattern, $nama, $kontrol);
-                    $t->kd_kontrol = $kontrol;
-                    $t->blok = $nama;
-                    $t->save();
-                }
-            }
-
-            if($tagihan != NULL){
-                foreach($tagihan as $t){
-                    $kontrol = $t->kd_kontrol;
-                    $pattern = '/'.$blokLama.'/i';
-                    $kontrol = preg_replace($pattern, $nama, $kontrol);
-                    $t->kd_kontrol = $kontrol;
-                    $t->blok = $nama;
-                    $t->save();
-                }
-            }
-
-            if($penghapusan != NULL){
-                foreach($penghapusan as $t){
-                    $kontrol = $t->kd_kontrol;
-                    $pattern = '/'.$blokLama.'/i';
-                    $kontrol = preg_replace($pattern, $nama, $kontrol);
-                    $t->kd_kontrol = $kontrol;
-                    $t->blok = $nama;
-                    $t->save();
-                }
-            }
-            
-            if($pembayaran != NULL){
-                foreach($pembayaran as $t){
-                    $kontrol = $t->kd_kontrol;
-                    $pattern = '/'.$blokLama.'/i';
-                    $kontrol = preg_replace($pattern, $nama, $kontrol);
-                    $t->kd_kontrol = $kontrol;
-                    $t->blok = $nama;
-                    $t->save();
-                }
-            }
-
-            if($pasangalat != NULL){
-                foreach($pasangalat as $t){
-                    $kontrol = $t->kd_kontrol;
-                    $pattern = '/'.$blokLama.'/i';
-                    $kontrol = preg_replace($pattern, $nama, $kontrol);
-                    $t->kd_kontrol = $kontrol;
-                    $t->blok = $nama;
-                    $t->save();
-                }
-            }
-
-            return response()->json(['success' => 'Data Berhasil Diupdate.']);
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Data Gagal Diupdate.']);
-        }
-
     }
 
     public function destroy($id){
-        try{
-            $blok = Blok::find($id);
-            $nama = $blok->nama;
-            $pengguna = Tempatusaha::where('blok',$nama)->count();
-            if($pengguna != 0 || $pengguna != NULL){
+        if(request()->ajax()){
+            try{
+                $blok = Blok::find($id);
+                $nama = $blok->nama;
+                $pengguna = Tempatusaha::where('blok',$nama)->count();
+                if($pengguna != 0 || $pengguna != NULL){
+                    return response()->json(['errors' => 'Data gagal dihapus.']);
+                }
+                else{
+                    $blok->delete();
+                    return response()->json(['success' => 'Data telah dihapus.']);
+                }
+            }
+            catch(\Exception $e){
                 return response()->json(['errors' => 'Data gagal dihapus.']);
             }
-            else{
-                $blok->delete();
-                return response()->json(['success' => 'Data telah dihapus.']);
-            }
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Data gagal dihapus.']);
         }
     }
 }

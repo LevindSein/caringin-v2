@@ -81,80 +81,82 @@ class AlatController extends Controller
     }
 
     public function store(Request $request){
-        if($request->radioMeter == 'listrik'){
-            $rules = array(
-                'standListrik' => 'required',
-                'dayaListrik'  => 'required'
-            );
-            $role = 'listrik';
-        }
-        else{
-            $rules = array(
-                'standAir' => 'required'
-            );
-            $role = 'air';
-        }
-
-        $error = Validator::make($request->all(), $rules);
-
-        if($error->fails())
-        {
-            return response()->json(['errors' => 'Data Gagal Ditambah.']);
-        }
-
-        if($request->nomor == null){
-            $nomor = NULL;
-        }
-        else{
-            $nomor = $request->nomor;
-            $nomor = strtoupper($nomor);
-        }
-        
-        $dataset = array();
-        $kode = str_shuffle('0123456789');
-        $kode = substr($kode,0,5);
-
-        try{
+        if(request()->ajax()){
             if($request->radioMeter == 'listrik'){
-                $akhir = explode(',',$request->standListrik);
-                $akhir = implode('',$akhir);
-                $daya = explode(',',$request->dayaListrik);
-                $daya = implode('',$daya);
-                $data = [
-                    'kode'      => 'ML'.$kode,
-                    'nomor'     => $nomor,
-                    'akhir'     => $akhir,
-                    'daya'      => $daya,
-                    'stt_sedia' => 0,
-                    'stt_bayar' => 0
-                ];
-
-                AlatListrik::create($data);
+                $rules = array(
+                    'standListrik' => 'required',
+                    'dayaListrik'  => 'required'
+                );
+                $role = 'listrik';
+            }
+            else{
+                $rules = array(
+                    'standAir' => 'required'
+                );
+                $role = 'air';
             }
 
-            if($request->radioMeter == 'air'){
-                $akhir = explode(',',$request->standAir);
-                $akhir = implode('',$akhir);
-                $data = [
-                    'kode'      => 'MA'.$kode,
-                    'nomor'     => $nomor,
-                    'akhir'     => $akhir,
-                    'stt_sedia' => 0,
-                    'stt_bayar' => 0
-                ];
+            $error = Validator::make($request->all(), $rules);
 
-                AlatAir::create($data);
+            if($error->fails())
+            {
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
             }
-            $dataset['status'] = 'success';
-            $dataset['message'] = 'Data Berhasil Ditambah';
-            $dataset['role'] = $role;
-            return response()->json(['result' => $dataset]);  
-        }
-        catch(\Exception $e){
-            $dataset['status'] = 'error';
-            $dataset['message'] = 'Data Gagal Ditambah';
-            $dataset['role'] = $role;
-            return response()->json(['result' => $dataset]);
+
+            if($request->nomor == null){
+                $nomor = NULL;
+            }
+            else{
+                $nomor = $request->nomor;
+                $nomor = strtoupper($nomor);
+            }
+            
+            $dataset = array();
+            $kode = str_shuffle('0123456789');
+            $kode = substr($kode,0,5);
+
+            try{
+                if($request->radioMeter == 'listrik'){
+                    $akhir = explode(',',$request->standListrik);
+                    $akhir = implode('',$akhir);
+                    $daya = explode(',',$request->dayaListrik);
+                    $daya = implode('',$daya);
+                    $data = [
+                        'kode'      => 'ML'.$kode,
+                        'nomor'     => $nomor,
+                        'akhir'     => $akhir,
+                        'daya'      => $daya,
+                        'stt_sedia' => 0,
+                        'stt_bayar' => 0
+                    ];
+
+                    AlatListrik::create($data);
+                }
+
+                if($request->radioMeter == 'air'){
+                    $akhir = explode(',',$request->standAir);
+                    $akhir = implode('',$akhir);
+                    $data = [
+                        'kode'      => 'MA'.$kode,
+                        'nomor'     => $nomor,
+                        'akhir'     => $akhir,
+                        'stt_sedia' => 0,
+                        'stt_bayar' => 0
+                    ];
+
+                    AlatAir::create($data);
+                }
+                $dataset['status'] = 'success';
+                $dataset['message'] = 'Data Berhasil Ditambah';
+                $dataset['role'] = $role;
+                return response()->json(['result' => $dataset]);  
+            }
+            catch(\Exception $e){
+                $dataset['status'] = 'error';
+                $dataset['message'] = 'Data Gagal Ditambah';
+                $dataset['role'] = $role;
+                return response()->json(['result' => $dataset]);
+            }
         }
     }
 
@@ -173,96 +175,100 @@ class AlatController extends Controller
     }
 
     public function update(Request $request){
-        if($request->radioMeter == 'listrik'){
-            $rules = array(
-                'standListrik' => 'required',
-                'dayaListrik'  => 'required'
-            );
-            $role = 'listrik';
-        }
-        else{
-            $rules = array(
-                'standAir' => 'required'
-            );
-            $role = 'air';
-        }
-
-        $error = Validator::make($request->all(), $rules);
-
-        if($error->fails())
-        {
-            return response()->json(['errors' => 'Data Gagal Diupdate.']);
-        }
-
-        if($request->nomor == null){
-            $nomor = NULL;
-        }
-        else{
-            $nomor = $request->nomor;
-            $nomor = strtoupper($nomor);
-        }
-        
-        $dataset = array();
-
-        try{
+        if(request()->ajax()){
             if($request->radioMeter == 'listrik'){
-                $akhir = explode(',',$request->standListrik);
-                $akhir = implode('',$akhir);
-                $daya = explode(',',$request->dayaListrik);
-                $daya = implode('',$daya);
-                $data = [
-                    'nomor'     => $nomor,
-                    'akhir'     => $akhir,
-                    'daya'      => $daya
-                ];
-
-                AlatListrik::whereId($request->hidden_id)->update($data);
+                $rules = array(
+                    'standListrik' => 'required',
+                    'dayaListrik'  => 'required'
+                );
+                $role = 'listrik';
+            }
+            else{
+                $rules = array(
+                    'standAir' => 'required'
+                );
+                $role = 'air';
             }
 
-            if($request->radioMeter == 'air'){
-                $akhir = explode(',',$request->standAir);
-                $akhir = implode('',$akhir);
-                $data = [
-                    'nomor'     => $nomor,
-                    'akhir'     => $akhir
-                ];
+            $error = Validator::make($request->all(), $rules);
 
-                AlatAir::whereId($request->hidden_id)->update($data);
+            if($error->fails())
+            {
+                return response()->json(['errors' => 'Data Gagal Diupdate.']);
             }
-            $dataset['status'] = 'success';
-            $dataset['message'] = 'Data Berhasil Diupdate';
-            $dataset['role'] = $role;
-            return response()->json(['result' => $dataset]);  
-        }
-        catch(\Exception $e){
-            $dataset['status'] = 'error';
-            $dataset['message'] = 'Data Gagal Diupdate';
-            $dataset['role'] = $role;
-            return response()->json(['result' => $dataset]);
+
+            if($request->nomor == null){
+                $nomor = NULL;
+            }
+            else{
+                $nomor = $request->nomor;
+                $nomor = strtoupper($nomor);
+            }
+            
+            $dataset = array();
+
+            try{
+                if($request->radioMeter == 'listrik'){
+                    $akhir = explode(',',$request->standListrik);
+                    $akhir = implode('',$akhir);
+                    $daya = explode(',',$request->dayaListrik);
+                    $daya = implode('',$daya);
+                    $data = [
+                        'nomor'     => $nomor,
+                        'akhir'     => $akhir,
+                        'daya'      => $daya
+                    ];
+
+                    AlatListrik::whereId($request->hidden_id)->update($data);
+                }
+
+                if($request->radioMeter == 'air'){
+                    $akhir = explode(',',$request->standAir);
+                    $akhir = implode('',$akhir);
+                    $data = [
+                        'nomor'     => $nomor,
+                        'akhir'     => $akhir
+                    ];
+
+                    AlatAir::whereId($request->hidden_id)->update($data);
+                }
+                $dataset['status'] = 'success';
+                $dataset['message'] = 'Data Berhasil Diupdate';
+                $dataset['role'] = $role;
+                return response()->json(['result' => $dataset]);  
+            }
+            catch(\Exception $e){
+                $dataset['status'] = 'error';
+                $dataset['message'] = 'Data Gagal Diupdate';
+                $dataset['role'] = $role;
+                return response()->json(['result' => $dataset]);
+            }
         }
     }
 
     public function destroy($fasilitas, $id){
-        if($fasilitas == 'listrik'){
-            $data = AlatListrik::find($id);
-            $role = 'listrik';
-        }
-        else{
-            $data = AlatAir::find($id);
-            $role = 'air';
-        }
+        if(request()->ajax()){
+            if($fasilitas == 'listrik'){
+                $data = AlatListrik::find($id);
+                $role = 'listrik';
+            }
+            else{
+                $data = AlatAir::find($id);
+                $role = 'air';
+            }
 
-        $dataset = array();
-        try{
-            $dataset['success'] = 'Data telah dihapus';
-            $dataset['role'] = $role;
-            $data->delete();
-            return response()->json(['result' => $dataset]);
-        }
-        catch(\Exception $e){
-            $dataset['errors'] = 'Data gagal dihapus';
-            $dataset['role'] = '';
-            return response()->json(['result' => $dataset]);
+            $dataset = array();
+            try{
+                $dataset['success'] = 'Data telah dihapus';
+                $dataset['role'] = $role;
+                $data->delete();
+                return response()->json(['result' => $dataset]);
+            }
+            catch(\Exception $e){
+                $dataset['errors'] = 'Data gagal dihapus';
+                $dataset['role'] = '';
+                return response()->json(['result' => $dataset]);
+            }
         }
     }
 

@@ -158,6 +158,10 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 });
 
 Route::middleware('ceklogin:tagihan')->group(function (){
+    Route::post('tagihan/unpublish/{id}', [TagihanController::class, 'unpublish']);
+    Route::get('tagihan/penghapusan', [TagihanController::class, 'penghapusan']);
+    Route::get('tagihan/destroy/edit/{id}', [TagihanController::class, 'destroyEdit']);
+    Route::post('tagihan/destroy/{id}', [TagihanController::class, 'destroy']);
     Route::post('tagihan/sync/synchronize/{tanggal}',[TagihanController::class, 'synchronize']);
     Route::post('tagihan/sync/unsynchronize/{tanggal}',[TagihanController::class, 'unsynchronize']);
     Route::get('tagihan/sync/initiate',[TagihanController::class, 'initiate']);
@@ -222,10 +226,6 @@ Route::middleware('ceklogin:simulasi')->group(function(){
 
 Route::middleware('ceklogin:master')->group(function(){
     Route::get('master/kasir/sisa',[MasterController::class, 'getsisa']);
-
-    Route::get('master/kasir/harian/data/perkiraan',[MasterController::class, 'dataPerkiraan']);
-    Route::get('master/kasir/harian/data/perkiraan/destroy/{id}',[MasterController::class, 'dataPerkiraanDestroy']);
-
     Route::get('master/kasir', [MasterController::class, 'kasir']);
     Route::post('master/kasir/restore/{id}', [MasterController::class, 'kasirRestore']);
     Route::post('master/kasir/edit', [MasterController::class, 'kasirEdit']);

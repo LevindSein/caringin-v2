@@ -141,60 +141,62 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = array(
-            'ktp'      => 'required',
-            'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
-            'username' => 'required',
-            'password' => 'required',
-            'hp'       => 'required',
-            'role'     => 'required',
-        );
+        if(request()->ajax()){
+            $rules = array(
+                'ktp'      => 'required',
+                'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
+                'username' => 'required',
+                'password' => 'required',
+                'hp'       => 'required',
+                'role'     => 'required',
+            );
 
-        $error = Validator::make($request->all(), $rules);
+            $error = Validator::make($request->all(), $rules);
 
-        $dataset = array();
+            $dataset = array();
 
-        if($error->fails())
-        {
-            $dataset['status'] = 'error';
-            $dataset['message'] = 'Data Gagal Ditambah';
-            return response()->json(['result' => $dataset]);
-        }
+            if($error->fails())
+            {
+                $dataset['status'] = 'error';
+                $dataset['message'] = 'Data Gagal Ditambah';
+                return response()->json(['result' => $dataset]);
+            }
 
-        $data = [
-            'ktp'      => $request->ktp,
-            'nama'     => ucwords($request->nama),
-            'username' => strtolower($request->username),
-            'password' => sha1(md5(hash('gost',$request->password))),
-            'email'    => strtolower($request->email.'@gmail.com'),
-            'role'     => $request->role,
-        ];
-       
-        if($request->email == NULL) {
-            $data['email'] = NULL;
-        }
+            $data = [
+                'ktp'      => $request->ktp,
+                'nama'     => ucwords($request->nama),
+                'username' => strtolower($request->username),
+                'password' => sha1(md5(hash('gost',$request->password))),
+                'email'    => strtolower($request->email.'@gmail.com'),
+                'role'     => $request->role,
+            ];
         
-        if($request->hp[0] == '0') {
-            $hp = '62'.substr($request->hp,1);
-            $data['hp'] = $hp;
-        }
-        else{
-            $hp = '62'.$request->hp;
-            $data['hp'] = $hp;
-        }
+            if($request->email == NULL) {
+                $data['email'] = NULL;
+            }
+            
+            if($request->hp[0] == '0') {
+                $hp = '62'.substr($request->hp,1);
+                $data['hp'] = $hp;
+            }
+            else{
+                $hp = '62'.$request->hp;
+                $data['hp'] = $hp;
+            }
 
-        try{
-            $dataset['status'] = 'success';
-            $dataset['message'] = 'Data Berhasil Ditambah';
-            $dataset['role'] = $request->role;
-            User::create($data);
+            try{
+                $dataset['status'] = 'success';
+                $dataset['message'] = 'Data Berhasil Ditambah';
+                $dataset['role'] = $request->role;
+                User::create($data);
 
-            return response()->json(['result' => $dataset]);
-        }
-        catch(\Exception $e){
-            $dataset['status'] = 'error';
-            $dataset['message'] = 'Data Gagal Ditambah';
-            return response()->json(['result' => $dataset]);
+                return response()->json(['result' => $dataset]);
+            }
+            catch(\Exception $e){
+                $dataset['status'] = 'error';
+                $dataset['message'] = 'Data Gagal Ditambah';
+                return response()->json(['result' => $dataset]);
+            }
         }
     }
 
@@ -246,65 +248,67 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $rules = array(
-            'ktp'      => 'required',
-            'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
-            'username' => 'required',
-            'hp'       => 'required',
-            'role'     => 'required',
-        );
+        if(request()->ajax()){
+            $rules = array(
+                'ktp'      => 'required',
+                'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
+                'username' => 'required',
+                'hp'       => 'required',
+                'role'     => 'required',
+            );
 
-        $error = Validator::make($request->all(), $rules);
+            $error = Validator::make($request->all(), $rules);
 
-        $dataset = array();
+            $dataset = array();
 
-        if($error->fails())
-        {
-            $dataset['status'] = 'error';
-            $dataset['message'] = 'Data Gagal Diupdate';
-            return response()->json(['result' => $dataset]);
-        }
-
-        $data = [
-            'ktp'      => $request->ktp,
-            'nama'     => ucwords($request->nama),
-            'username' => strtolower($request->username),
-            'email'    => strtolower($request->email.'@gmail.com'),
-            'role'     => $request->role,
-        ];
-       
-        if($request->email == NULL) {
-            $data['email'] = NULL;
-        }
-        
-        if($request->hp[0] == '0') {
-            $hp = '62'.substr($request->hp,1);
-            $data['hp'] = $hp;
-        }
-        else{
-            $hp = '62'.$request->hp;
-            $data['hp'] = $hp;
-        }
-
-        try{
-            $dataset['status'] = 'success';
-            $dataset['message'] = 'Data Berhasil Diupdate';
-            $dataset['role'] = $request->role;
-
-            User::whereId($request->hidden_id)->update($data);
-
-            if($request->role != 'admin'){
-                $user = User::find($request->hidden_id);
-                $user->otoritas = NULL;
-                $user->save();
+            if($error->fails())
+            {
+                $dataset['status'] = 'error';
+                $dataset['message'] = 'Data Gagal Diupdate';
+                return response()->json(['result' => $dataset]);
             }
 
-            return response()->json(['result' => $dataset]);
-        }
-        catch(\Exception $e){
-            $dataset['status'] = 'error';
-            $dataset['message'] = 'Data Gagal Diupdate';
-            return response()->json(['result' => $dataset]);
+            $data = [
+                'ktp'      => $request->ktp,
+                'nama'     => ucwords($request->nama),
+                'username' => strtolower($request->username),
+                'email'    => strtolower($request->email.'@gmail.com'),
+                'role'     => $request->role,
+            ];
+        
+            if($request->email == NULL) {
+                $data['email'] = NULL;
+            }
+            
+            if($request->hp[0] == '0') {
+                $hp = '62'.substr($request->hp,1);
+                $data['hp'] = $hp;
+            }
+            else{
+                $hp = '62'.$request->hp;
+                $data['hp'] = $hp;
+            }
+
+            try{
+                $dataset['status'] = 'success';
+                $dataset['message'] = 'Data Berhasil Diupdate';
+                $dataset['role'] = $request->role;
+
+                User::whereId($request->hidden_id)->update($data);
+
+                if($request->role != 'admin'){
+                    $user = User::find($request->hidden_id);
+                    $user->otoritas = NULL;
+                    $user->save();
+                }
+
+                return response()->json(['result' => $dataset]);
+            }
+            catch(\Exception $e){
+                $dataset['status'] = 'error';
+                $dataset['message'] = 'Data Gagal Diupdate';
+                return response()->json(['result' => $dataset]);
+            }
         }
     }
 
@@ -316,19 +320,21 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $data = User::findOrFail($id);
-        $dataset = array();
-        try{
-            $role = $data->role;
-            $dataset['success'] = 'Data telah dihapus';
-            $dataset['role'] = $role;
-            $data->delete();
-            return response()->json(['result' => $dataset]);
-        }
-        catch(\Exception $e){
-            $dataset['errors'] = 'Data gagal dihapus';
-            $dataset['role'] = '';
-            return response()->json(['result' => $dataset]);
+        if(request()->ajax()){
+            $data = User::findOrFail($id);
+            $dataset = array();
+            try{
+                $role = $data->role;
+                $dataset['success'] = 'Data telah dihapus';
+                $dataset['role'] = $role;
+                $data->delete();
+                return response()->json(['result' => $dataset]);
+            }
+            catch(\Exception $e){
+                $dataset['errors'] = 'Data gagal dihapus';
+                $dataset['role'] = '';
+                return response()->json(['result' => $dataset]);
+            }
         }
     }
     
@@ -404,34 +410,36 @@ class UserController extends Controller
      */
     public function otoritas(Request $request)
     {
-        $pilihanKelola = array('pedagang','tempatusaha','tagihan','blok','pemakaian','pendapatan','datausaha','publish','alatmeter','tarif','harilibur','layanan','simulasi');
+        if(request()->ajax()){
+            $pilihanKelola = array('pedagang','tempatusaha','tagihan','blok','pemakaian','pendapatan','datausaha','publish','alatmeter','tarif','harilibur','layanan','simulasi');
 
-        $kelola = array();
-        $kelola['otoritas'] = $request->blokOtoritas;
+            $kelola = array();
+            $kelola['otoritas'] = $request->blokOtoritas;
 
-        try{
-            if($request->blokOtoritas != NULL){
-                for($i=0; $i<count($pilihanKelola); $i++){
-                    if(in_array($pilihanKelola[$i],$request->kelola)){
-                        $kelola[$pilihanKelola[$i]] = true;
+            try{
+                if($request->blokOtoritas != NULL){
+                    for($i=0; $i<count($pilihanKelola); $i++){
+                        if(in_array($pilihanKelola[$i],$request->kelola)){
+                            $kelola[$pilihanKelola[$i]] = true;
+                        }
+                        else{
+                            $kelola[$pilihanKelola[$i]] = false;
+                        }
                     }
-                    else{
-                        $kelola[$pilihanKelola[$i]] = false;
-                    }
+            
+                    $json = json_encode($kelola);
                 }
-        
-                $json = json_encode($kelola);
+                else{
+                    $json = NULL;
+                }
+                $data = User::find($request->hidden_id_otoritas);
+                $data->otoritas = $json;
+                $data->save();
+                return response()->json(['success' => 'Otoritas Berhasil Diupdate.']);
             }
-            else{
-                $json = NULL;
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Otoritas Gagal Diupdate.']);
             }
-            $data = User::find($request->hidden_id_otoritas);
-            $data->otoritas = $json;
-            $data->save();
-            return response()->json(['success' => 'Otoritas Berhasil Diupdate.']);
-        }
-        catch(\Exception $e){
-            return response()->json(['errors' => 'Otoritas Gagal Diupdate.']);
         }
     }
 }
