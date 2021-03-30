@@ -115,4 +115,81 @@ $(document).ready(function(){
             }
         });
     });
+
+    var id_tagihan;
+    $(document).on('click', '.report', function(){
+		id_tagihan = $(this).attr('id');
+		username = $(this).attr('nama');
+		$('.titles').text('Kirim Notifikasi ' + username);
+        $('#notifListrik').prop("disabled",false);
+        $('#notifAirBersih').prop("disabled",false);
+        $('#notifKeamananIpk').prop("disabled",false);
+        $('#notifKebersihan').prop("disabled",false);
+        $('#notifAirKotor').prop("disabled",false);
+        $('#notifLain').prop("disabled",false);
+        $('#notifListrik').prop("checked",false);
+        $('#notifAirBersih').prop("checked",false);
+        $('#notifKeamananIpk').prop("checked",false);
+        $('#notifKebersihan').prop("checked",false);
+        $('#notifAirKotor').prop("checked",false);
+        $('#notifLain').prop("checked",false);
+        $.ajax({
+			url:"/tagihan/notif/edit/" + id_tagihan,
+            cache:false,
+            method:"get",
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.result.stt_listrik === null)
+                    $('#notifListrik').prop("disabled",true);
+
+                if(data.result.stt_airbersih === null)
+                    $('#notifAirBersih').prop("disabled",true);
+                
+                if(data.result.stt_keamananipk === null)
+                    $('#notifKeamananIpk').prop("disabled",true);
+                    
+                if(data.result.stt_kebersihan === null)
+                    $('#notifKebersihan').prop("disabled",true);
+                    
+                if(data.result.stt_airkotor === null)
+                    $('#notifAirKotor').prop("disabled",true);
+                
+                if(data.result.stt_lain === null)
+                    $('#notifLain').prop("disabled",true);
+            }
+        })
+		$('#notifModal').modal('show');
+	});
+
+    $('#form_notif').on('submit',function(e){
+        e.preventDefault();
+		$.ajax({
+			url:"/tagihan/notif/"+id_tagihan,
+            cache:false,
+            method:"POST",
+			data:$(this).serialize(),
+			dataType:"json",
+			beforeSend:function(){
+				$('#ok_button').text('Menghapus...');
+			},
+			success:function(data)
+			{
+                if(data.success)
+                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
+                if(data.errors)
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
+                $('#form_result').html(html);     
+                $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
+                });
+                $('#notifModal').modal('hide');
+            },
+            complete:function(){
+                $('#ok_button').text('Hapus');
+            }
+        })
+    });
 });

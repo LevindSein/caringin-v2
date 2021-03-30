@@ -274,6 +274,96 @@
         </div>
     </div>
 </div>
+
+<div id="notifModal" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title titles"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_notif">
+                @csrf
+                <div class="modal-body">Tandai Data Tagihan yang ingin diberikan notifikasi untuk dilakukan pengecekan<br><br>
+                    <div class="col-lg-12 justify-content-between" style="display:flex;flex-wrap:wrap;">
+                        <div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="notifListrik"
+                                    id="notifListrik"
+                                    value="listrik">
+                                <label class="form-control-label" for="notifListrik">
+                                    Listrik
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="notifAirBersih"
+                                    id="notifAirBersih"
+                                    value="airbersih">
+                                <label class="form-control-label" for="notifAirBersih">
+                                    Air Bersih
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="notifKeamananIpk"
+                                    id="notifKeamananIpk"
+                                    value="keamananipk">
+                                <label class="form-control-label" for="notifKeamananIpk">
+                                    Keamanan IPK
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="notifKebersihan"
+                                    id="notifKebersihan"
+                                    value="kebersihan">
+                                <label class="form-control-label" for="notifKebersihan">
+                                    Kebersihan
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="notifAirKotor"
+                                    id="notifAirKotor"
+                                    value="airkotor">
+                                <label class="form-control-label" for="notifAirKotor">
+                                    Air Kotor
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    name="notifLain"
+                                    id="notifLain"
+                                    value="lain">
+                                <label class="form-control-label" for="notifLain">
+                                    Lain Lain
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" name="ok_button" id="ok_button" class="btn btn-primary" value="Submit" />
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')

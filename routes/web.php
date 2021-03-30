@@ -158,9 +158,12 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 });
 
 Route::middleware('ceklogin:tagihan')->group(function (){
+    Route::get('tagihan/notif/edit/{id}', [TagihanController::class, 'notifEdit']);
+    Route::post('tagihan/notif/{id}', [TagihanController::class, 'notif']);
     Route::get('tagihan/periode', [TagihanController::class, 'periode']);
     Route::post('tagihan/unpublish/{id}', [TagihanController::class, 'unpublish']);
     Route::get('tagihan/penghapusan', [TagihanController::class, 'penghapusan']);
+    Route::post('tagihan/penghapusan/{id}', [TagihanController::class, 'penghapusanRestore']);
     Route::get('tagihan/destroy/edit/{id}', [TagihanController::class, 'destroyEdit']);
     Route::post('tagihan/destroy/{id}', [TagihanController::class, 'destroy']);
     Route::post('tagihan/sync/synchronize/{tanggal}',[TagihanController::class, 'synchronize']);

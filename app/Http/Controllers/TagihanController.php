@@ -82,7 +82,14 @@ class TagihanController extends Controller
                                 $button .= '&nbsp;&nbsp;<a type="button" title="Publish" name="unpublish" id="'.$data->id.'" class="unpublish"><i class="fas fa-check-circle" style="color:#1cc88a;"></i></a>';
                             }
                             else if(Session::get('otoritas')->publish && Session::get('otoritas')->tagihan == false){
-                                $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
+                                $hasil = number_format($data->ttl_tagihan);
+                                $warna = max($data->warna_airbersih, $data->warna_listrik);        
+                                if($warna == 1 || $warna == 2)
+                                    $button = '<a type="button" title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#c4b71f;"></i></a>';
+                                else if($warna == 3)
+                                    $button = '<a type="button" title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#e74a3b;"></i></a>';
+                                else
+                                    $button = '<a type="button" title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#172b4d;"></i></a>';
                             }
                         }
                         else{
@@ -204,7 +211,7 @@ class TagihanController extends Controller
                     else {
                         if($warna == 1 || $warna == 2)
                             return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
-                        if($warna == 3)
+                        else if($warna == 3)
                             return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
                             return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
@@ -294,8 +301,8 @@ class TagihanController extends Controller
         if(request()->ajax()){
             try{
                 Artisan::call('cron:alatmeter');
-                Sinkronisasi::where('sinkron',$tanggal)->delete();
                 Tagihan::where([['tgl_tagihan',$tanggal],['stt_bayar',0]])->delete();
+                Sinkronisasi::where('sinkron',$tanggal)->delete();
                 return response()->json(['success' => "Berhasil Membatalkan Tagihan"]);
             }
             catch(\Exception $e){
@@ -561,6 +568,10 @@ class TagihanController extends Controller
 
     }
 
+    public function penghapusanRestore($id){
+
+    }
+
     public function unpublish($id){
         if(request()->ajax()){
             try{
@@ -595,5 +606,54 @@ class TagihanController extends Controller
     public function periode(Request $request){
         $periode = $request->tahun."-".$request->bulan;
         return redirect()->route('tagihan', ['periode' => $periode]);
+    }
+
+    public function notifEdit($id){
+        if(request()->ajax()){
+            $data = Tagihan::find($id);
+            return response()->json(['result' => $data]);
+        }
+    }
+
+    public function notif(Request $request, $id){
+        if(request()->ajax()){
+            try{
+                $data = Tagihan::find($id);
+                $ket = '';
+                if(empty($request->notifListrik) == FALSE){
+                    $ket .= "Listrik, ";
+                }
+                if(empty($request->notifAirBersih) == FALSE){
+                    $ket .= "Air Bersih, ";
+                }
+                if(empty($request->notifKeamananIpk) == FALSE){
+                    $ket .= "Keamanan IPK, ";
+                }
+                if(empty($request->notifKebersihan) == FALSE){
+                    $ket .= "Kebersihan, ";
+                }
+                if(empty($request->notifAirKotor) == FALSE){
+                    $ket .= "Air Kotor, ";
+                }
+                if(empty($request->notifLain) == FALSE){
+                    $ket .= "Lainnya, ";
+                }
+
+                $ket = rtrim($ket, ", ");
+
+                $data->ket = $ket;
+                $data->reviewer = Session::get('username');
+                
+                //1 = Verified
+                //0 = Checking
+                //2 = Edited
+                $data->review = 0;
+                $data->save();
+                return response()->json(['success' => 'Notifikasi Terkirim']);
+            }
+            catch(Exception $e){
+                return response()->json(['errors' => 'Notifikasi Gagal dikirim']);
+            }
+        }
     }
 }
