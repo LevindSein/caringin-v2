@@ -6,7 +6,7 @@
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">Tagihan {{$periode}}</h6>
+<h6 class="h2 text-white d-inline-block mb-0">Periode {{$periode}}</h6>
 @endsection
 
 @section('button')
@@ -46,6 +46,7 @@
     <button class="dropdown-item" id="sinkronisasi"><i class="fas fa-fw fa-sync text-gray"></i><span id="sinkronisasi-data"></span></button>
     <a class="dropdown-item" id="tambah_manual" href="#" data-toggle="modal" data-target="#myManual" type="button"><i class="fas fa-fw fa-plus text-gray"></i><span>Manual</span></a>
     <a type="button" href="{{url('tagihan/penghapusan')}}" class="dropdown-item"><i class="fas fa-fw fa-eraser text-gray"></i><span>Penghapusan</span></a>
+    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myRefresh" type="button"><i class="fas fa-fw fa-sync-alt text-gray"></i><span>Refresh Tarif</span></a>
     <div class="dropdown-divider"></div>
     @endif
     
@@ -433,7 +434,7 @@
             <form action="{{url('tagihan/tempat')}}" method="GET" target="_blank">
                 <div class="modal-body">
                     <div class="form-group text-center">
-                        <span>Silahkan Pilih Fasilitas yang digunakan Tempat Usaha dibawah ini. Jika setuju klik <b>Submit</b>.</span>
+                        <span>Silakan Pilih Fasilitas yang digunakan Tempat Usaha dibawah ini. Jika setuju klik <b>Submit</b>.</span>
                     </div>
                     <div class="form-group row col-lg-12">
                         <div class="col-sm-12">
@@ -550,6 +551,82 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Submit" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="myRefresh" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Refresh Tarif</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_refresh">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group text-center">
+                        <span>Silakan Pilih Fasilitas, <b>semua tagihan yang belum terbayar</b> sesuai dengan <b>periode tagihan yang anda pilih</b> akan dilakukan <b style="color:red;">penghitungan ulang</b>. Jika setuju klik <b>Submit</b>.</span>
+                    </div>
+                    <div class="form-group row col-lg-12">
+                        <div class="col-sm-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="refresh"
+                                    value="listrik"
+                                    id="refreshListrik">
+                                <label class="form-control-label" for="refreshListrik">
+                                    Tagihan Listrik
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="refresh"
+                                    value="airbersih"
+                                    id="refreshAirBersih">
+                                <label class="form-control-label" for="refreshAirBersih">
+                                    Tagihan Air Bersih
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="refresh_bulan">Bulan</label>
+                        <select class="form-control" name="refresh_bulan" id="refresh_bulan" required>
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="refresh_tahun">Tahun</label>
+                        <select class="form-control" name="refresh_tahun" id="refrsh_tahun" required>
+                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                            @foreach($tahun as $t)
+                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Submit"/>
                 </div>
             </form>
         </div>

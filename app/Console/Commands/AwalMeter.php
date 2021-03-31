@@ -9,21 +9,21 @@ use App\Models\AlatAir;
 use App\Models\TempatUsaha;
 use App\Models\Tagihan;
 
-class AlatMeter extends Command
+class AwalMeter extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cron:alatmeter';
+    protected $signature = 'cron:awalmeter';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Mengambil data akhir dari alat meter';
+    protected $description = 'Mengambil data awal dari alat meter';
 
     /**
      * Create a new command instance.
@@ -48,10 +48,7 @@ class AlatMeter extends Command
             if($data != NULL){
                 $tagihan = Tagihan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_pakai','desc')->first();
                 if($tagihan != NULL){
-                    if($tagihan->stt_listrik == 1)
-                        $d->akhir = $tagihan->akhir_listrik;
-                    else if($tagihan->stt_listrik === 0)
-                        $d->akhir = $tagihan->awal_listrik;
+                    $d->akhir = $tagihan->awal_listrik;
                     $d->save();
                 }
             }
@@ -63,10 +60,7 @@ class AlatMeter extends Command
             if($data != NULL){
                 $tagihan = Tagihan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_pakai','desc')->first();
                 if($tagihan != NULL){
-                    if($tagihan->stt_airbersih == 1)
-                        $d->akhir = $tagihan->akhir_airbersih;
-                    else if($tagihan->stt_airbersih === 0)
-                        $d->akhir = $tagihan->awal_airbersih;
+                    $d->akhir = $tagihan->awal_airbersih;
                     $d->save();
                 }
             }

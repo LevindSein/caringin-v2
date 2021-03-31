@@ -9,6 +9,10 @@ $(document).ready(function(){
         dataType:"json",
         success:function(data)
         {
+            if(data.errors){
+                location.reload();
+            }
+
             if(data.result.status){
                 $("#sinkronisasi").show();
                 $("#sinkronisasi-data").text(data.result.sync_text);
@@ -214,7 +218,7 @@ $(document).ready(function(){
         $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
         $('#refresh-img').show();
         $('#publishModal').modal('hide');
-        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Tunggu Hingga Status Konfirmasi Muncul disini.</div>')
+        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Tunggu Hingga Status Konfirmasi Muncul disini.</div>');
 		$.ajax({
 			url:"/tagihan/publish",
             cache:false,
@@ -256,5 +260,40 @@ $(document).ready(function(){
         $('.titles').text('Tambah Tagihan Air Bersih');
         $('#form_tagihanku').attr('action', '/tagihan/airbersih');
         $('#tagihanku').modal('show');
+    });
+
+    $('#form_refresh').on('submit',function(e){
+        e.preventDefault();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        $('#refresh-img').show();
+        $('#myRefresh').modal('hide');
+        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Tunggu Hingga Status Konfirmasi Muncul disini.</div>');
+		$.ajax({
+			url:"/tagihan/refresh/tarif",
+            cache:false,
+            method:"POST",
+			data:$(this).serialize(),
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.result.status)
+                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.message + '</div>';
+                if(data.errors)
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
+                $('#form_result').html(html);     
+                $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
+                });
+                
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                    window.location = '/tagihan?periode=' + data.result.periode;
+                }, 2000);
+            },
+        })
     });
 });

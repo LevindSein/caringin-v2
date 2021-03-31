@@ -291,7 +291,7 @@ class TagihanController extends Controller
             return response()->json(['result' => $data]);
         }
         catch(\Exception $e){
-            return response()->json(['result' => $e]);
+            return response()->json(['errors' => $e]);
         }
     }
 
@@ -310,7 +310,7 @@ class TagihanController extends Controller
     public function unsynchronize($tanggal){
         if(request()->ajax()){
             try{
-                Artisan::call('cron:alatmeter');
+                Artisan::call('cron:awalmeter');
                 Tagihan::where([['tgl_tagihan',$tanggal],['stt_bayar',0]])->delete();
                 Sinkronisasi::where('sinkron',$tanggal)->delete();
                 return response()->json(['success' => "Berhasil Membatalkan Tagihan"]);
@@ -733,7 +733,7 @@ class TagihanController extends Controller
     }
 
     public function print(){
-        Artisan::call('cron:alatmeter');
+        Artisan::call('cron:akhirmeter');
         $blok = Blok::select('nama')->orderBy('nama')->get();
         $dataListrik = array();
         $dataAir = array();
@@ -1024,14 +1024,14 @@ class TagihanController extends Controller
 
         if(Session::get('role') == 'admin'){
             if (!in_array($blok, Session::get('otoritas')->otoritas)) {
-                return redirect()->route('tagihan.index');
+                return redirect()->route('tagihan');
             }
         }
 
         $tagihan = Tagihan::where([['stt_listrik',0],['stt_publish',0],['blok',$blok]])->orderBy('kd_kontrol','asc')->first();
 
         if($tagihan == NULL){
-            return redirect()->route('tagihan.index');
+            return redirect()->route('tagihan');
         }
         else{
             $suggest = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_listrik',1]])->orderBy('id','desc')->limit(3)->get();
@@ -1115,14 +1115,14 @@ class TagihanController extends Controller
 
         if(Session::get('role') == 'admin'){
             if (!in_array($blok, Session::get('otoritas')->otoritas)) {
-                return redirect()->route('tagihan.index');
+                return redirect()->route('tagihan');
             }
         }
 
         $tagihan = Tagihan::where([['stt_airbersih',0],['stt_publish',0],['blok',$blok]])->orderBy('kd_kontrol','asc')->first();
 
         if($tagihan == NULL){
-            return redirect()->route('tagihan.index');
+            return redirect()->route('tagihan');
         }
         else{
             $suggest = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_airbersih',1]])->orderBy('id','desc')->limit(3)->get();
@@ -1195,6 +1195,37 @@ class TagihanController extends Controller
         $this->total($request->hidden_id);
 
         return redirect()->route('airbersih',['tagihan_blok'=>$blok]);
+    }
+
+    public function refreshTarif(Request $request){
+        if(request()->ajax()){
+            $data = array();
+            $periode = $request->refresh_tahun."-".$request->refresh_bulan;
+            $action = $request->refresh;
+
+            try{
+                if($action == 'listrik'){
+                    $banyak  = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_listrik',1]])->count();
+                    $status = "Listrik";
+                    $i = Tagihan::refreshListrik($periode);
+                }
+                else{
+                    $banyak  = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_airbersih',1]])->count();
+                    $status = "Air Bersih";
+                    $i = Tagihan::refreshAirBersih($periode);
+                } 
+                $data['status']  = true;
+                $data['message'] = "Berhasil melakukan pengitungan ulang tarif $status $i dari $banyak data";
+                $data['periode'] = $periode;
+            }
+            catch(\Exception $e){
+                $data['status']  = false;
+                $data['message'] = "Gagal Mengambil Data";
+                $data['periode'] = $periode;
+            }
+            
+            return response()->json(['result' => $data]);
+        }
     }
 
     public function total($id){

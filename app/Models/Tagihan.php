@@ -145,12 +145,8 @@ class Tagihan extends Model
     }
 
     public static function listrik($awal, $akhir, $daya, $id){
-        $tarif = TarifListrik::find(1);
+        $tarif = TarifListrik::first();
         $tagihan = Tagihan::find($id);
-
-        $tagihan->via_tambah  = Session::get('username');
-        
-        $batas_rekmin = round(18 * $daya /1000);
         
         if($akhir >= $awal)
             $pakai_listrik = $akhir - $awal;
@@ -179,15 +175,26 @@ class Tagihan extends Model
         $beban_listrik = $daya * $tarif->trf_beban;
 
         $c = $blok1_listrik + $blok2_listrik + $beban_listrik;
-        $rekmin_listrik = $tarif->trf_rekmin * $daya;
 
-        if($pakai_listrik <= $batas_rekmin){
-            $bpju_listrik = ($tarif->trf_bpju / 100) * $rekmin_listrik;
-            $blok1_listrik = 0;
-            $blok2_listrik = 0;
-            $beban_listrik = 0;
-            $byr_listrik = $bpju_listrik + $rekmin_listrik;
-            $ttl_listrik = $byr_listrik;
+        $rekmin_listrik = $tarif->trf_rekmin * $daya;
+        
+        if($tarif->trf_rekmin > 0){
+            $batas_rekmin = round(18 * $daya /1000);
+
+            if($pakai_listrik <= $batas_rekmin){
+                $bpju_listrik = ($tarif->trf_bpju / 100) * $rekmin_listrik;
+                $blok1_listrik = 0;
+                $blok2_listrik = 0;
+                $beban_listrik = 0;
+                $byr_listrik = $bpju_listrik + $rekmin_listrik;
+                $ttl_listrik = $byr_listrik;
+            }
+            else{
+                $bpju_listrik = ($tarif->trf_bpju / 100) * $c;
+                $rekmin_listrik = 0;
+                $byr_listrik = $bpju_listrik + $blok1_listrik + $blok2_listrik + $beban_listrik;
+                $ttl_listrik = $byr_listrik;
+            }
         }
         else{
             $bpju_listrik = ($tarif->trf_bpju / 100) * $c;
@@ -206,6 +213,7 @@ class Tagihan extends Model
         $tagihan->blok2_listrik = $blok2_listrik;
         $tagihan->beban_listrik = $beban_listrik;
         $tagihan->bpju_listrik = $bpju_listrik;
+        $tagihan->via_tambah  = Session::get('username');
 
         $tagihan->sub_listrik = round($ttl_listrik + ($ttl_listrik * ($tarif->trf_ppn / 100)));
 
@@ -268,8 +276,127 @@ class Tagihan extends Model
         $tagihan->save();
     }
 
+    public static function refreshListrik($periode){
+        $tarif = TarifListrik::first();
+        $data = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_listrik',1]])->get();
+
+        $i = 0;
+        foreach($data as $tagihan){
+            $akhir = $tagihan->akhir_listrik;
+            $awal  = $tagihan->awal_listrik;
+            $daya  = $tagihan->daya_listrik;
+
+            if($akhir >= $awal)
+                $pakai_listrik = $akhir - $awal;
+            else{
+                if($awal < 1000)
+                    $denom = 1000;
+                else if($awal < 10000)
+                    $denom = 10000;
+                else if($awal < 100000)
+                    $denom = 100000;
+                else if($awal < 1000000)
+                    $denom = 1000000;
+                else{
+                    abort(500);
+                }
+                
+                $pakai_listrik = $denom - $awal;
+                $pakai_listrik = $pakai_listrik + $akhir;
+            }   
+
+            $a = round(($daya * $tarif->trf_standar) / 1000);
+            $blok1_listrik = $tarif->trf_blok1 * $a;
+
+            $b = $pakai_listrik - $a;
+            $blok2_listrik = $tarif->trf_blok2 * $b;
+            $beban_listrik = $daya * $tarif->trf_beban;
+
+            $c = $blok1_listrik + $blok2_listrik + $beban_listrik;
+
+            $rekmin_listrik = $tarif->trf_rekmin * $daya;
+            
+            if($tarif->trf_rekmin > 0){
+                $batas_rekmin = round(18 * $daya /1000);
+
+                if($pakai_listrik <= $batas_rekmin){
+                    $bpju_listrik = ($tarif->trf_bpju / 100) * $rekmin_listrik;
+                    $blok1_listrik = 0;
+                    $blok2_listrik = 0;
+                    $beban_listrik = 0;
+                    $byr_listrik = $bpju_listrik + $rekmin_listrik;
+                    $ttl_listrik = $byr_listrik;
+                }
+                else{
+                    $bpju_listrik = ($tarif->trf_bpju / 100) * $c;
+                    $rekmin_listrik = 0;
+                    $byr_listrik = $bpju_listrik + $blok1_listrik + $blok2_listrik + $beban_listrik;
+                    $ttl_listrik = $byr_listrik;
+                }
+            }
+            else{
+                $bpju_listrik = ($tarif->trf_bpju / 100) * $c;
+                $rekmin_listrik = 0;
+                $byr_listrik = $bpju_listrik + $blok1_listrik + $blok2_listrik + $beban_listrik;
+                $ttl_listrik = $byr_listrik;
+            }
+
+            $tagihan->daya_listrik = $daya;
+            $tagihan->awal_listrik = $awal;
+            $tagihan->akhir_listrik = $akhir;
+            $tagihan->pakai_listrik = $pakai_listrik;
+            $tagihan->byr_listrik = $byr_listrik;
+            $tagihan->rekmin_listrik = $rekmin_listrik;
+            $tagihan->blok1_listrik = $blok1_listrik;
+            $tagihan->blok2_listrik = $blok2_listrik;
+            $tagihan->beban_listrik = $beban_listrik;
+            $tagihan->bpju_listrik = $bpju_listrik;
+            $tagihan->sub_listrik = round($ttl_listrik + ($ttl_listrik * ($tarif->trf_ppn / 100)));
+            $tagihan->via_tambah  = Session::get('username');
+            
+            $total = $tagihan->sub_listrik - $tagihan->dis_listrik;
+            $tagihan->ttl_listrik = $total + $tagihan->den_listrik;
+            $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
+
+            $warna = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_listrik',1]])->orderBy('id','desc')->limit(3)->get();
+            if($warna != NULL){
+                $warna_ku = 0;
+                foreach($warna as $war){
+                    $warna_ku = $warna_ku + $war->pakai_listrik;
+                }
+                $warna = round($warna_ku / 3);
+            
+                $lima_persen             = $warna * (5/100);
+                $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
+                $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
+                
+                if($pakai_listrik <= $lima_persen){
+                    $warna = 1;
+                }
+                else if($pakai_listrik >= $seratussepuluh_persen && $pakai_listrik < $seratuslimapuluh_persen){
+                    $warna = 2;
+                }
+                else if($pakai_listrik >= $seratuslimapuluh_persen){
+                    $warna = 3;
+                }
+                else{
+                    $warna = 0;
+                }
+            }
+            else{
+                $warna = 0;
+            }
+
+            $tagihan->warna_listrik = $warna;
+            
+            $tagihan->save();
+            $i++;
+        }
+        return $i;
+    }
+
     public static function airbersih($awal,$akhir,$id){
-        $tarif = TarifAirBersih::find(1);
+        $tarif = TarifAirBersih::first();
         $tagihan = Tagihan::find($id);
 
         $tagihan->via_tambah  = Session::get('username');
@@ -415,6 +542,106 @@ class Tagihan extends Model
         $tagihan->warna_airbersih = $warna;
        
         $tagihan->save();
+    }
+
+    public static function refreshAirBersih($periode){
+        $tarif = TarifAirBersih::first();
+        $data = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_airbersih',1]])->get();
+
+        $i = 0;
+        foreach($data as $tagihan){
+            $akhir = $tagihan->akhir_airbersih;
+            $awal  = $tagihan->awal_airbersih;
+
+            if($akhir >= $awal)
+                $pakai_airbersih = $akhir - $awal;
+            else{
+                if($awal < 1000)
+                    $denom = 1000;
+                else if($awal < 10000)
+                    $denom = 10000;
+                else if($awal < 100000)
+                    $denom = 100000;
+                else if($awal < 1000000)
+                    $denom = 1000000;
+                else{
+                    abort(500);
+                }
+                
+                $pakai_airbersih = $denom - $awal;
+                $pakai_airbersih = $pakai_airbersih + $akhir;
+            }
+    
+            if($pakai_airbersih > 10){
+                $a = 10 * $tarif->trf_1;
+                $b = ($pakai_airbersih - 10) * $tarif->trf_2;
+                $byr_airbersih = $a + $b;
+        
+                $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
+                $beban_airbersih = $tarif->trf_beban;
+                $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
+    
+                $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
+            }
+            else{      
+                $byr_airbersih = $pakai_airbersih * $tarif->trf_1;
+        
+                $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
+                $beban_airbersih = $tarif->trf_beban;
+                $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
+    
+                $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
+            }
+    
+            $tagihan->awal_airbersih = $awal;
+            $tagihan->akhir_airbersih = $akhir;
+            $tagihan->pakai_airbersih = $pakai_airbersih;
+            $tagihan->byr_airbersih = $byr_airbersih;
+            $tagihan->pemeliharaan_airbersih = $pemeliharaan_airbersih;
+            $tagihan->beban_airbersih = $beban_airbersih;
+            $tagihan->arkot_airbersih = $arkot_airbersih;
+            $tagihan->sub_airbersih = round($ttl_airbersih  + ($ttl_airbersih * ($tarif->trf_ppn / 100)));
+            $tagihan->via_tambah  = Session::get('username');
+
+            $total = $tagihan->sub_airbersih - $tagihan->dis_airbersih;
+            $tagihan->ttl_airbersih = $total + $tagihan->den_airbersih;
+            $tagihan->sel_airbersih = $tagihan->ttl_airbersih - $tagihan->rea_airbersih;
+    
+            $warna = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_airbersih',1]])->orderBy('id','desc')->limit(3)->get();
+            if($warna != NULL){
+                $warna_ku = 0;
+                foreach($warna as $war){
+                    $warna_ku = $warna_ku + $war->pakai_airbersih;
+                }
+                $warna = round($warna_ku / 3);
+            
+                $lima_persen             = $warna * (5/100);
+                $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
+                $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
+                
+                if($pakai_airbersih <= $lima_persen){
+                    $warna = 1;
+                }
+                else if($pakai_airbersih >= $seratussepuluh_persen && $pakai_airbersih < $seratuslimapuluh_persen){
+                    $warna = 2;
+                }
+                else if($pakai_airbersih >= $seratuslimapuluh_persen){
+                    $warna = 3;
+                }
+                else{
+                    $warna = 0;
+                }
+            }
+            else{
+                $warna = 0;
+            }
+    
+            $tagihan->warna_airbersih = $warna;
+           
+            $tagihan->save();
+            $i++;
+        }
+        return $i;
     }
 
     public static function totalTagihan($id){
