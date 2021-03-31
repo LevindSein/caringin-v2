@@ -733,9 +733,9 @@ class TagihanController extends Controller
     public function penghapusanRestore($id){
         if(request()->ajax()){
             try{
-                $tagihan  = Tagihan::find($id);
+                $data  = Tagihan::find($id);
                 $hapus = Penghapusan::find($id);
-                if($tagihan == NULL){
+                if($data == NULL){
                     $data = new Tagihan;
                     $data->id = $hapus->id;
                     $data->no_faktur = $hapus->faktur;
@@ -826,7 +826,128 @@ class TagihanController extends Controller
                     $hapus->delete();
                 }
                 else{
+                    if($hapus->stt_listrik !== NULL){
+                        $data->daya_listrik  = $hapus->daya_listrik;
+                        
+                        $data->awal_listrik  = $hapus->awal_listrik;
+    
+                        $data->akhir_listrik = $hapus->akhir_listrik;
+    
+                        $data->pakai_listrik = $hapus->pakai_listrik;
+    
+                        $data->byr_listrik   = $hapus->byr_listrik;
+    
+                        $data->rekmin_listrik = $hapus->rekmin_listrik;
+    
+                        $data->blok1_listrik  = $hapus->blok1_listrik;
+    
+                        $data->blok2_listrik  = $hapus->blok2_listrik;
+    
+                        $data->beban_listrik = $hapus->beban_listrik;
+    
+                        $data->bpju_listrik  = $hapus->bpju_listrik;
+    
+                        $data->sub_listrik   = $hapus->sub_listrik;
+    
+                        $data->dis_listrik   = $hapus->dis_listrik;
+    
+                        $data->ttl_listrik   = $hapus->ttl_listrik;
+    
+                        $data->rea_listrik   = $hapus->rea_listrik;
+    
+                        $data->sel_listrik   = $hapus->sel_listrik;
+    
+                        $data->den_listrik   = $hapus->den_listrik;
+    
+                        $data->stt_listrik   = $hapus->stt_listrik;
+                    }
+                    
+                    if($hapus->stt_airbersih !== NULL){
+                        $data->awal_airbersih = $hapus->awal_airbersih;
+    
+                        $data->akhir_airbersih = $hapus->akhir_airbersih;
+    
+                        $data->pakai_airbersih = $hapus->pakai_airbersih;
+    
+                        $data->byr_airbersih = $hapus->byr_airbersih;
+    
+                        $data->pemeliharaan_airbersih = $hapus->pemeliharaan_airbersih;
+    
+                        $data->beban_airbersih = $hapus->beban_airbersih;
+    
+                        $data->arkot_airbersih = $hapus->arkot_airbersih;
+    
+                        $data->sub_airbersih = $hapus->sub_airbersih;
+    
+                        $data->dis_airbersih = $hapus->dis_airbersih;
+    
+                        $data->ttl_airbersih = $hapus->ttl_airbersih;
+    
+                        $data->rea_airbersih = $hapus->rea_airbersih;
+    
+                        $data->sel_airbersih = $hapus->sel_airbersih;
+    
+                        $data->den_airbersih   = $hapus->den_airbersih;
+    
+                        $data->stt_airbersih = $hapus->stt_airbersih;
+                    }
 
+                    if($hapus->stt_keamananipk !== NULL){
+                        $data->sub_keamananipk = $hapus->sub_keamananipk;
+
+                        $data->dis_keamananipk = $hapus->dis_keamananipk;
+
+                        $data->ttl_keamananipk = $hapus->ttl_keamananipk;
+
+                        $data->ttl_keamanan = $hapus->ttl_keamanan;
+
+                        $data->ttl_ipk = $hapus->ttl_ipk;
+
+                        $data->rea_keamananipk = $hapus->rea_keamananipk;
+
+                        $data->sel_keamananipk = $hapus->sel_keamananipk;
+
+                        $data->stt_keamananipk = $hapus->stt_keamananipk;
+                    }
+
+                    if($hapus->stt_kebersihan !== NULL){
+                        $data->sub_kebersihan = $hapus->sub_kebersihan;
+
+                        $data->dis_kebersihan = $hapus->dis_kebersihan;
+
+                        $data->ttl_kebersihan = $hapus->ttl_kebersihan;
+
+                        $data->rea_kebersihan = $hapus->rea_kebersihan;
+
+                        $data->sel_kebersihan = $hapus->sel_kebersihan;
+
+                        $data->stt_kebersihan = $hapus->stt_kebersihan;
+                    }
+
+                    if($hapus->stt_airkotor !== NULL){
+                        $data->ttl_airkotor = $hapus->ttl_airkotor;
+
+                        $data->rea_airkotor = $hapus->rea_airkotor;
+
+                        $data->sel_airkotor = $hapus->sel_airkotor;
+
+                        $data->stt_airkotor = $hapus->stt_airkotor;
+                    }
+
+                    if($hapus->stt_lain !== NULL){
+                        $data->ttl_lain = $hapus->ttl_lain;
+
+                        $data->rea_lain = $hapus->rea_lain;
+
+                        $data->sel_lain = $hapus->sel_lain;
+
+                        $data->stt_lain = $hapus->stt_lain;
+                    }
+
+                    $data->save();
+                    $hapus->delete();
+
+                    Tagihan::totalTagihan($id);
                 }
                 return response()->json(['success' => 'Data telah direstorasi.']);
             }
