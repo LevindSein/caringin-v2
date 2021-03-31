@@ -60,7 +60,15 @@ class TagihanController extends Controller
         else
             Session::put('periodetagihan',$periode);
 
-        if($request->ajax())
+        if(Session::get('role') == 'admin'){
+            $wherein = Session::get('otoritas')->otoritas;
+            $blok = Blok::select('nama')->whereIn('nama',$wherein)->orderBy('nama')->get();
+        }
+        else{
+            $blok = Blok::select('nama')->orderBy('nama')->get();
+        }
+
+        if(request()->ajax())
         {
             if(Session::get('role') == 'admin'){
                 $wherein = Session::get('otoritas')->otoritas;
@@ -239,6 +247,7 @@ class TagihanController extends Controller
 
         return view('tagihan.index',[
             'periode' => IndoDate::bulan(Session::get('periodetagihan'),' '),
+            'blok'    => $blok,
         ]);
     }
 
@@ -721,5 +730,292 @@ class TagihanController extends Controller
             'now'     => $now,
             'status'  => $status
         ]);
+    }
+
+    public function print(){
+        Artisan::call('cron:alatmeter');
+        $blok = Blok::select('nama')->orderBy('nama')->get();
+        $dataListrik = array();
+        $dataAir = array();
+        $i = 0;
+        $j = 0;
+        foreach($blok as $b){
+            $tempatListrik = TempatUsaha::where([['blok',$b->nama],['trf_listrik',1]])->count();
+            if($tempatListrik != 0){
+                $dataListrik[$i][0] = $b->nama;
+                $dataListrik[$i][1] = TempatUsaha::where([['tempat_usaha.blok', $b->nama],['trf_listrik',1]])
+                ->leftJoin('user as pengguna','tempat_usaha.id_pengguna','=','pengguna.id')
+                ->leftJoin('meteran_listrik','tempat_usaha.id_meteran_listrik','=','meteran_listrik.id')
+                ->select(
+                    'pengguna.nama as nama',
+                    'tempat_usaha.kd_kontrol as kontrol',
+                    'tempat_usaha.lok_tempat as lokasi',
+                    'meteran_listrik.daya  as daya',
+                    'meteran_listrik.nomor as nomor',
+                    'meteran_listrik.akhir as lalu')
+                ->orderBy('tempat_usaha.kd_kontrol')
+                ->get();
+                $i++;
+            }
+
+            $tempatAir = TempatUsaha::where([['blok',$b->nama],['trf_airbersih',1]])->count();
+            if($tempatAir != 0){
+                $dataAir[$j][0] = $b->nama;
+                $dataAir[$j][1] = TempatUsaha::where([['tempat_usaha.blok', $b->nama],['trf_airbersih',1]])
+                ->leftJoin('user as pengguna','tempat_usaha.id_pengguna','=','pengguna.id')
+                ->leftJoin('meteran_air','tempat_usaha.id_meteran_air','=','meteran_air.id')
+                ->select(
+                    'pengguna.nama as nama',
+                    'tempat_usaha.kd_kontrol as kontrol',
+                    'tempat_usaha.lok_tempat as lokasi',
+                    'meteran_air.nomor as nomor',
+                    'meteran_air.akhir as lalu')
+                ->orderBy('tempat_usaha.kd_kontrol')
+                ->get();
+                $j++;
+            }
+        }
+        $bulan = IndoDate::bulan(date("Y-m",strtotime(Carbon::now()))," ");
+        $dataset = [$dataListrik,$dataAir];
+        return view('tagihan.print',[
+            'dataset'=> $dataset,
+            'bulan'  => $bulan
+        ]);
+    }
+
+    public function pemberitahuan(Request $request){
+        $blok = $request->blokPemberitahuan;
+        $date = date("Y-m-d",strtotime(Carbon::now()));
+        $check = date("Y-m-22",strtotime(Carbon::now()));
+
+        if($date <= $check){
+            $tanggal = date('Y-m-01',strtotime(Carbon::now()));
+            $bulan = date('Y-m',strtotime(Carbon::now()));
+            $bulan = IndoDate::bulanS($bulan,' ');
+        }
+        
+        if($date > $check){
+            $tanggal = date('Y-m-01',strtotime(Carbon::now()));
+            $tanggal = new Carbonet($tanggal, 1);
+            $bulan = date('Y-m',strtotime($tanggal));
+            $bulan = IndoDate::bulanS($bulan,' ');
+        }
+
+
+        $dataset = Tagihan::where([['stt_lunas',0],['tgl_tagihan',$tanggal],['blok',$blok]])->orderBy('kd_kontrol','asc')->get();
+
+        $i = 0;
+        $pemberitahuan = array();
+        foreach($dataset as $d){
+            $pemberitahuan[$i]['alamat'] = $d->no_alamat;
+            $pemberitahuan[$i]['lokasi'] = $d->lok_tempat;
+            if($d->lok_tempat == NULL){
+
+                $pemberitahuan[$i]['lokasi'] = '-';
+            }
+
+            //Listrik
+            $listrik = $d->ttl_listrik;
+            if($listrik != 0){
+                $awal_listrik = $d->awal_listrik;
+                $akhir_listrik = $d->akhir_listrik;
+                $pakai_listrik = $d->pakai_listrik;
+                $pemberitahuan[$i]['daya_listrik'] = $d->daya_listrik;
+                $pemberitahuan[$i]['awal_listrik'] = $awal_listrik;
+                $pemberitahuan[$i]['akhir_listrik'] = $akhir_listrik;
+                $pemberitahuan[$i]['pakai_listrik'] = $pakai_listrik;
+            }
+
+            //AirBersih
+            $airbersih = $d->ttl_airbersih;
+            if($airbersih != 0){
+                $awal_airbersih = $d->awal_airbersih;
+                $akhir_airbersih = $d->akhir_airbersih;
+                $pakai_airbersih = $d->pakai_airbersih;
+                $pemberitahuan[$i]['awal_airbersih'] = $awal_airbersih;
+                $pemberitahuan[$i]['akhir_airbersih'] = $akhir_airbersih;
+                $pemberitahuan[$i]['pakai_airbersih'] = $pakai_airbersih;
+            }
+
+            //KeamananIpk
+            $keamananipk = $d->ttl_keamananipk;
+            
+            //Kebersihan
+            $kebersihan = $d->ttl_kebersihan;
+
+            //AirKotor
+            $airkotor = $d->ttl_airkotor;
+
+            //Lain
+            $lain = $d->ttl_lain;
+
+            $pemberitahuan[$i][0] = $d->kd_kontrol;
+            $pemberitahuan[$i][1] = $d->nama;
+
+            $pemberitahuan[$i][2] = $listrik;
+            $pemberitahuan[$i][3] = $airbersih;
+            $pemberitahuan[$i][4] = $keamananipk;
+            $pemberitahuan[$i][5] = $kebersihan;
+            $pemberitahuan[$i][6] = $airkotor;
+
+            $tunggakan = 0;
+            $denda = 0;
+
+            $tagihan = Tagihan::where([['stt_lunas',0],['tgl_tagihan','<',$tanggal],['kd_kontrol',$d->kd_kontrol]])->get();
+            foreach($tagihan as $t){
+                $tunggakan = $tunggakan + $t->sel_tagihan;
+                $denda = $denda + $t->den_tagihan;
+                $lain = $lain + $t->sel_lain;
+            }
+
+            $pemberitahuan[$i][7] = $tunggakan - $denda;
+            $pemberitahuan[$i][8] = $denda;
+            $pemberitahuan[$i][9] = $lain;
+
+            $total = 0;
+            for($j = 2; $j <= 9; $j++){
+                $total = $total + $pemberitahuan[$i][$j];
+            }
+            $pemberitahuan[$i]['total']     = $total;
+            $pemberitahuan[$i]['terbilang'] = '('.ucfirst(Terbilang::convert($total)).')';
+            
+            $i++;
+        }
+
+        return view('tagihan.pemberitahuan',['blok' => $blok,'bulan' => $bulan, 'dataset' => $pemberitahuan]);
+    }
+
+    public function pembayaran(Request $request){
+        $blok = $request->blokPembayaran;
+        if(Session::get('role') == 'master'){
+            $date = date("Y-m-d",strtotime(Carbon::now()));
+            $check = date("Y-m-20",strtotime(Carbon::now()));
+
+            if($date <= $check){
+                $tanggal = date('Y-m-01',strtotime(Carbon::now()));
+                $bulan = date('Y-m',strtotime(Carbon::now()));
+                $bulan = IndoDate::bulanS($bulan,' ');
+            }
+            
+            if($date > $check){
+                $tanggal = date('Y-m-01',strtotime(Carbon::now()));
+                $tanggal = new Carbonet($tanggal, 1);
+                $bulan = date('Y-m',strtotime($tanggal));
+                $bulan = IndoDate::bulanS($bulan,' ');
+            }
+
+
+            $dataset = Tagihan::where([['stt_lunas',0],['tgl_tagihan',$tanggal],['blok',$blok]])->orderBy('kd_kontrol','asc')->get();
+
+            $i = 0;
+            $pemberitahuan = array();
+            $no_faktur = "";
+            foreach($dataset as $d){
+                if($d->no_faktur === NULL){
+                    $faktur = Sinkronisasi::where('sinkron', $tanggal)->first();
+                    $tgl_faktur = $faktur->sinkron;
+                    $nomor = $faktur->faktur + 1;
+                    $faktur->faktur = $nomor;
+                    if($nomor < 10)
+                        $nomor = '000'.$nomor;
+                    else if($nomor >= 10 && $nomor < 100)
+                        $nomor = '00'.$nomor;
+                    else if($nomor >= 100 && $nomor < 1000)
+                        $nomor = '0'.$nomor;
+                    else
+                        $nomor = $nomor;
+
+                    $no_faktur = $nomor.'/'.str_replace('-','/',$tgl_faktur);
+                    $faktur->save();
+                }
+                else{
+                    $no_faktur = $d->no_faktur;
+                }
+
+                $d->no_faktur = $no_faktur;
+                $d->save();
+
+                $pemberitahuan[$i]['alamat'] = $d->no_alamat;
+                $pemberitahuan[$i]['lokasi'] = $d->lok_tempat;
+                if($d->lok_tempat == NULL){
+                    $pemberitahuan[$i]['lokasi'] = '-';
+                }
+
+                //Listrik
+                $listrik = $d->ttl_listrik;
+                if($listrik != 0){
+                    $awal_listrik = $d->awal_listrik;
+                    $akhir_listrik = $d->akhir_listrik;
+                    $pakai_listrik = $d->pakai_listrik;
+                    $pemberitahuan[$i]['daya_listrik'] = $d->daya_listrik;
+                    $pemberitahuan[$i]['awal_listrik'] = $awal_listrik;
+                    $pemberitahuan[$i]['akhir_listrik'] = $akhir_listrik;
+                    $pemberitahuan[$i]['pakai_listrik'] = $pakai_listrik;
+                }
+
+                //AirBersih
+                $airbersih = $d->ttl_airbersih;
+                if($airbersih != 0){
+                    $awal_airbersih = $d->awal_airbersih;
+                    $akhir_airbersih = $d->akhir_airbersih;
+                    $pakai_airbersih = $d->pakai_airbersih;
+                    $pemberitahuan[$i]['awal_airbersih'] = $awal_airbersih;
+                    $pemberitahuan[$i]['akhir_airbersih'] = $akhir_airbersih;
+                    $pemberitahuan[$i]['pakai_airbersih'] = $pakai_airbersih;
+                }
+
+                //KeamananIpk
+                $keamananipk = $d->ttl_keamananipk;
+                
+                //Kebersihan
+                $kebersihan = $d->ttl_kebersihan;
+
+                //AirKotor
+                $airkotor = $d->ttl_airkotor;
+
+                //Lain
+                $lain = $d->ttl_lain;
+
+                $pemberitahuan[$i][0] = $d->kd_kontrol;
+                $pemberitahuan[$i][1] = $d->nama;
+
+                $pemberitahuan[$i][2] = $listrik;
+                $pemberitahuan[$i][3] = $airbersih;
+                $pemberitahuan[$i][4] = $keamananipk;
+                $pemberitahuan[$i][5] = $kebersihan;
+                $pemberitahuan[$i][6] = $airkotor;
+
+                $tunggakan = 0;
+                $denda = 0;
+
+                $tagihan = Tagihan::where([['stt_lunas',0],['tgl_tagihan','<',$tanggal],['kd_kontrol',$d->kd_kontrol]])->get();
+                foreach($tagihan as $t){
+                    $tunggakan = $tunggakan + $t->sel_tagihan;
+                    $denda = $denda + $t->den_tagihan;
+                    $lain = $lain + $t->sel_lain;
+                    $t->no_faktur = $no_faktur;
+                    $t->save();
+                }
+
+                $pemberitahuan[$i][7] = $tunggakan - $denda;
+                $pemberitahuan[$i][8] = $denda;
+                $pemberitahuan[$i][9] = $lain;
+
+                $total = 0;
+                for($j = 2; $j <= 9; $j++){
+                    $total = $total + $pemberitahuan[$i][$j];
+                }
+                $pemberitahuan[$i]['total']     = $total;
+                $pemberitahuan[$i]['terbilang'] = '('.ucfirst(Terbilang::convert($total)).')';
+                $pemberitahuan[$i]['faktur']    = $no_faktur;
+                
+                $i++;
+            }
+
+            return view('tagihan.pembayaran',['blok' => $blok,'bulan' => $bulan, 'dataset' => $pemberitahuan]);
+        }
+        else{
+            return redirect()->back();
+        }
     }
 }

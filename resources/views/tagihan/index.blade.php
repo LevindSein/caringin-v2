@@ -469,6 +469,64 @@
         </div>
     </div>
 </div>
+
+<div id="myPemberitahuan" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cetak Pemberitahuan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="cetakPemberitahuan" action="{{url('tagihan/pemberitahuan')}}" method="POST" target="_blank">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-control-label" for="blokPemberitahuan">Pilih Blok</label>
+                        <select class="form-control" name="blokPemberitahuan" id="blokPemberitahuan" required>
+                            @foreach($blok as $b)
+                            <option value="{{$b->nama}}">{{$b->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Cetak" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="myPembayaran" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cetak Pembayaran</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="cetakPembayaran" action="{{url('tagihan/pembayaran')}}" method="POST" target="_blank">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-control-label" for="blokPembayaran">Pilih Blok</label>
+                        <select class="form-control" name="blokPembayaran" id="blokPembayaran" required>
+                            @foreach($blok as $b)
+                            <option value="{{$b->nama}}">{{$b->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Cetak" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')

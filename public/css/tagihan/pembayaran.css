@@ -1,0 +1,62 @@
+@media print {
+    @page {
+      width: 10cm;
+      height: 13cm;
+      /* padding: 12.5px; */
+      padding-top: 0.5cm;
+      padding-bottom: 0.5cm;
+      margin-left: 1cm;
+      margin-right: 1cm;
+    }
+  }
+  
+  body {
+    position: relative;
+    width: 10cm;
+    height: 13cm;
+  }
+  
+  .row {
+    display: flex; /* equal height of the children */
+  }
+  
+  .col {
+    flex: 1; /* additionally, equal width */
+    border: solid;
+  }
+  
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12.5px;
+    overflow:hidden;padding:1px 12.5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12.5px;
+    font-weight:normal;overflow:hidden;padding:1px 12.5px;word-break:normal;}
+  .tg .tg-ey1n{border-right:none; border-color:black;font-size:12.5px;font-weight:bold;text-align:left;vertical-align:middle}
+  .tg .tg-ey1o{border-right:none; border-color:black;font-size:12.5px;font-weight:bold;text-align:left;vertical-align:middle}
+  .tg .tg-tb39{border-left:none; border-top:none; border-bottom:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;font-size:13px;text-align:right;
+    vertical-align:middle}
+  .tg .tg-tb37{border-left:none; border-top:none; border-bottom:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;font-size:12.5px;text-align:left;
+    vertical-align:middle}
+  .tg .tg-tb31{border-left:none; border-right:none; border-top:none; border-bottom:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;;font-size:12.5px;text-align:left;
+   vertical-align:middle}
+  .tg .tg-0r18{border-color:black;font-size:12.5px;text-align:center;vertical-align:middle}
+  .tg .tg-0r15{border-right:none; border-top:none; border-bottom:none; border-color:black;font-size:12.5px;text-align:center;vertical-align:top;}
+  .tg .tg-0r16{border-right:none; border-top:none; border-color:black;font-size:12.5px;text-align:center;vertical-align:top}
+  .tg .tg-gmla{border-color:black;font-size:14px;text-align:center;vertical-align:middle}
+  .tg .tg-zd5i{border-top:none; border-bottom:none; border-color:black;font-size:14px;font-weight:bold;text-align:left;vertical-align:middle}
+  .tg .tg-zd5p{border-top:none; border-bottom:none; border-right:none; border-color:black;font-size:14px;font-weight:bold;text-align:left;vertical-align:middle}
+  .tg .tg-zd55{border-top:none; border-color:black;font-size:12.5px;text-align:center;vertical-align:middle}
+  .tg .tg-0r89{border-top:none; border-bottom:none; border-color:black;font-size:12.5px;text-align:center;vertical-align:middle}
+  .tg .tg-umgj{border-right:none; border-color:black;font-size:12.5px;font-weight:bold;text-align:left;vertical-align:middle}
+  .tg .tg-95y4{border-left:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;;font-size:12.5px;font-weight:bold;
+    text-align:center;vertical-align:middle}
+  .tg .tg-7jiy{border-left:none; border-top:none; border-bottom:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;;font-size:12.5px;text-align:right;
+    vertical-align:middle}
+  .tg .tg-7jip{border-right:none; border-left:none; border-top:none; border-bottom:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;;font-size:12.5px;text-align:right;
+    vertical-align:middle}
+  .tg .tg-7jit{border-left:none; border-right:none; border-top:none; border-bottom:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;;font-size:12.5px;text-align:right;
+    vertical-align:middle}
+  .tg .tg-7jio{border-top:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;;font-size:15px;text-align:left;
+    vertical-align:middle}
+  .tg .tg-yz93{border-color:black;text-align:right;vertical-align:middle}
+  .tg .tg-q23v{border-left:none; border-color:black;font-family:Arial, Helvetica, sans-serif !important;font-size:17px;font-weight:bold;
+    text-align:right;vertical-align:middle}

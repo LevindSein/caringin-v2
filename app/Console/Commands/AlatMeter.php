@@ -23,7 +23,7 @@ class AlatMeter extends Command
      *
      * @var string
      */
-    protected $description = 'Sinkronisasi Akhir Alat Meter';
+    protected $description = 'Mengambil data akhir dari alat meter';
 
     /**
      * Create a new command instance.
@@ -48,7 +48,10 @@ class AlatMeter extends Command
             if($data != NULL){
                 $tagihan = Tagihan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_pakai','desc')->first();
                 if($tagihan != NULL){
-                    $d->akhir = $tagihan->awal_listrik;
+                    if($tagihan->stt_listrik == 1)
+                        $d->akhir = $tagihan->akhir_listrik;
+                    else if($tagihan->stt_listrik === 0)
+                        $d->akhir = $tagihan->awal_listrik;
                     $d->save();
                 }
             }
@@ -60,7 +63,10 @@ class AlatMeter extends Command
             if($data != NULL){
                 $tagihan = Tagihan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_pakai','desc')->first();
                 if($tagihan != NULL){
-                    $d->akhir = $tagihan->awal_airbersih;
+                    if($tagihan->stt_airbersih == 1)
+                        $d->akhir = $tagihan->akhir_airbersih;
+                    else if($tagihan->stt_airbersih === 0)
+                        $d->akhir = $tagihan->awal_airbersih;
                     $d->save();
                 }
             }
