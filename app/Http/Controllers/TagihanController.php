@@ -388,6 +388,7 @@ class TagihanController extends Controller
                 $hapus->review = $data->review;
                 $hapus->reviewer = $data->reviewer;
                 $hapus->lok_tempat = $data->lok_tempat;
+                $hapus->tgl_hapus = date("Y-m-d",strtotime(Carbon::now()));
                 $hapus->via_hapus = Session::get('username');
 
                 if(empty($request->checkListrik) == FALSE){
@@ -575,11 +576,264 @@ class TagihanController extends Controller
     }
 
     public function penghapusan(){
-
+        if(request()->ajax())
+        {
+            if(Session::get('role') == 'admin'){
+                $wherein = Session::get('otoritas')->otoritas;
+                $data = Penghapusan::whereIn('blok',$wherein)->orderBy('kd_kontrol','asc');
+            }
+            else{
+                $data = Penghapusan::orderBy('kd_kontrol','asc');
+            }
+            return DataTables::of($data)
+                ->addColumn('action', function($data){
+                    if(Session::get('role') == 'master' || Session::get('role') == 'admin'){
+                        if(Session::get('role') == 'master' || Session::get('otoritas')->tagihan){
+                            $button = '<a type="button" title="Restore" name="restore" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#e74a3b;"></i></a>';
+                        }
+                        else if(Session::get('otoritas')->publish && Session::get('otoritas')->tagihan == false){
+                            $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
+                        }
+                    }
+                    else{
+                        $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
+                    }
+                    return $button;
+                })
+                ->editColumn('kd_kontrol', function ($data) {
+                    $hasil = $data->kd_kontrol;
+                    $warna = max($data->warna_airbersih, $data->warna_listrik);
+                    if ($data->kd_kontrol === NULL)
+                        return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
+                    else {
+                        if($warna == 1 || $warna == 2 || $warna == 3)
+                            return '<span class="text-center" style="color:#4e73df;">'.$hasil.'</span>';
+                        else
+                            return $hasil;
+                    }
+                })
+                ->editColumn('nama', function ($data) {
+                    $hasil = $data->nama;
+                    $warna = max($data->warna_airbersih, $data->warna_listrik);
+                    if ($data->nama === NULL)
+                        return '<span class="text-center"><i class="fas fa-times fa-sm"></i></span>';
+                    else {
+                        if($warna == 1 || $warna == 2 || $warna == 3)
+                            return '<span class="text-center" style="color:#4e73df;">'.$hasil.'</span>';
+                        else
+                            return $hasil;
+                    }
+                })
+                ->editColumn('ttl_listrik', function ($data) {
+                    $hasil = number_format($data->ttl_listrik);
+                    $warna = $data->warna_listrik;
+                    if ($data->ttl_listrik == 0 && $data->stt_listrik === NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                    else if ($data->ttl_listrik == 0 && $data->stt_listrik !== NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                    else {
+                        if($warna == 1 || $warna == 2)
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                        else if($warna == 3)
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                        else
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                    }
+                })
+                ->editColumn('ttl_airbersih', function ($data) {
+                    $hasil = number_format($data->ttl_airbersih);
+                    $warna = $data->warna_airbersih;
+                    if ($data->ttl_airbersih == 0 && $data->stt_airbersih === NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                    else if ($data->ttl_airbersih == 0 && $data->stt_airbersih !== NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                    else {
+                        if($warna == 1 || $warna == 2)
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                        else if($warna == 3)
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                        else
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                    }
+                })
+                ->editColumn('ttl_keamananipk', function ($data) {
+                    $hasil = number_format($data->ttl_keamananipk);
+                    if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk === NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                    else if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk !== NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                    else 
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                })
+                ->editColumn('ttl_kebersihan', function ($data) {
+                    $hasil = number_format($data->ttl_kebersihan);
+                    if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan === NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                    else if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan !== NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                    else
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                })
+                ->editColumn('ttl_airkotor', function ($data) {
+                    $hasil = number_format($data->ttl_airkotor);
+                    if ($data->ttl_airkotor == 0 && $data->stt_airkotor === NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                    else if ($data->ttl_airkotor == 0 && $data->stt_airkotor !== NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                    else
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                })
+                ->editColumn('ttl_lain', function ($data) {
+                    $hasil = number_format($data->ttl_lain);
+                    if ($data->ttl_lain == 0 && $data->stt_lain === NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                    else if ($data->ttl_lain == 0 && $data->stt_lain !== NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                    else
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                })
+                ->editColumn('ttl_tagihan', function ($data) {
+                    $hasil = number_format($data->ttl_tagihan);
+                    $warna = max($data->warna_airbersih, $data->warna_listrik);
+                    if ($data->ttl_tagihan === NULL)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                    else if ($data->ttl_tagihan === 0)
+                        return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                    else {
+                        if($warna == 1 || $warna == 2)
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                        else if($warna == 3)
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                        else
+                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                    }
+                })
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
+                })
+                ->rawColumns([
+                    'show',
+                    'action',
+                    'kd_kontrol',
+                    'nama',
+                    'ttl_listrik',
+                    'ttl_airbersih',
+                    'ttl_keamananipk',
+                    'ttl_kebersihan',
+                    'ttl_airkotor',
+                    'ttl_lain',
+                    'ttl_tagihan',
+                ])
+                ->make(true);
+        }
+        return view('tagihan.penghapusan');
     }
 
     public function penghapusanRestore($id){
+        if(request()->ajax()){
+            try{
+                $tagihan  = Tagihan::find($id);
+                $hapus = Penghapusan::find($id);
+                if($tagihan == NULL){
+                    $data = new Tagihan;
+                    $data->id = $hapus->id;
+                    $data->no_faktur = $hapus->faktur;
+                    $data->nama = $hapus->nama; 
+                    $data->blok = $hapus->blok;
+                    $data->kd_kontrol = $hapus->kd_kontrol; 
+                    $data->bln_pakai = $hapus->bln_pakai;
+                    $data->tgl_tagihan = $hapus->tgl_tagihan;
+                    $data->bln_tagihan = $hapus->bln_tagihan;
+                    $data->thn_tagihan = $hapus->thn_tagihan;
+                    $data->tgl_expired = $hapus->tgl_expired;
+                    $data->stt_lunas = $hapus->stt_lunas;
+                    $data->stt_bayar = $hapus->stt_bayar;
+                    $data->stt_prabayar = $hapus->stt_prabayar;
+                    $data->awal_airbersih = $hapus->awal_airbersih;
+                    $data->akhir_airbersih = $hapus->akhir_airbersih;
+                    $data->pakai_airbersih = $hapus->pakai_airbersih;
+                    $data->byr_airbersih = $hapus->byr_airbersih;
+                    $data->pemeliharaan_airbersih = $hapus->pemeliharaan_airbersih;
+                    $data->beban_airbersih = $hapus->beban_airbersih;
+                    $data->arkot_airbersih = $hapus->arkot_airbersih;
+                    $data->sub_airbersih = $hapus->sub_airbersih;
+                    $data->dis_airbersih = $hapus->dis_airbersih;
+                    $data->ttl_airbersih = $hapus->ttl_airbersih;
+                    $data->rea_airbersih = $hapus->rea_airbersih;
+                    $data->sel_airbersih = $hapus->sel_airbersih;
+                    $data->den_airbersih = $hapus->den_airbersih;
+                    $data->daya_listrik = $hapus->daya_listrik;
+                    $data->daya_listrik = $hapus->daya_listrik;
+                    $data->awal_listrik = $hapus->awal_listrik;
+                    $data->akhir_listrik = $hapus->akhir_listrik;
+                    $data->pakai_listrik = $hapus->pakai_listrik;
+                    $data->byr_listrik = $hapus->byr_listrik;
+                    $data->rekmin_listrik = $hapus->rekmin_listrik;
+                    $data->blok1_listrik = $hapus->blok1_listrik;
+                    $data->blok2_listrik = $hapus->blok2_listrik;
+                    $data->beban_listrik = $hapus->beban_listrik;
+                    $data->bpju_listrik = $hapus->bpju_listrik;
+                    $data->sub_listrik = $hapus->sub_listrik;
+                    $data->dis_listrik = $hapus->dis_listrik;
+                    $data->ttl_listrik = $hapus->ttl_listrik;
+                    $data->rea_listrik = $hapus->rea_listrik;
+                    $data->sel_listrik = $hapus->sel_listrik;
+                    $data->den_listrik = $hapus->den_listrik;
+                    $data->jml_alamat = $hapus->jml_alamat;
+                    $data->no_alamat = $hapus->no_alamat;
+                    $data->sub_keamananipk = $hapus->sub_keamananipk;
+                    $data->dis_keamananipk = $hapus->dis_keamananipk;
+                    $data->ttl_keamananipk = $hapus->ttl_keamananipk;
+                    $data->ttl_keamanan = $hapus->ttl_keamanan;
+                    $data->ttl_ipk = $hapus->ttl_ipk;
+                    $data->rea_keamananipk = $hapus->rea_keamananipk;
+                    $data->sel_keamananipk = $hapus->sel_keamananipk;
+                    $data->sub_kebersihan = $hapus->sub_kebersihan;
+                    $data->dis_kebersihan = $hapus->dis_kebersihan;
+                    $data->ttl_kebersihan = $hapus->ttl_kebersihan;
+                    $data->rea_kebersihan = $hapus->rea_kebersihan;
+                    $data->sel_kebersihan = $hapus->sel_kebersihan;
+                    $data->ttl_airkotor = $hapus->ttl_airkotor;
+                    $data->rea_airkotor = $hapus->rea_airkotor;
+                    $data->sel_airkotor = $hapus->sel_airkotor;
+                    $data->ttl_lain = $hapus->ttl_lain;
+                    $data->rea_lain = $hapus->rea_lain;
+                    $data->sel_lain = $hapus->sel_lain;
+                    $data->sub_tagihan = $hapus->sub_tagihan;
+                    $data->dis_tagihan = $hapus->dis_tagihan;
+                    $data->ttl_tagihan = $hapus->ttl_tagihan;
+                    $data->rea_tagihan = $hapus->rea_tagihan;
+                    $data->sel_tagihan = $hapus->sel_tagihan;
+                    $data->den_tagihan = $hapus->den_tagihan;
+                    $data->stt_denda = $hapus->stt_denda;
+                    $data->stt_kebersihan = $hapus->stt_kebersihan;
+                    $data->stt_keamananipk = $hapus->stt_keamananipk;
+                    $data->stt_listrik = $hapus->stt_listrik;
+                    $data->stt_airbersih = $hapus->stt_airbersih;
+                    $data->stt_airkotor = $hapus->stt_airkotor;
+                    $data->stt_lain = $hapus->stt_lain;
+                    $data->ket = $hapus->ket;
+                    $data->via_tambah = $hapus->via_tambah;
+                    $data->stt_publish = $hapus->stt_publish;
+                    $data->via_publish = $hapus->via_publish;
+                    $data->warna_airbersih = $hapus->warna_airbersih;
+                    $data->warna_listrik = $hapus->warna_listrik;
+                    $data->review = $hapus->review;
+                    $data->reviewer = $hapus->reviewer;
+                    $data->lok_tempat = $hapus->lok_tempat;
+                    $data->save();
+                    $hapus->delete();
+                }
+                else{
 
+                }
+                return response()->json(['success' => 'Data telah direstorasi.']);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => $e]);
+            }
+        }
     }
 
     public function unpublish($id){

@@ -95,6 +95,7 @@ class Penghapusan extends Model
         'reviewer',
         'lok_tempat',
         'via_hapus',
+        'tgl_hapus',
         'updated_at',
         'created_at'
     ];
