@@ -171,7 +171,7 @@ $(document).ready(function(){
 			data:$(this).serialize(),
 			dataType:"json",
 			beforeSend:function(){
-				$('#ok_button').text('Menghapus...');
+				$('#notif_button').text('Mengirim...');
 			},
 			success:function(data)
 			{
@@ -188,7 +188,60 @@ $(document).ready(function(){
                 $('#notifModal').modal('hide');
             },
             complete:function(){
-                $('#ok_button').text('Hapus');
+                $('#notif_button').text('Submit');
+            }
+        })
+    });
+
+    $(document).on('click', '.publish', function(){
+		$('#publish_action').val('publish');
+		$('.titles').text('Publish Tagihan');
+        $('#publish_button').removeClass("btn-danger").addClass("btn-success").val("Publish");
+        $("#publish_text").html('Dengan Melakukan <b>Publish</b>, maka tagihan akan berstatus <b style="color:green;">aktif</b> sesuai dengan periode yang dipilih. Jika setuju silakan <b>Submit</b>.');
+        $("#publishModal").show();
+    });
+    
+    $(document).on('click', '.cancel-publish', function(){
+		$('#publish_action').val('unpublish');
+		$('.titles').text('Cancel Publish Tagihan');
+        $('#publish_button').removeClass("btn-success").addClass("btn-danger").val("Unpublish");
+		$('#publish_text').html('<b style="color:red;">WARNING!</b> Membatalkan tagihan, maka <b>semua data tagihan</b> untuk periode yang anda pilih <b style="color:red;">akan dinon-aktifkan</b>. <b>Kecuali, Tagihan yang sudah terbayar</b>. Jika setuju silakan <b>Submit</b>.');
+        $("#publishModal").show();
+    });
+
+    $('#form_publish').on('submit',function(e){
+        e.preventDefault();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        $('#refresh-img').show();
+        $('#publishModal').modal('hide');
+        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Tunggu Hingga Status Konfirmasi Muncul disini.</div>')
+		$.ajax({
+			url:"/tagihan/publish",
+            cache:false,
+            method:"POST",
+			data:$(this).serialize(),
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.result.status)
+                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.message + '</div>';
+                if(data.result.status == false)
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
+                $('#form_result').html(html);     
+                $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
+                });
+                setTimeout(function(){
+                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+                    $('#refresh-data').text("Refresh Data");
+                    $('#refresh-img').hide();
+                    window.location = '/tagihan?periode=' + data.result.periode;
+                }, 2000);
+            },
+            error:function(){
+                alert("Somthing went wrong");
             }
         })
     });

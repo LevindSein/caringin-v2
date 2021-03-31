@@ -246,6 +246,7 @@ class TagihanController extends Controller
         try{
             $data = array();
             
+            //Sinkronisasi
             $now = date("Y-m-d",strtotime(Carbon::now()));
             $check = date("Y-m-23",strtotime(Carbon::now()));
             if($now >= $check)
@@ -654,6 +655,51 @@ class TagihanController extends Controller
             catch(Exception $e){
                 return response()->json(['errors' => 'Notifikasi Gagal dikirim']);
             }
+        }
+    }
+
+    public function publish(Request $request){
+        if(request()->ajax()){
+            $data = array();
+            $periode = $request->publish_tahun."-".$request->publish_bulan;
+            $action = $request->publish_action;
+
+            try{
+                $i = 0;
+                $banyak  = Tagihan::where('bln_tagihan',$periode)->count();
+                if($action == 'publish'){
+                    $status  = 'publish';
+                    $tagihan = Tagihan::where([['bln_tagihan',$periode],['stt_publish',0]])->get();
+                    foreach($tagihan as $d){
+                        $d->stt_publish = 1;
+                        $d->save();
+                        $i++;
+                    }
+                }
+                else{
+                    $status = 'unpublish';
+                    $tagihan = Tagihan::where([['bln_tagihan',$periode],['stt_publish',1]])->get();
+                    foreach($tagihan as $d){
+                        $pembayaran = Pembayaran::where('id_tagihan',$d->id)->first();
+                        if($pembayaran == NULL){
+                            $hasil = 0;
+                            $i++;
+                            $d->stt_publish = $hasil;
+                            $d->save();
+                        }
+                    }
+                } 
+                $data['status']  = true;
+                $data['message'] = "Berhasil melakukan $status $i dari $banyak data";
+                $data['periode'] = $periode;
+            }
+            catch(\Exception $e){
+                $data['status']  = false;
+                $data['message'] = "Gagal Mengambil Data";
+                $data['periode'] = $periode;
+            }
+            
+            return response()->json(['result' => $data]);
         }
     }
 }

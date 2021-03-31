@@ -50,7 +50,8 @@
     @endif
     
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->publish))
-    <button class="dropdown-item" id="publish"><i class="fas fa-fw fa-paper-plane text-gray"></i><span>Publish Tagihan</span></button>
+    <a class="dropdown-item publish" id="publish" href="#" data-toggle="modal" data-target="#publishModal" type="button"><i class="fas fa-fw fa-paper-plane text-gray"></i><span>Publish Tagihan</span></a>
+    <a class="dropdown-item cancel-publish" id="cancel-publish" href="#" data-toggle="modal" data-target="#publishModal" type="button"><i class="far fa-fw fa-paper-plane text-gray"></i><span>Cancel Publish</span></a>
     <div class="dropdown-divider"></div>
     @endif
 
@@ -126,7 +127,11 @@
             </div>
             <form id="form_sync" method="POST">
                 @csrf
-                <div class="modal-body"><span id="sync-notif"></span></div>
+                <div class="modal-body">
+                    <div class="form-group text-center">
+                        <span id="sync-notif"></span>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <input type="hidden" name="sync_status" id="sync_status"/>
                     <input type="submit" name="sync_button" id="sync_button" class="btn btn-primary" value="Submit" />
@@ -241,7 +246,6 @@
                     <div class="form-group">
                         <label class="form-control-label" for="bulan">Bulan</label>
                         <select class="form-control" name="bulan" id="bulan" required>
-                            <option selected hidden value="">Pilih Bulan</option>
                             <option value="01">Januari</option>
                             <option value="02">Februari</option>
                             <option value="03">Maret</option>
@@ -259,7 +263,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="tahun">Tahun</label>
                         <select class="form-control" name="tahun" id="tahun" required>
-                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','asc')->get();?>
+                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
                             @foreach($tahun as $t)
                             <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
                             @endforeach
@@ -357,7 +361,59 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" name="ok_button" id="ok_button" class="btn btn-primary" value="Submit" />
+                    <input type="submit" name="notif_button" id="notif_button" class="btn btn-primary" value="Submit" />
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="publishModal" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title titles"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_publish">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group text-center">
+                        <span id="publish_text"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="publish_bulan">Bulan</label>
+                        <select class="form-control" name="publish_bulan" id="publish_bulan" required>
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="publish_tahun">Tahun</label>
+                        <select class="form-control" name="publish_tahun" id="publish_tahun" required>
+                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                            @foreach($tahun as $t)
+                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="publish_action" id="publish_action" />
+                    <input type="submit" name="publish_button" id="publish_button" class="btn btn-primary" value="Submit" />
                     <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
                 </div>
             </form>
