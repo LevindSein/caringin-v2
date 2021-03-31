@@ -158,6 +158,7 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 });
 
 Route::middleware('ceklogin:tagihan')->group(function (){
+    Route::get('tagihan/tempat', [TagihanController::class, 'tempat']);
     Route::post('tagihan/publish', [TagihanController::class, 'publish']);
     Route::get('tagihan/notif/edit/{id}', [TagihanController::class, 'notifEdit']);
     Route::post('tagihan/notif/{id}', [TagihanController::class, 'notif']);

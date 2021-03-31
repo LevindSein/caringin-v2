@@ -420,6 +420,55 @@
         </div>
     </div>
 </div>
+
+<div id="myTempat" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cetak Form Tagihan Tempat Usaha</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{url('tagihan/tempat')}}" method="GET" target="_blank">
+                <div class="modal-body">
+                    <div class="form-group text-center">
+                        <span>Silahkan Pilih Fasilitas yang digunakan Tempat Usaha dibawah ini. Jika setuju klik <b>Submit</b>.</span>
+                    </div>
+                    <div class="form-group row col-lg-12">
+                        <div class="col-sm-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="tempat"
+                                    value="listrik"
+                                    id="listriktempat">
+                                <label class="form-control-label" for="listriktempat">
+                                    Pengguna Fasilitas Listrik
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="tempat"
+                                    id="airbersihtempat"
+                                    value="airbersih">
+                                <label class="form-control-label" for="airbersihtempat">
+                                    Pengguna Fasilitas Air Bersih
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Submit"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
