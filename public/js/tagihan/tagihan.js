@@ -245,4 +245,16 @@ $(document).ready(function(){
             }
         })
     });
+
+    $('#add_listrik').click(function(){
+        $('.titles').text('Tambah Tagihan Listrik');
+        $('#form_tagihanku').attr('action', '/tagihan/listrik');
+        $('#tagihanku').modal('show');
+    });
+
+    $('#add_air').click(function(){
+        $('.titles').text('Tambah Tagihan Air Bersih');
+        $('#form_tagihanku').attr('action', '/tagihan/airbersih');
+        $('#tagihanku').modal('show');
+    });
 });

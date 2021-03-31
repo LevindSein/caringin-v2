@@ -527,6 +527,34 @@
         </div>
     </div>
 </div>
+
+<div id="tagihanku" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title titles"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_tagihanku" action="" method="GET">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-control-label" for="tagihan_blok">Pilih Blok</label>
+                        <select class="form-control" name="tagihan_blok" id="tagihan_blok" required>
+                            @foreach($blok as $b)
+                            <option value="{{$b->nama}}">{{$b->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')

@@ -1018,4 +1018,238 @@ class TagihanController extends Controller
             return redirect()->back();
         }
     }
+
+    public function listrik(Request $request){
+        $blok = $request->tagihan_blok;
+
+        if(Session::get('role') == 'admin'){
+            if (!in_array($blok, Session::get('otoritas')->otoritas)) {
+                return redirect()->route('tagihan.index');
+            }
+        }
+
+        $tagihan = Tagihan::where([['stt_listrik',0],['stt_publish',0],['blok',$blok]])->orderBy('kd_kontrol','asc')->first();
+
+        if($tagihan == NULL){
+            return redirect()->route('tagihan.index');
+        }
+        else{
+            $suggest = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_listrik',1]])->orderBy('id','desc')->limit(3)->get();
+            
+            $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+            if($tempat != NULL){
+                $meter = AlatListrik::find($tempat->id_meteran_listrik);
+                if($meter != NULL)
+                    $awal = $meter->akhir;
+                else
+                    $awal = $tagihan->awal_listrik;
+            }
+            else{
+                $awal = $tagihan->awal_listrik;
+            }
+
+            if($suggest != NULL){
+                $saran = 0;
+                foreach($suggest as $sug){
+                    $saran = $saran + $sug->pakai_listrik;
+                }
+                $suggest = round($saran / 3);
+                $suggest = $suggest + $awal;
+            }
+            else{
+                $suggest = $awal;
+            }
+
+            $tagihan['awal_listrik'] = $awal;
+
+            $ket = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+            if($ket != NULL){
+                $ket = $ket;
+            }
+            else{
+                $ket = '';
+            }
+
+            return view('tagihan.listrik',['dataset' => $tagihan, 'suggest' => $suggest, 'ket' => $ket,'blok' => $blok]);
+        }
+    }
+
+    public function listrikUpdate(Request $request){
+        $blok = $request->hidden_blok;
+
+        $daya = explode(',',$request->daya);
+        $daya = implode('',$daya);
+        
+        $awal = explode(',',$request->awal);
+        $awal = implode('',$awal);
+        
+        $akhir = explode(',',$request->akhir);
+        $akhir = implode('',$akhir);
+        
+        Tagihan::listrik($awal, $akhir, $daya, $request->hidden_id);
+
+        $tempat = TempatUsaha::where('kd_kontrol',$request->kd_kontrol)->first();
+        if($tempat != NULL){
+            $meter = AlatListrik::find($tempat->id_meteran_listrik);
+            if($meter != NULL){
+                $meter->akhir = $akhir;
+                $meter->daya  = $daya;
+                $meter->save();
+            }
+        }
+
+        $tagihan = Tagihan::find($request->hidden_id);
+        $tagihan->save();
+
+        $nama = Tagihan::find($request->hidden_id);
+        $nama->nama = $request->nama;
+        $nama->save();
+
+        $this->total($request->hidden_id);
+
+        return redirect()->route('listrik',['tagihan_blok'=>$blok]);
+    }
+
+    public function airbersih(Request $request){
+        $blok    = $request->tagihan_blok;
+
+        if(Session::get('role') == 'admin'){
+            if (!in_array($blok, Session::get('otoritas')->otoritas)) {
+                return redirect()->route('tagihan.index');
+            }
+        }
+
+        $tagihan = Tagihan::where([['stt_airbersih',0],['stt_publish',0],['blok',$blok]])->orderBy('kd_kontrol','asc')->first();
+
+        if($tagihan == NULL){
+            return redirect()->route('tagihan.index');
+        }
+        else{
+            $suggest = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_airbersih',1]])->orderBy('id','desc')->limit(3)->get();
+            
+            $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+            if($tempat != NULL){
+                $meter = AlatAir::find($tempat->id_meteran_air);
+                if($meter != NULL)
+                    $awal = $meter->akhir;
+                else
+                    $awal = $tagihan->awal_airbersih;
+            }
+            else{
+                $awal = $tagihan->awal_airbersih;
+            }
+
+            if($suggest != NULL){
+                $saran = 0;
+                foreach($suggest as $sug){
+                    $saran = $saran + $sug->pakai_airbersih;
+                }
+                $suggest = round($saran / 3);
+                $suggest = $suggest + $awal;
+            }
+            else{
+                $suggest = $awal;
+            }
+
+            $tagihan['awal_airbersih'] = $awal;
+            
+            $ket = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+            if($ket != NULL){
+                $ket = $ket;
+            }
+            else{
+                $ket = '';
+            }
+
+            return view('tagihan.airbersih',['dataset' => $tagihan, 'suggest' => $suggest, 'ket' => $ket,'blok' => $blok]);
+        }
+    }
+
+    public function airbersihUpdate(Request $request){
+        $blok = $request->hidden_blok;
+
+        $awal = explode(',',$request->awal);
+        $awal = implode('',$awal);
+        
+        $akhir = explode(',',$request->akhir);
+        $akhir = implode('',$akhir);
+        
+        Tagihan::airbersih($awal, $akhir, $request->hidden_id);
+
+        $tempat = TempatUsaha::where('kd_kontrol',$request->kd_kontrol)->first();
+        if($tempat != NULL){
+            $meter = AlatAir::find($tempat->id_meteran_air);
+            if($meter != NULL){
+                $meter->akhir = $akhir;
+                $meter->save();
+            }
+        }
+
+        $tagihan = Tagihan::find($request->hidden_id);
+        $tagihan->save();
+
+        $nama = Tagihan::find($request->hidden_id);
+        $nama->nama = $request->nama;
+        $nama->save();
+
+        $this->total($request->hidden_id);
+
+        return redirect()->route('airbersih',['tagihan_blok'=>$blok]);
+    }
+
+    public function total($id){
+        $tagihan = Tagihan::find($id);
+        //Subtotal
+        $subtotal = 
+                $tagihan->sub_listrik     + 
+                $tagihan->sub_airbersih   + 
+                $tagihan->sub_keamananipk + 
+                $tagihan->sub_kebersihan  + 
+                $tagihan->ttl_airkotor    + 
+                $tagihan->ttl_lain;
+        $tagihan->sub_tagihan = $subtotal;
+
+        //Diskon
+        $diskon = 
+            $tagihan->dis_listrik     + 
+            $tagihan->dis_airbersih   + 
+            $tagihan->dis_keamananipk + 
+            $tagihan->dis_kebersihan;
+        $tagihan->dis_tagihan = $diskon;
+
+        //Denda
+        $tagihan->den_tagihan = $tagihan->den_listrik + $tagihan->den_airbersih;
+
+        //TOTAL
+        $total = 
+            $tagihan->ttl_listrik     + 
+            $tagihan->ttl_airbersih   + 
+            $tagihan->ttl_keamananipk + 
+            $tagihan->ttl_kebersihan  + 
+            $tagihan->ttl_airkotor    + 
+            $tagihan->ttl_lain;
+        $tagihan->ttl_tagihan = $total;
+
+        //Realisasi
+        $realisasi = 
+                $tagihan->rea_listrik     + 
+                $tagihan->rea_airbersih   + 
+                $tagihan->rea_keamananipk + 
+                $tagihan->rea_kebersihan  + 
+                $tagihan->rea_airkotor    + 
+                $tagihan->rea_lain;
+        $tagihan->rea_tagihan = $realisasi;
+
+        //Selisih
+        $selisih =
+                $tagihan->sel_listrik     + 
+                $tagihan->sel_airbersih   + 
+                $tagihan->sel_keamananipk + 
+                $tagihan->sel_kebersihan  + 
+                $tagihan->sel_airkotor    + 
+                $tagihan->sel_lain;
+        $tagihan->sel_tagihan = $selisih;
+
+        $tagihan->save();
+    }
 }
