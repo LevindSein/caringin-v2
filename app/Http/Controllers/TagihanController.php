@@ -28,6 +28,7 @@ use App\Models\Sinkronisasi;
 use App\Models\IndoDate;
 use App\Models\Terbilang;
 use App\Models\Blok;
+use App\Models\Pedagang;
 
 use Carbon\Carbon;
 use App\Models\Carbonet;
@@ -1600,6 +1601,68 @@ class TagihanController extends Controller
             }
             
             return response()->json(['result' => $data]);
+        }
+    }
+
+    public function checkManual(Request $request){
+        if(request()->ajax()){
+            $periode = $request->manual_tahun."-".$request->manual_bulan;
+
+            $tempat = TempatUsaha::find($request->kontrol_manual);
+            
+            $tagihan = Tagihan::where([['bln_tagihan', $periode],['kd_kontrol',$tempat->kd_kontrol]])->first();
+            if($tagihan != NULL){
+                $periode = IndoDate::bulan($periode, " ");
+                return response()->json(['errors' => "Data Tagihan $tempat->kd_kontrol Sudah Ada pada periode $periode"]);
+            }
+            else{
+                $data = array();
+                $pedagang = Pedagang::find($tempat->id_pengguna);
+                $data['nama']    = $pedagang->nama;
+                $data['kontrol'] = $tempat->kd_kontrol;
+                $data['periode'] = IndoDate::bulan($periode, " ");
+                if($tempat->trf_listrik !== NULL)
+                    $data['listrik'] = true;
+                else
+                    $data['listrik'] = false;
+                
+                if($tempat->trf_airbersih !== NULL)
+                    $data['airbersih'] = true;
+                else
+                    $data['asirbersih'] = false;
+                
+                if($tempat->trf_keamananipk !== NULL)
+                    $data['keamananipk'] = true;
+                else
+                    $data['keamananipk'] = false;
+
+                if($tempat->trf_kebersihan !== NULL)
+                    $data['kebersihan'] = true;
+                else
+                    $data['kebersihan'] = false;
+
+                if($tempat->trf_airkotor !== NULL)
+                    $data['airkotor'] = true;
+                else
+                    $data['airkotor'] = false;
+
+                if($tempat->trf_lain !== NULL)
+                    $data['lain'] = true;
+                else
+                    $data['lain'] = false;
+
+                return response()->json(['result' => $data]); 
+            }
+        }
+    }
+    public function manual(Request $request){
+        if(request()->ajax()){
+            try{
+                return response()->json(['success' => "Data Berhasil Ditambah"]);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => "Data Gagal Ditambah"]);
+            }
         }
     }
 

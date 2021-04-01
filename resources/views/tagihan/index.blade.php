@@ -44,7 +44,7 @@
 
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
     <button class="dropdown-item" id="sinkronisasi"><i class="fas fa-fw fa-sync text-gray"></i><span id="sinkronisasi-data"></span></button>
-    <a class="dropdown-item" id="tambah_manual" href="#" data-toggle="modal" data-target="#myManual" type="button"><i class="fas fa-fw fa-plus text-gray"></i><span>Manual</span></a>
+    <a class="dropdown-item" id="tambah_manual" href="#" data-toggle="modal" data-target="#myManualCheck" type="button"><i class="fas fa-fw fa-plus text-gray"></i><span>Manual</span></a>
     <a type="button" href="{{url('tagihan/penghapusan')}}" class="dropdown-item"><i class="fas fa-fw fa-eraser text-gray"></i><span>Penghapusan</span></a>
     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myRefresh" type="button"><i class="fas fa-fw fa-sync-alt text-gray"></i><span>Refresh Tarif</span></a>
     <div class="dropdown-divider"></div>
@@ -627,7 +627,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="refresh_tahun">Tahun</label>
-                        <select class="form-control" name="refresh_tahun" id="refrsh_tahun" required>
+                        <select class="form-control" name="refresh_tahun" id="refresh_tahun" required>
                             <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
                             @foreach($tahun as $t)
                             <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
@@ -637,6 +637,275 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Submit"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="myManualCheck" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Checking Data</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_manualCheck">
+                <div class="modal-body">
+                    <div class="form-group text-center">
+                        <span>Silakan Pilih Nomor Kontrol dan Periode Tagihan. Jika sudah yakin, silahkan klik <b>Checking</b></span>
+                    </div>
+                    <div class="form-group">
+                        <select class="kontrol_manual form-control" name="kontrol_manual" id="kontrol_manual" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="manual_bulan">Bulan</label>
+                        <select class="form-control" name="manual_bulan" id="manual_bulan" required>
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="manual_tahun">Tahun</label>
+                        <select class="form-control" name="manual_tahun" id="manual_tahun" required>
+                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                            @foreach($tahun as $t)
+                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Checking"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="myManual" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Tagihan Manual</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_manual">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group text-center">
+                        <h2 class="text-primary" id="result-kontrol">Unknown</h2>
+                        <h2 class="text-primary" id="result-periode">Unknown</h2>
+                        <div class="form-group col-lg-12">
+                            <input
+                                autocomplete="off"
+                                type="text"
+                                name="nama_manual"
+                                class="form-control"
+                                id="nama_manual"
+                                required>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div id="manlistrik">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="dayaListrik_manual">Daya Listrik</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    name="dayaListrik_manual"
+                                    class="form-control"
+                                    id="dayaListrik_manual">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="awalListrik_manual">Stand Awal Listrik</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    name="awalListrik_manual"
+                                    class="form-control"
+                                    id="awalListrik_manual">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="akhirListrik_manual">Stand Akhir Listrik</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    name="akhirListrik_manual"
+                                    class="form-control"
+                                    id="akhirListrik_manual">
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="manairbersih"> 
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="awalAirBersih_manual">Stand Awal Air</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    name="awalAirBersih_manual"
+                                    class="form-control"
+                                    id="awalAirBersih_manual">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="akhirAirBersih_manual">Stand Akhir Air</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    name="akhirAirBersih_manual"
+                                    class="form-control"
+                                    id="akhirAirBersih_manual">
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="mankeamananipk">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="keamananIpk_manual">Keamanan & IPK</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input 
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="keamananIpk_manual"
+                                        class="form-control"
+                                        id="keamananIpk_manual"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-10">
+                                <label class="form-control-label" for="disKeamananIpk_manual">Diskon Keamanan & IPK</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="disKeamananIpk_manual"
+                                        class="form-control"
+                                        id="disKeamananIpk_manual"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="mankebersihan">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="kebersihan_manual">Kebersihan</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="kebersihan_manual"
+                                        class="form-control"
+                                        id="kebersihan_manual"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-10">
+                                <label class="form-control-label" for="disKebersihan_manual">Diskon Kebersihan</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="disKebersihan_manual"
+                                        class="form-control"
+                                        id="disKebersihan_manual"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="manairkotor">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="airKotor_manual">Air Kotor</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="airKotor_manual"
+                                        class="form-control"
+                                        id="airKotor_manual"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="manlain">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="lain_manual">Lain - Lain</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="lain_manual"
+                                        class="form-control"
+                                        id="lain_manual"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="stt_listrik" name="stt_listrik" />
+                    <input type="hidden" id="stt_airbersih" name="stt_airbersih" />
+                    <input type="hidden" id="stt_keamananipk" name="stt_keamananipk" />
+                    <input type="hidden" id="stt_kebersihan" name="stt_kebersihan" />
+                    <input type="hidden" id="stt_airkotor" name="stt_airkotor" />
+                    <input type="hidden" id="stt_lain" name="stt_lain" />
+                    <input type="submit" class="btn btn-primary" value="Tambah"/>
                 </div>
             </form>
         </div>
@@ -670,7 +939,7 @@ $(document).ready(function(){
         order: [[ 0, "asc" ]],
         stateSave: true,
         deferRender: true,
-        aLengthMenu: [[10,25,50,100,-1], [10,25,50,100,"All"]],
+        aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
         language: {
             paginate: {
                 previous: "<i class='fas fa-angle-left'>",
@@ -681,8 +950,9 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [9,10] }, 
             { "bSearchable": false, "aTargets": [9,10] }
         ],
+        pageLength: 5,
         scrollX: true,
-        scrollY: "50vh",
+        scrollY: "60vh",
         fixedColumns:   {
             "leftColumns": 2,
             "rightColumns": 3,
@@ -856,6 +1126,156 @@ $(document).ready(function(){
                 }
             }
         });
+    });
+
+    $(document).on('click', '#tambah_manual', function(){
+        $('#kontrol_manual').select2({
+            placeholder: '--- Pilih Tempat ---',
+            ajax: {
+                url: "/cari/alamat",
+                dataType: 'json',
+                delay: 250,
+                processResults: function (alamat) {
+                    return {
+                    results:  $.map(alamat, function (al) {
+                        return {
+                        text: al.kd_kontrol,
+                        id: al.id
+                        }
+                    })
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+
+    $('#form_manualCheck').on('submit',function(e){
+        $("#manlistrik").hide();
+        $("#manairbersih").hide();
+        $("#mankeamananipk").hide();
+        $("#mankebersihan").hide();
+        $("#manairkotor").hide();
+        $("#manlain").hide();
+        $("#stt_listrik").val(0);
+        $("#stt_airbersih").val(0);
+        $("#stt_keamananipk").val(0);
+        $("#stt_kebersihan").val(0);
+        $("#stt_airkotor").val(0);
+        $("#stt_lain").val(0);
+        $("#dayaListrik_manual").prop("required", false);
+        $("#awalListrik_manual").prop("required", false);
+        $("#akhirListrik_manual").prop("required", false);
+        $("#awalAirBersih_manual").prop("required", false);
+        $("#akhirAirBersih_manual").prop("required", false);
+        $("#keamananIpk_manual").prop("required", false);
+        $("#disKeamananIpk_manual").prop("required", false);
+        $("#kebersihan_manual").prop("required", false);
+        $("#disKebersihan_manual").prop("required", false);
+        $("#airKotor_manual").prop("required", false);
+        $("#lain_manual").prop("required", false);
+        e.preventDefault();
+        $.ajax({
+			url:"/tagihan/check/manual",
+            cache:false,
+            method:"GET",
+			data:$(this).serialize(),
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.errors){
+                    $("#myManualCheck").modal("hide");
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
+                    $('#form_result').html(html);     
+                    $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                        .fadeTo(1500, 750)
+                        .slideUp(1500, function () {
+                            $("#success-alert,#error-alert").slideUp(750);
+                    });
+                }
+                else{
+                    $("#myManualCheck").modal("hide");
+                    $("#result-kontrol").text(data.result.kontrol);
+                    $("#result-periode").text(data.result.periode);
+                    $("#nama_manual").val(data.result.nama);
+
+                    setTimeout(function() {
+                        $("#myManual").modal("show");
+                    }, 1000);
+
+                    if(data.result.listrik){
+                        $("#manlistrik").show();
+                        $("#dayaListrik_manual").prop("required", true);
+                        $("#awalListrik_manual").prop("required", true);
+                        $("#akhirListrik_manual").prop("required", true);
+                        $("#stt_listrik").val(1);
+                    }
+                    
+                    if(data.result.airbersih){
+                        $("#manairbersih").show();
+                        $("#awalAirBersih_manual").prop("required", true);
+                        $("#akhirAirBersih_manual").prop("required", true);
+                        $("#stt_airbersih").val(1);
+                    }
+
+                    if(data.result.keamananipk){
+                        $("#mankeamananipk").show();
+                        $("#keamananIpk_manual").prop("required", true);
+                        $("#disKeamananIpk_manual").prop("required", true);
+                        $("#stt_keamananipk").val(1);
+                    }
+
+                    if(data.result.kebersihan){
+                        $("#mankebersihan").show();
+                        $("#kebersihan_manual").prop("required", true);
+                        $("#disKebersihan_manual").prop("required", true);
+                        $("#stt_kebersihan").val(1);
+                    }
+
+                    if(data.result.airkotor){
+                        $("#manairkotor").show();
+                        $("#airKotor_manual").prop("required", true);
+                        $("#stt_airkotor").val(1);
+                    }
+
+                    if(data.result.lain){
+                        $("#manlain").show();
+                        $("#lain_manual").prop("required", true);
+                        $("#stt_lain").val(1);
+                    }
+                }
+            }
+        })
+    });    
+
+    $('#form_manual').on('submit', function(event){
+		event.preventDefault();
+		$.ajax({
+			url: "/tagihan/manual",
+            cache:false,
+			method:"POST",
+			data:$(this).serialize(),
+			dataType:"json",
+			success:function(data)
+			{
+				if(data.errors)
+				{
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                }
+				if(data.success)
+				{
+					html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
+                }
+                $('#tabelTagihan').DataTable().ajax.reload(function(){}, false);
+				$('#form_result').html(html);
+                $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
+                });
+                $('#myManual').modal('hide');
+			}
+		});
     });
 });
 </script>

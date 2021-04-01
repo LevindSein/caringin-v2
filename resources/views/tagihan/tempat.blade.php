@@ -16,7 +16,7 @@
                 <thead>
                     <tr>
                         <th colspan="14" style="border-style:none;">
-                            <h3 style="text-align:center;">REKAP TAGIHAN TEMPAT USAHA<br>{{$now}}</h3>
+                            <h3 style="text-align:center;">REKAP TAGIHAN TEMPAT USAHA {{strtoupper($status)}}<br>{{$now}}</h3>
                         </th>
                     </tr>
                     <tr>
