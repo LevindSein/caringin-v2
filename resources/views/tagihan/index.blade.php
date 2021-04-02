@@ -717,6 +717,7 @@
                                 name="nama_manual"
                                 class="form-control"
                                 id="nama_manual"
+                                style="text-transform: capitalize;"
                                 required>
                         </div>
                     </div>
@@ -932,6 +933,18 @@
                             <hr>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="tambahDenda_manual"
+                                id="tambahDenda_manual">
+                            <label class="form-control-label" for="tambahDenda_manual">
+                                Tambah Denda
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="stt_listrik" name="stt_listrik" />
@@ -940,6 +953,8 @@
                     <input type="hidden" id="stt_kebersihan" name="stt_kebersihan" />
                     <input type="hidden" id="stt_airkotor" name="stt_airkotor" />
                     <input type="hidden" id="stt_lain" name="stt_lain" />
+                    <input type="hidden" id="stt_periode" name="stt_periode" />
+                    <input type="hidden" id="id_kontrol" name="id_kontrol" />
                     <input type="submit" class="btn btn-primary" id="stt_button" value="Tambah" />
                 </div>
             </form>
@@ -1244,6 +1259,8 @@ $(document).ready(function(){
                     $("#result-kontrol").text(data.result.kontrol);
                     $("#result-periode").text(data.result.periode);
                     $("#nama_manual").val(data.result.nama);
+                    $("#stt_periode").val(data.result.stt_periode);
+                    $("#id_kontrol").val(data.result.id_kontrol);
 
                     setTimeout(function() {
                         $("#myManual").modal("show");
@@ -1421,7 +1438,38 @@ $(document).ready(function(){
                         $("#keamananIpk_manual").prop("required", true);
                         $("#disKeamananIpk_manual").prop("required", true);
                         $("#stt_keamananipk").val(1);
-                        keamananipk = 1;
+
+                        document
+                            .getElementById('keamananIpk_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('disKeamananIpk_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+
+                        $("#keamananIpk_manual,#disKeamananIpk_manual").on("change paste keyup", function() {
+                            var akhir = $('#keamananIpk_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
+                            var awal = $('#disKeamananIpk_manual').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                            
+                            if(akhir >= awal){
+                                keamananipk = 1;
+                            }
+                            else{
+                                keamananipk = 0;
+                            }
+                        });
                     }
                     else{
                         keamananipk = 1;
@@ -1432,7 +1480,38 @@ $(document).ready(function(){
                         $("#kebersihan_manual").prop("required", true);
                         $("#disKebersihan_manual").prop("required", true);
                         $("#stt_kebersihan").val(1);
-                        kebersihan = 1;
+                        
+                        document
+                            .getElementById('kebersihan_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('disKebersihan_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+
+                        $("#kebersihan_manual,#disKebersihan_manual").on("change paste keyup", function() {
+                            var akhir = $('#kebersihan_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
+                            var awal = $('#disKebersihan_manual').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                            
+                            if(akhir >= awal){
+                                kebersihan = 1;
+                            }
+                            else{
+                                kebersihan = 0;
+                            }
+                        });
                     }
                     else{
                         kebersihan = 1;
@@ -1442,7 +1521,27 @@ $(document).ready(function(){
                         $("#manairkotor").show();
                         $("#airKotor_manual").prop("required", true);
                         $("#stt_airkotor").val(1);
-                        airkotor = 1;
+
+                        document
+                            .getElementById('airKotor_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+
+                        $("#airKotor_manual").on("change paste keyup", function() {
+                            var akhir = $('#airKotor_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
+                            if(akhir >= 0){
+                                airkotor = 1;
+                            }
+                            else{
+                                airkotor = 0;
+                            }
+                        });
                     }
                     else{
                         airkotor = 1;
@@ -1452,7 +1551,27 @@ $(document).ready(function(){
                         $("#manlain").show();
                         $("#lain_manual").prop("required", true);
                         $("#stt_lain").val(1);
-                        lain = 1;
+
+                        document
+                            .getElementById('lain_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+
+                        $("#lain_manual").on("change paste keyup", function() {
+                            var akhir = $('#lain_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
+                            if(akhir >= 0){
+                                lain = 1;
+                            }
+                            else{
+                                lain = 0;
+                            }
+                        });
                     }
                     else{
                         lain = 1;
@@ -1462,15 +1581,15 @@ $(document).ready(function(){
                         $("#stt_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
                     }
                     else{
-                        $("#stt_button").prop("disabled", false).removeClass("btn-primary").addClass("btn-denger");
+                        $("#stt_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-denger");
                     }
 
-                    $("#dayaListrik_manual,#akhirListrik_manual,#awalListrik_manual,#akhirAirBersih_manual,#awalAirBersih_manual").on("change paste keyup", function() {
+                    $("#dayaListrik_manual,#akhirListrik_manual,#awalListrik_manual,#akhirAirBersih_manual,#awalAirBersih_manual,#keamananIpk_manual,#disKeamananIpk_manual,#kebersihan_manual,#disKebersihan_manual,#airKotor_manual,#lain_manual").on("change paste keyup", function() {
                         if(listrik == 1 && airbersih == 1 && keamananipk == 1 && kebersihan == 1 && airkotor == 1 && lain == 1){
                             $("#stt_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
                         }
                         else{
-                            $("#stt_button").prop("disabled", false).removeClass("btn-primary").addClass("btn-danger");
+                            $("#stt_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
                         }
                     });
 
@@ -1479,7 +1598,7 @@ $(document).ready(function(){
                             $("#stt_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
                         }
                         else{
-                            $("#stt_button").prop("disabled", false).removeClass("btn-primary").addClass("btn-danger");
+                            $("#stt_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
                         }
                     });
                 }

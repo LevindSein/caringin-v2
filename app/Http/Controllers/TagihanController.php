@@ -1620,6 +1620,8 @@ class TagihanController extends Controller
                 $pedagang = Pedagang::find($tempat->id_pengguna);
                 $data['nama']    = $pedagang->nama;
                 $data['kontrol'] = $tempat->kd_kontrol;
+                $data['id_kontrol'] = $tempat->id;
+                $data['stt_periode'] = $periode;
                 $data['periode'] = IndoDate::bulan($periode, " ");
                 if($tempat->trf_listrik !== NULL)
                     $data['listrik'] = true;
@@ -1658,6 +1660,46 @@ class TagihanController extends Controller
     public function manual(Request $request){
         if(request()->ajax()){
             try{
+                $id_kontrol = $request->id_kontrol;
+                $periode    = $request->stt_periode;
+                $nama       = $request->nama_manual;
+
+                $tempat = TempatUsaha::find($id_kontrol);
+                $bln_pakai   = date("Y-m", strtotime("-1 month", strtotime($periode)));
+                $tgl_tagihan = date("Y-m-01", strtotime($periode));
+                $bln_tagihan = $periode;
+                $thn_tagihan = date("Y", strtotime($periode));
+                $expired = date("Y-m-15", strtotime($periode));
+                do{
+                    $libur = HariLibur::where('tanggal', $expired)->first();
+                    if ($libur != NULL){
+                        $stop_date = strtotime($expired);
+                        $expired = date("Y-m-d", strtotime("+1 day", $stop_date));
+                        $done = TRUE;
+                    }
+                    else{
+                        $done = FALSE;
+                    }
+                }
+                while($done == TRUE);
+                $tgl_expired = $expired;
+
+                $data = [
+                    'nama' => $nama,
+                    'blok' => $tempat->blok,
+                    'kd_kontrol' => $tempat->kd_kontrol,
+                    'bln_pakai' => $bln_pakai,
+                    'tgl_tagihan' => $tgl_tagihan,
+                    'bln_tagihan' => $bln_tagihan,
+                    'thn_tagihan' => $thn_tagihan,
+                    'tgl_expired' => $tgl_expired,
+                    'stt_lunas' => 0,
+                    'stt_bayar' => 0,
+                    'stt_prabayar' => 0,
+                ];
+
+                Tagihan::create($data);
+
                 return response()->json(['success' => "Data Berhasil Ditambah"]);
             }
             catch(\Exception $e){
