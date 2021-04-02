@@ -1662,6 +1662,9 @@ class TagihanController extends Controller
     public function manual(Request $request){
         if(request()->ajax()){
             try{
+                $today = strtotime(Carbon::now());
+                $sekarang = date('Y-m',$today);
+
                 $id_kontrol = $request->id_kontrol;
                 $periode    = $request->stt_periode;
                 $nama       = $request->nama_manual;
@@ -1832,11 +1835,13 @@ class TagihanController extends Controller
 
                     $tagihan->warna_listrik = $warna;
             
-                    $meter = AlatListrik::find($tempat->id_meteran_listrik);
-                    if($meter != NULL){
-                        $meter->akhir = $akhir;
-                        $meter->daya  = $daya;
-                        $meter->save();
+                    if($sekarang >= $periode){
+                        $meter = AlatListrik::find($tempat->id_meteran_listrik);
+                        if($meter != NULL){
+                            $meter->akhir = $akhir;
+                            $meter->daya  = $daya;
+                            $meter->save();
+                        }
                     }
 
                     $tagihan->stt_listrik = 1;
@@ -1980,10 +1985,12 @@ class TagihanController extends Controller
 
                     $tagihan->warna_airbersih = $warna;
             
-                    $meter = AlatAir::find($tempat->id_meteran_air);
-                    if($meter != NULL){
-                        $meter->akhir = $akhir;
-                        $meter->save();
+                    if($sekarang >= $periode){
+                        $meter = AlatAir::find($tempat->id_meteran_air);
+                        if($meter != NULL){
+                            $meter->akhir = $akhir;
+                            $meter->save();
+                        }
                     }
 
                     $tagihan->stt_airbersih = 1;
@@ -2016,7 +2023,9 @@ class TagihanController extends Controller
                     $tagihan->sel_keamananipk = $tagihan->ttl_keamananipk;
                     $tagihan->stt_keamananipk = 1;
 
-                    $tempat->dis_keamananipk = $diskon;
+                    if($sekarang >= $periode){
+                        $tempat->dis_keamananipk = $diskon;
+                    }
                 }
                 
                 if($request->stt_kebersihan == 1){
@@ -2043,7 +2052,9 @@ class TagihanController extends Controller
                     $tagihan->sel_kebersihan = $tagihan->ttl_kebersihan;
                     $tagihan->stt_kebersihan = 1;
 
-                    $tempat->dis_kebersihan = $diskon;
+                    if($sekarang >= $periode){
+                        $tempat->dis_kebersihan = $diskon;
+                    }
                 }
                 
                 if($request->stt_airkotor == 1){
@@ -2072,6 +2083,82 @@ class TagihanController extends Controller
                     $tagihan->rea_lain = 0;
                     $tagihan->sel_lain = $tagihan->ttl_lain;
                     $tagihan->stt_lain = 1;
+                }
+
+
+                if(empty($request->tambahDenda_manual) == FALSE){
+                    $today = strtotime(Carbon::now());
+                    $sekarang = date('Y-m-d',$today);
+
+                    $denda    = $tagihan->tgl_expired;
+
+                    if($sekarang > $denda){
+                        $airbersih = TarifAirBersih::first();
+
+                        $listrik = TarifListrik::first();
+
+                        $date1 = $tagihan->tgl_expired;
+                        $date2 = date('Y-m-d',$today);
+                        
+                        $ts1 = strtotime($date1);
+                        $ts2 = strtotime($date2);
+                        
+                        $year1 = date('Y', $ts1);
+                        $year2 = date('Y', $ts2);
+                        
+                        $month1 = date('m', $ts1);
+                        $month2 = date('m', $ts2);
+                        
+                        $day1 = date('d', $ts1);
+                        $day2 = date('d', $ts2);
+
+                        if($day2 - $day1 > 0){
+                            $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+                            if($diff == 0 || $diff == 1 || $diff == 2 || $diff == 3){
+                                $diff = $diff + 1;
+                            }
+                        }
+
+                        if($day2 - $day1 <= 0){
+                            $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+                            if($diff == 1 || $diff == 2 || $diff == 3 || $diff == 4){
+                                $diff = $diff;
+                            }
+                        }
+
+                        $tagihan->stt_denda = $diff;
+
+                        if($tagihan->sel_airbersih > 0){
+                            $tagihan->den_airbersih = $diff * $airbersih->trf_denda;
+                            $tagihan->ttl_airbersih =  $tagihan->sub_airbersih - $tagihan->dis_airbersih + $tagihan->den_airbersih;
+                            $tagihan->sel_airbersih = $tagihan->ttl_airbersih - $tagihan->rea_airbersih;
+                        }
+
+                        if($tagihan->sel_listrik > 0){
+                            if($tagihan->daya_listrik <= 4400){
+                                $tagihan->den_listrik = $diff * $listrik->trf_denda;
+                                $tagihan->ttl_listrik =  $tagihan->sub_listrik - $tagihan->dis_listrik + $tagihan->den_listrik;
+                                $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
+                            }
+                            else if($tagihan->daya_listrik > 4400){
+                                $tagihan->den_listrik = $diff * (($listrik->trf_denda_lebih / 100) * $tagihan->sub_listrik);
+                                $tagihan->ttl_listrik = $tagihan->sub_listrik - $tagihan->dis_listrik + $tagihan->den_listrik;
+                                $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
+                            }
+                        }
+                        
+                        if($tagihan->stt_denda == 2){
+                            $tempat->stt_bongkar = 0;
+                        }
+
+                        if($tagihan->stt_denda == 3){
+                            $tempat->stt_bongkar = 1;
+                        }
+
+                        if($t->stt_denda == 4){
+                            $tempat->stt_bongkar = 1;
+                        }
+                    }
                 }
 
                 //Subtotal

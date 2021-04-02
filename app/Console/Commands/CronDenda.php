@@ -46,7 +46,7 @@ class CronDenda extends Command
         $today = Carbon::now();
         $today = strtotime($today);
         try{
-            $dataset = Tagihan::where([['stt_lunas',0],['stt_denda','!=',6],['bln_tagihan','<=',date('Y-m',$today)]])->get();
+            $dataset = Tagihan::where([['stt_lunas',0],['bln_tagihan','<=',date('Y-m',$today)]])->get();
 
             foreach($dataset as $t){
                 $sekarang = date('Y-m-d',$today);
