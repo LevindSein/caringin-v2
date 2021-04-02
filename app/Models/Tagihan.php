@@ -17,6 +17,8 @@ use App\Models\TarifLain;
 use App\Models\TempatUsaha;
 use App\Models\Tagihan;
 
+use App\Models\HariLibur;
+
 use Carbon\Carbon;
 
 class Tagihan extends Model
@@ -712,10 +714,24 @@ class Tagihan extends Model
         try{
             $t = Tagihan::find($id);
             
-            $t->stt_denda = 0;
-            $t->save();
             $sekarang = date('Y-m-d',$today);
-            $denda    = $t->tgl_expired;
+            $tgl_tagihan = strtotime($t->tgl_tagihan);
+            $expired = date('Y-m-15',$tgl_tagihan);
+            do{
+                $libur = HariLibur::where('tanggal', $expired)->first();
+                if ($libur != NULL){
+                    $stop_date = strtotime($expired);
+                    $expired = date("Y-m-d", strtotime("+1 day", $stop_date));
+                    $done = TRUE;
+                }
+                else{
+                    $done = FALSE;
+                }
+            }
+            while($done == TRUE);
+            $t->tgl_expired = $expired;
+
+            $denda = $t->tgl_expired;
             if($sekarang > $denda){
                 $airbersih = TarifAirBersih::first();
 
