@@ -1,8 +1,13 @@
+<?php use Jenssegers\Agent\Agent; $agent = new Agent();?>
 <footer class="footer pt-0">
     <div class="row align-items-center justify-content-lg-between">
         <div class="col-lg-6">
             <div class="copyright text-center text-lg-left text-muted">
-                &copy; 2020 <a href="#" class="font-weight-bold ml-1">PT Pengelola Pusat Perdagangan Caringin</a>
+                @if($agent->isDesktop())
+                    &copy; 2020 <a href="#" class="font-weight-bold ml-1">PT Pengelola Pusat Perdagangan Caringin</a>
+                @else
+                    &copy; 2020 <a href="#" class="font-weight-bold ml-1">PT P3C</a>
+                @endif
             </div>
         </div>
         <div class="col-lg-6">
