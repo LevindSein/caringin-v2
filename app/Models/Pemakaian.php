@@ -456,6 +456,8 @@ class Pemakaian extends Model
                     DB::raw('SUM(tagihan.ttl_airbersih) as airbersih'),
                     DB::raw('SUM(tagihan.ttl_keamananipk) as keamananipk'),
                     DB::raw('SUM(tagihan.ttl_kebersihan) as kebersihan'),
+                    DB::raw('SUM(tagihan.ttl_airkotor) as airkotor'),
+                    DB::raw('SUM(tagihan.ttl_lain) as lain'),
                     DB::raw('SUM(tagihan.ttl_tagihan) as tagihan'),
                     DB::raw('SUM(tagihan.rea_tagihan) as realisasi'),
                     DB::raw('SUM(tagihan.sel_tagihan) as selisih'),
@@ -473,6 +475,8 @@ class Pemakaian extends Model
         $airbersih = 0;
         $keamananipk = 0;
         $kebersihan = 0;
+        $airkotor = 0;
+        $lain = 0;
         $tagihan = 0;
         $realisasi = 0;
         $selisih = 0;
@@ -482,18 +486,22 @@ class Pemakaian extends Model
             $airbersih = $airbersih + $d->airbersih;
             $keamananipk = $keamananipk + $d->keamananipk;
             $kebersihan = $kebersihan + $d->kebersihan;
+            $airkotor = $airkotor + $d->airkotor;
+            $lain = $lain + $d->lain;
             $tagihan = $tagihan + $d->tagihan;
             $realisasi = $realisasi + $d->realisasi;
             $selisih = $selisih + $d->selisih;
         }
-        $total[0] = $pengguna;
-        $total[1] = $listrik;
-        $total[2] = $airbersih;
-        $total[3] = $keamananipk;
-        $total[4] = $kebersihan;
-        $total[5] = $tagihan;
-        $total[6] = $realisasi;
-        $total[7] = $selisih;
+        $total['pengguna'] = $pengguna;
+        $total['listrik'] = $listrik;
+        $total['airbersih'] = $airbersih;
+        $total['keamananipk'] = $keamananipk;
+        $total['kebersihan'] = $kebersihan;
+        $total['airkotor'] = $airkotor;
+        $total['lain'] = $lain;
+        $total['tagihan'] = $tagihan;
+        $total['realisasi'] = $realisasi;
+        $total['selisih'] = $selisih;
         return $total;
     }
 
@@ -522,6 +530,8 @@ class Pemakaian extends Model
                 'tagihan.ttl_airbersih as airbersih',
                 'tagihan.ttl_keamananipk as keamananipk',
                 'tagihan.ttl_kebersihan as kebersihan',
+                'tagihan.ttl_airkotor as airkotor',
+                'tagihan.ttl_lain as lain',
                 'tagihan.ttl_tagihan as tagihan',
                 'tagihan.rea_tagihan as realisasi',
                 'tagihan.sel_tagihan as selisih'
@@ -539,6 +549,8 @@ class Pemakaian extends Model
                 DB::raw('SUM(tagihan.ttl_airbersih) as airbersih'),
                 DB::raw('SUM(tagihan.ttl_keamananipk) as keamananipk'),
                 DB::raw('SUM(tagihan.ttl_kebersihan) as kebersihan'),
+                DB::raw('SUM(tagihan.ttl_airkotor) as airkotor'),
+                DB::raw('SUM(tagihan.ttl_lain) as lain'),
                 DB::raw('SUM(tagihan.ttl_tagihan) as tagihan'),
                 DB::raw('SUM(tagihan.rea_tagihan) as realisasi'),
                 DB::raw('SUM(tagihan.sel_tagihan) as selisih')

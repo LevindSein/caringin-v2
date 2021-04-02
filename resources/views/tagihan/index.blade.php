@@ -13,7 +13,7 @@
 @if($agent->isDesktop())
 <a 
     href="{{url('tagihan')}}"
-    class="btn btn-sm btn-success">
+    class="btn btn-sm btn-success home-tagihan">
     <i class="fas fa-home text-white"></i>
 </a>
 @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
@@ -34,7 +34,7 @@
 <a class="dropdown-toggle btn btn-sm btn-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
 <div class="dropdown-menu dropdown-menu-right">
     @if($agent->isMobile())
-    <a type="button" href="{{url('tagihan')}}" class="dropdown-item"><i class="fas fa-fw fa-home text-gray"></i><span>Home</span></a>
+    <a type="button" href="{{url('tagihan')}}" class="dropdown-item home-tagihan"><i class="fas fa-fw fa-home text-gray"></i><span>Home</span></a>
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
     <button class="dropdown-item" name="add_listrik" id="add_listrik"><i class="fas fa-fw fa-plus text-gray"></i><span>Tambah Listrik</span><span class="badge badge-pill badge-warning badge-listrik"></span></button>
     <button class="dropdown-item" name="add_air" id="add_air"><i class="fas fa-fw fa-plus text-gray"></i><span>Tambah Air</span><span class="badge badge-pill badge-primary badge-air"></span></button>
@@ -73,7 +73,8 @@
     <div class="col-xl-12">
         <div class="card shadow mb-4">
             <div class="card-body">
-                <div class="text-right">
+                <div class="form-group text-right">
+                    <button class="btn btn-sm btn-success" id="checking-report"><i class="fas fa-bell bell"></i><span>Report</span><span class="badge badge-pill badge-light badge-report"></span></button>
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 @if($agent->isDesktop())
@@ -953,6 +954,35 @@
         </div>
     </div>
 </div>
+
+<div id="myTagihan" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title titles">Edit Tagihan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_tagihan">
+                @csrf
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="edit_listrik" name="edit_listrik" />
+                    <input type="hidden" id="edit_airbersih" name="edit_airbersih" />
+                    <input type="hidden" id="edit_keamananipk" name="edit_keamananipk" />
+                    <input type="hidden" id="edit_kebersihan" name="edit_kebersihan" />
+                    <input type="hidden" id="edit_airkotor" name="edit_airkotor" />
+                    <input type="hidden" id="edit_lain" name="edit_lain" />
+                    <input type="hidden" id="hidden_id" name="hidden_id"/>
+                    <input type="submit" class="btn btn-primary" id="edit_button" value="Update"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -1627,6 +1657,35 @@ $(document).ready(function(){
                 $('#myManual').modal('hide');
 			}
 		});
+    });
+
+    $(document).on('click', '.edit', function(){
+		id = $(this).attr('id');
+        $('#hidden_id').val(id);
+        $('#form_tagihan')[0].reset();
+        $('#editListrik').hide();
+        $('#editAirBersih').hide();
+        $('#editKeamananIpk').hide();
+        $('#editKebersihan').hide();
+        $('#editAirKotor').hide();
+        $('#editLain').hide();
+        $('#edit_listrik').val(0);
+        $('#edit_airbersih').val(0);
+        $('#edit_keamananipk').val(0);
+        $('#edit_kebersihan').val(0);
+        $('#edit_airkotor').val(0);
+        $('#edit_lain').val(0);
+        $("#edit_button").prop("disabled", true);
+		$.ajax({
+			url :"/tagihan/"+id+"/edit",
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                $(".titles").text("Edit Tagihan " + data.result.kd_kontrol);
+                $("#myTagihan").modal("show");
+            }
+        });
     });
 });
 </script>

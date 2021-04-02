@@ -13,7 +13,7 @@
             <table class="tg">
                 <thead>
                     <tr>
-                        <th colspan="8" style="border-style:none;">
+                        <th colspan="10" style="border-style:none;">
                             <h3 style="text-align:center;">REKAP TOTAL PEMAKAIAN FASILITAS<br>{{$bln}}</h3>
                         </th>
                     </tr>
@@ -25,9 +25,9 @@
                         <th class="tg-r8fv">Air Bersih</th>
                         <th class="tg-r8fv">Keamanan IPK</th>
                         <th class="tg-r8fv">Kebersihan</th>
+                        <th class="tg-r8fv">Air Kotor</th>
+                        <th class="tg-r8fv">Lainnya</th>
                         <th class="tg-r8fv">Tagihan</th>
-                        <!-- <th class="tg-r8fv">Realisasi</th> -->
-                        <!-- <th class="tg-r8fv">Selisih</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -41,23 +41,23 @@
                         <td class="tg-g25h">{{number_format($d->airbersih)}}</td>
                         <td class="tg-g25h">{{number_format($d->keamananipk)}}</td>
                         <td class="tg-g25h">{{number_format($d->kebersihan)}}</td>
+                        <td class="tg-g25h">{{number_format($d->airkotor)}}</td>
+                        <td class="tg-g25h">{{number_format($d->lain)}}</td>
                         <td class="tg-g25h">{{number_format($d->tagihan)}}</td>
-                        <!-- <td class="tg-g25h">{{number_format($d->realisasi)}}</td> -->
-                        <!-- <td class="tg-g25h">{{number_format($d->selisih)}}</td> -->
                     </tr>
                     <?php $no++; ?>
                     @endforeach
                 </tbody>
                 <tr>
                     <td class="tg-vbo4" style="text-align:center;" colspan="2">Total</td>
-                    <td class="tg-vbo4" style="text-align:center;">{{number_format($ttlRekap[0])}}</td>
-                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap[1])}}</td>
-                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap[2])}}</td>
-                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap[3])}}</td>
-                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap[4])}}</td>
-                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap[5])}}</td>
-                    <!-- <td class="tg-8m6k">Rp. {{number_format($ttlRekap[6])}}</td> -->
-                    <!-- <td class="tg-8m6k">Rp. {{number_format($ttlRekap[7])}}</td> -->
+                    <td class="tg-vbo4" style="text-align:center;">{{number_format($ttlRekap['pengguna'])}}</td>
+                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap['listrik'])}}</td>
+                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap['airbersih'])}}</td>
+                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap['keamananipk'])}}</td>
+                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap['kebersihan'])}}</td>
+                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap['airkotor'])}}</td>
+                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap['lain'])}}</td>
+                    <td class="tg-8m6k">Rp. {{number_format($ttlRekap['tagihan'])}}</td>
                 </tr>
             </table>
         </main>
@@ -69,7 +69,7 @@
                 <table class="tg">
                     <thead>
                         <tr>
-                            <th colspan="10" style="border-style:none;">
+                            <th colspan="12" style="border-style:none;">
                                 <h3 style="text-align:center;">RINCIAN PEMAKAIAN FASILITAS<br>{{$bln}}<br>{{$data[0]}}</h3>
                             </th>
                         </tr>
@@ -83,9 +83,9 @@
                             <th class="tg-r8fv">Air Bersih</th>
                             <th class="tg-r8fv">Keamanan IPK</th>
                             <th class="tg-r8fv">Kebersihan</th>
+                            <th class="tg-r8fv">Air Kotor</th>
+                            <th class="tg-r8fv">Lainnya</th>
                             <th class="tg-r8fv">Tagihan</th>
-                            <!-- <th class="tg-r8fv">Realisasi</th> -->
-                            <!-- <th class="tg-r8fv">Selisih</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -101,9 +101,9 @@
                             <td class="tg-g25h">{{number_format($d->airbersih)}}</td>
                             <td class="tg-g25h">{{number_format($d->keamananipk)}}</td>
                             <td class="tg-g25h">{{number_format($d->kebersihan)}}</td>
+                            <td class="tg-g25h">{{number_format($d->airkotor)}}</td>
+                            <td class="tg-g25h">{{number_format($d->lain)}}</td>
                             <td class="tg-g25h">{{number_format($d->tagihan)}}</td>
-                            <!-- <td class="tg-g25h">{{number_format($d->realisasi)}}</td> -->
-                            <!-- <td class="tg-g25h">{{number_format($d->selisih)}}</td> -->
                         </tr>
                         <?php $no++; ?>
                         @endforeach
@@ -116,9 +116,9 @@
                         <td class="tg-8m6k">{{number_format($d->airbersih)}}</td>
                         <td class="tg-8m6k">{{number_format($d->keamananipk)}}</td>
                         <td class="tg-8m6k">{{number_format($d->kebersihan)}}</td>
+                        <td class="tg-8m6k">{{number_format($d->airkotor)}}</td>
+                        <td class="tg-8m6k">{{number_format($d->lain)}}</td>
                         <td class="tg-8m6k">{{number_format($d->tagihan)}}</td>
-                        <!-- <td class="tg-8m6k">{{number_format($d->realisasi)}}</td> -->
-                        <!-- <td class="tg-8m6k">{{number_format($d->selisih)}}</td> -->
                     </tr>
                     @endforeach
                 </table>

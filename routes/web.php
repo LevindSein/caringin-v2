@@ -158,6 +158,7 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 });
 
 Route::middleware('ceklogin:tagihan')->group(function (){
+    Route::get('tagihan/{id}/edit', [TagihanController::class, 'edit']);
     Route::get('tagihan/check/manual', [TagihanController::class, 'checkManual']);
     Route::post('tagihan/manual', [TagihanController::class, 'manual']);
     Route::post('tagihan/refresh/tarif', [TagihanController::class, 'refreshTarif']);

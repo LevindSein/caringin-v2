@@ -326,25 +326,32 @@ class TagihanController extends Controller
         $data = array();
         if(Session::get('role') == 'admin'){
             $wherein = Session::get('otoritas')->otoritas;
-            $listrik = Tagihan::where([['tagihan.stt_listrik',0],['tempat_usaha.trf_listrik',1]])
-            ->leftJoin('tempat_usaha','tagihan.kd_kontrol','=','tempat_usaha.kd_kontrol')
-            ->whereIn('tagihan.blok',$wherein)
+            $listrik = Tagihan::where('stt_listrik',0)
+            ->whereIn('blok',$wherein)
             ->count();
 
-            $air = Tagihan::where([['tagihan.stt_airbersih',0],['tempat_usaha.trf_airbersih',1]])
-            ->leftJoin('tempat_usaha','tagihan.kd_kontrol','=','tempat_usaha.kd_kontrol')
-            ->whereIn('tagihan.blok',$wherein)
+            $air = Tagihan::where('stt_airbersih',0)
+            ->whereIn('blok',$wherein)
+            ->count();
+
+            $report = Tagihan::where('review',0)
+            ->whereIn('blok',$wherein)
             ->count();
         }
         else{
             $listrik = Tagihan::where('stt_listrik',0)
             ->count();
+
             $air = Tagihan::where('stt_airbersih',0)
+            ->count();
+            
+            $report = Tagihan::where('review',0)
             ->count();
         }
 
         $data['listrik'] = $listrik;
         $data['air']     = $air;
+        $data['report']     = $report;
 
         return response()->json(['result' => $data]);
     }
@@ -973,7 +980,7 @@ class TagihanController extends Controller
                 else if($publish === 0){
                     $hasil = 1;
                 }
-                $tagihan->review      = 0;
+                $tagihan->review      = $hasil;
                 $tagihan->reviewer    = Session::get('username');
                 $tagihan->stt_publish = $hasil;
                 $tagihan->via_publish = Session::get('username');
@@ -2220,6 +2227,13 @@ class TagihanController extends Controller
             catch(\Exception $e){
                 return response()->json(['errors' => $e]);
             }
+        }
+    }
+
+    public function edit($id){
+        if(request()->ajax()){
+            $data = Tagihan::find($id);
+            return response()->json(['result' => $data]);
         }
     }
 

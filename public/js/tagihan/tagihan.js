@@ -40,6 +40,7 @@ $(document).ready(function(){
             {
                 $('.badge-listrik').html(data.result.listrik);
                 $('.badge-air').html(data.result.air);
+                $('.badge-report').html(data.result.report);
             }
         })
     }
