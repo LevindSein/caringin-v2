@@ -23,32 +23,8 @@ $(document).ready(function(){
     var len = input.val().length;
     input[0].focus();
     input[0].setSelectionRange(len, len);
-
-    var awal = $('#awal').val();
-    awal = awal.split(',');
-    awal = awal.join('');
-    awal = parseInt(awal); 
-
-    var akhir = $('#akhir').val();
-    akhir = akhir.split(',');
-    akhir = akhir.join('');
-    akhir = parseInt(akhir);
     
-    $("#tambah").prop("disabled", false);
-
-    $("#akhir,#awal").on("change paste keyup", function() {
-        var akhir = $('#akhir').val();
-        akhir = akhir.split(',');
-        akhir = akhir.join('');
-        akhir = parseInt(akhir);
-
-        var awal = $('#awal').val();
-        awal = awal.split(',');
-        awal = awal.join('');
-        awal = parseInt(awal); 
-        
-        $("#tambah").prop("disabled", false);
-    });
+    $("#tambah").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
 
     var daya = $('#daya').val();
     daya = daya.split(',');
@@ -65,14 +41,14 @@ $(document).ready(function(){
     akhir = akhir.join('');
     akhir = parseInt(akhir);
     
-    if(daya > 0){
-        $("#tambah").prop("disabled", false);
+    $("#reset").prop('checked', false);
+    
+    if(daya > 0 && akhir >= awal){
+        $("#tambah").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
     }
     else{
-        $("#tambah").prop("disabled", true);
+        $("#tambah").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
     }
-    
-    $("#reset").prop('checked', false);
 
     $("#daya,#awal,#akhir").on("change paste keyup", function() {
         var daya = $('#daya').val();
@@ -91,13 +67,16 @@ $(document).ready(function(){
         akhir = parseInt(akhir);
 
         if(daya > 0 && akhir >= awal){
-            $("#tambah").prop("disabled", false);
+            $("#tambah").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
+        }
+        else if(daya == 0){
+            $("#tambah").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
         }
         else{
-            if ($("#reset").prop('checked')==true)
-                $("#tambah").prop("disabled", false);
+            if ($("#reset").prop('checked') == true)
+                $("#tambah").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
             else
-                $("#tambah").prop("disabled", true);
+                $("#tambah").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
         }
     });
 
@@ -119,18 +98,18 @@ $(document).ready(function(){
         
         if(this.checked) {
             if(daya > 0){
-                $("#tambah").prop("disabled", false);
+                $("#tambah").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
             }
             else{
-                $("#tambah").prop("disabled", true);
+                $("#tambah").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
             }
         }
         else{
             if(daya > 0 && akhir >= awal){
-                $("#tambah").prop("disabled", false);
+                $("#tambah").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
             }
             else{
-                $("#tambah").prop("disabled", true);
+                $("#tambah").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
             }
         }
     });

@@ -729,6 +729,7 @@
                                     autocomplete="off"
                                     type="text" 
                                     pattern="^[\d,]+$"
+                                    maxLength="10"
                                     name="dayaListrik_manual"
                                     class="form-control"
                                     id="dayaListrik_manual">
@@ -739,19 +740,33 @@
                                     autocomplete="off"
                                     type="text" 
                                     pattern="^[\d,]+$"
+                                    maxLength="10"
                                     name="awalListrik_manual"
                                     class="form-control"
                                     id="awalListrik_manual">
                             </div>
                             <div class="form-group col-lg-12">
                                 <label class="form-control-label" for="akhirListrik_manual">Stand Akhir Listrik</label>
-                                <input
-                                    autocomplete="off"
-                                    type="text" 
-                                    pattern="^[\d,]+$"
-                                    name="akhirListrik_manual"
-                                    class="form-control"
-                                    id="akhirListrik_manual">
+                                <div class="input-group">
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="akhirListrik_manual"
+                                        maxLength="10"
+                                        class="form-control"
+                                        id="akhirListrik_manual">
+                                    <div class="input-group-prepend">
+                                        <div class="col">
+                                            <input 
+                                                class="input-group-text"
+                                                type="checkbox"
+                                                name="resetListrik_manual"
+                                                id="resetListrik_manual">
+                                            <label class="form-control-label" for="resetAirBersih_manual">Reset ?</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <hr>
                         </div>
@@ -765,18 +780,32 @@
                                     type="text" 
                                     pattern="^[\d,]+$"
                                     name="awalAirBersih_manual"
+                                    maxLength="10"
                                     class="form-control"
                                     id="awalAirBersih_manual">
                             </div>
                             <div class="form-group col-lg-12">
                                 <label class="form-control-label" for="akhirAirBersih_manual">Stand Akhir Air</label>
-                                <input
-                                    autocomplete="off"
-                                    type="text" 
-                                    pattern="^[\d,]+$"
-                                    name="akhirAirBersih_manual"
-                                    class="form-control"
-                                    id="akhirAirBersih_manual">
+                                <div class="input-group">
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="akhirAirBersih_manual"
+                                        maxLength="10"
+                                        class="form-control"
+                                        id="akhirAirBersih_manual">
+                                    <div class="input-group-prepend">
+                                        <div class="col">
+                                            <input 
+                                                class="input-group-text"
+                                                type="checkbox"
+                                                name="resetAirBersih_manual"
+                                                id="resetAirBersih_manual">
+                                            <label class="form-control-label" for="resetAirBersih_manual">Reset ?</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <hr>
                         </div>
@@ -793,6 +822,7 @@
                                         autocomplete="off"
                                         type="text" 
                                         pattern="^[\d,]+$"
+                                        maxLength="10"
                                         name="keamananIpk_manual"
                                         class="form-control"
                                         id="keamananIpk_manual"
@@ -809,6 +839,7 @@
                                         autocomplete="off"
                                         type="text" 
                                         pattern="^[\d,]+$"
+                                        maxLength="10"
                                         name="disKeamananIpk_manual"
                                         class="form-control"
                                         id="disKeamananIpk_manual"
@@ -830,6 +861,7 @@
                                         autocomplete="off"
                                         type="text" 
                                         pattern="^[\d,]+$"
+                                        maxLength="10"
                                         name="kebersihan_manual"
                                         class="form-control"
                                         id="kebersihan_manual"
@@ -846,6 +878,7 @@
                                         autocomplete="off"
                                         type="text" 
                                         pattern="^[\d,]+$"
+                                        maxLength="10"
                                         name="disKebersihan_manual"
                                         class="form-control"
                                         id="disKebersihan_manual"
@@ -867,6 +900,7 @@
                                         autocomplete="off"
                                         type="text" 
                                         pattern="^[\d,]+$"
+                                        maxLength="10"
                                         name="airKotor_manual"
                                         class="form-control"
                                         id="airKotor_manual"
@@ -888,6 +922,7 @@
                                         autocomplete="off"
                                         type="text" 
                                         pattern="^[\d,]+$"
+                                        maxLength="10"
                                         name="lain_manual"
                                         class="form-control"
                                         id="lain_manual"
@@ -905,7 +940,7 @@
                     <input type="hidden" id="stt_kebersihan" name="stt_kebersihan" />
                     <input type="hidden" id="stt_airkotor" name="stt_airkotor" />
                     <input type="hidden" id="stt_lain" name="stt_lain" />
-                    <input type="submit" class="btn btn-primary" value="Tambah"/>
+                    <input type="submit" class="btn btn-primary" id="stt_button" value="Tambah" />
                 </div>
             </form>
         </div>
@@ -1151,6 +1186,7 @@ $(document).ready(function(){
     });
 
     $('#form_manualCheck').on('submit',function(e){
+        $('#form_manual')[0].reset();
         $("#manlistrik").hide();
         $("#manairbersih").hide();
         $("#mankeamananipk").hide();
@@ -1174,6 +1210,9 @@ $(document).ready(function(){
         $("#disKebersihan_manual").prop("required", false);
         $("#airKotor_manual").prop("required", false);
         $("#lain_manual").prop("required", false);
+        $('#stt_button').prop("disabled",true).removeClass("btn-primary").addClass("btn-danger");
+        $('#resetListrik_manual').prop("checked",false);
+        $('#resetAirBersih_manual').prop("checked",false);
         e.preventDefault();
         $.ajax({
 			url:"/tagihan/check/manual",
@@ -1194,6 +1233,13 @@ $(document).ready(function(){
                     });
                 }
                 else{
+                    var listrik = 0;
+                    var airbersih = 0;
+                    var keamananipk = 0;
+                    var kebersihan = 0;
+                    var airkotor = 0;
+                    var lain = 0;
+
                     $("#myManualCheck").modal("hide");
                     $("#result-kontrol").text(data.result.kontrol);
                     $("#result-periode").text(data.result.periode);
@@ -1209,6 +1255,94 @@ $(document).ready(function(){
                         $("#awalListrik_manual").prop("required", true);
                         $("#akhirListrik_manual").prop("required", true);
                         $("#stt_listrik").val(1);
+
+                        document
+                            .getElementById('akhirListrik_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('awalListrik_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('dayaListrik_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+
+                        $("#dayaListrik_manual,#awalListrik_manual,#akhirListrik_manual").on("change paste keyup", function() {
+                            var daya = $('#dayaListrik_manual').val();
+                            daya = daya.split(',');
+                            daya = daya.join('');
+                            daya = parseInt(daya);
+
+                            var awal = $('#awalListrik_manual').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                        
+                            var akhir = $('#akhirListrik_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
+                            if(daya > 0 && akhir >= awal){
+                                listrik = 1;
+                            }
+                            else if(daya == 0){
+                                listrik = 0
+                            }
+                            else{
+                                if ($("#resetListrik_manual").prop('checked') == true){
+                                    listrik = 1;
+                                }
+                                else{
+                                    listrik = 0;
+                                }
+                            }
+                        });
+
+                        $("#resetListrik_manual").change(function() {
+                            var daya = $('#dayaListrik_manual').val();
+                            daya = daya.split(',');
+                            daya = daya.join('');
+                            daya = parseInt(daya);
+
+                            var awal = $('#awalListrik_manual').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                        
+                            var akhir = $('#akhirListrik_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+                            
+                            if(this.checked) {
+                                if(daya > 0){
+                                    listrik = 1;
+                                }
+                                else{
+                                    listrik = 0;
+                                }
+                            }
+                            else{
+                                if(daya > 0 && akhir >= awal){
+                                    listrik = 1;
+                                }
+                                else{
+                                    listrik = 0;
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        listrik = 1;
                     }
                     
                     if(data.result.airbersih){
@@ -1216,6 +1350,70 @@ $(document).ready(function(){
                         $("#awalAirBersih_manual").prop("required", true);
                         $("#akhirAirBersih_manual").prop("required", true);
                         $("#stt_airbersih").val(1);
+
+                        document
+                            .getElementById('akhirAirBersih_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('awalAirBersih_manual')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        
+                        $("#akhirAirBersih_manual,#awalAirBersih_manual").on("change paste keyup", function() {
+                            var akhir = $('#akhirAirBersih_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
+                            var awal = $('#awalAirBersih_manual').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                            
+                            if(akhir >= awal){
+                                airbersih = 1;
+                            }
+                            else{
+                                if ($("#resetAirBersih_manual").prop('checked') == true){
+                                    airbersih = 1;
+                                }
+                                else{
+                                    airbersih = 0;
+                                }
+                            }
+                        });
+
+                        $("#resetAirBersih_manual").change(function() {
+                            var awal = $('#awalAirBersih_manual').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                        
+                            var akhir = $('#akhirAirBersih_manual').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+                            
+                            if(this.checked) {
+                                airbersih = 1;
+                            }
+                            else{
+                                if(akhir >= awal){
+                                    airbersih = 1;
+                                }
+                                else{
+                                    airbersih = 0;
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        airbersih = 1;
                     }
 
                     if(data.result.keamananipk){
@@ -1223,6 +1421,10 @@ $(document).ready(function(){
                         $("#keamananIpk_manual").prop("required", true);
                         $("#disKeamananIpk_manual").prop("required", true);
                         $("#stt_keamananipk").val(1);
+                        keamananipk = 1;
+                    }
+                    else{
+                        keamananipk = 1;
                     }
 
                     if(data.result.kebersihan){
@@ -1230,19 +1432,56 @@ $(document).ready(function(){
                         $("#kebersihan_manual").prop("required", true);
                         $("#disKebersihan_manual").prop("required", true);
                         $("#stt_kebersihan").val(1);
+                        kebersihan = 1;
+                    }
+                    else{
+                        kebersihan = 1;
                     }
 
                     if(data.result.airkotor){
                         $("#manairkotor").show();
                         $("#airKotor_manual").prop("required", true);
                         $("#stt_airkotor").val(1);
+                        airkotor = 1;
+                    }
+                    else{
+                        airkotor = 1;
                     }
 
                     if(data.result.lain){
                         $("#manlain").show();
                         $("#lain_manual").prop("required", true);
                         $("#stt_lain").val(1);
+                        lain = 1;
                     }
+                    else{
+                        lain = 1;
+                    }
+
+                    if(listrik == 1 && airbersih == 1 && keamananipk == 1 && kebersihan == 1 && airkotor == 1 && lain == 1){
+                        $("#stt_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
+                    }
+                    else{
+                        $("#stt_button").prop("disabled", false).removeClass("btn-primary").addClass("btn-denger");
+                    }
+
+                    $("#dayaListrik_manual,#akhirListrik_manual,#awalListrik_manual,#akhirAirBersih_manual,#awalAirBersih_manual").on("change paste keyup", function() {
+                        if(listrik == 1 && airbersih == 1 && keamananipk == 1 && kebersihan == 1 && airkotor == 1 && lain == 1){
+                            $("#stt_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
+                        }
+                        else{
+                            $("#stt_button").prop("disabled", false).removeClass("btn-primary").addClass("btn-danger");
+                        }
+                    });
+
+                    $("#resetListrik_manual,#resetAirBersih_manual").change(function() {
+                        if(listrik == 1 && airbersih == 1 && keamananipk == 1 && kebersihan == 1 && airkotor == 1 && lain == 1){
+                            $("#stt_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
+                        }
+                        else{
+                            $("#stt_button").prop("disabled", false).removeClass("btn-primary").addClass("btn-danger");
+                        }
+                    });
                 }
             }
         })
