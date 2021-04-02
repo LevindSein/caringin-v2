@@ -967,7 +967,242 @@
             <form id="form_tagihan">
                 @csrf
                 <div class="modal-body">
-                    
+                    <div class="form-group text-center">
+                        <h2 class="text-primary" id="edit-kontrol">Unknown</h2>
+                        <h2 class="text-primary" id="edit-periode">Unknown</h2>
+                        <div class="form-group col-lg-12">
+                            <input
+                                autocomplete="off"
+                                type="text"
+                                name="nama_edit"
+                                class="form-control"
+                                id="nama_edit"
+                                style="text-transform: capitalize;"
+                                required>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div id="editListrik">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="dayaListrik_edit">Daya Listrik</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    maxLength="10"
+                                    name="dayaListrik_edit"
+                                    class="form-control"
+                                    id="dayaListrik_edit">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="awalListrik_edit">Stand Awal Listrik</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    maxLength="10"
+                                    name="awalListrik_edit"
+                                    class="form-control"
+                                    id="awalListrik_edit">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="akhirListrik_edit">Stand Akhir Listrik</label>
+                                <div class="input-group">
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="akhirListrik_edit"
+                                        maxLength="10"
+                                        class="form-control"
+                                        id="akhirListrik_edit">
+                                    <div class="input-group-prepend">
+                                        <div class="col">
+                                            <input 
+                                                class="input-group-text"
+                                                type="checkbox"
+                                                name="resetListrik_edit"
+                                                id="resetListrik_edit">
+                                            <label class="form-control-label" for="resetAirBersih_edit">Reset ?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="editAirBersih"> 
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="awalAirBersih_edit">Stand Awal Air</label>
+                                <input
+                                    autocomplete="off"
+                                    type="text" 
+                                    pattern="^[\d,]+$"
+                                    name="awalAirBersih_edit"
+                                    maxLength="10"
+                                    class="form-control"
+                                    id="awalAirBersih_edit">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="akhirAirBersih_edit">Stand Akhir Air</label>
+                                <div class="input-group">
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        name="akhirAirBersih_edit"
+                                        maxLength="10"
+                                        class="form-control"
+                                        id="akhirAirBersih_edit">
+                                    <div class="input-group-prepend">
+                                        <div class="col">
+                                            <input 
+                                                class="input-group-text"
+                                                type="checkbox"
+                                                name="resetAirBersih_edit"
+                                                id="resetAirBersih_edit">
+                                            <label class="form-control-label" for="resetAirBersih_edit">Reset ?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="editKeamananIpk">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="keamananIpk_edit">Keamanan & IPK</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input 
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        maxLength="10"
+                                        name="keamananIpk_edit"
+                                        class="form-control"
+                                        id="keamananIpk_edit"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-10">
+                                <label class="form-control-label" for="disKeamananIpk_edit">Diskon Keamanan & IPK</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        maxLength="10"
+                                        name="disKeamananIpk_edit"
+                                        class="form-control"
+                                        id="disKeamananIpk_edit"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="editKebersihan">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="kebersihan_edit">Kebersihan</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        maxLength="10"
+                                        name="kebersihan_edit"
+                                        class="form-control"
+                                        id="kebersihan_edit"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-10">
+                                <label class="form-control-label" for="disKebersihan_edit">Diskon Kebersihan</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        maxLength="10"
+                                        name="disKebersihan_edit"
+                                        class="form-control"
+                                        id="disKebersihan_edit"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="editAirKotor">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="airKotor_edit">Air Kotor</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        maxLength="10"
+                                        name="airKotor_edit"
+                                        class="form-control"
+                                        id="airKotor_edit"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="editLain">
+                            <div class="form-group col-lg-12">
+                                <label class="form-control-label" for="lain_edit">Lain - Lain</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                    </div>
+                                    <input
+                                        autocomplete="off"
+                                        type="text" 
+                                        pattern="^[\d,]+$"
+                                        maxLength="10"
+                                        name="lain_edit"
+                                        class="form-control"
+                                        id="lain_edit"
+                                        aria-describedby="inputGroupPrepend">
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="denda_edit"
+                                id="denda_edit">
+                            <label class="form-control-label" for="denda_edit" id="denda_label"></label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="edit_listrik" name="edit_listrik" />
@@ -1603,7 +1838,7 @@ $(document).ready(function(){
                         $("#stt_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
                     }
                     else{
-                        $("#stt_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-denger");
+                        $("#stt_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
                     }
 
                     $("#dayaListrik_manual,#akhirListrik_manual,#awalListrik_manual,#akhirAirBersih_manual,#awalAirBersih_manual,#keamananIpk_manual,#disKeamananIpk_manual,#kebersihan_manual,#disKebersihan_manual,#airKotor_manual,#lain_manual").on("change paste keyup", function() {
@@ -1658,7 +1893,7 @@ $(document).ready(function(){
 			}
 		});
     });
-
+    
     $(document).on('click', '.edit', function(){
 		id = $(this).attr('id');
         $('#hidden_id').val(id);
@@ -1682,10 +1917,520 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data)
 			{
+                var listrik = 0;
+                var airbersih = 0;
+                var keamananipk = 0;
+                var kebersihan = 0;
+                var airkotor = 0;
+                var lain = 0;
+
                 $(".titles").text("Edit Tagihan " + data.result.kd_kontrol);
+                $("#edit-kontrol").text(data.result.kd_kontrol);
+                $("#edit-periode").text(data.result.periode);
+                $("#nama_edit").val(data.result.nama);
+
+                if(data.result.den_listrik != 0 || data.result.den_airbersih != 0){
+                    $("#denda_edit").val("hapus");
+                    $("#denda_label").text("Hapus Denda");
+                }
+                else{
+                    $("#denda_edit").val("tambah");
+                    $("#denda_label").text("Tambah Denda");
+                }
+
+                if(data.result.stt_listrik !== null){
+                    $('#editListrik').show();
+                    $("#dayaListrik_edit").val(data.result.daya_listrik.toLocaleString('en-US'));
+                    $("#awalListrik_edit").val(data.result.awal_listrik.toLocaleString('en-US'));
+                    $("#akhirListrik_edit").val(data.result.akhir_listrik.toLocaleString('en-US'));
+                    $("#dayaListrik_edit").prop("required", true);
+                    $("#awalListrik_edit").prop("required", true);
+                    $("#akhirListrik_edit").prop("required", true);
+                    $("#edit_listrik").val(1);
+
+                    document
+                        .getElementById('akhirListrik_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+                    document
+                        .getElementById('awalListrik_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+                    document
+                        .getElementById('dayaListrik_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+
+                    var daya = $('#dayaListrik_edit').val();
+                    daya = daya.split(',');
+                    daya = daya.join('');
+                    daya = parseInt(daya);
+
+                    var awal = $('#awalListrik_edit').val();
+                    awal = awal.split(',');
+                    awal = awal.join('');
+                    awal = parseInt(awal); 
+                
+                    var akhir = $('#akhirListrik_edit').val();
+                    akhir = akhir.split(',');
+                    akhir = akhir.join('');
+                    akhir = parseInt(akhir);
+
+                    if(daya > 0 && akhir >= awal){
+                        listrik = 1;
+                    }
+                    else if(daya == 0){
+                        listrik = 0
+                    }
+                    else{
+                        if (awal > akhir && daya > 0){
+                            $("#resetListrik_edit").prop('checked', true);
+                            listrik = 1;
+                        }
+                        else{
+                            listrik = 0;
+                        }
+                    }
+
+                    $("#dayaListrik_edit,#awalListrik_edit,#akhirListrik_edit").on("change paste keyup", function() {
+                        var daya = $('#dayaListrik_edit').val();
+                        daya = daya.split(',');
+                        daya = daya.join('');
+                        daya = parseInt(daya);
+
+                        var awal = $('#awalListrik_edit').val();
+                        awal = awal.split(',');
+                        awal = awal.join('');
+                        awal = parseInt(awal); 
+                    
+                        var akhir = $('#akhirListrik_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+
+                        if(daya > 0 && akhir >= awal){
+                            listrik = 1;
+                        }
+                        else if(daya == 0){
+                            listrik = 0
+                        }
+                        else{
+                            if ($("#resetListrik_edit").prop('checked') == true){
+                                listrik = 1;
+                            }
+                            else{
+                                listrik = 0;
+                            }
+                        }
+                    });
+
+                    $("#resetListrik_edit").change(function() {
+                        var daya = $('#dayaListrik_edit').val();
+                        daya = daya.split(',');
+                        daya = daya.join('');
+                        daya = parseInt(daya);
+
+                        var awal = $('#awalListrik_edit').val();
+                        awal = awal.split(',');
+                        awal = awal.join('');
+                        awal = parseInt(awal); 
+                    
+                        var akhir = $('#akhirListrik_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+                        
+                        if(this.checked) {
+                            if(daya > 0){
+                                listrik = 1;
+                            }
+                            else{
+                                listrik = 0;
+                            }
+                        }
+                        else{
+                            if(daya > 0 && akhir >= awal){
+                                listrik = 1;
+                            }
+                            else{
+                                listrik = 0;
+                            }
+                        }
+                    });
+                }
+                else{
+                    listrik = 1;
+                }
+
+                if(data.result.stt_airbersih !== null){
+                    $("#editAirBersih").show();
+                    $("#awalAirBersih_edit").val(data.result.awal_airbersih.toLocaleString('en-US'));
+                    $("#akhirAirBersih_edit").val(data.result.akhir_airbersih.toLocaleString('en-US'));
+                    $("#awalAirBersih_edit").prop("required", true);
+                    $("#akhirAirBersih_edit").prop("required", true);
+                    $("#edit_airbersih").val(1);
+
+                    document
+                        .getElementById('akhirAirBersih_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+                    document
+                        .getElementById('awalAirBersih_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+
+                    var akhir = $('#akhirAirBersih_edit').val();
+                    akhir = akhir.split(',');
+                    akhir = akhir.join('');
+                    akhir = parseInt(akhir);
+
+                    var awal = $('#awalAirBersih_edit').val();
+                    awal = awal.split(',');
+                    awal = awal.join('');
+                    awal = parseInt(awal); 
+                    
+                    if(akhir >= awal){
+                        airbersih = 1;
+                    }
+                    else{
+                        if (awal > akhir){
+                            $("#resetAirBersih_edit").prop('checked', true);
+                            airbersih = 1;
+                        }
+                        else{
+                            airbersih = 0;
+                        }
+                    }
+                    
+                    $("#akhirAirBersih_edit,#awalAirBersih_edit").on("change paste keyup", function() {
+                        var akhir = $('#akhirAirBersih_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+
+                        var awal = $('#awalAirBersih_edit').val();
+                        awal = awal.split(',');
+                        awal = awal.join('');
+                        awal = parseInt(awal); 
+                        
+                        if(akhir >= awal){
+                            airbersih = 1;
+                        }
+                        else{
+                            if ($("#resetAirBersih_edit").prop('checked') == true){
+                                airbersih = 1;
+                            }
+                            else{
+                                airbersih = 0;
+                            }
+                        }
+                    });
+
+                    $("#resetAirBersih_edit").change(function() {
+                        var awal = $('#awalAirBersih_edit').val();
+                        awal = awal.split(',');
+                        awal = awal.join('');
+                        awal = parseInt(awal); 
+                    
+                        var akhir = $('#akhirAirBersih_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+                        
+                        if(this.checked) {
+                            airbersih = 1;
+                        }
+                        else{
+                            if(akhir >= awal){
+                                airbersih = 1;
+                            }
+                            else{
+                                airbersih = 0;
+                            }
+                        }
+                    });
+                }
+                else{
+                    airbersih = 1;
+                }
+
+                if(data.result.stt_keamananipk !== null){
+                    $("#editKeamananIpk").show();
+                    $("#keamananIpk_edit").val(data.result.sub_keamananipk.toLocaleString('en-US'));
+                    $("#disKeamananIpk_edit").val(data.result.dis_keamananipk.toLocaleString('en-US'));
+                    $("#keamananIpk_edit").prop("required", true);
+                    $("#disKeamananIpk_edit").prop("required", true);
+                    $("#edit_keamananipk").val(1);
+
+                    document
+                        .getElementById('keamananIpk_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+                    document
+                        .getElementById('disKeamananIpk_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+
+                    var akhir = $('#keamananIpk_edit').val();
+                    akhir = akhir.split(',');
+                    akhir = akhir.join('');
+                    akhir = parseInt(akhir);
+
+                    var awal = $('#disKeamananIpk_edit').val();
+                    awal = awal.split(',');
+                    awal = awal.join('');
+                    awal = parseInt(awal); 
+                    
+                    if(akhir >= awal){
+                        keamananipk = 1;
+                    }
+                    else{
+                        keamananipk = 0;
+                    }
+
+                    $("#keamananIpk_edit,#disKeamananIpk_edit").on("change paste keyup", function() {
+                        var akhir = $('#keamananIpk_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+
+                        var awal = $('#disKeamananIpk_edit').val();
+                        awal = awal.split(',');
+                        awal = awal.join('');
+                        awal = parseInt(awal); 
+                        
+                        if(akhir >= awal){
+                            keamananipk = 1;
+                        }
+                        else{
+                            keamananipk = 0;
+                        }
+                    });
+                }
+                else{
+                    keamananipk = 1;
+                }
+
+                if(data.result.stt_kebersihan !== null){
+                    $("#editKebersihan").show();
+                    $("#kebersihan_edit").val(data.result.sub_kebersihan.toLocaleString('en-US'));
+                    $("#disKebersihan_edit").val(data.result.dis_kebersihan.toLocaleString('en-US'));
+                    $("#kebersihan_edit").prop("required", true);
+                    $("#disKebersihan_edit").prop("required", true);
+                    $("#edit_kebersihan").val(1);
+                    
+                    document
+                        .getElementById('kebersihan_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+                    document
+                        .getElementById('disKebersihan_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+
+                    var akhir = $('#kebersihan_edit').val();
+                    akhir = akhir.split(',');
+                    akhir = akhir.join('');
+                    akhir = parseInt(akhir);
+
+                    var awal = $('#disKebersihan_edit').val();
+                    awal = awal.split(',');
+                    awal = awal.join('');
+                    awal = parseInt(awal); 
+                    
+                    if(akhir >= awal){
+                        kebersihan = 1;
+                    }
+                    else{
+                        kebersihan = 0;
+                    }
+
+                    $("#kebersihan_edit,#disKebersihan_edit").on("change paste keyup", function() {
+                        var akhir = $('#kebersihan_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+
+                        var awal = $('#disKebersihan_edit').val();
+                        awal = awal.split(',');
+                        awal = awal.join('');
+                        awal = parseInt(awal); 
+                        
+                        if(akhir >= awal){
+                            kebersihan = 1;
+                        }
+                        else{
+                            kebersihan = 0;
+                        }
+                    });
+                }
+                else{
+                    kebersihan = 1;
+                }
+
+                if(data.result.stt_airkotor !== null){
+                    $("#editAirKotor").show();
+                    $("#airKotor_edit").val(data.result.ttl_airkotor.toLocaleString('en-US'));
+                    $("#airKotor_edit").prop("required", true);
+                    $("#edit_airkotor").val(1);
+
+                    document
+                        .getElementById('airKotor_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+
+                    var akhir = $('#airKotor_edit').val();
+                    akhir = akhir.split(',');
+                    akhir = akhir.join('');
+                    akhir = parseInt(akhir);
+
+                    if(akhir >= 0){
+                        airkotor = 1;
+                    }
+                    else{
+                        airkotor = 0;
+                    }
+
+                    $("#airKotor_edit").on("change paste keyup", function() {
+                        var akhir = $('#airKotor_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+
+                        if(akhir >= 0){
+                            airkotor = 1;
+                        }
+                        else{
+                            airkotor = 0;
+                        }
+                    });
+                }
+                else{
+                    airkotor = 1;
+                }
+
+                if(data.result.stt_lain !== null){
+                    $("#editLain").show();
+                    $("#lain_edit").val(data.result.ttl_lain.toLocaleString('en-US'));
+                    $("#lain_edit").prop("required", true);
+                    $("#edit_lain").val(1);
+
+                    document
+                        .getElementById('lain_edit')
+                        .addEventListener(
+                            'input',
+                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                        );
+
+                    var akhir = $('#lain_edit').val();
+                    akhir = akhir.split(',');
+                    akhir = akhir.join('');
+                    akhir = parseInt(akhir);
+
+                    if(akhir >= 0){
+                        lain = 1;
+                    }
+                    else{
+                        lain = 0;
+                    }
+
+                    $("#lain_edit").on("change paste keyup", function() {
+                        var akhir = $('#lain_edit').val();
+                        akhir = akhir.split(',');
+                        akhir = akhir.join('');
+                        akhir = parseInt(akhir);
+
+                        if(akhir >= 0){
+                            lain = 1;
+                        }
+                        else{
+                            lain = 0;
+                        }
+                    });
+                }
+                else{
+                    lain = 1;
+                }
+
+                if(listrik == 1 && airbersih == 1 && keamananipk == 1 && kebersihan == 1 && airkotor == 1 && lain == 1){
+                    $("#edit_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
+                }
+                else{
+                    $("#edit_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
+                }
+
+                $("#dayaListrik_edit,#akhirListrik_edit,#awalListrik_edit,#akhirAirBersih_edit,#awalAirBersih_edit,#keamananIpk_edit,#disKeamananIpk_edit,#kebersihan_eot,#disKebersihan_edit,#airKotor_edit,#lain_edit").on("change paste keyup", function() {
+                    if(listrik == 1 && airbersih == 1 && keamananipk == 1 && kebersihan == 1 && airkotor == 1 && lain == 1){
+                        $("#edit_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
+                    }
+                    else{
+                        $("#edit_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
+                    }
+                });
+
+                $("#resetListrik_edit,#resetAirBersih_edit").change(function() {
+                    if(listrik == 1 && airbersih == 1 && keamananipk == 1 && kebersihan == 1 && airkotor == 1 && lain == 1){
+                        $("#edit_button").prop("disabled", false).removeClass("btn-danger").addClass("btn-primary");
+                    }
+                    else{
+                        $("#edit_button").prop("disabled", true).removeClass("btn-primary").addClass("btn-danger");
+                    }
+                });
+
                 $("#myTagihan").modal("show");
             }
         });
+    });
+
+    $('#form_tagihan').on('submit', function(event){
+		event.preventDefault();
+		$.ajax({
+			url: "/tagihan/update",
+            cache:false,
+			method:"POST",
+			data:$(this).serialize(),
+			dataType:"json",
+			success:function(data)
+			{
+				if(data.errors)
+				{
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                    console.log(data.errors);
+                }
+				if(data.success)
+				{
+					html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
+                }
+                $('#tabelTagihan').DataTable().ajax.reload(function(){}, false);
+				$('#form_result').html(html);
+                $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
+                });
+                $('#myTagihan').modal('hide');
+			}
+		});
     });
 });
 </script>

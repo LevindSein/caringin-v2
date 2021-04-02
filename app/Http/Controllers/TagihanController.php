@@ -1666,6 +1666,7 @@ class TagihanController extends Controller
             }
         }
     }
+    
     public function manual(Request $request){
         if(request()->ajax()){
             try{
@@ -1674,7 +1675,7 @@ class TagihanController extends Controller
 
                 $id_kontrol = $request->id_kontrol;
                 $periode    = $request->stt_periode;
-                $nama       = $request->nama_manual;
+                $nama       = ucwords($request->nama_manual);
 
                 $tempat = TempatUsaha::find($id_kontrol);
                 $bln_pakai   = date("Y-m", strtotime("-1 month", strtotime($periode)));
@@ -1842,7 +1843,7 @@ class TagihanController extends Controller
 
                     $tagihan->warna_listrik = $warna;
             
-                    if($sekarang >= $periode){
+                    if($periode >= $sekarang){
                         $meter = AlatListrik::find($tempat->id_meteran_listrik);
                         if($meter != NULL){
                             $meter->akhir = $akhir;
@@ -1992,7 +1993,7 @@ class TagihanController extends Controller
 
                     $tagihan->warna_airbersih = $warna;
             
-                    if($sekarang >= $periode){
+                    if($periode >= $sekarang){
                         $meter = AlatAir::find($tempat->id_meteran_air);
                         if($meter != NULL){
                             $meter->akhir = $akhir;
@@ -2030,7 +2031,7 @@ class TagihanController extends Controller
                     $tagihan->sel_keamananipk = $tagihan->ttl_keamananipk;
                     $tagihan->stt_keamananipk = 1;
 
-                    if($sekarang >= $periode){
+                    if($periode >= $sekarang){
                         $tempat->dis_keamananipk = $diskon;
                     }
                 }
@@ -2059,7 +2060,7 @@ class TagihanController extends Controller
                     $tagihan->sel_kebersihan = $tagihan->ttl_kebersihan;
                     $tagihan->stt_kebersihan = 1;
 
-                    if($sekarang >= $periode){
+                    if($periode >= $sekarang){
                         $tempat->dis_kebersihan = $diskon;
                     }
                 }
@@ -2225,7 +2226,7 @@ class TagihanController extends Controller
                 return response()->json(['success' => "Data Berhasil Ditambah"]);
             }
             catch(\Exception $e){
-                return response()->json(['errors' => $e]);
+                return response()->json(['errors' => "Data Gagal Ditambah"]);
             }
         }
     }
@@ -2233,7 +2234,250 @@ class TagihanController extends Controller
     public function edit($id){
         if(request()->ajax()){
             $data = Tagihan::find($id);
+            $data['periode'] = IndoDate::bulan($data->bln_tagihan," ");
             return response()->json(['result' => $data]);
+        }
+    }
+
+    public function update(Request $request){
+        if(request()->ajax()){
+            try{
+                $today = strtotime(Carbon::now());
+                $sekarang = date('Y-m',$today);
+
+                $id = $request->hidden_id;
+                $nama = ucwords($request->nama_edit);
+
+                $tagihan = Tagihan::find($id);
+                $periode = $tagihan->bln_tagihan;
+                $tagihan->nama = $nama;
+                $tagihan->ket = 'Edited';
+                $tagihan->via_tambah = Session::get('username');
+                $tagihan->review = 2;
+                $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+                if($tempat != NULL){
+                    $tagihan->jml_alamat = $tempat->jml_alamat;
+                    $tagihan->no_alamat  = $tempat->no_alamat;
+                    $tagihan->lok_tempat = $tempat->lok_tempat;
+                }
+                $tagihan->save();
+
+                if($request->edit_listrik == 1){
+                    $daya = $request->dayaListrik_edit;
+                    $daya = explode(',',$daya);
+                    $daya = implode("",$daya);
+    
+                    $awal = $request->awalListrik_edit;
+                    $awal = explode(',',$awal);
+                    $awal = implode("",$awal);
+    
+                    $akhir = $request->akhirListrik_edit;
+                    $akhir = explode(',',$akhir);
+                    $akhir = implode("",$akhir);
+
+                    $tagihan = Tagihan::find($id);
+    
+                    if($periode >= $sekarang){
+                        $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+                        if($tempat != NULL){
+                            $meter = AlatListrik::find($tempat->id_meteran_listrik);
+                            if($meter != NULL){
+                                $meter->akhir = $akhir;
+                                $meter->daya  = $daya;
+                                $meter->save();
+                            }
+                        }
+                    }
+    
+                    //Update Tagihan
+                    Tagihan::listrik($awal,$akhir,$daya,$id);
+                }
+                if($request->edit_airbersih == 1){
+                    $awal = $request->awalAirBersih_edit;
+                    $awal = explode(',',$awal);
+                    $awal = implode("",$awal);
+    
+                    $akhir = $request->akhirAirBersih_edit;
+                    $akhir = explode(',',$akhir);
+                    $akhir = implode("",$akhir);
+                    
+                    $tagihan = Tagihan::find($id);
+    
+                    if($periode >= $sekarang){
+                        $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+                        if($tempat != NULL){
+                            $meter = AlatAir::find($tempat->id_meteran_air);
+                            if($meter != NULL){
+                                $meter->akhir = $akhir;
+                                $meter->save();
+                            }
+                        }
+                    }
+    
+                    //Update Tagihan
+                    Tagihan::airbersih($awal,$akhir,$id);
+                }
+
+                if($request->edit_keamananipk == 1){
+                    $tarif = $request->keamananIpk_edit;
+                    $tarif = explode(',',$tarif);
+                    $tarif = implode("",$tarif);
+    
+                    $diskon = $request->disKeamananIpk_edit;
+                    $diskon = explode(',',$diskon);
+                    $diskon = implode("",$diskon);
+    
+                    $tagihan = Tagihan::find($id);
+                    $tagihan->sub_keamananipk = $tarif;
+                    $tagihan->dis_keamananipk = $diskon;
+                    $tagihan->ttl_keamananipk = $tarif - $diskon;
+                    $tarif = TarifKeamananIpk::find($tempat->trf_keamananipk);
+                    $tagihan->ttl_keamanan = ($tarif->prs_keamanan / 100) * $tagihan->ttl_keamananipk;
+                    $tagihan->ttl_ipk = ($tarif->prs_ipk / 100) * $tagihan->ttl_keamananipk;
+                    $tagihan->sel_keamananipk = $tagihan->ttl_keamananipk - $tagihan->rea_keamananipk;
+                    
+                    $tagihan->stt_keamananipk = 1;
+    
+                    if($periode >= $sekarang){
+                        //Diskon Tempat
+                        $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+                        if($tempat != NULL){
+                            $tempat->dis_keamananipk = $diskon;
+                            $tempat->save();
+                        }
+                    }
+
+                    $tagihan->save();
+                }
+
+                if($request->edit_kebersihan == 1){
+                    $tarif = $request->kebersihan_edit;
+                    $tarif = explode(',',$tarif);
+                    $tarif = implode("",$tarif);
+    
+                    $diskon = $request->disKebersihan_edit;
+                    $diskon = explode(',',$diskon);
+                    $diskon = implode("",$diskon);
+    
+                    $tagihan = Tagihan::find($id);
+                    $tagihan->sub_kebersihan = $tarif;
+                    $tagihan->dis_kebersihan = $diskon;
+                    $tagihan->ttl_kebersihan = $tarif - $diskon;
+                    $tagihan->sel_kebersihan = $tagihan->ttl_kebersihan - $tagihan->rea_kebersihan;
+                    $tagihan->stt_kebersihan = 1;
+    
+                    if($periode >= $sekarang){
+                        //Diskon Tempat
+                        $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
+                        if($tempat != NULL){
+                            $tempat->dis_kebersihan = $diskon;
+                            $tempat->save();
+                        }
+                    }
+    
+                    $tagihan->save();
+                }
+
+                if($request->edit_airkotor == 1){
+                    $tarif = $request->airKotor_edit;
+                    $tarif = explode(',',$tarif);
+                    $tarif = implode("",$tarif);
+    
+                    $tagihan = Tagihan::find($id);
+                    $tagihan->ttl_airkotor = $tarif;
+                    $tagihan->sel_airkotor = $tagihan->ttl_airkotor - $tagihan->rea_airkotor;
+                    $tagihan->stt_airkotor = 1;
+                    $tagihan->save();
+                }
+
+                if($request->edit_lain == 1){
+                    $tarif = $request->lain_edit;
+                    $tarif = explode(',',$tarif);
+                    $tarif = implode("",$tarif);
+    
+                    $tagihan = Tagihan::find($id);
+                    $tagihan->ttl_lain = $tarif;
+                    $tagihan->sel_lain = $tagihan->ttl_lain - $tagihan->rea_lain;
+                    $tagihan->stt_lain = 1;
+                    $tagihan->save();
+                }
+
+                if(empty($request->denda_edit) == FALSE){
+                    $denda = $request->denda_edit;
+                    if($denda == 'tambah'){
+                        $today = strtotime(Carbon::now());
+                        $sekarang = date('Y-m-d',$today);
+
+                        $denda    = $tagihan->tgl_expired;
+
+                        if($sekarang > $denda){
+                            $airbersih = TarifAirBersih::first();
+
+                            $listrik = TarifListrik::first();
+
+                            $date1 = $tagihan->tgl_expired;
+                            $date2 = date('Y-m-d',$today);
+                            
+                            $ts1 = strtotime($date1);
+                            $ts2 = strtotime($date2);
+                            
+                            $year1 = date('Y', $ts1);
+                            $year2 = date('Y', $ts2);
+                            
+                            $month1 = date('m', $ts1);
+                            $month2 = date('m', $ts2);
+                            
+                            $day1 = date('d', $ts1);
+                            $day2 = date('d', $ts2);
+
+                            if($day2 - $day1 > 0){
+                                $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+                                if($diff == 0 || $diff == 1 || $diff == 2 || $diff == 3){
+                                    $diff = $diff + 1;
+                                }
+                            }
+
+                            if($day2 - $day1 <= 0){
+                                $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+                                if($diff == 1 || $diff == 2 || $diff == 3 || $diff == 4){
+                                    $diff = $diff;
+                                }
+                            }
+
+                            $tagihan->stt_denda = $diff;
+
+                            if($tagihan->sel_airbersih > 0){
+                                $tagihan->den_airbersih = $diff * $airbersih->trf_denda;
+                                $tagihan->ttl_airbersih =  $tagihan->sub_airbersih - $tagihan->dis_airbersih + $tagihan->den_airbersih;
+                                $tagihan->sel_airbersih = $tagihan->ttl_airbersih - $tagihan->rea_airbersih;
+                            }
+
+                            if($tagihan->sel_listrik > 0){
+                                if($tagihan->daya_listrik <= 4400){
+                                    $tagihan->den_listrik = $diff * $listrik->trf_denda;
+                                    $tagihan->ttl_listrik =  $tagihan->sub_listrik - $tagihan->dis_listrik + $tagihan->den_listrik;
+                                    $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
+                                }
+                                else if($tagihan->daya_listrik > 4400){
+                                    $tagihan->den_listrik = $diff * (($listrik->trf_denda_lebih / 100) * $tagihan->sub_listrik);
+                                    $tagihan->ttl_listrik = $tagihan->sub_listrik - $tagihan->dis_listrik + $tagihan->den_listrik;
+                                    $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        Tagihan::hapusDenda($id);
+                    }
+                }
+                
+                Tagihan::totalTagihan($id);
+                
+                return response()->json(['success' => "Data Berhasil Diupdate"]);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => $e]);
+            }
         }
     }
 
