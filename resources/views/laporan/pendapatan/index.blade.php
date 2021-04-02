@@ -48,15 +48,8 @@
         </div>
     </div>
 </div>
-<footer class="footer pt-0">
-    <div class="row align-items-center justify-content-lg-between">
-        <div class="col-lg-6">
-            <div class="copyright text-center text-lg-left text-muted">
-                &copy; 2020 <a href="#" class="font-weight-bold ml-1">PT Pengelola Pusat Perdagangan Caringin</a>
-            </div>
-        </div>
-    </div>
-</footer>
+
+@include('home.footer')
 @endsection
 
 @section('modal')

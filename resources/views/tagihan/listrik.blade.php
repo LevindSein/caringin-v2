@@ -110,6 +110,7 @@
         </div>
     </div>
 </div>
+@include('home.footer')
 @endsection
 
 @section('js')
