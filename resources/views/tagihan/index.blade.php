@@ -1619,6 +1619,7 @@ $(document).ready(function(){
 				if(data.errors)
 				{
                     html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                    console.log(data.errors);
                 }
 				if(data.success)
 				{

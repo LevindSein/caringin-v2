@@ -390,6 +390,9 @@ class Tagihan extends Model
             $tagihan->warna_listrik = $warna;
             
             $tagihan->save();
+
+            Tagihan::totalTagihan($tagihan->id);
+
             $i++;
         }
         return $i;
@@ -639,6 +642,9 @@ class Tagihan extends Model
             $tagihan->warna_airbersih = $warna;
            
             $tagihan->save();
+            
+            Tagihan::totalTagihan($tagihan->id);
+            
             $i++;
         }
         return $i;

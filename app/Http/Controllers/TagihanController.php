@@ -973,7 +973,7 @@ class TagihanController extends Controller
                 else if($publish === 0){
                     $hasil = 1;
                 }
-                $tagihan->review      = 1;
+                $tagihan->review      = 0;
                 $tagihan->reviewer    = Session::get('username');
                 $tagihan->stt_publish = $hasil;
                 $tagihan->via_publish = Session::get('username');
@@ -1057,6 +1057,8 @@ class TagihanController extends Controller
                     $tagihan = Tagihan::where([['bln_tagihan',$periode],['stt_publish',0]])->get();
                     foreach($tagihan as $d){
                         $d->stt_publish = 1;
+                        $d->review = 1;
+                        $d->via_publish = Session::get('username');
                         $d->save();
                         $i++;
                     }
@@ -1067,10 +1069,10 @@ class TagihanController extends Controller
                     foreach($tagihan as $d){
                         $pembayaran = Pembayaran::where('id_tagihan',$d->id)->first();
                         if($pembayaran == NULL){
-                            $hasil = 0;
-                            $i++;
-                            $d->stt_publish = $hasil;
+                            $d->stt_publish = 0;
+                            $d->via_publish = Session::get('username');
                             $d->save();
+                            $i++;
                         }
                     }
                 } 
@@ -1684,26 +1686,452 @@ class TagihanController extends Controller
                 while($done == TRUE);
                 $tgl_expired = $expired;
 
-                $data = [
-                    'nama' => $nama,
-                    'blok' => $tempat->blok,
-                    'kd_kontrol' => $tempat->kd_kontrol,
-                    'bln_pakai' => $bln_pakai,
-                    'tgl_tagihan' => $tgl_tagihan,
-                    'bln_tagihan' => $bln_tagihan,
-                    'thn_tagihan' => $thn_tagihan,
-                    'tgl_expired' => $tgl_expired,
-                    'stt_lunas' => 0,
-                    'stt_bayar' => 0,
-                    'stt_prabayar' => 0,
-                ];
+                $tagihan = new Tagihan;
+                $tagihan->nama = $nama;
+                $tagihan->blok = $tempat->blok;
+                $tagihan->kd_kontrol = $tempat->kd_kontrol;
+                $tagihan->bln_pakai = $bln_pakai;
+                $tagihan->tgl_tagihan = $tgl_tagihan;
+                $tagihan->bln_tagihan = $bln_tagihan;
+                $tagihan->thn_tagihan = $thn_tagihan;
+                $tagihan->tgl_expired = $tgl_expired;
+                $tagihan->stt_lunas = 0;
+                $tagihan->stt_bayar = 0;
+                $tagihan->stt_prabayar = 0;
+                $tagihan->jml_alamat = $tempat->jml_alamat;
+                $tagihan->no_alamat = $tempat->no_alamat;
+                $tagihan->ket = 'Manual';
+                $tagihan->via_tambah = Session::get('username');
+                $tagihan->stt_publish = 0;
+                $tagihan->review = 2;
+                $tagihan->reviewer = Session::get('username');
+                $tagihan->lok_tempat = $tempat->lok_tempat;
 
-                Tagihan::create($data);
+                if($request->stt_listrik == 1){
+                    $daya = explode(',',$request->dayaListrik_manual);
+                    $daya = implode('',$daya);
+                    
+                    $awal = explode(',',$request->awalListrik_manual);
+                    $awal = implode('',$awal);
+                    
+                    $akhir = explode(',',$request->akhirListrik_manual);
+                    $akhir = implode('',$akhir);
+                    
+                    //Rumus
+                    $tarif = TarifListrik::first();
+                    
+                    if($akhir >= $awal)
+                        $pakai_listrik = $akhir - $awal;
+                    else{
+                        if($awal < 1000)
+                            $denom = 1000;
+                        else if($awal < 10000)
+                            $denom = 10000;
+                        else if($awal < 100000)
+                            $denom = 100000;
+                        else if($awal < 1000000)
+                            $denom = 1000000;
+                        else{
+                            abort(500);
+                        }
+                        
+                        $pakai_listrik = $denom - $awal;
+                        $pakai_listrik = $pakai_listrik + $akhir;
+                    }   
+
+                    $a = round(($daya * $tarif->trf_standar) / 1000);
+                    $blok1_listrik = $tarif->trf_blok1 * $a;
+
+                    $b = $pakai_listrik - $a;
+                    $blok2_listrik = $tarif->trf_blok2 * $b;
+                    $beban_listrik = $daya * $tarif->trf_beban;
+
+                    $c = $blok1_listrik + $blok2_listrik + $beban_listrik;
+
+                    $rekmin_listrik = $tarif->trf_rekmin * $daya;
+                    
+                    if($tarif->trf_rekmin > 0){
+                        $batas_rekmin = round(18 * $daya /1000);
+
+                        if($pakai_listrik <= $batas_rekmin){
+                            $bpju_listrik = ($tarif->trf_bpju / 100) * $rekmin_listrik;
+                            $blok1_listrik = 0;
+                            $blok2_listrik = 0;
+                            $beban_listrik = 0;
+                            $byr_listrik = $bpju_listrik + $rekmin_listrik;
+                            $ttl_listrik = $byr_listrik;
+                        }
+                        else{
+                            $bpju_listrik = ($tarif->trf_bpju / 100) * $c;
+                            $rekmin_listrik = 0;
+                            $byr_listrik = $bpju_listrik + $blok1_listrik + $blok2_listrik + $beban_listrik;
+                            $ttl_listrik = $byr_listrik;
+                        }
+                    }
+                    else{
+                        $bpju_listrik = ($tarif->trf_bpju / 100) * $c;
+                        $rekmin_listrik = 0;
+                        $byr_listrik = $bpju_listrik + $blok1_listrik + $blok2_listrik + $beban_listrik;
+                        $ttl_listrik = $byr_listrik;
+                    }
+
+                    $tagihan->daya_listrik = $daya;
+                    $tagihan->awal_listrik = $awal;
+                    $tagihan->akhir_listrik = $akhir;
+                    $tagihan->pakai_listrik = $pakai_listrik;
+                    $tagihan->byr_listrik = $byr_listrik;
+                    $tagihan->rekmin_listrik = $rekmin_listrik;
+                    $tagihan->blok1_listrik = $blok1_listrik;
+                    $tagihan->blok2_listrik = $blok2_listrik;
+                    $tagihan->beban_listrik = $beban_listrik;
+                    $tagihan->bpju_listrik = $bpju_listrik;
+                    $tagihan->sub_listrik = round($ttl_listrik + ($ttl_listrik * ($tarif->trf_ppn / 100)));
+
+                    if($tempat->dis_listrik === NULL){
+                        $diskon = 0;
+                    }
+                    else{
+                        $diskon = $tempat->dis_listrik;
+                        $diskon = ($tagihan->sub_listrik * $diskon) / 100;
+                    }
+                    
+                    $total = $tagihan->sub_listrik - $diskon; 
+                    $tagihan->dis_listrik = $diskon;
+                    $tagihan->ttl_listrik = $total;
+                    $tagihan->rea_listrik = 0;
+                    $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
+
+                    $warna = Tagihan::where([['kd_kontrol',$tempat->kd_kontrol],['stt_publish',1],['stt_listrik',1]])->orderBy('id','desc')->limit(3)->get();
+                    if($warna != NULL){
+                        $warna_ku = 0;
+                        foreach($warna as $war){
+                            $warna_ku = $warna_ku + $war->pakai_listrik;
+                        }
+                        $warna = round($warna_ku / 3);
+                    
+                        $lima_persen             = $warna * (5/100);
+                        $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
+                        $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
+                        
+                        if($pakai_listrik <= $lima_persen){
+                            $warna = 1;
+                        }
+                        else if($pakai_listrik >= $seratussepuluh_persen && $pakai_listrik < $seratuslimapuluh_persen){
+                            $warna = 2;
+                        }
+                        else if($pakai_listrik >= $seratuslimapuluh_persen){
+                            $warna = 3;
+                        }
+                        else{
+                            $warna = 0;
+                        }
+                    }
+                    else{
+                        $warna = 0;
+                    }
+
+                    $tagihan->warna_listrik = $warna;
+            
+                    $meter = AlatListrik::find($tempat->id_meteran_listrik);
+                    if($meter != NULL){
+                        $meter->akhir = $akhir;
+                        $meter->daya  = $daya;
+                        $meter->save();
+                    }
+
+                    $tagihan->stt_listrik = 1;
+                }
+                
+                if($request->stt_airbersih == 1){
+                    $awal = explode(',',$request->awalAirBersih_manual);
+                    $awal = implode('',$awal);
+                    
+                    $akhir = explode(',',$request->akhirAirBersih_manual);
+                    $akhir = implode('',$akhir);
+
+                    $tarif = TarifAirBersih::first();
+
+                    if($akhir >= $awal)
+                        $pakai_airbersih = $akhir - $awal;
+                    else{
+                        if($awal < 1000)
+                            $denom = 1000;
+                        else if($awal < 10000)
+                            $denom = 10000;
+                        else if($awal < 100000)
+                            $denom = 100000;
+                        else if($awal < 1000000)
+                            $denom = 1000000;
+                        else{
+                            abort(500);
+                        }
+                        
+                        $pakai_airbersih = $denom - $awal;
+                        $pakai_airbersih = $pakai_airbersih + $akhir;
+                    }
+
+                    if($pakai_airbersih > 10){
+                        $a = 10 * $tarif->trf_1;
+                        $b = ($pakai_airbersih - 10) * $tarif->trf_2;
+                        $byr_airbersih = $a + $b;
+                
+                        $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
+                        $beban_airbersih = $tarif->trf_beban;
+                        $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
+
+                        $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
+                    }
+                    else{      
+                        $byr_airbersih = $pakai_airbersih * $tarif->trf_1;
+                
+                        $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
+                        $beban_airbersih = $tarif->trf_beban;
+                        $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
+
+                        $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
+                    }
+
+                    $tagihan->awal_airbersih = $awal;
+                    $tagihan->akhir_airbersih = $akhir;
+                    $tagihan->pakai_airbersih = $pakai_airbersih;
+                    $tagihan->byr_airbersih = $byr_airbersih;
+                    $tagihan->pemeliharaan_airbersih = $pemeliharaan_airbersih;
+                    $tagihan->beban_airbersih = $beban_airbersih;
+                    $tagihan->arkot_airbersih = $arkot_airbersih;
+                    $tagihan->sub_airbersih = round($ttl_airbersih  + ($ttl_airbersih * ($tarif->trf_ppn / 100)));
+
+                    if($tempat->dis_airbersih === NULL){
+                        $diskon = 0;
+                    }
+                    else{
+                        $diskon = json_decode($tempat->dis_airbersih);
+                        if($diskon->type == 'diskon'){
+                            $diskon = $diskon->value;
+                            $diskon = ($tagihan->sub_airbersih * $diskon) / 100;
+                        }
+                        else{
+                            $disc = 0;
+                            $diskonArray = $diskon->value;
+                            if(in_array('byr',$diskonArray)){
+                                $disc = $disc + $tagihan->byr_airbersih;
+                            }
+                            if(in_array('beban',$diskonArray)){
+                                $disc = $disc + $tagihan->beban_airbersih;
+                            }
+                            if(in_array('pemeliharaan',$diskonArray)){
+                                $disc = $disc + $tagihan->pemeliharaan_airbersih;
+                            }
+                            if(in_array('arkot',$diskonArray)){
+                                $disc = $disc + $tagihan->arkot_airbersih;
+                            }
+                            if(is_object($diskonArray[count($diskonArray) - 1])){
+                                $charge = $diskonArray[count($diskonArray) - 1]->charge;
+                                $charge = explode(',',$charge);
+                                $persen = $charge[0];
+                                if($charge[1] == 'ttl'){
+                                    $sale = $tagihan->sub_airbersih * ($persen / 100);
+                                }
+                                if($charge[1] == 'byr'){
+                                    $sale = $tagihan->byr_airbersih * ($persen / 100); 
+                                }
+                                $disc = $disc + $sale;
+                            }
+                            
+                            $disc   = $disc + ($disc * ($tarif->trf_ppn / 100));
+                            $disc   = $tagihan->sub_airbersih - $disc;
+                            $diskon = $disc;
+                        }
+                    }
+
+                    $total = $tagihan->sub_airbersih - $diskon; 
+                    $tagihan->dis_airbersih = $diskon;
+                    $tagihan->ttl_airbersih = $total;
+                    $tagihan->rea_airbersih = 0;
+                    $tagihan->sel_airbersih = $tagihan->ttl_airbersih - $tagihan->rea_airbersih;
+
+                    $warna = Tagihan::where([['kd_kontrol',$tempat->kd_kontrol],['stt_publish',1],['stt_airbersih',1]])->orderBy('id','desc')->limit(3)->get();
+                    if($warna != NULL){
+                        $warna_ku = 0;
+                        foreach($warna as $war){
+                            $warna_ku = $warna_ku + $war->pakai_airbersih;
+                        }
+                        $warna = round($warna_ku / 3);
+                    
+                        $lima_persen             = $warna * (5/100);
+                        $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
+                        $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
+                        
+                        if($pakai_airbersih <= $lima_persen){
+                            $warna = 1;
+                        }
+                        else if($pakai_airbersih >= $seratussepuluh_persen && $pakai_airbersih < $seratuslimapuluh_persen){
+                            $warna = 2;
+                        }
+                        else if($pakai_airbersih >= $seratuslimapuluh_persen){
+                            $warna = 3;
+                        }
+                        else{
+                            $warna = 0;
+                        }
+                    }
+                    else{
+                        $warna = 0;
+                    }
+
+                    $tagihan->warna_airbersih = $warna;
+            
+                    $meter = AlatAir::find($tempat->id_meteran_air);
+                    if($meter != NULL){
+                        $meter->akhir = $akhir;
+                        $meter->save();
+                    }
+
+                    $tagihan->stt_airbersih = 1;
+                }
+                
+                if($request->stt_keamananipk == 1){
+                    if($request->keamananIpk_manual == 0){
+                        $subtotal  = 0;
+                        $diskon    = 0;
+                    }
+                    else{
+                        $subtotal = explode(',',$request->keamananIpk_manual);
+                        $subtotal = implode('',$subtotal);
+                        
+                        if($request->disKeamananIpk_manual != 0){
+                            $diskon = explode(',',$request->disKeamananIpk_manual);
+                            $diskon = implode('',$diskon);
+                        }
+                        else{
+                            $diskon = 0;
+                        }
+                    }
+                    $tagihan->sub_keamananipk = $subtotal;
+                    $tagihan->dis_keamananipk = $diskon;
+                    $tagihan->ttl_keamananipk = $tagihan->sub_keamananipk - $tagihan->dis_keamananipk;
+                    $tarif = TarifKeamananIpk::find($tempat->trf_keamananipk);
+                    $tagihan->ttl_keamanan    = ($tarif->prs_keamanan / 100) * $tagihan->ttl_keamananipk;
+                    $tagihan->ttl_ipk         = ($tarif->prs_ipk / 100) * $tagihan->ttl_keamananipk;
+                    $tagihan->rea_keamananipk = 0;
+                    $tagihan->sel_keamananipk = $tagihan->ttl_keamananipk;
+                    $tagihan->stt_keamananipk = 1;
+
+                    $tempat->dis_keamananipk = $diskon;
+                }
+                
+                if($request->stt_kebersihan == 1){
+                    if($request->kebersihan_manual == 0){
+                        $subtotal  = 0;
+                        $diskon    = 0;
+                    }
+                    else{
+                        $subtotal = explode(',',$request->kebersihan_manual);
+                        $subtotal = implode('',$subtotal);
+                        
+                        if($request->disKebersihan_manual != 0){
+                            $diskon = explode(',',$request->disKebersihan_manual);
+                            $diskon = implode('',$diskon);
+                        }
+                        else{
+                            $diskon = 0;
+                        }
+                    }
+                    $tagihan->sub_kebersihan = $subtotal;
+                    $tagihan->dis_kebersihan = $diskon;
+                    $tagihan->ttl_kebersihan = $tagihan->sub_kebersihan - $tagihan->dis_kebersihan;
+                    $tagihan->rea_kebersihan = 0;
+                    $tagihan->sel_kebersihan = $tagihan->ttl_kebersihan;
+                    $tagihan->stt_kebersihan = 1;
+
+                    $tempat->dis_kebersihan = $diskon;
+                }
+                
+                if($request->stt_airkotor == 1){
+                    if($request->airKotor_manual == 0){
+                        $subtotal  = 0;
+                    }
+                    else{
+                        $subtotal = explode(',',$request->airKotor_manual);
+                        $subtotal = implode('',$subtotal);
+                    }
+                    $tagihan->ttl_airkotor = $subtotal;
+                    $tagihan->rea_airkotor = 0;
+                    $tagihan->sel_airkotor = $tagihan->ttl_airkotor;
+                    $tagihan->stt_airkotor = 1;
+                }
+                
+                if($request->stt_lain == 1){
+                    if($request->lain_manual == 0){
+                        $subtotal  = 0;
+                    }
+                    else{
+                        $subtotal = explode(',',$request->lain_manual);
+                        $subtotal = implode('',$subtotal);
+                    }
+                    $tagihan->ttl_lain = $subtotal;
+                    $tagihan->rea_lain = 0;
+                    $tagihan->sel_lain = $tagihan->ttl_lain;
+                    $tagihan->stt_lain = 1;
+                }
+
+                //Subtotal
+                $subtotal = 
+                        $tagihan->sub_listrik     + 
+                        $tagihan->sub_airbersih   + 
+                        $tagihan->sub_keamananipk + 
+                        $tagihan->sub_kebersihan  + 
+                        $tagihan->ttl_airkotor    + 
+                        $tagihan->ttl_lain;
+                $tagihan->sub_tagihan = $subtotal;
+
+                //Diskon
+                $diskon = 
+                    $tagihan->dis_listrik     + 
+                    $tagihan->dis_airbersih   + 
+                    $tagihan->dis_keamananipk + 
+                    $tagihan->dis_kebersihan;
+                $tagihan->dis_tagihan = $diskon;
+
+                //Denda
+                $tagihan->den_tagihan = $tagihan->den_listrik + $tagihan->den_airbersih;
+
+                //TOTAL
+                $total = 
+                    $tagihan->ttl_listrik     + 
+                    $tagihan->ttl_airbersih   + 
+                    $tagihan->ttl_keamananipk + 
+                    $tagihan->ttl_kebersihan  + 
+                    $tagihan->ttl_airkotor    + 
+                    $tagihan->ttl_lain;
+                $tagihan->ttl_tagihan = $total;
+
+                //Realisasi
+                $realisasi = 
+                        $tagihan->rea_listrik     + 
+                        $tagihan->rea_airbersih   + 
+                        $tagihan->rea_keamananipk + 
+                        $tagihan->rea_kebersihan  + 
+                        $tagihan->rea_airkotor    + 
+                        $tagihan->rea_lain;
+                $tagihan->rea_tagihan = $realisasi;
+
+                //Selisih
+                $selisih =
+                        $tagihan->sel_listrik     + 
+                        $tagihan->sel_airbersih   + 
+                        $tagihan->sel_keamananipk + 
+                        $tagihan->sel_kebersihan  + 
+                        $tagihan->sel_airkotor    + 
+                        $tagihan->sel_lain;
+                $tagihan->sel_tagihan = $selisih;
+
+                $tagihan->save();
+                $tempat->save();
 
                 return response()->json(['success' => "Data Berhasil Ditambah"]);
             }
             catch(\Exception $e){
-                return response()->json(['errors' => "Data Gagal Ditambah"]);
+                return response()->json(['errors' => $e]);
             }
         }
     }
