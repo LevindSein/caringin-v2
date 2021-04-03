@@ -2469,6 +2469,53 @@ class TagihanController extends Controller
         }
     }
 
+    public function showPenghapusan($fas, $id){
+        if(request()->ajax()){
+            $data = Penghapusan::find($id);
+            $data['periode'] = IndoDate::bulan($data->bln_tagihan, " ");
+            $data['data_periode'] = $data->bln_tagihan;
+            if($fas == 'listrik'){
+                $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_listrik','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'airbersih'){
+                $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_airbersih','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'keamananipk'){
+                $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_keamananipk','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+            
+            if($fas == 'kebersihan'){
+                $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_kebersihan','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'airkotor'){
+                $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_airkotor','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'lain'){
+                $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_lain','>=',0]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'tagihan'){
+                $data['rincian'] = Penghapusan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'details'){
+                $data['listrik'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_listrik','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['airbersih'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_airbersih','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['keamananipk'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_keamananipk','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['kebersihan'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_kebersihan','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['airkotor'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_airkotor','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['lain'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_lain','>=',0]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['tagihan'] = Penghapusan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_tagihan','desc')->limit(4)->get();
+            }
+
+            return response()->json(["result" => $data]);
+        }
+    }
+
     public function total($id){
         $tagihan = Tagihan::find($id);
         //Subtotal

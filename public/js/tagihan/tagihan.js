@@ -889,6 +889,7 @@ $(document).ready(function(){
         $(".divAirKotor").hide();
         $(".divLain").hide();
         $(".divTagihan").show();
+        $(".divHistory").show();
         $(".fasilitas").text("JUMLAH TAGIHAN");
         $('#rincianrow').html('');
         $.ajax({
@@ -985,6 +986,7 @@ $(document).ready(function(){
         $(".divAirKotor").show();
         $(".divLain").show();
         $(".divTagihan").hide();
+        $(".divHistory").show();
         $(".fasilitas").text("DETAILS TAGIHAN");
         $('#rincianrow').html('');
         $.ajax({
