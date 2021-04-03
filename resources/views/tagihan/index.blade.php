@@ -1225,9 +1225,9 @@
             <div class="modal-body p-0">
                 <div class="card bg-secondary border-0 mb-0">
                     <div class="card-header bg-gradient-vine">
-                        <h1 class="text-white text-center titles" style="font-weight:700">A-1-001</h1>
-                        <h2 class="text-white text-center fasilitas" style="font-weight:700">Total Listrik</h2>
-                        <h2 class="text-white text-center periode" style="font-weight:700">April 2021</h2>
+                        <h1 class="text-white text-center kontrol" style="font-weight:700"></h1>
+                        <h2 class="text-white text-center fasilitas" style="font-weight:700"></h2>
+                        <h2 class="text-white text-center periode" style="font-weight:700"></h2>
                     </div>
                     <div class="card-body px-lg-3 py-lg-3">
                         <div class="card-body modal-body-short">
@@ -1235,24 +1235,40 @@
                                 <div class="col">
                                     <div class="divListrik">
                                         <span class="heading">Listrik</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
-                                                        <span class="description">Diskon</span>
-                                                        <span class="heading diskon-listrik" style="font-size:.875rem;">&mdash;</span>
-                                                    </div>
-                                                    <div>
-                                                        <span class="description">Kode</span>
-                                                        <span class="heading alat-listrik" style="font-size:.875rem;">&mdash;</span>
-                                                    </div>
-                                                    <div>
                                                         <span class="description">Daya</span>
-                                                        <span class="heading daya-listrik" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="heading daya-listrik">&mdash;</span>
                                                     </div>
                                                     <div>
-                                                        <span class="description">Stand</span>
-                                                        <span class="heading stand-listrik" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Awal</span>
+                                                        <span class="heading awal-listrik">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Akhir</span>
+                                                        <span class="heading akhir-listrik">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Pakai</span>
+                                                        <span class="heading pakai-listrik">&mdash;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="description">Disc</span>
+                                                        <span class="heading diskon-listrik">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Tagihan</span>
+                                                        <span class="heading tagihan-listrik">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Denda</span>
+                                                        <span class="heading denda-listrik">&mdash;</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1260,20 +1276,36 @@
                                     </div>
                                     <div class="divAirBersih">
                                         <span class="heading">Air Bersih</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
-                                                        <span class="description">Diskon</span>
-                                                        <span class="heading diskon-airbersih" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Awal</span>
+                                                        <span class="heading awal-airbersih">&mdash;</span>
                                                     </div>
                                                     <div>
-                                                        <span class="description">Kode</span>
-                                                        <span class="heading alat-airbersih" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Akhir</span>
+                                                        <span class="heading akhir-airbersih">&mdash;</span>
                                                     </div>
                                                     <div>
-                                                        <span class="description">Stand</span>
-                                                        <span class="heading stand-airbersih" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Pakai</span>
+                                                        <span class="heading pakai-airbersih">&mdash;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="description">Disc</span>
+                                                        <span class="heading diskon-airbersih">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Tagihan</span>
+                                                        <span class="heading tagihan-airbersih">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Denda</span>
+                                                        <span class="heading denda-airbersih">&mdash;</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1281,21 +1313,16 @@
                                     </div>
                                     <div class="divKeamananIpk">
                                         <span class="heading">Keamanan IPK</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
-                                                        <span class="description">Diskon</span>
-                                                        <span class="heading diskon-keamananipk" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Disc</span>
+                                                        <span class="heading diskon-keamananipk">&mdash;</span>
                                                     </div>
                                                     <div>
-                                                        <span class="description">Tarif</span>
-                                                        <span class="heading subtotal-keamananipk" style="font-size:.875rem;">&mdash;</span>
-                                                        <span class="heading per-unit-keamananipk" style="font-size:.875rem;">&mdash;</span>
-                                                    </div>
-                                                    <div>
-                                                        <span class="description">Total</span>
-                                                        <span class="heading total-keamananipk" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Tagihan</span>
+                                                        <span class="heading tagihan-keamananipk">&mdash;</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1303,21 +1330,16 @@
                                     </div>
                                     <div class="divKebersihan">
                                         <span class="heading">Kebersihan</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
-                                                        <span class="description">Diskon</span>
-                                                        <span class="heading diskon-kebersihan" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Disc</span>
+                                                        <span class="heading diskon-kebersihan">&mdash;</span>
                                                     </div>
                                                     <div>
-                                                        <span class="description">Tarif</span>
-                                                        <span class="heading subtotal-kebersihan" style="font-size:.875rem;">&mdash;</span>
-                                                        <span class="heading per-unit-kebersihan" style="font-size:.875rem;">&mdash;</span>
-                                                    </div>
-                                                    <div>
-                                                        <span class="description">Total</span>
-                                                        <span class="heading total-kebersihan" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Tagihan</span>
+                                                        <span class="heading tagihan-kebersihan">&mdash;</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1325,25 +1347,62 @@
                                     </div>
                                     <div class="divAirKotor">
                                         <span class="heading">Air Kotor</span>
-                                        <div class="row" style="margin-top:-1rem">
-                                            <div class="col">
-                                                <div class="card-profile-stats d-flex justify-content-center">
-                                                    <div>
-                                                        <span class="description">Total</span>
-                                                        <span class="heading total-airkotor" style="font-size:.875rem;">&mdash;</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div>
+                                            <span class="description">Tagihan</span>
+                                            <span class="heading tagihan-airkotor">&mdash;</span>
                                         </div>
                                     </div>
                                     <div class="divLain">
                                         <span class="heading">Lain - Lain</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div>
+                                            <span class="description">Tagihan</span>
+                                            <span class="heading tagihan-lain">&mdash;</span>
+                                        </div>
+                                    </div>
+                                    <div class="divTagihan">
+                                        <span class="heading">Jumlah Tagihan</span>
+                                        <div class="row">
                                             <div class="col">
-                                                <div class="card-profile-stats d-flex justify-content-center">
+                                                <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
-                                                        <span class="description">Total</span>
-                                                        <span class="heading total-lain" style="font-size:.875rem;">&mdash;</span>
+                                                        <span class="description">Listrik</span>
+                                                        <span class="heading tagihan-listrik">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Keamanan IPK</span>
+                                                        <span class="heading tagihan-keamananipk">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Air Kotor</span>
+                                                        <span class="heading tagihan-airkotor">&mdash;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="description">Air Bersih</span>
+                                                        <span class="heading tagihan-airbersih">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Kebersihan</span>
+                                                        <span class="heading tagihan-kebersihan">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Lainnya</span>
+                                                        <span class="heading tagihan-lain">&mdash;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="description">Diskon</span>
+                                                        <span class="heading tagihan-diskon">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Denda</span>
+                                                        <span class="heading tagihan-denda">&mdash;</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1363,11 +1422,39 @@
                                     </div>
                                     <div>
                                         <span class="description">Lokasi</span>
-                                        <span class="heading lokasi"></span>
+                                        <span class="heading lokasi" style="font-size:.875rem"></span>
+                                    </div>
+                                    <div>
+                                        <span class="description pembayaran-heading">Pembayaran</span>
+                                        <span class="heading pembayaran"></span>
                                     </div>
                                     <div>
                                         <span class="description">Status</span>
                                         <span class="heading status"></span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Terakhir Dipublish Oleh</span>
+                                        <span class="heading publisher"></span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Terakhir Dikelola Oleh</span>
+                                        <span class="heading pengelola"></span>
+                                    </div>
+                                    <hr>
+                                    <span class="heading">History</span>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">
+                                                <div>
+                                                    <span class="description" style="font-size:.875rem;">Periode</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description" style="font-size:.875rem;">Tagihan</span>
+                                                </div>
+                                            </div>
+                                            <div id="rincianrow">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

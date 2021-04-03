@@ -2422,6 +2422,43 @@ class TagihanController extends Controller
         }
     }
 
+    public function show($fas, $id){
+        if(request()->ajax()){
+            $data = Tagihan::find($id);
+            $data['periode'] = IndoDate::bulan($data->bln_tagihan, " ");
+            $data['data_periode'] = $data->bln_tagihan;
+            if($fas == 'listrik'){
+                $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_listrik','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'airbersih'){
+                $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_airbersih','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'keamananipk'){
+                $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_keamananipk','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+            
+            if($fas == 'kebersihan'){
+                $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_kebersihan','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'airkotor'){
+                $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_airkotor','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'lain'){
+                $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_lain','>=',0]])->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            if($fas == 'tagihan'){
+                $data['rincian'] = Tagihan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_tagihan','desc')->limit(7)->get();
+            }
+
+            return response()->json(["result" => $data]);
+        }
+    }
+
     public function total($id){
         $tagihan = Tagihan::find($id);
         //Subtotal

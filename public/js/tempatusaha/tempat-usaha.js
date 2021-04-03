@@ -765,7 +765,7 @@ $(document).ready(function(){
                         pengguna += '<i class="fas fa-leaf" style="color:dark" title="Non Kebersihan"></i>&nbsp;';
 
                     html = '';
-                    html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
+                    html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-1rem">';
                     html +=     '<div>';
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].kd_kontrol + '</span>';
                     html +=     '</div>';
