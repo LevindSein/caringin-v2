@@ -6,7 +6,11 @@
 @endsection
 
 @section('judul')
+@if(Session::get("tagihanindex") == 'report')
+<h6 class="h2 text-white d-inline-block mb-0">Checking Report</h6>
+@else
 <h6 class="h2 text-white d-inline-block mb-0">Periode {{$periode}}</h6>
+@endif
 @endsection
 
 @section('button')
