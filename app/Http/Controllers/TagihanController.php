@@ -2455,6 +2455,16 @@ class TagihanController extends Controller
                 $data['rincian'] = Tagihan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_tagihan','desc')->limit(7)->get();
             }
 
+            if($fas == 'details'){
+                $data['listrik'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_listrik','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['airbersih'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_airbersih','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['keamananipk'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_keamananipk','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['kebersihan'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_kebersihan','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['airkotor'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_airkotor','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['lain'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_lain','>=',0]])->orderBy('bln_tagihan','desc')->limit(4)->get();
+                $data['tagihan'] = Tagihan::where('kd_kontrol',$data->kd_kontrol)->orderBy('bln_tagihan','desc')->limit(4)->get();
+            }
+
             return response()->json(["result" => $data]);
         }
     }

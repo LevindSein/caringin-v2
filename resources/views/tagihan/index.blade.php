@@ -1273,6 +1273,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
                                     </div>
                                     <div class="divAirBersih">
                                         <span class="heading">Air Bersih</span>
@@ -1310,6 +1311,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
                                     </div>
                                     <div class="divKeamananIpk">
                                         <span class="heading">Keamanan IPK</span>
@@ -1327,6 +1329,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
                                     </div>
                                     <div class="divKebersihan">
                                         <span class="heading">Kebersihan</span>
@@ -1344,6 +1347,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
                                     </div>
                                     <div class="divAirKotor">
                                         <span class="heading">Air Kotor</span>
@@ -1351,6 +1355,7 @@
                                             <span class="description">Tagihan</span>
                                             <span class="heading tagihan-airkotor">&mdash;</span>
                                         </div>
+                                        <hr>
                                     </div>
                                     <div class="divLain">
                                         <span class="heading">Lain - Lain</span>
@@ -1358,6 +1363,7 @@
                                             <span class="description">Tagihan</span>
                                             <span class="heading tagihan-lain">&mdash;</span>
                                         </div>
+                                        <hr>
                                     </div>
                                     <div class="divTagihan">
                                         <span class="heading">Jumlah Tagihan</span>
@@ -1407,6 +1413,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
                                     </div>
                                     <div>
                                         <span class="description">Pengguna</span>
@@ -1441,18 +1448,20 @@
                                         <span class="heading pengelola"></span>
                                     </div>
                                     <hr>
-                                    <span class="heading">History</span>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">
-                                                <div>
-                                                    <span class="description" style="font-size:.875rem;">Periode</span>
+                                    <div class="divHistory">
+                                        <span class="heading history-heading">History</span>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">
+                                                    <div>
+                                                        <span class="description" style="font-size:.875rem;">Periode</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description" style="font-size:.875rem;">Tagihan</span>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <span class="description" style="font-size:.875rem;">Tagihan</span>
+                                                <div id="rincianrow">
                                                 </div>
-                                            </div>
-                                            <div id="rincianrow">
                                             </div>
                                         </div>
                                     </div>
