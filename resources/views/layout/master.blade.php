@@ -76,7 +76,6 @@
                         @endif
 
                         @if(Session::get('role') == 'master' || Session::get('role') == 'manajer'||  Session::get('role') == 'admin' && (Session::get('otoritas')->pedagang || Session::get('otoritas')->tempatusaha || Session::get('otoritas')->tagihan || Session::get('otoritas')->publish || Session::get('otoritas')->layanan))
-                        <h6 class="navbar-heading p-0 text-muted">Sumber&nbsp;Daya</h6>
                         <ul class="navbar-nav">
                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->layanan))
                             <!-- Nav Item - Pedagang -->
@@ -119,7 +118,6 @@
                         @endif
 
                         @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->pemakaian || Session::get('otoritas')->pendapatan || Session::get('otoritas')->datausaha))
-                        <h6 class="navbar-heading p-0 text-muted">Report</h6>
                         <ul class="navbar-nav">
                             @if(Session::get('role') == 'master' || Session::get('role') == 'manajer' ||  Session::get('role') == 'admin' && (Session::get('otoritas')->pemakaian || Session::get('otoritas')->pendapatan))
                             <!-- Nav Item - Laporan -->
@@ -159,7 +157,6 @@
                         @endif
 
                         @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->blok || Session::get('otoritas')->alatmeter || Session::get('otoritas')->tarif || Session::get('otoritas')->harilibur || Session::get('otoritas')->simulasi))
-                        <h6 class="navbar-heading p-0 text-muted">Others</h6>
                         <ul class="navbar-nav">
                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->blok || Session::get('otoritas')->alatmeter || Session::get('otoritas')->tarif || Session::get('otoritas')->harilibur || Session::get('otoritas')->simulasi))
                             <!-- Nav Item - Utilities -->

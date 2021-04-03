@@ -613,12 +613,12 @@ h6,
 
 hr
 {
-    margin-top: .875rem;
-    margin-bottom: .875rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
 
     border: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    border-bottom: 1px solid rgba(77, 77, 77, 0.7);
+    border-top: .5px solid rgba(255, 255, 255, 0.5);
+    border-bottom: .5px solid rgba(197, 197, 197, 0.7);
 }
 
 .modal-body-short{
@@ -10232,7 +10232,7 @@ button.bg-darker:focus
 .mt-3,
 .my-3
 {
-    margin-top: 1rem !important;
+    margin-top: .5rem !important;
 }
 
 .mr-3,
@@ -10244,7 +10244,7 @@ button.bg-darker:focus
 .mb-3,
 .my-3
 {
-    margin-bottom: 1rem !important;
+    margin-bottom: .5rem !important;
 }
 
 .ml-3,
@@ -18958,19 +18958,18 @@ a.btn-icon-only
 
 .card-profile-stats
 {
-    padding: 1rem 0;
+    padding: .125rem;
 }
 .card-profile-stats > div
 {
-    margin-right: 1rem;
     padding: .875rem; 
 
     text-align: center;
 }
-.card-profile-stats > div:last-child
+/* .card-profile-stats > div:last-child
 {
     margin-right: 0;
-}
+} */
 .card-profile-stats > div .heading
 {
     font-size: 1.1rem;

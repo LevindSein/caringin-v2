@@ -75,7 +75,7 @@
                             <div class="card-profile-stats d-flex justify-content-center">
                                 <div class="col">
                                     <span class="heading">Pengguna</span>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -98,7 +98,7 @@
                                         </div>
                                     </div>
                                     <span class="heading">Potensi</span>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                     <span class="heading">Rincian</span>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">
                                                 <div>

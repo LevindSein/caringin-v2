@@ -98,7 +98,7 @@ use App\Models\Tagihan;
                                     <div class="divListrik">
                                         <hr>
                                         <span class="heading">Listrik</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
@@ -124,7 +124,7 @@ use App\Models\Tagihan;
                                     <div class="divAirBersih">
                                         <hr>
                                         <span class="heading">Air Bersih</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
@@ -146,7 +146,7 @@ use App\Models\Tagihan;
                                     <div class="divKeamananIpk">
                                         <hr>
                                         <span class="heading">Keamanan IPK</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
@@ -169,7 +169,7 @@ use App\Models\Tagihan;
                                     <div class="divKebersihan">
                                         <hr>
                                         <span class="heading">Kebersihan</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-between">
                                                     <div>
@@ -192,7 +192,7 @@ use App\Models\Tagihan;
                                     <div class="divAirKotor">
                                         <hr>
                                         <span class="heading">Air Kotor</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-center">
                                                     <div>
@@ -206,7 +206,7 @@ use App\Models\Tagihan;
                                     <div class="divLain">
                                         <hr>
                                         <span class="heading">Lain - Lain</span>
-                                        <div class="row" style="margin-top:-1rem">
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="card-profile-stats d-flex justify-content-center">
                                                     <div>

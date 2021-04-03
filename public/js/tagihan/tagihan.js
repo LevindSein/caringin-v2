@@ -297,4 +297,17 @@ $(document).ready(function(){
             },
         })
     });
+
+    $(document).on('click', '.totallistrik', function(){
+		id = $(this).attr('id');
+        // $.ajax({
+		// 	url :"/tempatusaha/show/"+id,
+        //     cache:false,
+		// 	dataType:"json",
+		// 	success:function(data)
+		// 	{
+                $("#total-details").modal("show");
+        //     }
+        // });
+    });
 });

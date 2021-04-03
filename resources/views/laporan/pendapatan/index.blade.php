@@ -92,7 +92,7 @@
                                     </div>
                                     <hr>
                                     <span class="heading">Rincian</span>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -110,7 +110,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -128,7 +128,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -142,7 +142,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -156,7 +156,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-center">
                                                 <div>
@@ -166,7 +166,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-center">
                                                 <div>
@@ -211,7 +211,7 @@
                                     </div>
                                     <hr>
                                     <span class="heading">Rincian</span>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -229,7 +229,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -247,7 +247,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -261,7 +261,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-between">
                                                 <div>
@@ -275,7 +275,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-center">
                                                 <div>
@@ -285,7 +285,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:-1rem">
+                                    <div class="row">
                                         <div class="col">
                                             <div class="card-profile-stats d-flex justify-content-center">
                                                 <div>
