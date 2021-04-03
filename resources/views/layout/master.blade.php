@@ -107,7 +107,7 @@
                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan || Session::get('otoritas')->publish))
                             <!-- Nav Item - Tagihan -->
                             <li class="nav-item">
-                                <a class="nav-link {{ (request()->is('tagihan*')) ? 'active' : '' }}" href="{{url('tagihan')}}">
+                                <a class="home-tagihan nav-link {{ (request()->is('tagihan*')) ? 'active' : '' }}" href="{{url('tagihan')}}">
                                     <i class="fas fa-plus text-info"></i>
                                     <span class="nav-link-text">Tagihan</span></a>
                             </li>
@@ -363,6 +363,23 @@
         <script>
             $(window).on('load', function() {
                 $(".se-pre-con").fadeIn("slow").fadeOut("slow");
+            });
+
+            $(document).ready(function(){
+                $(document).on('click', '.home-tagihan', function(){
+                    $.ajax({
+                        url :"/tagihan/checking/home",
+                        cache:false,
+                        dataType:"json",
+                        success:function(data)
+                        {
+                            if(data.success)
+                                console.log(data.success);
+                            else
+                                console.log(data.errors);
+                        }
+                    });
+                });
             });
         </script>
         

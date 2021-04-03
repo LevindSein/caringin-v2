@@ -73,10 +73,17 @@ class TagihanController extends Controller
         {
             if(Session::get('role') == 'admin'){
                 $wherein = Session::get('otoritas')->otoritas;
-                $data = Tagihan::where('bln_tagihan',Session::get('periodetagihan'))->whereIn('blok',$wherein);
+
+                if(Session::get("tagihanindex") ==  'report')
+                    $data = Tagihan::where('review',0)->whereIn('blok',$wherein);
+                else
+                    $data = Tagihan::where('bln_tagihan',Session::get('periodetagihan'))->whereIn('blok',$wherein);
             }
             else{
-                $data = Tagihan::where('bln_tagihan',Session::get('periodetagihan'));
+                if(Session::get("tagihanindex") ==  'report')
+                    $data = Tagihan::where('review',0);
+                else
+                    $data = Tagihan::where('bln_tagihan',Session::get('periodetagihan'));
             }
             return DataTables::of($data)
                 ->addColumn('action', function($data){
@@ -2513,6 +2520,21 @@ class TagihanController extends Controller
             }
 
             return response()->json(["result" => $data]);
+        }
+    }
+
+    public function report($status){
+        if(request()->ajax()){
+            try{
+                if($status == 'report')
+                    Session::put("tagihanindex","report");
+                else
+                    Session::put("tagihanindex","home");
+                return response()->json(['success' => "Berhasil Mengambil Data"]);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => "Gagal Mengambil Data"]);
+            }
         }
     }
 
