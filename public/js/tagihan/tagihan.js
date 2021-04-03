@@ -1236,7 +1236,10 @@ $(document).ready(function(){
                     html = '<br>';
                     $('#rincianrow').append(html);   
                 }
-                
+
+                html = '<hr>';
+                $('#rincianrow').append(html);
+
                 for(i = 0; i < data.result.tagihan.length; i++){
                     html = '';
                     html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
