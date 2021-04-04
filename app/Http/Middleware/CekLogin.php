@@ -97,7 +97,7 @@ class CekLogin
             if($page == 'dashboard'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
-                $roles = array('master','manajer','admin');
+                $roles = array('master','manajer','admin','keuangan');
                 if($validator != NULL){
                     if(in_array($explode[1],$roles)){
                         return $next($request);

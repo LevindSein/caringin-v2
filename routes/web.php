@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
+//Keuangan
+use App\Http\Controllers\KeuanganController;
+
 //Kasir
 use App\Http\Controllers\KasirController;
 
@@ -112,15 +115,15 @@ Route::post('storelogin',function(Request $request){
     try{
         if(csrf_token() === $request->_token){
             if($request->role === 'master')
-                return redirect()->route('dashboard')->with('success','Selamat Datang Master');
+                return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
             else if($request->role === 'manajer')
-                return redirect()->route('dashboard')->with('success','Selamat Datang Manajer');
+                return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
             else if($request->role === 'kasir')
                 return redirect()->route('kasir.index');
             else if($request->role === 'admin')
                 return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
             else if($request->role === 'keuangan')
-                return redirect()->route('keuangan.index');
+                return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
             else
                 abort(404);
         }
@@ -135,6 +138,19 @@ Route::get('logout',function(){
     Session::flush();
     Artisan::call('cache:clear');
     return redirect()->route('login')->with('success','Sampai Jumpa Lagi');
+});
+
+Route::middleware('ceklogin:keuangan')->group(function(){
+    Route::get('keuangan/checkout/arsip',[KeuanganController::class, 'arsip']);
+    Route::get('keuangan/data/tunggakan',[KeuanganController::class, 'dataTunggakan']);
+    Route::get('keuangan/data/tagihan',[KeuanganController::class, 'dataTagihan']);
+    Route::get('keuangan/laporan/rekap/generate/{data}',[KeuanganController::class, 'lapGenerateRekap']);
+    Route::get('keuangan/laporan/rekap/{data}',[KeuanganController::class, 'lapRekap']);
+    Route::get('keuangan/laporan/pendapatan/generate/{data}',[KeuanganController::class, 'lapGeneratePendapatan']);
+    Route::get('keuangan/laporan/pendapatan/{data}',[KeuanganController::class, 'lapPendapatan']);
+    Route::get('keuangan/laporan/tagihan/generate/{data}',[KeuanganController::class, 'lapGenerateTagihan']);
+    Route::get('keuangan/laporan/tagihan/{data}',[KeuanganController::class, 'lapTagihan']);
+    Route::resource('keuangan', KeuanganController::class);
 });
 
 Route::middleware('ceklogin:kasir')->group(function(){

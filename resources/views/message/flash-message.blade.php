@@ -27,8 +27,8 @@
 
 <script>
     $(document).ready(function () {
-        $("#success-alert,#warning-alert,#error-alert,#info-alert").fadeTo(2000, 1000).slideUp(2000, function () {
-            $("#success-alert,#warning-alert,#error-alert,#info-alert").slideUp(1000);
+        $("#success-alert,#warning-alert,#error-alert,#info-alert").fadeTo(1000, 500).slideUp(1000, function () {
+            $("#success-alert,#warning-alert,#error-alert,#info-alert").slideUp(500);
         });
     });
 </script>

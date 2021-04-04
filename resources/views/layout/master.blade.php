@@ -46,6 +46,8 @@
                         ADMIN
                         @elseif(Session::get('role') == 'kasir')
                         KASIR
+                        @elseif(Session::get('role') == 'keuangan')
+                        KEUANGAN
                         @else
                         WHO ARE YOU ?
                         @endif
@@ -90,7 +92,7 @@
                         <hr class="my-3">
                         @endif
 
-                        @if(Session::get('role') == 'master' || Session::get('role') == 'manajer' || Session::get('role') == 'admin')
+                        @if(Session::get('role') == 'master' || Session::get('role') == 'manajer' || Session::get('role') == 'admin' || Session::get('role') == 'keuangan')
                         <!-- Nav items -->
                         <ul class="navbar-nav">
                             <!-- Nav Item - Dashboard -->
@@ -98,6 +100,37 @@
                                 <a class="nav-link {{ (request()->is('dashboard*')) ? 'active' : '' }}" href="{{url('dashboard')}}">
                                     <i class="fas fa-tachometer-alt text-primary"></i>
                                     <span class="nav-link-text">Dashboard</span></a>
+                            </li>
+                        </ul>
+                        <!-- Divider -->
+                        <hr class="my-3">
+                        @endif
+
+                        @if(Session::get('role') == 'keuangan')
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request()->is('keuangan/laporan*')) ? 'active' : '' }}" href="#keuangan-laporan" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('keuangan/laporan*')) ? 'true' : 'false' }}" aria-controls="keuangan-laporan">
+                                    <i class="fas fa-books text-success"></i>
+                                    <span class="nav-link-text">Laporan</span>
+                                </a>
+                                <div class="collapse {{ (request()->is('keuangan/laporan*')) ? 'show' : '' }}" id="keuangan-laporan">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="#laporan-tagihan" class="nav-link {{ (request()->is('keuangan/laporan/tagihan*')) ? 'active' : '' }}" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="laporan-tagihan">Tagihan</a>
+                                            <div class="collapse {{ (request()->is('keuangan/laporan/tagihan*')) ? 'show' : '' }}" id="laporan-tagihan">
+                                                <ul class="nav nav-sm flex-column">
+                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/listrik')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/listrik')) ? 'active' : '' }}"><i class="fad fa-bolt text-yellow"></i>Listrik</a></li>
+                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/airbersih')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/airbersih')) ? 'active' : '' }}"><i class="fad fa-tint text-primary"></i>Air Bersih</a></li>
+                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/keamananipk')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/keamananipk')) ? 'active' : '' }}"><i class="fad fa-lock text-danger"></i>Keamanan IPK</a></li>
+                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/kebersihan')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/kebersihan')) ? 'active' : '' }}"><i class="fad fa-leaf text-success"></i>Kebersihan</a></li>
+                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/airkotor')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/airkotor')) ? 'active' : '' }}"><i class="fad fa-fill-drip text-white"></i>Air Kotor</a></li>
+                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/lain')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/lain')) ? 'active' : '' }}"><i class="fad fa-thumbtack text-pink"></i>Lainnya</a></li>
+                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/tagihan')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/tagihan')) ? 'active' : '' }}"><i class="fad fa-database text-orange"></i>Semua&nbsp;Fasilitas</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                         <!-- Divider -->

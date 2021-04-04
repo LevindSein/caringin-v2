@@ -17,7 +17,7 @@ class Dashboard
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::get('role') === 'master' || 'manajer'){
+        if(Session::get('role') === 'master' || 'manajer' || 'keuangan'){
             return $next($request);
         }
         else{
