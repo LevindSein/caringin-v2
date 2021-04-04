@@ -43,6 +43,8 @@
                         MANAJER
                         @elseif(Session::get('role') == 'admin')
                         ADMIN
+                        @elseif(Session::get('role') == 'kasir')
+                        KASIR
                         @else
                         WHO ARE YOU ?
                         @endif
@@ -61,6 +63,44 @@
                 <div class="navbar-inner">
                     <!-- Collapse -->
                     <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                        @if(Session::get('role') == 'kasir')
+                        <!-- Nav items -->
+                        <ul class="navbar-nav">
+                            <!-- Nav Item - Dashboard -->
+                            <li class="nav-item"  >
+                                <a class="nav-link {{ (request()->is('kasir*')) ? 'active' : '' }}" href="{{url('kasir')}}">
+                                    <i class="fas fa-dollar-sign text-primary"></i>
+                                    <span class="nav-link-text">Kasir&nbsp;Bulanan</span></a>
+                            </li>
+                            <!-- <li class="nav-item"  >
+                                <a class="nav-link" href="{{url('#')}}">
+                                    <i class="fas fa-dollar-sign text-primary"></i>
+                                    <span class="nav-link-text">Kasir&nbsp;Harian</span></a>
+                            </li> -->
+                            @if(Session::get('opsional') && Session::get('otoritas')->kepala_kasir)
+                            <li class="nav-item"  >
+                                <a class="nav-link" href="{{url('#')}}">
+                                    <i class="fad fa-book text-success"></i>
+                                    <span class="nav-link-text">Pendapatan&nbsp;Harian</span></a>
+                            </li>
+                            <li class="nav-item"  >
+                                <a class="nav-link" href="{{url('#')}}">
+                                    <i class="fas fa-books text-orange"></i>
+                                    <span class="nav-link-text">Pendapatan&nbsp;Bulanan</span></a>
+                            </li>
+                            @endif
+                            @if(Session::get('opsional') && Session::get('otoritas')->lapangan_kasir)
+                            <li class="nav-item">
+                                <a class="home-tagihan nav-link {{ (request()->is('tagihan*')) ? 'active' : '' }}" href="{{url('tagihan')}}">
+                                    <i class="fas fa-plus text-info"></i>
+                                    <span class="nav-link-text">Tagihan</span></a>
+                            </li>
+                            @endif
+                        </ul>
+                        <!-- Divider -->
+                        <hr class="my-3">
+                        @endif
+
                         @if(Session::get('role') == 'master' || Session::get('role') == 'manajer' || Session::get('role') == 'admin')
                         <!-- Nav items -->
                         <ul class="navbar-nav">

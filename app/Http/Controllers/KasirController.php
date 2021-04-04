@@ -50,26 +50,13 @@ class KasirController extends Controller
      */
     public function index(Request $request)
     {
-        $agent = new Agent();
-        if($agent->isDesktop()){
-            $platform = 'desktop';
-        }
-        else{
-            $platform = 'mobile';
-        }
-
-        $dataTahun = Tagihan::select('thn_tagihan')
-        ->groupBy('thn_tagihan')
-        ->get();
-
-        if($request->ajax()){
+        if(request()->ajax()){
             $data = Tagihan::select('kd_kontrol')
             ->groupBy('kd_kontrol')
-            ->orderBy('kd_kontrol','asc')
             ->where([['stt_lunas',0],['stt_publish',1],['sel_tagihan','>',0]]);
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Bayar" name="bayar" id="'.$data->kd_kontrol.'" class="bayar btn btn-sm btn-warning">Bayar</a>';
+                    $button = '<button title="Bayar" name="bayar" id="'.$data->kd_kontrol.'" nama="'.$data->kd_kontrol.'" class="bayar btn btn-sm btn-success">Bayar</button>';
                     return $button;
                 })
                 ->addColumn('pengguna', function($data){
@@ -78,7 +65,7 @@ class KasirController extends Controller
                         return User::find($pengguna->id_pengguna)->nama;
                     }
                     else{
-                        return '-';
+                        return 'Unknown';
                     }
                 })
                 ->addColumn('lokasi', function($data){
@@ -104,41 +91,19 @@ class KasirController extends Controller
                 ->make(true);
         }
 
-        return view('kasir.index',[
-            'platform'=>$platform,
-            'month'=>date("m", strtotime(Carbon::now())),
-            'tahun'=>date("Y", strtotime(Carbon::now())),
-            'dataTahun'=>$dataTahun,
+        return view('kasir.bulanan.index',[
             'bulan'=>IndoDate::bulan(date("Y-m", strtotime(Carbon::now())),' '),
         ]);
     }
 
-    public function periode(Request $request){
-        $agent = new Agent();
-        if($agent->isDesktop()){
-            $platform = 'desktop';
-        }
-        else{
-            $platform = 'mobile';
-        }
-
-        $dataTahun = Tagihan::select('thn_tagihan')
-        ->groupBy('thn_tagihan')
-        ->get();
-
-        $periode = $request->tahun."-".$request->bulan;
-        Session::put('bln_periode',$request->bulan);
-        Session::put('thn_periode',$request->tahun);
-        Session::put('periode', $periode);
-
-        if($request->ajax()){
-            $data = Tagihan::select('kd_kontrol')
-            ->groupBy('kd_kontrol')
-            ->orderBy('kd_kontrol','asc')
-            ->where([['stt_lunas',0],['stt_publish',1],['bln_tagihan',Session::get('periode')],['sel_tagihan','>',0]]);
+    public function restore(Request $request){
+        if(request()->ajax()){
+            $data = Pembayaran::select('ref','kd_kontrol')
+            ->groupBy('kd_kontrol','ref')
+            ->where([['tgl_bayar',date('Y-m-d',strtotime(Carbon::now()))],['id_kasir',Session::get('userId')]]);
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Bayar" name="bayar" id="'.$data->kd_kontrol.'" class="bayar btn btn-sm btn-warning">Bayar</a>';
+                    $button = '<button title="Restore" name="restore" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="restore btn btn-sm btn-danger">Restore</button>';
                     return $button;
                 })
                 ->addColumn('pengguna', function($data){
@@ -147,7 +112,7 @@ class KasirController extends Controller
                         return User::find($pengguna->id_pengguna)->nama;
                     }
                     else{
-                        return '(Kosong)';
+                        return 'Unknown';
                     }
                 })
                 ->addColumn('lokasi', function($data){
@@ -160,8 +125,8 @@ class KasirController extends Controller
                     }
                 })
                 ->addColumn('tagihan', function($data){
-                    $tagihan = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_lunas',0],['stt_publish',1],['bln_tagihan',Session::get('periode')]])
-                    ->select(DB::raw('SUM(sel_tagihan) as tagihan'))->get();
+                    $tagihan = Pembayaran::where([['kd_kontrol',$data->kd_kontrol],['ref',$data->ref]])
+                    ->select(DB::raw('SUM(realisasi) as tagihan'))->get();
                     if($tagihan != NULL){
                         return number_format($tagihan[0]->tagihan);
                     }
@@ -172,14 +137,24 @@ class KasirController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
 
-        return view('kasir.periode',[
-            'platform'=>$platform,
-            'month'=>$request->bulan,
-            'tahun'=>$request->tahun,
-            'dataTahun'=>$dataTahun,
-            'bulan'=>IndoDate::bulan($periode,' '),
-        ]);
+    public function struk(Request $request, $struk){
+        if($struk == 'tagihan'){
+            if(request()->ajax()){
+                $data = StrukPembayaran::orderBy('updated_at','desc');
+                return DataTables::of($data)
+                    ->addColumn('action', function($data){
+                        $button = '<button title="Cetak" name="cetak" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="cetak btn btn-sm btn-info">Cetak</button>';
+                        return $button;
+                    })
+                    ->editColumn('totalTagihan', function($data){
+                        return number_format($data->totalTagihan);
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+        }
     }
 
     /**
@@ -195,7 +170,7 @@ class KasirController extends Controller
     public function rincian(Request $request, $kontrol){
         $bulan = date("Y-m", strtotime(Carbon::now()));
 
-        if($request->ajax()){
+        if(request()->ajax()){
             $dataset = array();
 
             //Periode ini -----------------------------------------
@@ -734,13 +709,6 @@ class KasirController extends Controller
         }
     }
 
-    public function testdata($data){
-        // echo($data);
-        
-        // $json = json_decode($data);
-        // echo Crypt::decryptString($json->faktur);
-    }
-
     public function bayar($objData){
         $json = json_decode($objData);
         $kontrol  = $json->kd_kontrol;
@@ -1087,12 +1055,7 @@ class KasirController extends Controller
      */
     public function edit($id)
     {
-        if(request()->ajax())
-        {
-            $data = Harian::findOrFail($id);
 
-            return response()->json(['result' => $data]);
-        }
     }
 
     /**
@@ -1115,209 +1078,6 @@ class KasirController extends Controller
      */
     public function destroy($id)
     {
-        try{
-            Harian::find($id)->delete();
-            return response()->json(['status' => 'Data berhasil dihapus.']);
-        }
-        catch(\Exception $e){
-            return response()->json(['status' => 'Data gagal dihapus.']);
-        }
-    }
-
-    public function rincianPeriode(Request $request, $kontrol){
-        if($request->ajax()){
-            $bulan = Session::get('periode');
-
-            $data = array();
-            $dataset = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1],['bln_tagihan',$bulan]])
-            ->select(
-                'sel_listrik',
-                'sel_airbersih',
-                'sel_keamananipk',
-                'sel_kebersihan',
-                'sel_airkotor',
-                'sel_lain',
-                'den_listrik',
-                'den_airbersih',
-            )
-            ->first();
-
-            $data['listrik']      = $dataset->sel_listrik - $dataset->den_listrik;
-            $data['denlistrik']   = $dataset->den_listrik;
-            $data['airbersih']    = $dataset->sel_airbersih - $dataset->den_airbersih;
-            $data['denairbersih'] = $dataset->den_airbersih;
-            $data['keamananipk']  = $dataset->sel_keamananipk;
-            $data['kebersihan']   = $dataset->sel_kebersihan;
-            $data['airkotor']     = $dataset->sel_airkotor;
-            $data['lain']         = $dataset->sel_lain;
-
-            return response()->json(['result' => $data]);
-        }
-    }
-
-    public function storePeriode(Request $request)
-    {
-        $bayar = '';
-        $tagihan = '';
-        try{
-            if($request->totalTagihan == 0){
-                return response()->json(['errors' => 'Transaksi 0 Tidak Dapat Dilakukan']);
-            }
-            //Pembayaran Kontan
-            $id = $request->tempatId;
-            $tagihan = Tagihan::where([['kd_kontrol',$id],['stt_lunas',0],['stt_publish',1],['bln_tagihan',Session::get('periode')]])->get();
-            foreach($tagihan as $d){
-                $tanggal = date("Y-m-d", strtotime(Carbon::now()));
-                $bulan = date("Y-m", strtotime(Carbon::now()));
-                $tahun = date("Y", strtotime(Carbon::now()));
-    
-                //--------------------------------------------------------------
-                $pembayaran = new Pembayaran;
-                $pembayaran->tgl_bayar = $tanggal;
-                $pembayaran->bln_bayar = $bulan;
-                $pembayaran->thn_bayar = $tahun;
-                $pembayaran->tgl_tagihan = $d->tgl_tagihan;
-                $pembayaran->via_bayar = 'kasir';
-                $pembayaran->id_kasir = Session::get('userId');
-                $pembayaran->nama = Session::get('username');
-                $pembayaran->blok = $d->blok;
-                $pembayaran->kd_kontrol = $d->kd_kontrol;
-                $pembayaran->pengguna = $d->nama;
-                $pembayaran->id_tagihan = $d->id;
-
-                $total = 0;
-                $selisih = $d->sel_tagihan;
-
-                if(empty($request->checkListrik) == FALSE){
-                    $pembayaran->byr_listrik = $d->sel_listrik;
-                    $pembayaran->byr_denlistrik = $d->den_listrik;
-                    $pembayaran->sel_listrik = 0;
-
-                    $total = $total + $pembayaran->byr_listrik;
-                    $selisih = $selisih - $pembayaran->byr_listrik;
-                }
-                
-                if(empty($request->checkAirBersih) == FALSE){
-                    $pembayaran->byr_airbersih = $d->sel_airbersih;
-                    $pembayaran->byr_denairbersih = $d->den_airbersih;
-                    $pembayaran->sel_airbersih = 0;
-                    
-                    $total = $total + $pembayaran->byr_airbersih;
-                    $selisih = $selisih - $pembayaran->byr_airbersih;
-                }
-                
-                if(empty($request->checkKeamananIpk) == FALSE){
-                    $pembayaran->byr_keamananipk = $d->sel_keamananipk;
-                    $pembayaran->sel_keamananipk = 0;
-                    
-                    $total = $total + $pembayaran->byr_keamananipk;
-                    $selisih = $selisih - $pembayaran->byr_keamananipk;
-                }
-
-                if(empty($request->checkKebersihan) == FALSE){
-                    $pembayaran->byr_kebersihan = $d->sel_kebersihan;
-                    $pembayaran->sel_kebersihan = 0;
-                    
-                    $total = $total + $pembayaran->byr_kebersihan;
-                    $selisih = $selisih - $pembayaran->byr_kebersihan;
-                }
-
-                if(empty($request->checkAirKotor) == FALSE){
-                    $pembayaran->byr_airkotor = $d->sel_airkotor;
-                    $pembayaran->sel_airkotor = 0;
-                    
-                    $total = $total + $pembayaran->byr_airkotor;
-                    $selisih = $selisih - $pembayaran->byr_airkotor;
-                }
-
-                if(empty($request->checkLain) == FALSE){
-                    $pembayaran->byr_lain = $d->sel_lain;
-                    $pembayaran->sel_lain = 0;
-                    
-                    $total = $total + $pembayaran->byr_lain;
-                    $selisih = $selisih - $pembayaran->byr_lain;
-                }
-
-                $pembayaran->sub_tagihan = $d->sub_tagihan;
-                $pembayaran->diskon = $d->dis_tagihan;
-                $pembayaran->ttl_tagihan = $d->ttl_tagihan;
-                $pembayaran->realisasi = $total;
-                $pembayaran->sel_tagihan = $selisih;
-                $pembayaran->stt_denda = $d->stt_denda;
-                $pembayaran->save();
-
-                //-------------------------------------------------------------
-                $total = 0;
-                $selisih = $d->sel_tagihan;
-
-                if(empty($request->checkAirBersih) == FALSE){
-                    $d->rea_airbersih = $d->ttl_airbersih;
-                    $d->sel_airbersih = 0;
-
-                    $total = $total + $d->rea_airbersih;
-                    $selisih = $selisih - $d->rea_airbersih;
-                }
-
-                if(empty($request->checkListrik) == FALSE){
-                    $d->rea_listrik = $d->ttl_listrik;
-                    $d->sel_listrik = 0;
-                    
-                    $total = $total + $d->rea_listrik;
-                    $selisih = $selisih - $d->rea_listrik;
-                }
-
-                if(empty($request->checkKeamananIpk) == FALSE){
-                    $d->rea_keamananipk = $d->ttl_keamananipk;
-                    $d->sel_keamananipk = 0;
-                    
-                    $total = $total + $d->rea_keamananipk;
-                    $selisih = $selisih - $d->rea_keamananipk;
-                }
-
-                if(empty($request->checkKebersihan) == FALSE){
-                    $d->rea_kebersihan = $d->ttl_kebersihan;
-                    $d->sel_kebersihan = 0;
-                    
-                    $total = $total + $d->rea_kebersihan;
-                    $selisih = $selisih - $d->rea_kebersihan;
-                }
-
-                if(empty($request->checkAirKotor) == FALSE){
-                    $d->rea_airkotor = $d->ttl_airkotor;
-                    $d->sel_airkotor = 0;
-                    
-                    $total = $total + $d->rea_airkotor;
-                    $selisih = $selisih - $d->rea_airkotor;
-                }
-
-                if(empty($request->checkLain) == FALSE){
-                    $d->rea_lain = $d->ttl_lain;
-                    $d->sel_lain = 0;
-                    
-                    $total = $total + $d->rea_lain;
-                    $selisih = $selisih - $d->rea_lain;
-                }
-
-                
-                if($selisih == 0){
-                    $d->stt_lunas = 1;
-                    $d->stt_denda = 0;
-                }
-
-                if($total != 0){
-                    $d->stt_bayar = 1;
-                }
-                $d->save();
-
-                Tagihan::totalTagihan($d->id);
-            }
-            return response()->json(['success' => 'Transaksi Berhasil']);
-        } catch(\Exception $e){
-            return response()->json(['errors' => 'Transaksi Gagal']);
-        }
-    }
-
-    public function bayarPeriode($kontrol){
 
     }
 
@@ -1454,7 +1214,7 @@ class KasirController extends Controller
         else{
             $shift = '1';
         }
-        return view('kasir.penerimaan',[
+        return view('kasir.bulanan.penerimaan',[
             'tanggal'   => IndoDate::tanggal($tanggal,' '), 
             'cetak'     => $cetak,
             'rekap'     => $rekap,
@@ -1464,58 +1224,8 @@ class KasirController extends Controller
         ]);
     }
 
-    public function restore(Request $request){
-        $dataTahun = Tagihan::select('thn_tagihan')
-        ->groupBy('thn_tagihan')
-        ->get();
-        if($request->ajax()){
-            $data = Pembayaran::select('ref','kd_kontrol')
-            ->groupBy('kd_kontrol','ref')
-            ->orderBy('kd_kontrol','asc')
-            ->where([['tgl_bayar',date('Y-m-d',strtotime(Carbon::now()))],['id_kasir',Session::get('userId')]]);
-            return DataTables::of($data)
-                ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Restore" name="restore" id="'.$data->ref.'" class="restore btn btn-sm btn-primary">Restore</a>';
-                    return $button;
-                })
-                ->addColumn('pengguna', function($data){
-                    $pengguna = TempatUsaha::where('kd_kontrol',$data->kd_kontrol)->select('id_pengguna')->first();
-                    if($pengguna != NULL){
-                        return User::find($pengguna->id_pengguna)->nama;
-                    }
-                    else{
-                        return '(Kosong)';
-                    }
-                })
-                ->addColumn('lokasi', function($data){
-                    $lokasi = TempatUsaha::where('kd_kontrol',$data->kd_kontrol)->select('lok_tempat')->first();
-                    if($lokasi != NULL){
-                        return $lokasi->lok_tempat;
-                    }
-                    else{
-                        return '';
-                    }
-                })
-                ->addColumn('tagihan', function($data){
-                    $tagihan = Pembayaran::where([['kd_kontrol',$data->kd_kontrol],['ref',$data->ref]])
-                    ->select(DB::raw('SUM(realisasi) as tagihan'))->get();
-                    if($tagihan != NULL){
-                        return number_format($tagihan[0]->tagihan);
-                    }
-                    else{
-                        return 0;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        return view('kasir.restore',[
-            'dataTahun' => $dataTahun
-        ]);
-    }
-
     public function restoreStore(Request $request, $ref){
-        if($request->ajax()){
+        if(request()->ajax()){
             try{
                 $pembayaran = Pembayaran::where('ref',$ref)->get();
                 foreach($pembayaran as $p){
@@ -1617,7 +1327,7 @@ class KasirController extends Controller
                         $p->delete();
                     }
                     else{
-                        return response()->json(['errors' => 'Restore Gagal']);
+                        return response()->json(['errors' => 'Restorasi Gagal']);
                     }
                 }
     
@@ -1626,324 +1336,12 @@ class KasirController extends Controller
                     $struk->delete();
                 }
     
-                return response()->json(['success' => 'Restore Sukses']);
+                return response()->json(['success' => 'Restorasi Sukses']);
             }
             catch(\Exception $e){
-                return response()->json(['errors' => 'Restore Gagal']);
+                return response()->json(['errors' => 'Restorasi Gagal']);
             }
         }
-    }
-
-    public function mode($mode){
-        if($mode == 'bulanan'){
-            Session::put('mode','bulanan');
-            return redirect()->route('kasir.index');
-        }
-        else{
-            Session::put('mode','harian');
-            return redirect()->route('kasir.harian');
-        }
-    }
-
-    public function harian(Request $request){
-        $dataTahun = Tagihan::select('thn_tagihan')
-        ->groupBy('thn_tagihan')
-        ->get();
-
-        $perkiraan = Perkiraan::get();
-
-        $tanggal = date('Y-m-d',strtotime(Carbon::now()));
-        $tanggal = IndoDate::tanggal($tanggal,' ');
-
-        return view('kasir.harian',[
-            'tanggal'   => $tanggal,
-            'dataTahun' => $dataTahun,
-            'perkiraan' => $perkiraan
-        ]);
-    }
-
-    public function harianpost(Request $request){
-        if($request->ajax()){
-            try{
-                $total = 0;
-
-                if($request->transaksi != NULL)
-                    $time = strtotime($request->transaksi);
-                else    
-                    $time = strtotime(Carbon::now());
-                $tanggal = date("Y-m-d", $time);
-                $bulan = date("Y-m", $time);
-                $tahun = date("Y", $time);
-
-                // $json = array();
-                if($request->title != NULL){
-                    $json = array();
-                    for($i = 0; $i < count($request->title); $i++){
-                        $perkiraan = Perkiraan::find($request->title[$i]);
-
-                        $jenis = ucwords($perkiraan->jenis);
-                        $nama  = ucwords($perkiraan->nama);
-                        $kode  = $perkiraan->kode;
-
-                        $tarif = explode(",",$request->tarif[$i]);
-                        $tarif = implode("", $tarif);
-
-                        $json[$i] = array(
-                            "kode"  => $kode,
-                            "nama"  => $nama,
-                            "jenis" => $jenis,
-                            "tarif" => $tarif
-                        );
-                        $total = $total + $tarif;
-                    }
-
-                    $json = json_encode($json);
-                }
-                else{
-                    $json = NULL;
-                }
-
-                $ref = str_shuffle('ABCDEFGHJKMNPQRSTUVWXYZ');
-                $ref = substr($ref,0,10);
-
-                $data = [
-                    'ref'       => $ref,
-                    'tgl_bayar' => $tanggal,
-                    'bln_bayar' => $bulan,
-                    'thn_bayar' => $tahun,
-                    'ket'       => $request->laporan,
-                    'json'      => $json,
-                    'total'     => $total,
-                    'id_kasir'  => Session::get('userId'),
-                    'kasir'     => Session::get('username')
-                ];
-
-                Harian::create($data);
-
-                return response()->json(['success' => 'Data Pembayaran Berhasil Ditambah']);
-            }
-            catch(\Exception $e){
-                return response()->json(['errors' => 'Data Pembayaran Gagal Ditambah']);
-            }
-        }
-    }
-
-    public function harianpendapatan(Request $request){
-        $tanggal = $request->tgl_pendapatan;
-        Session::put('harian', $tanggal);
-        $tanggal = IndoDate::tanggal($tanggal,' ');
-        $agent = new Agent();
-        if($agent->isDesktop()){
-            $platform = 'desktop';
-        }
-        else{
-            $platform = 'mobile';
-        }
-        if($request->ajax()){
-            $data = Harian::where([['tgl_bayar',Session::get('harian')],['id_kasir',Session::get('userId')]])->orderBy('id','desc');
-            return DataTables::of($data)
-                ->addColumn('action', function($data){
-                    $button  = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;;font-size:12px"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;font-size:12px"></i></a>';
-                    return $button;
-                })
-                ->editColumn('keamanan_los',function($data){
-                    return number_format($data->keamanan_los);
-                })
-                ->editColumn('kebersihan_los',function($data){
-                    return number_format($data->kebersihan_los);
-                })
-                ->editColumn('kebersihan_pos',function($data){
-                    return number_format($data->kebersihan_pos);
-                })
-                ->editColumn('kebersihan_lebih_pos',function($data){
-                    return number_format($data->kebersihan_lebih_pos);
-                })
-                ->editColumn('abonemen',function($data){
-                    return number_format($data->abonemen);
-                })
-                ->editColumn('total',function($data){
-                    return number_format($data->total);
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('kasir.harian-old',[
-            'platform' => $platform,
-            'tanggal'  => $tanggal
-        ]);
-    }
-
-    public function harianval(Request $request, $val){
-        if($request->ajax()){
-            try{
-                if($val == 'add'){
-                    $data = new Harian;
-
-                    $data->tgl_bayar = date('Y-m-d',strtotime(Carbon::now()));
-                    $data->bln_bayar = date('Y-m',strtotime(Carbon::now()));
-                    $data->thn_bayar = date('Y',strtotime(Carbon::now()));
-                    $data->nama = ucwords($request->nama);
-                    $data->id_kasir = Session::get('userId');
-                    $data->kasir = Session::get('username');
-
-                    $total = 0;
-
-                    if($request->keamananlos != 0 | $request->keamananlos != NULL){
-                        $hasil = explode(',',$request->keamananlos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->keamanan_los = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->kebersihanlos != 0 | $request->kebersihanlos != NULL){
-                        $hasil = explode(',',$request->kebersihanlos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->kebersihan_los = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->kebersihanpos != 0 | $request->kebersihanpos != NULL){
-                        $hasil = explode(',',$request->kebersihanpos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->kebersihan_pos = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->kebersihanlebihpos != 0 | $request->kebersihanlebihpos != NULL){
-                        $hasil = explode(',',$request->kebersihanlebihpos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->kebersihan_lebih_pos = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->abonemen != 0 | $request->abonemen != NULL){
-                        $hasil = explode(',',$request->abonemen);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->abonemen = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->laporan != NULL){
-                        $hasil = $request->laporan;
-                    }
-                    else{
-                        $hasil = NULL;
-                    }
-                    $data->ket = $hasil;
-
-                    $data->total = $total;
-
-                    $data->save();
-                }
-                if($val == 'edit'){
-                    $data = Harian::find($request->hidden_id);
-
-                    $data->nama = ucwords($request->nama);
-                    $data->id_kasir = Session::get('userId');
-                    $data->kasir = Session::get('username');
-
-                    $total = 0;
-
-                    if($request->keamananlos != 0 | $request->keamananlos != NULL){
-                        $hasil = explode(',',$request->keamananlos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->keamanan_los = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->kebersihanlos != 0 | $request->kebersihanlos != NULL){
-                        $hasil = explode(',',$request->kebersihanlos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->kebersihan_los = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->kebersihanpos != 0 | $request->kebersihanpos != NULL){
-                        $hasil = explode(',',$request->kebersihanpos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->kebersihan_pos = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->kebersihanlebihpos != 0 | $request->kebersihanlebihpos != NULL){
-                        $hasil = explode(',',$request->kebersihanlebihpos);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->kebersihan_lebih_pos = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->abonemen != 0 | $request->abonemen != NULL){
-                        $hasil = explode(',',$request->abonemen);
-                        $hasil = implode('',$hasil);
-                    }
-                    else{
-                        $hasil = 0;
-                    }
-                    $data->abonemen = $hasil;
-                    $total = $total + $hasil;
-
-                    if($request->laporan != NULL){
-                        $hasil = $request->laporan;
-                    }
-                    else{
-                        $hasil = NULL;
-                    }
-                    $data->ket = $hasil;
-
-                    $data->total = $total;
-
-                    $data->save();
-                }
-                return response()->json(['success' => 'Data Ditambah']);
-            }
-            catch(\Exception $e){
-                return response()->json(['errors' => 'Data Gagal Ditambah']);
-            }
-        }
-    }
-
-    public function harianpenerimaan(Request $request){
-        $tanggal = $request->tgl_penerimaan;
-        $tgl = $tanggal;
-        $tanggal = IndoDate::tanggal($tanggal, ' ');
-        $cetak = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
-
-        $dataset = Harian::where([['tgl_bayar',$tgl],['id_kasir',Session::get('userId')]])->get();
-
-        return view('kasir.harian-penerimaan',[
-            'dataset' => $dataset,
-            'cetak'   => $cetak,
-            'tanggal' => $tanggal,
-        ]);
     }
 
     public function getutama(Request $request){
@@ -2176,7 +1574,7 @@ class KasirController extends Controller
         $t_rekap['diskon']       = $diskon;
         $t_rekap['jumlah']       = $jumlah;
 
-        return view('kasir.sisa',[
+        return view('kasir.bulanan.sisa',[
             'dataset' => $dataset,
             'bulan' => $bulan,
             'rekap'     => $rekap,
@@ -2230,63 +1628,12 @@ class KasirController extends Controller
 
         $rincian = Pembayaran::where([['bln_bayar',$periode],['id_kasir',Session::get('userId')]])->orderBy('tgl_bayar','asc')->orderBy('kd_kontrol','asc')->get();
 
-        return view('kasir.selesai',[
+        return view('kasir.bulanan.selesai',[
             'dataset' => $dataset,
             'rincian' => $rincian,
             'bulan'   => $bulan,
             'cetak'   => $cetak
         ]);
-    }
-
-    public function settings(){
-        return view('kasir.settings');
-    }
-
-    public function printer(Request $request){
-        if($request->ajax()){
-            try{
-                if(Session::get('printer') == 'panda'){
-                    Session::put('printer','androidpos');
-                }
-                else{
-                    Session::put('printer','panda');
-                }
-
-                $agent = new Agent();
-                if($agent->isDesktop()){
-                    Session::put('printer','desktop');
-                }
-
-                return response()->json(['success' => Session::get('printer')]);
-            }
-            catch(\Exception $e){
-                return response()->json(['errors' => $e]);
-            }
-        }
-    }
-
-    public function struk(Request $request, $struk){
-        $dataTahun = Tagihan::select('thn_tagihan')
-        ->groupBy('thn_tagihan')
-        ->get();
-        if($struk == 'tagihan'){
-            if($request->ajax()){
-                $data = StrukPembayaran::orderBy('updated_at','desc');
-                return DataTables::of($data)
-                    ->addColumn('action', function($data){
-                        $button = '<a type="button" title="Cetak" name="cetak" id="'.$data->id.'" class="cetak btn btn-sm btn-success">Cetak</a>';
-                        return $button;
-                    })
-                    ->editColumn('totalTagihan', function($data){
-                        return number_format($data->totalTagihan);
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('kasir.struk-pembayaran',[
-                'dataTahun' => $dataTahun
-            ]);
-        }
     }
 
     public function cetakStruk(Request $request, $struk, $id){

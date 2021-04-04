@@ -72,6 +72,10 @@ class CekLogin
                         else{
                             Session::put('printer','androidpos');
                         }
+                        if($user->otoritas != NULL){
+                            Session::put('otoritas',json_decode($user->otoritas));
+                            Session::put('opsional',true);
+                        }
                         return $next($request);
                     }
 
@@ -216,12 +220,14 @@ class CekLogin
             if($page == 'tagihan'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
-                $roles = array('master','admin');
+                $roles = array('master','admin','kasir');
                 if($validator != NULL){
                     if(in_array($explode[1],$roles)){
                         if(Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan || Session::get('otoritas')->publish))
                             return $next($request);
                         else if(Session::get('role') == 'master')
+                            return $next($request);
+                        else if(Session::get('role') == 'kasir' && (Session::get('otoritas')->lapangan_kasir))
                             return $next($request);
                         else
                             abort(403);

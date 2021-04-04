@@ -17,7 +17,7 @@ class Tagihan
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::get('role') === 'master' || 'admin'){
+        if(Session::get('role') === 'master' || 'admin' || 'kasir'){
             return $next($request);
         }
         else{

@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
+//Kasir
+use App\Http\Controllers\KasirController;
+
 //Dashboard
 use App\Http\Controllers\DashboardController;
 
@@ -134,6 +137,24 @@ Route::get('logout',function(){
     return redirect()->route('login')->with('success','Sampai Jumpa Lagi');
 });
 
+Route::middleware('ceklogin:kasir')->group(function(){
+    Route::get('kasir/sisa',[KasirController::class, 'getsisa']);
+    Route::get('kasir/selesai',[KasirController::class, 'getselesai']);
+    
+    Route::get('kasir/penerimaan',[KasirController::class, 'penerimaan']);
+    
+    Route::get('kasir/restore',[KasirController::class, 'restore']);
+    Route::post('kasir/restore/{id}',[KasirController::class, 'restoreStore']);
+
+    Route::get('kasir/struk/{struk}',[KasirController::class, 'struk']);
+    Route::get('kasir/struk/{struk}/{id}',[KasirController::class, 'cetakStruk']);
+
+    Route::get('kasir/bayar/{data}',[KasirController::class, 'bayar']);
+    Route::get('kasir/rincian/{kontrol}',[KasirController::class, 'rincian']);
+    Route::resource('kasir', KasirController::class);
+});
+
+
 Route::middleware('ceklogin:dashboard')->group(function () {
     Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
 });
@@ -258,6 +279,8 @@ Route::middleware('ceklogin:user')->group(function(){
     Route::post('user/update', [UserController::class, 'update']);
     Route::get('user/destroy/{id}', [UserController::class, 'destroy']);
     Route::post('user/reset/{id}', [UserController::class, 'reset']);
+    Route::get('user/{id}/kasir', [UserController::class, 'kasirEtoritas']);
+    Route::post('user/otoritas/kasir', [UserController::class, 'kasirOtoritas']);
     Route::get('user/{id}/otoritas', [UserController::class, 'etoritas']);
     Route::post('user/otoritas', [UserController::class, 'otoritas']);
     Route::get('user/manajer', [UserController::class, 'manajer']);

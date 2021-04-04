@@ -503,6 +503,82 @@
     </div>
 </div>
 
+<div
+    class="modal fade"
+    id="myKasir"
+    tabIndex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title titles" id="exampleModalLabel"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="form_kasir" class="user" method="POST">
+                <div class="modal-body">
+                    @csrf
+                    <div class="form-group col-lg-12">
+                        <label class="form-control-label" for="username_kasir">Username</label>
+                        <input
+                            readonly
+                            name="username_kasir"
+                            class="form-control"
+                            id="username_kasir">
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="form-control-label" for="nama_kasir">Nama</label>
+                        <input
+                            readonly
+                            name="nama_kasir"
+                            class="form-control"
+                            id="nama_kasir">
+                    </div>
+                    <hr class="sidebar-divider d-none d-md-block col-lg-10 text-center">
+                    <div class="text-center form-group">
+                        <strong>Otoritas Opsional :</strong>
+                    </div>
+                    <div class="form-group col-lg-12 justify-content-between" style="display: flex;flex-wrap: wrap;">
+                        <div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="kelola_kasir[]"
+                                    id="kepala_kasir"
+                                    value="kepala_kasir">
+                                <label class="form-control-label" for="kepala_kasir">
+                                    Kepala Kasir
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="kelola_kasir[]"
+                                    id="lapangan_kasir"
+                                    value="lapangan_kasir">
+                                <label class="form-control-label" for="lapangan_kasir">
+                                    Kasir Lapangan
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="hidden_id_kasir" id="hidden_id_kasir" />
+                    <input type="submit" class="btn btn-primary btn-sm" name="action_btn_kasir" id="action_btn_kasir" value="Update" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="show-details" tabindex="-1" role="dialog" aria-labelledby="show-details" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

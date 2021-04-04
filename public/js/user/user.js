@@ -656,6 +656,63 @@ $(document).ready(function(){
 		});
 	});
 
+    $(document).on('click', '.otoritas-kasir', function(){
+		id = $(this).attr('id');
+		nama = $(this).attr('nama');
+        $('.titles').text('Otoritas ' + nama);
+        $("#lapangan_kasir").prop("checked", false);
+        $("#kepala_kasir").prop("checked", false);
+        $('#myKasir').modal('show');
+		$.ajax({
+			url :"/user/"+id+"/kasir",
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                $('#username_kasir').val(data.result.username);
+                $('#nama_kasir').val(data.result.nama);
+
+				$('#hidden_id_kasir').val(id);
+				$('#action_btn_kasir').val('Update');
+
+                if(data.result.kepala == true) $("#kepala_kasir").prop("checked", true);
+
+                if(data.result.lapangan == true) $("#lapangan_kasir").prop("checked", true);
+			}
+		})
+    });
+
+    $('#form_kasir').on('submit', function(event){
+		event.preventDefault();
+		$.ajax({
+			url: '/user/otoritas/kasir',
+            cache:false,
+			method:"POST",
+			data:$(this).serialize(),
+			dataType:"json",
+			success:function(data)
+			{
+                $('#userKasir').DataTable().ajax.reload(function(){}, false);
+				var html = '';
+				if(data.errors)
+				{
+                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+				}
+				if(data.success)
+				{
+					html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
+                }
+				$('#form_result').html(html);
+                $("#success-alert,#error-alert,#info-alert,#warning-alert")
+                    .fadeTo(1000, 500)
+                    .slideUp(1000, function () {
+                        $("#success-alert,#error-alert").slideUp(500);
+                });
+                $('#myKasir').modal('hide');
+            }
+		});
+    });
+
     $('[type=tel]').on('change', function(e) {
         $(e.target).val($(e.target).val().replace(/[^\d\.]/g, ''))
     });

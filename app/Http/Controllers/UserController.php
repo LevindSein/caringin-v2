@@ -91,7 +91,8 @@ class UserController extends Controller
             $data = User::where('role','kasir')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Reset" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button = '<a type="button" title="Otoritas" name="otoritas" id="'.$data->id.'" nama="'.$data->nama.'" class="otoritas-kasir"><i class="fas fa-hand-point-up" style="color:#36b9cc;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" title="Reset" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
                     $button .= '&nbsp;&nbsp;<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
                     $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
@@ -433,6 +434,54 @@ class UserController extends Controller
                     $json = NULL;
                 }
                 $data = User::find($request->hidden_id_otoritas);
+                $data->otoritas = $json;
+                $data->save();
+                return response()->json(['success' => 'Otoritas Berhasil Diupdate.']);
+            }
+            catch(\Exception $e){
+                return response()->json(['errors' => 'Otoritas Gagal Diupdate.']);
+            }
+        }
+    }
+
+    public function kasirEtoritas($id)
+    {
+        if(request()->ajax())
+        {
+            $data = User::find($id);
+
+            if($data->otoritas == NULL){
+                $data['kepala'] = false;
+                $data['lapangan'] = false;
+            }
+            else{
+                $otoritas  = json_decode($data->otoritas);
+                $data['kepala'] = $otoritas->kepala_kasir;
+                $data['lapangan'] = $otoritas->lapangan_kasir;
+            }
+
+            return response()->json(['result' => $data]);
+        }
+    }
+
+    public function kasirOtoritas(Request $request)
+    {
+        if(request()->ajax()){
+            $pilihanKelola = array('kepala_kasir','lapangan_kasir');
+
+            try{
+                for($i=0; $i<count($pilihanKelola); $i++){
+                    if(in_array($pilihanKelola[$i],$request->kelola_kasir)){
+                        $kelola[$pilihanKelola[$i]] = true;
+                    }
+                    else{
+                        $kelola[$pilihanKelola[$i]] = false;
+                    }
+                }
+
+                $json = json_encode($kelola);
+
+                $data = User::find($request->hidden_id_kasir);
                 $data->otoritas = $json;
                 $data->save();
                 return response()->json(['success' => 'Otoritas Berhasil Diupdate.']);

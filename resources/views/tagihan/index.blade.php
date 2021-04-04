@@ -78,7 +78,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="form-group text-right">
-                    <button class="btn btn-sm btn-success" id="checking-report"><i class="fas fa-bell bell"></i><span>Report</span><span class="badge badge-pill badge-light badge-report"></span></button>
+                    <button class="btn btn-sm btn-danger" id="checking-report"><i class="fas fa-bell bell"></i><span>Report</span><span class="badge badge-pill badge-light badge-report"></span></button>
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 @if($agent->isDesktop())
@@ -1486,6 +1486,9 @@
 @section('js')
 <script>
 $(document).ready(function(){
+    var scrollPosition;
+    var rowIndex;
+    
     <?php if($agent->isDesktop()){ ?>
     var dtable = $('#tabelTagihan').DataTable({
 		serverSide: true,
