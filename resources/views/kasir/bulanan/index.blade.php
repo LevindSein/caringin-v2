@@ -12,9 +12,9 @@
 @section('button')
 <a class="dropdown-toggle btn btn-sm btn-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
 <div class="dropdown-menu dropdown-menu-right">
-    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPenerimaan"><i class="fas fa-fw fa-print text-gray"></i><span>Penerimaan</span></a>
-    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySisa"><i class="fas fa-fw fa-print text-gray"></i><span>Rekap Sisa</span></a>
-    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySelesai"><i class="fas fa-fw fa-print text-gray"></i><span>Rekap Selesai</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPenerimaan"><i class="fas fa-fw fa-print text-success"></i><span>Penerimaan</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySisa"><i class="fas fa-fw fa-print text-primary"></i><span>Rekap Sisa</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySelesai"><i class="fas fa-fw fa-print text-info"></i><span>Rekap Akhir Bulan</span></a>
 </div>
 @endsection
 

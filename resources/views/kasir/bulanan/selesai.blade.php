@@ -7,20 +7,23 @@
         <link rel="icon" href="{{asset('img/logo.png')}}">
     </head>
 
+    </style>
     <body onload="window.print()">
         <div>
-            <header class="clearfix">
-                <h2 style="text-align:center;">Rekap Akhir Bulan<br>{{$bulan}}</h2>
-                <div id="project">
-                    <div>
-                        <span>Nama Kasir</span>:
-                        {{Session::get('username')}}
-                    </div>
-                </div>
-            </header>
             <main>
                 <table class="tg">
                     <thead>
+                        <tr>
+                            <th colspan="5" style="border-style:none;">
+                                <h3 style="text-align:center;">Rekap Akhir Bulan<br>{{$bulan}}</h3>
+                                <div id="project" style="margin-bottom:1rem;">
+                                    <div>
+                                        <span>Nama Kasir</span>:
+                                        {{Session::get('username')}}
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="2">No</th>
                             <th class="tg-r8fv" rowspan="2">Items</th>
@@ -77,25 +80,27 @@
             <br><br><br><br><br>
         <div class="notice" style="text-align:right;">{{Session::get('username')}}</div>
         <div style="page-break-before:always">
-            <header class="clearfix">
-                <h2 style="text-align:center;">Rincian Akhir Bulan<br>{{$bulan}}</h2>
-                <div id="project">
-                    <div>
-                        <span>Nama Kasir</span>:
-                        {{Session::get('username')}}
-                    </div>
-                </div>
-            </header>
             <main>
                 <table class="tg">
                     <thead>
+                        <tr>
+                            <th colspan="13" style="border-style:none;">
+                                <h3 style="text-align:center;">Rincian Akhir Bulan<br>{{$bulan}}</h3>
+                                <div id="project" style="margin-bottom:1rem;">
+                                    <div>
+                                        <span>Nama Kasir</span>:
+                                        {{Session::get('username')}}
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="3">No</th>
                             <th class="tg-r8fv" rowspan="3">Dibayar</th>
                             <th class="tg-r8fv" rowspan="3">Rek</th>
                             <th class="tg-r8fv" rowspan="3">Kontrol</th>
                             <th class="tg-r8fv" colspan="8">Penerimaan Tunai</th>
-                            <th class="tg-r8fv" rowspan="3">Jumlah</th>
+                            <th class="tg-r8fv" rowspan="3">Jml</th>
                         </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="2">Listrik</th>

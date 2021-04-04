@@ -1,11 +1,11 @@
 /*!
- * Font Awesome Pro 5.14.0 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license (Commercial License)
+ * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global['fontawesome-pro-conflict-detection'] = {})));
+  (factory((global['fontawesome-free-conflict-detection'] = {})));
 }(this, (function (exports) { 'use strict';
 
   function _typeof(obj) {
@@ -799,7 +799,7 @@
       var diagScriptFun = function diagScriptFun(nodeUnderTestId, md5, parentOrigin) {
         parent.FontAwesomeDetection.__pollUntil({
           fn: function fn() {
-            return !!window.FontAwesomeConfig;
+            return !!window.FontAwesomeConfig || !!window.FontAwesomeKitConfig;
           }
         }).then(function () {
           var scriptNode = document.getElementById(nodeUnderTestId);

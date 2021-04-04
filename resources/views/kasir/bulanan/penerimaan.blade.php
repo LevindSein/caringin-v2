@@ -9,23 +9,22 @@
 
     <body onload="window.print()">
         <div>
-            <header class="clearfix">
-                <h2 style="text-align:center;">Rekap Penerimaan</h2>
-                <div id="project">
-                    <div>
-                        <span>Nama Kasir</span>:
-                        {{Session::get('username')}}</div>
-                    <div>
-                        <span>Tanggal Bayar</span>:
-                        {{$tanggal}}</div>
-                    <div>
-                        <span>Shift Kasir</span>:
-                        {{$shift}}</div>
-                </div>
-            </header>
             <main>
                 <table class="tg">
                     <thead>
+                        <tr>
+                            <th colspan="14" style="border-style:none;">
+                                <h3 style="text-align:center;">Rekap Penerimaan {{$tanggal}}</h3>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="border-style:none;text-align:left;">Nama Kasir</th>
+                            <th colspan="12" style="border-style:none;text-align:left;">: {{Session::get('username')}}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="border-style:none;text-align:left;">Shift Kasir</th>
+                            <th colspan="12" style="border-style:none;text-align:left;">: {{$shift}}</th>
+                        </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="3">Blok</th>
                             <th class="tg-r8fv" rowspan="3">Rek</th>
@@ -89,23 +88,22 @@
             </main>
         </div>
         <div style="page-break-before:always">
-            <header class="clearfix">
-                <h2 style="text-align:center;">Rincian Penerimaan</h2>
-                <div id="project">
-                    <div>
-                        <span>Nama Kasir</span>:
-                        {{Session::get('username')}}</div>
-                    <div>
-                        <span>Tanggal Bayar</span>:
-                        {{$tanggal}}</div>
-                    <div>
-                        <span>Shift Kasir</span>:
-                        {{$shift}}</div>
-                </div>
-            </header>
             <main>
                 <table class="tg">
                     <thead>
+                        <tr>
+                            <th colspan="14" style="border-style:none;">
+                                <h3 style="text-align:center;">Rincian Penerimaan {{$tanggal}}</h3>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="border-style:none;text-align:left;">Nama Kasir</th>
+                            <th colspan="12" style="border-style:none;text-align:left;">: {{Session::get('username')}}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="border-style:none;text-align:left;">Shift Kasir</th>
+                            <th colspan="12" style="border-style:none;text-align:left;">: {{$shift}}</th>
+                        </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="3">No</th>
                             <th class="tg-r8fv" rowspan="3">Rek</th>

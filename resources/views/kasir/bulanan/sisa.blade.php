@@ -15,12 +15,14 @@
 
     <body onload="window.print()">
         <div>
-            <header class="clearfix">
-                <h2 style="text-align:center;">Rekap Sisa Tagihan<br>{{$bulan}}</h2>
-            </header>
             <main>
             <table class="tg">
                     <thead>
+                        <tr>
+                            <th colspan="11" style="border-style:none;">
+                                <h3 style="text-align:center;">Rekap Sisa Tagihan<br>{{$bulan}}</h3>
+                            </th>
+                        </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="3">Blok</th>
                             <th class="tg-r8fv" rowspan="3">Rek</th>
@@ -81,12 +83,14 @@
             </main>
         </div>
         <div style="page-break-before:always">
-            <header class="clearfix">
-                <h2 style="text-align:center;">Rincian Sisa Tagihan<br>{{$bulan}}</h2>
-            </header>
             <main>
                 <table class="tg">
                     <thead>
+                        <tr>
+                            <th colspan="13" style="border-style:none;">
+                                <h3 style="text-align:center;">Rincian Sisa Tagihan<br>{{$bulan}}</h3>
+                            </th>
+                        </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="3">No</th>
                             <th class="tg-r8fv" rowspan="3">Kontrol</th>
