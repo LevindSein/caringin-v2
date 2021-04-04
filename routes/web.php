@@ -138,6 +138,8 @@ Route::get('logout',function(){
 });
 
 Route::middleware('ceklogin:kasir')->group(function(){
+    Route::get('kasir/rekap/pendapatan/{data}',[KasirController::class, 'rekapPendapatan']);
+
     Route::get('kasir/sisa',[KasirController::class, 'getsisa']);
     Route::get('kasir/selesai',[KasirController::class, 'getselesai']);
     

@@ -2006,4 +2006,13 @@ class KasirController extends Controller
             }
         }
     }
+
+    public function rekapPendapatan($data){
+        if($data == 'harian'){
+            
+        }
+        else{
+
+        }
+    }
 }
