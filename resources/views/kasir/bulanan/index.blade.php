@@ -12,9 +12,14 @@
 @section('button')
 <a class="dropdown-toggle btn btn-sm btn-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
 <div class="dropdown-menu dropdown-menu-right">
-    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPenerimaan"><i class="fas fa-fw fa-print text-success"></i><span>Penerimaan</span></a>
-    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySisa"><i class="fas fa-fw fa-print text-primary"></i><span>Rekap Sisa</span></a>
-    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySelesai"><i class="fas fa-fw fa-print text-info"></i><span>Rekap Akhir Bulan</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPenerimaan"><i class="fad fa-fw fa-hand-receiving text-success"></i><span>Penerimaan</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySisa"><i class="fad fa-fw fa-file-times text-primary"></i><span>Rekap Sisa</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#mySelesai"><i class="fad fa-fw fa-file-check text-info"></i><span>Rekap Akhir Bulan</span></a>
+    @if(Session::get('opsional') && Session::get('otoritas')->kepala_kasir)
+    <div class="dropdown-divider"></div>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myUtama"><i class="fas fa-fw fa-book text-pink"></i><span>Pendapatan Harian</span></a>
+    <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myUtamaBulan"><i class="fas fa-fw fa-books text-danger"></i><span>Pendapatan Bulanan</span></a>
+    @endif
 </div>
 @endsection
 
@@ -202,7 +207,93 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Cetak</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="myUtama"
+    tabIndex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cetak Pendapatan Harian</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="user" action="{{url('kasir/utama')}}" target="_blank" method="GET">
+                <div class="modal-body">
+                    <label class="form-control-label" for="tgl_utama">Pilih Tanggal Pendapatan Harian</label>
+                    <div class="form-group col-lg-12">
+                        <input
+                            required 
+                            class="form-control" 
+                            type="date"
+                            name="tgl_utama"
+                            id="tgl_utama">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Cetak</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="myUtamaBulan"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cetak Pendapatan Bulanan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="user" action="{{url('kasir/utama/bulan')}}" target="_blank" method="GET">
+                <div class="modal-body">
+                    <div class="form-group col-lg-12">
+                        <label class="form-control-label" for="bulanpendapatan">Bulan</label>
+                        <select class="form-control" name="bulanpendapatan" id="bulanpendapatan" required>
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="form-control-label" for="tahunpendapatan">Tahun</label>
+                            <select class="form-control" name="tahunpendapatan" id="tahunpendapatan" required>
+                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                            @foreach($tahun as $t)
+                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Cetak</button>
                 </div>
             </form>
         </div>

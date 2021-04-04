@@ -1379,7 +1379,7 @@ class KasirController extends Controller
 
         $rincianbulan = Pembayaran::where('tgl_bayar',$tgl)->orderBy('kd_kontrol','asc')->get();
 
-        return view('kasir.utama',[
+        return view('kasir.pendapatan.harian',[
             'dataset' => $dataset,
             'rincianbulan' => $rincianbulan,
             'cetak'   => $cetak,
@@ -1458,7 +1458,7 @@ class KasirController extends Controller
             $i++;
         }
 
-        return view('kasir.utama-bulan',[
+        return view('kasir.pendapatan.bulanan',[
             'dataset' => $dataset,
             'rincianbulan' => $rincianbulan,
             'cetak'   => $cetak,
@@ -2004,15 +2004,6 @@ class KasirController extends Controller
             }finally{
                 $printer->close();
             }
-        }
-    }
-
-    public function rekapPendapatan($data){
-        if($data == 'harian'){
-            
-        }
-        else{
-
         }
     }
 }

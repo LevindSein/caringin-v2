@@ -70,32 +70,14 @@
                             <!-- Nav Item - Dashboard -->
                             <li class="nav-item"  >
                                 <a class="nav-link {{ (request()->is('kasir*')) ? 'active' : '' }}" href="{{url('kasir')}}">
-                                    <i class="fas fa-dollar-sign text-primary"></i>
-                                    <span class="nav-link-text">Kasir&nbsp;Bulanan</span></a>
+                                    <i class="fas fa-home text-primary"></i>
+                                    <span class="nav-link-text">Fitur&nbsp;Utama</span></a>
                             </li>
                             <!-- <li class="nav-item"  >
                                 <a class="nav-link" href="{{url('#')}}">
-                                    <i class="fas fa-dollar-sign text-primary"></i>
-                                    <span class="nav-link-text">Kasir&nbsp;Harian</span></a>
+                                    <i class="fas fa-home text-success"></i>
+                                    <span class="nav-link-text">Fitur&nbsp;Harian</span></a>
                             </li> -->
-                            @if(Session::get('opsional') && Session::get('otoritas')->kepala_kasir)
-                            <li class="nav-item">
-                                <a class="nav-link {{ (request()->is('kasir/rekap/pendapatan*')) ? 'active' : '' }}" href="#navbar-rekap-pendapatan" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('rekap/rekap/pendapatan*')) ? 'true' : 'false' }}" aria-controls="navbar-rekap-pendapatan">
-                                    <i class="fas fa-books text-success"></i>
-                                    <span class="nav-link-text">Rekap&nbsp;Pendapatan</span>
-                                </a>
-                                <div class="collapse {{ (request()->is('kasir/rekap/pendapatan*')) ? 'show' : '' }}" id="navbar-rekap-pendapatan">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link {{ (request()->is('kasir/rekap/pendapatan/harian')) ? 'active' : '' }}" href="{{url('kasir/rekap/pendapatan/harian')}}">Harian</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link {{ (request()->is('kasir/rekap/pendapatan/bulanan')) ? 'active' : '' }}" href="{{url('kasir/rekap/pendapatan/bulanan')}}">Bulanan</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            @endif
                             @if(Session::get('opsional') && Session::get('otoritas')->lapangan_kasir)
                             <li class="nav-item">
                                 <a class="home-tagihan nav-link {{ (request()->is('tagihan*')) ? 'active' : '' }}" href="{{url('tagihan')}}">
