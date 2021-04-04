@@ -39,6 +39,7 @@ $(document).ready(function () {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
             }
         },
+        responsive: true,
     }).columns.adjust().draw();
     
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -82,7 +83,8 @@ $(document).ready(function () {
                     { "bSortable": false, "aTargets": [1,2,3,4] }, 
                     { "bSearchable": false, "aTargets": [1,2,3,4] }
                 ],
-                order:[[0, 'asc']],
+                order: [[0, 'asc']],
+                responsive: true,
             }).columns.adjust().draw();
 
 
@@ -139,6 +141,7 @@ $(document).ready(function () {
                         dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
                     }
                 },
+                responsive: true,
             }).columns.adjust().draw();
 
 
