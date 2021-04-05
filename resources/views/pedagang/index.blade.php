@@ -255,5 +255,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/pedagang/pedagang.js')}}"></script>
+<script src="{{asset('js/pedagang/pedagang.min.js')}}"></script>
 @endsection

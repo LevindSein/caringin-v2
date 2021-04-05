@@ -40,5 +40,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/log/log.js')}}"></script>
+<script src="{{asset('js/log/log.min.js')}}"></script>
 @endsection

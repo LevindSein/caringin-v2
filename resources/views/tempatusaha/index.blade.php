@@ -609,6 +609,6 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/tempatusaha/tempat-usaha.js')}}"></script>
+<script src="{{asset('js/tempatusaha/tempat-usaha.min.js')}}"></script>
 @yield('jss')
 @endsection

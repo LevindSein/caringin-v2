@@ -2702,5 +2702,5 @@ $(document).ready(function(){
     });
 });
 </script>
-<script src="{{asset('js/tagihan/tagihan.js')}}"></script>
+<script src="{{asset('js/tagihan/tagihan.min.js')}}"></script>
 @endsection

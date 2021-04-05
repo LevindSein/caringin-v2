@@ -100,5 +100,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/tagihan/form-airbersih.js')}}"></script>
+<script src="{{asset('js/tagihan/form-airbersih.min.js')}}"></script>
 @endsection

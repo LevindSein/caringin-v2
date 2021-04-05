@@ -114,5 +114,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/tagihan/form-listrik.js')}}"></script>
+<script src="{{asset('js/tagihan/form-listrik.min.js')}}"></script>
 @endsection

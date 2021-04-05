@@ -624,5 +624,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/user/user.js')}}"></script>
+<script src="{{asset('js/user/user.min.js')}}"></script>
 @endsection

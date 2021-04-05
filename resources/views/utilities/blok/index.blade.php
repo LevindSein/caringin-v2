@@ -111,5 +111,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/utilities/blok.js')}}"></script>
+<script src="{{asset('js/utilities/blok.min.js')}}"></script>
 @endsection

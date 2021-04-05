@@ -267,7 +267,7 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/utilities/tarif.js')}}"></script>
+<script src="{{asset('js/utilities/tarif.min.js')}}"></script>
 <script>
 function functionKeamanan() {
     $(".keamananipk-persen").each(function() { 

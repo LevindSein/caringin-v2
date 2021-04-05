@@ -281,5 +281,5 @@ $(document).ready(function () {
     });
 });
 </script>
-<script src="{{asset('js/master/kasir/kasir.js')}}"></script>
+<script src="{{asset('js/master/kasir/kasir.min.js')}}"></script>
 @endsection

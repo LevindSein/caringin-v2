@@ -405,5 +405,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/utilities/simulasi.js')}}"></script>
+<script src="{{asset('js/utilities/simulasi.min.js')}}"></script>
 @endsection

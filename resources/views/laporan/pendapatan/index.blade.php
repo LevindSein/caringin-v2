@@ -310,5 +310,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/laporan/pendapatan.js')}}"></script>
+<script src="{{asset('js/laporan/pendapatan.min.js')}}"></script>
 @endsection

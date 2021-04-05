@@ -92,5 +92,5 @@ function indoDate($tanggal){
 @endsection
 
 @section('js')
-<script src="{{asset('js/laporan/pemakaian.js')}}"></script>
+<script src="{{asset('js/laporan/pemakaian.min.js')}}"></script>
 @endsection

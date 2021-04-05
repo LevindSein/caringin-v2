@@ -167,5 +167,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/information/information.js')}}"></script>
+<script src="{{asset('js/information/information.min.js')}}"></script>
 @endsection

@@ -182,5 +182,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/utilities/alat-meter.js')}}"></script>
+<script src="{{asset('js/utilities/alat-meter.min.js')}}"></script>
 @endsection

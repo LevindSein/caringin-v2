@@ -486,5 +486,5 @@ $(document).ready(function(){
     });
 });
 </script>
-<script src="{{asset('js/tagihan/penghapusan.js')}}"></script>
+<script src="{{asset('js/tagihan/penghapusan.min.js')}}"></script>
 @endsection

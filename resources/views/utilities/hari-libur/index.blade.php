@@ -121,5 +121,5 @@
 
 
 @section('js')
-<script src="{{asset('js/utilities/hari-libur.js')}}"></script>
+<script src="{{asset('js/utilities/hari-libur.min.js')}}"></script>
 @endsection

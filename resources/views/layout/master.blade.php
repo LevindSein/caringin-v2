@@ -16,7 +16,7 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
         <!-- Icons -->
-        <link rel="stylesheet" href="{{asset('argon/vendor/nucleo/css/nucleo.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{asset('argon/vendor/nucleo/css/nucleo.min.css')}}" type="text/css">
         <link rel="stylesheet" href="{{asset('vendor/fontawesome/css/all.min.css')}}" type="text/css">
         <link rel="stylesheet" href="{{asset('vendor/fontawesomepro/css/all.min.css')}}" type="text/css">
         <!-- Page plugins -->
@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="{{asset('datatables/responsive/css/responsive.bootstrap.min.css')}}">
         <!-- Argon CSS -->
         <link rel="stylesheet" href="{{asset('argon/vendor/select2/dist/css/select2.min.css')}}">
-        <link rel="stylesheet" href="{{asset('argon/css/argon.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{asset('argon/css/argon.min.css')}}" type="text/css">
         
         <script src="{{asset('argon/vendor/jquery/dist/jquery.min.js')}}"></script>
     </head>
@@ -72,12 +72,12 @@
                             <!-- Nav Item - Dashboard -->
                             <li class="nav-item"  >
                                 <a class="nav-link {{ (request()->is('kasir*')) ? 'active' : '' }}" href="{{url('kasir')}}">
-                                    <i class="fas fa-home text-primary"></i>
+                                    <i class="fad fa-home text-primary"></i>
                                     <span class="nav-link-text">Fitur&nbsp;Utama</span></a>
                             </li>
                             <!-- <li class="nav-item"  >
                                 <a class="nav-link" href="{{url('#')}}">
-                                    <i class="fas fa-home text-success"></i>
+                                    <i class="fad fa-home text-success"></i>
                                     <span class="nav-link-text">Fitur&nbsp;Harian</span></a>
                             </li> -->
                             @if(Session::get('opsional') && Session::get('otoritas')->lapangan_kasir)
@@ -98,7 +98,7 @@
                             <!-- Nav Item - Dashboard -->
                             <li class="nav-item"  >
                                 <a class="nav-link {{ (request()->is('dashboard*')) ? 'active' : '' }}" href="{{url('dashboard')}}">
-                                    <i class="fas fa-tachometer-alt text-primary"></i>
+                                    <i class="fad fa-tachometer-alt text-primary"></i>
                                     <span class="nav-link-text">Dashboard</span></a>
                             </li>
                         </ul>
@@ -110,7 +110,7 @@
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('keuangan/laporan*')) ? 'active' : '' }}" href="#keuangan-laporan" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('keuangan/laporan*')) ? 'true' : 'false' }}" aria-controls="keuangan-laporan">
-                                    <i class="fas fa-books text-success"></i>
+                                    <i class="fad fa-books text-success"></i>
                                     <span class="nav-link-text">Laporan</span>
                                 </a>
                                 <div class="collapse {{ (request()->is('keuangan/laporan*')) ? 'show' : '' }}" id="keuangan-laporan">
@@ -143,7 +143,7 @@
                             <!-- Nav Item - Pedagang -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('layanan*')) ? 'active' : '' }}" href="{{url('layanan')}}">
-                                    <i class="fas fa-headset text-success"></i>
+                                    <i class="fad fa-headset text-success"></i>
                                     <span class="nav-link-text">Layanan</span></a>
                             </li>
                             @endif
@@ -152,7 +152,7 @@
                             <!-- Nav Item - Pedagang -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('pedagang*')) ? 'active' : '' }}" href="{{url('pedagang')}}">
-                                    <i class="fas fa-users text-orange"></i>
+                                    <i class="fad fa-users text-orange"></i>
                                     <span class="nav-link-text">Pedagang</span></a>
                             </li>
                             @endif
@@ -161,7 +161,7 @@
                             <!-- Nav Item - Tempat Usaha -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('tempatusaha*')) ? 'active' : '' }}" href="{{url('tempatusaha')}}">
-                                    <i class="fas fa-store text-pink"></i>
+                                    <i class="fad fa-store text-pink"></i>
                                     <span class="nav-link-text">Tempat&nbsp;Usaha</span></a>
                             </li>
                             @endif
@@ -185,7 +185,7 @@
                             <!-- Nav Item - Laporan -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('rekap/*')) ? 'active' : '' }}" href="#navbar-laporan" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('rekap/*')) ? 'true' : 'false' }}" aria-controls="navbar-laporan">
-                                    <i class="fas fa-book text-success"></i>
+                                    <i class="fad fa-book text-success"></i>
                                     <span class="nav-link-text">Laporan</span>
                                 </a>
                                 <div class="collapse {{ (request()->is('rekap/*')) ? 'show' : '' }}" id="navbar-laporan">
@@ -209,7 +209,7 @@
                             <!-- Nav Item - Data -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('datausaha*')) ? 'active' : '' }}" href="{{url('datausaha')}}">
-                                    <i class="fas fa-list text-yellow"></i>
+                                    <i class="fad fa-list text-yellow"></i>
                                     <span class="nav-link-text">Data&nbsp;Usaha</span></a>
                             </li>
                             @endif
@@ -224,7 +224,7 @@
                             <!-- Nav Item - Utilities -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('utilities/*')) ? 'active' : '' }}" href="#navbar-utilities" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('utilities/*')) ? 'true' : 'false' }}" aria-controls="navbar-utilities">
-                                    <i class="fas fa-tools text-pink"></i>
+                                    <i class="fad fa-tools text-pink"></i>
                                     <span class="nav-link-text">Utilities</span>
                                 </a>
                                 <div class="collapse {{ (request()->is('utilities/*')) ? 'show' : '' }}" id="navbar-utilities">
@@ -267,7 +267,7 @@
                             <!-- Nav Item - Kasir -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('master/kasir*')) ? 'active' : '' }}" href="{{url('master/kasir')}}">
-                                    <i class="fas fa-dollar-sign text-yellow"></i>
+                                    <i class="fad fa-dollar-sign text-yellow"></i>
                                     <span class="nav-link-text">Kasir</span></a>
                             </li>
                             
@@ -281,7 +281,7 @@
                             <!-- Nav Item - Log -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('log*')) ? 'active' : '' }}" href="{{url('log')}}">
-                                    <i class="fas fa-history text-primary"></i>
+                                    <i class="fad fa-history text-primary"></i>
                                     <span class="nav-link-text">Riwayat&nbsp;Login</span></a>
                             </li>
                             @endif
@@ -289,7 +289,7 @@
                             <!-- Nav Item - Log -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('information*')) ? 'active' : '' }}" href="{{url('information')}}">
-                                    <i class="fas fa-info text-yellow"></i>
+                                    <i class="fad fa-info text-yellow"></i>
                                     <span class="nav-link-text">Patch Info</span></a>
                             </li>
                         </ul>
@@ -460,7 +460,7 @@
         <script src="{{asset('datatables/responsive/js/responsive.min.js')}}"></script>
         <script src="{{asset('datatables/responsive/js/responsiveBootstrap.min.js')}}"></script>
         <!-- Argon JS -->
-        <script src="{{asset('argon/js/argon.js')}}"></script>
+        <script src="{{asset('argon/js/argon.min.js')}}"></script>
         
         <script src="{{asset('vendor/chart-js/Chart.min.js')}}"></script>
         
