@@ -7,7 +7,7 @@
 
 @section('judul')
 @if(Session::get("tagihanindex") == 'report')
-<h6 class="h2 text-red d-inline-block mb-0" style="background-color:#fff;border-radius:1rem;padding:0.275rem;">Checking Report</h6>
+<h6 class="h2 text-white d-inline-block mb-0" style="background-color:#f5365c;border-radius:1rem;padding:0.275rem;">Checking Report</h6>
 @else
 <h6 class="h2 text-white d-inline-block mb-0">Periode {{$periode}}</h6>
 @endif
@@ -17,7 +17,6 @@
 @if($agent->isDesktop())
 <a 
     href="{{url('tagihan')}}"
-    data-toggle="tooltip" data-original-title="Home"
     class="btn btn-sm btn-success home-tagihan">
     <i class="fas fa-home text-white"></i>
 </a>
@@ -84,27 +83,27 @@
                 </div>
                 @if($agent->isDesktop())
                 <div class="table-responsive py-4">
-                    <table class="table table-hover {{ (Session::get('tagihanindex') == 'report') ? 'table-danger' : 'table-flush' }}" width="100%" id="tabelTagihan">
+                    <table class="table table-flush" width="100%" id="tabelTagihan">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:15%;">Kontrol</th>
-                                <th class="text-center" style="min-width:80px;max-width:20%;">Nama</th>
-                                <th class="text-center">Listrik</th>
-                                <th class="text-center">Air&nbsp;Bersih</th>
-                                <th class="text-center">K.aman&nbsp;IPK</th>
-                                <th class="text-center">Kebersihan</th>
-                                <th class="text-center">Air&nbsp;Kotor</th>
-                                <th class="text-center">Lainnya</th>
-                                <th class="text-center">Jumlah</th>
-                                <th class="text-center" style="max-width:10%">Action</th>
-                                <th class="text-center" style="max-width:10%">Details</th>
+                                <th class="text-center" style="max-width:13%;">Kontrol</th>
+                                <th class="text-center" style="min-width:80px;max-width:15%;">Nama</th>
+                                <th class="text-center" style="min-width:70px;max-width:8%">Listrik</th>
+                                <th class="text-center" style="min-width:70px;max-width:8%">Air&nbsp;Bersih</th>
+                                <th class="text-center" style="min-width:70px;max-width:8%">K.aman&nbsp;IPK</th>
+                                <th class="text-center" style="min-width:70px;max-width:8%">Kebersihan</th>
+                                <th class="text-center" style="min-width:70px;max-width:8%">Air&nbsp;Kotor</th>
+                                <th class="text-center" style="min-width:70px;max-width:8%">Lainnya</th>
+                                <th class="text-center" style="min-width:70px;max-width:8%">Jumlah</th>
+                                <th class="text-center" style="min-width:60px;max-width:8%">Action</th>
+                                <th class="text-center" style="min-width:60px;max-width:8%">Details</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
                 @else
                 <div class="table-responsive py-4">
-                    <table class="table table-flush table-hover" width="100%" id="tabelTagihan">
+                    <table class="table table-flush" width="100%" id="tabelTagihan">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:30%;">Kontrol</th>
@@ -1488,9 +1487,6 @@
 @section('js')
 <script>
 $(document).ready(function(){
-    var scrollPosition;
-    var rowIndex;
-    
     <?php if($agent->isDesktop()){ ?>
     var dtable = $('#tabelTagihan').DataTable({
 		serverSide: true,
@@ -1526,16 +1522,16 @@ $(document).ready(function(){
             { "bSearchable": false, "aTargets": [9,10] }
         ],
         pageLength: 5,
-        fixedColumns:   {
-            "leftColumns": 2,
-            "rightColumns": 3,
-        },
         scrollX: true,
-        scrollY: "50vh",
-        preDrawCallback: function( settings ) {
+        scrollY: "60vh",
+        fixedColumns:   {
+            "rightColumns": 3,
+            "leftColumns": 2,
+        },
+        "preDrawCallback": function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
-        drawCallback: function( settings ) {
+        "drawCallback": function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
@@ -1564,8 +1560,7 @@ $(document).ready(function(){
         order: [[ 0, "asc" ]],
         stateSave: true,
         deferRender: true,
-        pageLength: 5,
-        aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
+        aLengthMenu: [[10,25,50,100,-1], [10,25,50,100,"All"]],
         language: {
             paginate: {
                 previous: "<i class='fas fa-angle-left'>",
@@ -1577,11 +1572,10 @@ $(document).ready(function(){
             { "bSearchable": false, "aTargets": [2,3] }
         ],
         responsive: true,
-        scrollY: "50vh",
-        preDrawCallback: function( settings ) {
+        "preDrawCallback": function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
-        drawCallback: function( settings ) {
+        "drawCallback": function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
@@ -1590,10 +1584,10 @@ $(document).ready(function(){
                 $("[data-toggle='tooltip']").tooltip();
             }, 10)
         },
-    });
+    }).columns.adjust().draw();
     <?php } ?>
 
-    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic"); $(".tooltip").tooltip("hide");}, false); }, 60000);
     $('#refresh').click(function(){
         $('#refresh-img').show();
         $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
@@ -1707,8 +1701,10 @@ $(document).ready(function(){
 
                 if(data.success){
                     $('#tabelTagihan').DataTable().ajax.reload(function(){}, false);
-                    $(".tooltip").tooltip("hide");
                 }
+                setTimeout(function() {
+                    $(".tooltip").tooltip("hide");
+                }, 1000);
             }
         });
     });

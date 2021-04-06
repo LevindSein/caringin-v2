@@ -7,7 +7,7 @@
 @endsection
 
 @section('judul')
-<h6 class="h2 text-red d-inline-block mb-0" style="background-color:#fff;border-radius:1rem;padding:0.275rem;">Data Penghapusan</h6>
+<h6 class="h2 text-white d-inline-block mb-0" style="background-color:#2dce89;border-radius:1rem;padding:0.275rem;">Data Penghapusan</h6>
 @endsection
 
 @section('button')

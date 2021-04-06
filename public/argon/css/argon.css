@@ -7891,7 +7891,7 @@ a.close.disabled
     top: 0;
 
     border-width: .4rem .4rem 0;
-    border-top-color: #11ceef;
+    border-top-color: #91eafa;
 }
 
 .bs-tooltip-right,
@@ -7913,7 +7913,7 @@ a.close.disabled
     right: 0;
 
     border-width: .4rem .4rem .4rem 0;
-    border-right-color: #11ceef;
+    border-right-color: #91eafa;
 }
 
 .bs-tooltip-bottom,
@@ -7932,7 +7932,7 @@ a.close.disabled
     bottom: 0;
 
     border-width: 0 .4rem .4rem;
-    border-bottom-color: #11ceef;
+    border-bottom-color: #91eafa;
 }
 
 .bs-tooltip-left,
@@ -7954,7 +7954,7 @@ a.close.disabled
     left: 0;
 
     border-width: .4rem 0 .4rem .4rem;
-    border-left-color: #11ceef;
+    border-left-color: #91eafa;
 }
 
 .tooltip-inner
@@ -7966,7 +7966,7 @@ a.close.disabled
 
     color: #000;
     border-radius: .375rem; 
-    background-color: #11ceef;
+    background-color: #91eafa;
 }
 
 .popover
