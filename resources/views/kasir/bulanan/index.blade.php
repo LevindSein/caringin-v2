@@ -611,5 +611,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/kasir/bulanan/index.min.js')}}"></script>
+<script src="{{asset('js/kasir/bulanan/index.js')}}"></script>
 @endsection

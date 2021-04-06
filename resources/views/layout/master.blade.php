@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="{{asset('datatables/responsive/css/responsive.bootstrap.min.css')}}">
         <!-- Argon CSS -->
         <link rel="stylesheet" href="{{asset('argon/vendor/select2/dist/css/select2.min.css')}}">
-        <link rel="stylesheet" href="{{asset('argon/css/argon.min.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{asset('argon/css/argon.css')}}" type="text/css">
         
         <script src="{{asset('argon/vendor/jquery/dist/jquery.min.js')}}"></script>
     </head>
@@ -37,7 +37,7 @@
             <div class="scrollbar-inner">
                 <div class="sidenav-header d-flex align-items-center">
                     <a class="navbar-brand" href="#">
-                        <span class="sidebar-brand-text mx-3 text-white"><b>
+                        <span class="sidebar-brand-text mx-2 text-white"><b>
                         @if(Session::get('role') == 'master')
                         MASTER
                         @elseif(Session::get('role') == 'manajer')
@@ -49,9 +49,10 @@
                         @elseif(Session::get('role') == 'keuangan')
                         KEUANGAN
                         @else
-                        WHO ARE YOU ?
+                        NGINX
                         @endif
-                        </b></span>  
+                        </b>
+                        </span>  
                     </a>
                     <div class="ml-auto" id="event-xl">
                         <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
@@ -109,26 +110,49 @@
                         @if(Session::get('role') == 'keuangan')
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link {{ (request()->is('keuangan/laporan*')) ? 'active' : '' }}" href="#keuangan-laporan" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('keuangan/laporan*')) ? 'true' : 'false' }}" aria-controls="keuangan-laporan">
-                                    <i class="fad fa-books text-success"></i>
-                                    <span class="nav-link-text">Laporan</span>
-                                </a>
-                                <div class="collapse {{ (request()->is('keuangan/laporan*')) ? 'show' : '' }}" id="keuangan-laporan">
+                                <a href="#laporan-tagihan" class="nav-link {{ (request()->is('keuangan/tagihan*')) ? 'active' : '' }}" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('keuangan/tagihan*')) ? 'true' : '' }}" aria-controls="laporan-tagihan"><i class="fas fa-dollar-sign text-yellow"></i><span class="nav-link-text">Tagihan</span></a>
+                                <div class="collapse {{ (request()->is('keuangan/tagihan*')) ? 'show' : '' }}" id="laporan-tagihan">
                                     <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="#laporan-tagihan" class="nav-link {{ (request()->is('keuangan/laporan/tagihan*')) ? 'active' : '' }}" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="laporan-tagihan">Tagihan</a>
-                                            <div class="collapse {{ (request()->is('keuangan/laporan/tagihan*')) ? 'show' : '' }}" id="laporan-tagihan">
-                                                <ul class="nav nav-sm flex-column">
-                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/listrik')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/listrik')) ? 'active' : '' }}"><i class="fad fa-bolt text-yellow"></i>Listrik</a></li>
-                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/airbersih')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/airbersih')) ? 'active' : '' }}"><i class="fad fa-tint text-primary"></i>Air Bersih</a></li>
-                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/keamananipk')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/keamananipk')) ? 'active' : '' }}"><i class="fad fa-lock text-danger"></i>Keamanan IPK</a></li>
-                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/kebersihan')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/kebersihan')) ? 'active' : '' }}"><i class="fad fa-leaf text-success"></i>Kebersihan</a></li>
-                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/airkotor')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/airkotor')) ? 'active' : '' }}"><i class="fad fa-fill-drip text-white"></i>Air Kotor</a></li>
-                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/lain')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/lain')) ? 'active' : '' }}"><i class="fad fa-thumbtack text-pink"></i>Lainnya</a></li>
-                                                    <li class="nav-item"><a href="{{url('keuangan/laporan/tagihan/tagihan')}}" class="nav-link {{ (request()->is('keuangan/laporan/tagihan/tagihan')) ? 'active' : '' }}"><i class="fad fa-database text-orange"></i>Semua&nbsp;Fasilitas</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tagihan/listrik')}}" class="nav-link {{ (request()->is('keuangan/tagihan/listrik')) ? 'text-teal' : '' }}"><i class="fas fa-bolt text-yellow"></i>Listrik</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tagihan/airbersih')}}" class="nav-link {{ (request()->is('keuangan/tagihan/airbersih')) ? 'text-teal' : '' }}"><i class="fad fa-tint text-primary"></i>Air Bersih</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tagihan/keamananipk')}}" class="nav-link {{ (request()->is('keuangan/tagihan/keamananipk')) ? 'text-teal' : '' }}"><i class="fad fa-lock text-danger"></i>Keamanan IPK</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tagihan/kebersihan')}}" class="nav-link {{ (request()->is('keuangan/tagihan/kebersihan')) ? 'text-teal' : '' }}"><i class="fad fa-leaf text-success"></i>Kebersihan</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tagihan/airkotor')}}" class="nav-link {{ (request()->is('keuangan/tagihan/airkotor')) ? 'text-teal' : '' }}"><i class="fad fa-fill-drip text-white"></i>Air Kotor</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tagihan/lain')}}" class="nav-link {{ (request()->is('keuangan/tagihan/lain')) ? 'text-teal' : '' }}"><i class="fad fa-thumbtack text-pink"></i>Lainnya</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tagihan/tagihan')}}" class="nav-link {{ (request()->is('keuangan/tagihan/tagihan')) ? 'text-teal' : '' }}"><i class="fas fa-database text-orange"></i>Semua&nbsp;Fasilitas</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#laporan-tunggakan" class="nav-link {{ (request()->is('keuangan/tunggakan*')) ? 'active' : '' }}" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('keuangan/tunggakan*')) ? 'true' : '' }}" aria-controls="laporan-tunggakan"><i class="fad fa-book text-red"></i><span class="nav-link-text">Tunggakan</span></a>
+                                <div class="collapse {{ (request()->is('keuangan/tunggakan*')) ? 'show' : '' }}" id="laporan-tunggakan">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item"><a href="{{url('keuangan/tunggakan/listrik')}}" class="nav-link {{ (request()->is('keuangan/tunggakan/listrik')) ? 'text-teal' : '' }}"><i class="fas fa-bolt text-yellow"></i>Listrik</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tunggakan/airbersih')}}" class="nav-link {{ (request()->is('keuangan/tunggakan/airbersih')) ? 'text-teal' : '' }}"><i class="fad fa-tint text-primary"></i>Air Bersih</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tunggakan/keamananipk')}}" class="nav-link {{ (request()->is('keuangan/tunggakan/keamananipk')) ? 'text-teal' : '' }}"><i class="fad fa-lock text-danger"></i>Keamanan IPK</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tunggakan/kebersihan')}}" class="nav-link {{ (request()->is('keuangan/tunggakan/kebersihan')) ? 'text-teal' : '' }}"><i class="fad fa-leaf text-success"></i>Kebersihan</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tunggakan/airkotor')}}" class="nav-link {{ (request()->is('keuangan/tunggakan/airkotor')) ? 'text-teal' : '' }}"><i class="fad fa-fill-drip text-white"></i>Air Kotor</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tunggakan/lain')}}" class="nav-link {{ (request()->is('keuangan/tunggakan/lain')) ? 'text-teal' : '' }}"><i class="fad fa-thumbtack text-pink"></i>Lainnya</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/tunggakan/tagihan')}}" class="nav-link {{ (request()->is('keuangan/tunggakan/tagihan')) ? 'text-teal' : '' }}"><i class="fas fa-database text-orange"></i>Semua&nbsp;Fasilitas</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#laporan-pendapatan" class="nav-link {{ (request()->is('keuangan/pendapatan*')) ? 'active' : '' }}" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('keuangan/pendapatan*')) ? 'true' : '' }}" aria-controls="laporan-pendapatan"><i class="fad fa-hand-receiving text-success"></i><span class="nav-link-text">Pendapatan</span></a>
+                                <div class="collapse {{ (request()->is('keuangan/pendapatan*')) ? 'show' : '' }}" id="laporan-pendapatan">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item"><a href="{{url('keuangan/pendapatan/harian')}}" class="nav-link {{ (request()->is('keuangan/pendapatan/harian')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-day text-yellow"></i>Harian</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/pendapatan/bulanan')}}" class="nav-link {{ (request()->is('keuangan/pendapatan/bulanan')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-week text-success"></i>Bulanan</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/pendapatan/tahunan')}}" class="nav-link {{ (request()->is('keuangan/pendapatan/tahunan')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-alt text-orange"></i>Tahunan</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#laporan-rekap" class="nav-link {{ (request()->is('keuangan/rekap*')) ? 'active' : '' }}" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('keuangan/rekap*')) ? 'true' : '' }}" aria-controls="laporan-rekap"><i class="fad fa-books text-info"></i><span class="nav-link-text">Rekap</span></a>
+                                <div class="collapse {{ (request()->is('keuangan/rekap*')) ? 'show' : '' }}" id="laporan-rekap">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item"><a href="{{url('keuangan/rekap/sisa')}}" class="nav-link {{ (request()->is('keuangan/rekap/sisa')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-day text-yellow"></i>Sisa&nbsp;Tagihan</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/rekap/selesai')}}" class="nav-link {{ (request()->is('keuangan/rekap/selesai')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-week text-success"></i>Akhir&nbsp;Bulan</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -143,7 +167,7 @@
                             <!-- Nav Item - Pedagang -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('layanan*')) ? 'active' : '' }}" href="{{url('layanan')}}">
-                                    <i class="fad fa-headset text-success"></i>
+                                    <i class="fas fa-headset text-success"></i>
                                     <span class="nav-link-text">Layanan</span></a>
                             </li>
                             @endif
@@ -192,12 +216,12 @@
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'manajer' || Session::get('role') == 'admin' && (Session::get('otoritas')->pemakaian))
-                                            <a class="nav-link {{ (request()->is('rekap/pemakaian')) ? 'active' : '' }}" href="{{url('rekap/pemakaian')}}">Pemakaian</a>
+                                            <a class="nav-link {{ (request()->is('rekap/pemakaian')) ? 'text-teal' : '' }}" href="{{url('rekap/pemakaian')}}">Pemakaian</a>
                                             @endif
                                         </li>
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'manajer' || Session::get('role') == 'admin' && (Session::get('otoritas')->pendapatan))
-                                            <a class="nav-link {{ (request()->is('rekap/pendapatan')) ? 'active' : '' }}" href="{{url('rekap/pendapatan')}}">Pendapatan</a>
+                                            <a class="nav-link {{ (request()->is('rekap/pendapatan')) ? 'text-teal' : '' }}" href="{{url('rekap/pendapatan')}}">Pendapatan</a>
                                             @endif
                                         </li>
                                     </ul>
@@ -231,27 +255,27 @@
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tarif))
-                                            <a class="nav-link {{ (request()->is('utilities/tarif*')) ? 'active' : '' }}" href="{{url('utilities/tarif')}}">Tarif</a>
+                                            <a class="nav-link {{ (request()->is('utilities/tarif*')) ? 'text-teal' : '' }}" href="{{url('utilities/tarif')}}">Tarif</a>
                                             @endif
                                         </li>
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->alatmeter))
-                                            <a class="nav-link {{ (request()->is('utilities/alatmeter*')) ? 'active' : '' }}" href="{{url('utilities/alatmeter')}}">Alat&nbsp;Meter</a>
+                                            <a class="nav-link {{ (request()->is('utilities/alatmeter*')) ? 'text-teal' : '' }}" href="{{url('utilities/alatmeter')}}">Alat&nbsp;Meter</a>
                                             @endif
                                         </li>
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->harilibur))
-                                            <a class="nav-link {{ (request()->is('utilities/harilibur*')) ? 'active' : '' }}" href="{{url('utilities/harilibur')}}">Hari&nbsp;Libur</a>
+                                            <a class="nav-link {{ (request()->is('utilities/harilibur*')) ? 'text-teal' : '' }}" href="{{url('utilities/harilibur')}}">Hari&nbsp;Libur</a>
                                             @endif
                                         </li>
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->blok))
-                                            <a class="nav-link {{ (request()->is('utilities/blok*')) ? 'active' : '' }}" href="{{url('utilities/blok')}}">Blok</a>
+                                            <a class="nav-link {{ (request()->is('utilities/blok*')) ? 'text-teal' : '' }}" href="{{url('utilities/blok')}}">Blok</a>
                                             @endif
                                         </li>
                                         <li class="nav-item">
                                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->simulasi))
-                                            <a class="nav-link {{ (request()->is('utilities/simulasi*')) ? 'active' : '' }}" href="{{url('utilities/simulasi')}}">Simulasi</a>
+                                            <a class="nav-link {{ (request()->is('utilities/simulasi*')) ? 'text-teal' : '' }}" href="{{url('utilities/simulasi')}}">Simulasi</a>
                                             @endif
                                         </li>
                                     </ul>
@@ -290,7 +314,7 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('information*')) ? 'active' : '' }}" href="{{url('information')}}">
                                     <i class="fad fa-info text-yellow"></i>
-                                    <span class="nav-link-text">Patch Info</span></a>
+                                    <span class="nav-link-text">Patch&nbsp;Info</span></a>
                             </li>
                         </ul>
                     </div>
@@ -460,7 +484,7 @@
         <script src="{{asset('datatables/responsive/js/responsive.min.js')}}"></script>
         <script src="{{asset('datatables/responsive/js/responsiveBootstrap.min.js')}}"></script>
         <!-- Argon JS -->
-        <script src="{{asset('argon/js/argon.min.js')}}"></script>
+        <script src="{{asset('argon/js/argon.js')}}"></script>
         
         <script src="{{asset('vendor/chart-js/Chart.min.js')}}"></script>
         

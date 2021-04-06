@@ -74,7 +74,7 @@ $(document).ready(function(){
                 ],
                 stateSave: true,
                 deferRender: true,
-                pageLength: 8,
+                pageLength: 10,
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",
@@ -85,7 +85,18 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,4] }, 
                     { "bSearchable": false, "aTargets": [0,4] }
                 ],
-                responsive:true
+                responsive:true,
+                scrollY: "50vh",
+                preDrawCallback: function( settings ) {
+                    scrollPosition = $(".dataTables_scrollBody").scrollTop();
+                },
+                drawCallback: function( settings ) {
+                    $(".dataTables_scrollBody").scrollTop(scrollPosition);
+                    if(typeof rowIndex != 'undefined') {
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                    }
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
             $('#refresh').click(function(){
@@ -114,7 +125,7 @@ $(document).ready(function(){
                 ],
                 stateSave: true,
                 deferRender: true,
-                pageLength: 8,
+                pageLength: 10,
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",
@@ -125,7 +136,18 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
-                responsive:true
+                responsive:true,
+                scrollY: "50vh",
+                preDrawCallback: function( settings ) {
+                    scrollPosition = $(".dataTables_scrollBody").scrollTop();
+                },
+                drawCallback: function( settings ) {
+                    $(".dataTables_scrollBody").scrollTop(scrollPosition);
+                    if(typeof rowIndex != 'undefined') {
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                    }
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
             $('#refresh').click(function(){
@@ -154,7 +176,7 @@ $(document).ready(function(){
                 ],
                 stateSave: true,
                 deferRender: true,
-                pageLength: 8,
+                pageLength: 10,
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",
@@ -165,7 +187,18 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
-                responsive:true
+                responsive:true,
+                scrollY: "50vh",
+                preDrawCallback: function( settings ) {
+                    scrollPosition = $(".dataTables_scrollBody").scrollTop();
+                },
+                drawCallback: function( settings ) {
+                    $(".dataTables_scrollBody").scrollTop(scrollPosition);
+                    if(typeof rowIndex != 'undefined') {
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                    }
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
             $('#refresh').click(function(){
@@ -194,7 +227,7 @@ $(document).ready(function(){
                 ],
                 stateSave: true,
                 deferRender: true,
-                pageLength: 8,
+                pageLength: 10,
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",
@@ -205,7 +238,18 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [0,2] }, 
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
-                responsive:true
+                responsive:true,
+                scrollY: "50vh",
+                preDrawCallback: function( settings ) {
+                    scrollPosition = $(".dataTables_scrollBody").scrollTop();
+                },
+                drawCallback: function( settings ) {
+                    $(".dataTables_scrollBody").scrollTop(scrollPosition);
+                    if(typeof rowIndex != 'undefined') {
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                    }
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
             });
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
             $('#refresh').click(function(){

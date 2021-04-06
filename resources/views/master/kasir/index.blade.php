@@ -41,7 +41,7 @@
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="tabel">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="tabel">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:25%">Kontrol</th>
@@ -182,8 +182,19 @@ $(document).ready(function () {
             }
         },
         deferRender: true,
-        pageLength: 8,
-        responsive: true
+        pageLength: 10,
+        responsive: true,
+        scrollY: "50vh",
+        preDrawCallback: function( settings ) {
+            scrollPosition = $(".dataTables_scrollBody").scrollTop();
+        },
+        drawCallback: function( settings ) {
+            $(".dataTables_scrollBody").scrollTop(scrollPosition);
+            if(typeof rowIndex != 'undefined') {
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+            }
+            $('[data-toggle="tooltip"]').tooltip();
+        },
     }).columns.adjust().draw();
 
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -281,5 +292,5 @@ $(document).ready(function () {
     });
 });
 </script>
-<script src="{{asset('js/master/kasir/kasir.min.js')}}"></script>
+<script src="{{asset('js/master/kasir/kasir.js')}}"></script>
 @endsection

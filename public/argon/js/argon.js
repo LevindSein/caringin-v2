@@ -67,6 +67,7 @@ var Layout = (function() {
         var $this = $(this);
         var action = $this.data('action');
         var target = $this.data('target');
+		$($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw('page');
 
 
         // Manage actions

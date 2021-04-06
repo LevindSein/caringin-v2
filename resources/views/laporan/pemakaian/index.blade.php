@@ -26,7 +26,7 @@ function indoDate($tanggal){
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="pemakaian">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="pemakaian">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:70%">Bulan</th>
@@ -92,5 +92,5 @@ function indoDate($tanggal){
 @endsection
 
 @section('js')
-<script src="{{asset('js/laporan/pemakaian.min.js')}}"></script>
+<script src="{{asset('js/laporan/pemakaian.js')}}"></script>
 @endsection

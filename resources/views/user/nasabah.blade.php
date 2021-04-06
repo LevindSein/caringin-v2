@@ -1,5 +1,5 @@
 <div class="table-responsive py-4">
-    <table class="table table-flush" width="100%" id="userNasabah">
+    <table class="table table-flush table-hover table-striped" width="100%" id="userNasabah">
         <thead class="thead-light">
             <tr>
                 <th class="text-center" style="max-width:35%">Username</th>

@@ -31,7 +31,7 @@
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="tabelBlok">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="tabelBlok">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:45%">Blok</th>
@@ -111,5 +111,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/utilities/blok.min.js')}}"></script>
+<script src="{{asset('js/utilities/blok.js')}}"></script>
 @endsection

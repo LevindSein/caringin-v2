@@ -14,7 +14,7 @@ use App\Models\Tagihan;
 
 @section('contents')
 <div class="table-responsive py-4">
-    <table class="table table-flush" width="100%" id="tabelFasilitas">
+    <table class="table table-flush table-hover table-striped" width="100%" id="tabelFasilitas">
         <thead class="thead-light">
             <tr>
                 <th class="text-center" style="max-width:30%">Kontrol</th>
@@ -234,45 +234,18 @@ use App\Models\Tagihan;
 @section('jss')
 <script>
 $(document).ready(function(){
-    var DatatableBasic = (function() {
-        // Variables
-        var $dtBasic = $('#tabelFasilitas');
-
-        // Methods
-        function init($this) {
-
-            // Basic options. For more options check out the Datatables Docs:
-            // https://datatables.net/manual/options
-
-            var options = {
-                deferRender: true,
-                keys: !0,
-                select: {
-                    style: "multi"
-                },
-                language: {
-                    paginate: {
-                        previous: "<i class='fas fa-angle-left'>",
-                        next: "<i class='fas fa-angle-right'>"
-                    }
-                },
-                pageLength: 8,
-                order: [ 0, "asc" ],
-                responsive:true
-            };
-
-            // Init the datatable
-
-            var table = $this.on( 'init.dt', function () {
-                $('div.dataTables_length select').removeClass('custom-select custom-select-sm');
-
-            }).DataTable(options);
-        }
-        // Events
-        if ($dtBasic.length) {
-            init($dtBasic);
-        }
-    })();
+    $('#tabelFasilitas').DataTable({
+		deferRender: true,
+        language: {
+            paginate: {
+                previous: "<i class='fas fa-angle-left'>",
+                next: "<i class='fas fa-angle-right'>"
+            }
+        },
+        pageLength: 10,
+        order: [ 0, "asc" ],
+        responsive:true,
+    }).columns.adjust().draw();
 });
 </script>
 @endsection

@@ -1,5 +1,5 @@
 <div class="table-responsive py-4">
-    <table class="table table-flush" width="100%" id="tabelKeamananIpk">
+    <table class="table table-flush table-hover table-striped" width="100%" id="tabelKeamananIpk">
         <thead class="thead-light">
             <tr>
                 <th class="text-center" style="max-width:10%">Kategori</th>

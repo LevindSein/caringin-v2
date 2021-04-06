@@ -53,9 +53,9 @@ class MasterController extends Controller
             ->where('tgl_bayar',Session::get('masterkasir'));
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" title="Restore" name="restore" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#4e73df;"></i></a>&nbsp;&nbsp;';
-                    $button .= '<a type="button" title="Edit" name="edit" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="edit"><i class="fas fa-edit" style="color:#e74a3b;"></i></a>&nbsp;&nbsp;';
-                    $button .= '<a type="button" title="Cetak" name="cetak" id="'.$data->ref.'" class="cetak"><i class="fas fa-print" style="color:#1cc88a;"></a>';
+                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Restore" name="restore" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#4e73df;"></i></a>&nbsp;&nbsp;';
+                    $button .= '<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="edit"><i class="fas fa-edit" style="color:#e74a3b;"></i></a>&nbsp;&nbsp;';
+                    $button .= '<a type="button" data-toggle="tooltip" data-original-title="Cetak" name="cetak" id="'.$data->ref.'" class="cetak"><i class="fas fa-print" style="color:#1cc88a;"></a>';
                     return $button;
                 })
                 ->addColumn('pengguna', function($data){

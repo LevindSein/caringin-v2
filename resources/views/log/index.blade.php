@@ -18,7 +18,7 @@
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="tabelLog">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="tabelLog">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="min-width:100px;max-width:20%">Username</th>
@@ -40,5 +40,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/log/log.min.js')}}"></script>
+<script src="{{asset('js/log/log.js')}}"></script>
 @endsection

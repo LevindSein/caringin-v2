@@ -6,7 +6,7 @@ $(document).ready(function () {
                 next: "<i class='fas fa-angle-right'>"
             }
         },
-        pageLength:8,
+        pageLength:10,
         bSortable: false,
         deferRender: true,
         ordering: false,

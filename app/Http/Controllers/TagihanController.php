@@ -41,7 +41,7 @@ class TagihanController extends Controller
     }
 
     public function index(Request $request)
-    {
+    {    
         $now = date("Y-m-d",strtotime(Carbon::now()));
         $check = date("Y-m-23",strtotime(Carbon::now()));
 
@@ -56,10 +56,14 @@ class TagihanController extends Controller
             $periode  = date("Y-m", strtotime("+1 month", $time));
         }
 
-        if($request->periode !== NULL || $request->periode != '')
+        if($request->periode !== NULL || $request->periode != ''){
             Session::put('periodetagihan',$request->periode);
+        }
         else
             Session::put('periodetagihan',$periode);
+        
+        if($request->unset)
+            unset($request->unset);
 
         if(Session::get('role') == 'admin'){
             $wherein = Session::get('otoritas')->otoritas;
@@ -91,26 +95,26 @@ class TagihanController extends Controller
                         if($data->stt_publish === 0){
                             if(Session::get('role') == 'master' || Session::get('otoritas')->tagihan){
                                 if($data->review === 0)
-                                    $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tagihan" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
                                 else
-                                    $button = '<a type="button" title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#000000;"></i></a>';
-                                $button .= '&nbsp;&nbsp;<a type="button" title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
-                                $button .= '&nbsp;&nbsp;<a type="button" title="Publish" name="unpublish" id="'.$data->id.'" class="unpublish"><i class="fas fa-check-circle" style="color:#1cc88a;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tagihan" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#000000;"></i></a>';
+                                $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tagihan" name="delete" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                                $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Publish Tagihan" name="unpublish" id="'.$data->id.'" class="unpublish"><i class="fas fa-check-circle" style="color:#1cc88a;"></i></a>';
                             }
                             else if(Session::get('otoritas')->publish && Session::get('otoritas')->tagihan == false){
                                 $hasil = number_format($data->ttl_tagihan);
                                 $warna = max($data->warna_airbersih, $data->warna_listrik);        
                                 if($warna == 1 || $warna == 2)
-                                    $button = '<a type="button" title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#c4b71f;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#c4b71f;"></i></a>';
                                 else if($warna == 3)
-                                    $button = '<a type="button" title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#e74a3b;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#e74a3b;"></i></a>';
                                 else
-                                    $button = '<a type="button" title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#172b4d;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#172b4d;"></i></a>';
                             }
                         }
                         else{
                             if(Session::get('role') == 'master')
-                                $button = '<button type="button" title="Cancel Publish" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-danger">Cancel</button>';
+                                $button = '<button type="button" data-toggle="tooltip" data-original-title="Unpublish" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-danger"><i class="fas fa-undo"></i></button>';
                             else
                                 $button = '<span style="color:#1cc88a;">Published</span>';
                         }
@@ -257,6 +261,11 @@ class TagihanController extends Controller
             'periode' => IndoDate::bulan(Session::get('periodetagihan'),' '),
             'blok'    => $blok,
         ]);
+    }
+    
+    public function periode(Request $request){
+        $periode = $request->tahun."-".$request->bulan;
+        return redirect()->route('tagihan', ['periode' => $periode]);
     }
 
     public function initiate(){
@@ -1001,11 +1010,6 @@ class TagihanController extends Controller
                 return response()->json(['errors' => 'Oops! Gagal Unpublish']);
             }
         }
-    }
-
-    public function periode(Request $request){
-        $periode = $request->tahun."-".$request->bulan;
-        return redirect()->route('tagihan', ['periode' => $periode]);
     }
 
     public function notifEdit($id){

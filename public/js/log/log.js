@@ -21,8 +21,19 @@ $(document).ready(function(){
             }
         },
         deferRender: true,
-        pageLength: 8,
-        responsive: true
+        pageLength: 10,
+        responsive: true,
+        scrollY: "50vh",
+        preDrawCallback: function( settings ) {
+            scrollPosition = $(".dataTables_scrollBody").scrollTop();
+        },
+        drawCallback: function( settings ) {
+            $(".dataTables_scrollBody").scrollTop(scrollPosition);
+            if(typeof rowIndex != 'undefined') {
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+            }
+            $('[data-toggle="tooltip"]').tooltip();
+        },
     });
 
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);

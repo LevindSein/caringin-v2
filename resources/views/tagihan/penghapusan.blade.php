@@ -10,6 +10,15 @@
 <h6 class="h2 text-white d-inline-block mb-0">Data Penghapusan</h6>
 @endsection
 
+@section('button')
+<a 
+    href="{{url('tagihan')}}"
+    data-toggle="tooltip" data-original-title="Home"
+    class="btn btn-sm btn-success home-tagihan">
+    <i class="fas fa-home text-white"></i>
+</a>
+@endsection
+
 @section('content')
 <span id="form_result"></span>
 <div class="row">

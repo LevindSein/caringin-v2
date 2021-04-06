@@ -14,7 +14,7 @@
 <a 
     href="{{url('tempatusaha')}}" 
     type="submit"
-    title="Home"
+    data-toggle="tooltip" data-original-title="Home"
     class="btn btn-sm btn-info"><i class="fas fa-fw fa-home fa-sm text-white"></i>
 </a>
 @if(Session::get('role') == 'master')
@@ -609,6 +609,6 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/tempatusaha/tempat-usaha.min.js')}}"></script>
+<script src="{{asset('js/tempatusaha/tempat-usaha.js')}}"></script>
 @yield('jss')
 @endsection

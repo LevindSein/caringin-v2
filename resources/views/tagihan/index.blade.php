@@ -17,6 +17,7 @@
 @if($agent->isDesktop())
 <a 
     href="{{url('tagihan')}}"
+    data-toggle="tooltip" data-original-title="Home"
     class="btn btn-sm btn-success home-tagihan">
     <i class="fas fa-home text-white"></i>
 </a>
@@ -1525,20 +1526,23 @@ $(document).ready(function(){
             { "bSearchable": false, "aTargets": [9,10] }
         ],
         pageLength: 5,
-        scrollX: true,
-        scrollY: "60vh",
         fixedColumns:   {
             "leftColumns": 2,
             "rightColumns": 3,
         },
-        "preDrawCallback": function( settings ) {
+        scrollX: true,
+        scrollY: "50vh",
+        preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
-        "drawCallback": function( settings ) {
+        drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
             }
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
         },
     }).columns.adjust().draw();
     <?php } ?>
@@ -1572,14 +1576,18 @@ $(document).ready(function(){
             { "bSearchable": false, "aTargets": [2,3] }
         ],
         responsive: true,
-        "preDrawCallback": function( settings ) {
+        scrollY: "50vh",
+        preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
-        "drawCallback": function( settings ) {
+        drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
             }
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
         },
     }).columns.adjust().draw();
     <?php } ?>
@@ -2702,5 +2710,5 @@ $(document).ready(function(){
     });
 });
 </script>
-<script src="{{asset('js/tagihan/tagihan.min.js')}}"></script>
+<script src="{{asset('js/tagihan/tagihan.js')}}"></script>
 @endsection

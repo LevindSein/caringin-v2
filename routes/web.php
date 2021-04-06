@@ -126,7 +126,7 @@ Route::post('storelogin',function(Request $request){
                 return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
             else
                 abort(404);
-        }
+        }   
     }
     catch(\Exception $e){
         abort(404);
@@ -141,16 +141,8 @@ Route::get('logout',function(){
 });
 
 Route::middleware('ceklogin:keuangan')->group(function(){
-    Route::get('keuangan/checkout/arsip',[KeuanganController::class, 'arsip']);
-    Route::get('keuangan/data/tunggakan',[KeuanganController::class, 'dataTunggakan']);
-    Route::get('keuangan/data/tagihan',[KeuanganController::class, 'dataTagihan']);
-    Route::get('keuangan/laporan/rekap/generate/{data}',[KeuanganController::class, 'lapGenerateRekap']);
-    Route::get('keuangan/laporan/rekap/{data}',[KeuanganController::class, 'lapRekap']);
-    Route::get('keuangan/laporan/pendapatan/generate/{data}',[KeuanganController::class, 'lapGeneratePendapatan']);
-    Route::get('keuangan/laporan/pendapatan/{data}',[KeuanganController::class, 'lapPendapatan']);
-    Route::get('keuangan/laporan/tagihan/generate/{data}',[KeuanganController::class, 'lapGenerateTagihan']);
-    Route::get('keuangan/laporan/tagihan/{data}',[KeuanganController::class, 'lapTagihan']);
-    Route::resource('keuangan', KeuanganController::class);
+    Route::get('keuangan/tagihan/generate/{data}',[KeuanganController::class, 'tagihanGenerate']);
+    Route::get('keuangan/tagihan/{data}',[KeuanganController::class, 'tagihan']);
 });
 
 Route::middleware('ceklogin:kasir')->group(function(){
