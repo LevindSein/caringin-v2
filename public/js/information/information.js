@@ -35,7 +35,9 @@ $(document).ready(function(){
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
             }
-            $('[data-toggle="tooltip"]').tooltip();
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
         },
     });
     

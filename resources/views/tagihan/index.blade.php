@@ -7,7 +7,7 @@
 
 @section('judul')
 @if(Session::get("tagihanindex") == 'report')
-<h6 class="h2 text-white d-inline-block mb-0">Checking Report</h6>
+<h6 class="h2 text-red d-inline-block mb-0" style="background-color:#fff;border-radius:1rem;padding:0.275rem;">Checking Report</h6>
 @else
 <h6 class="h2 text-white d-inline-block mb-0">Periode {{$periode}}</h6>
 @endif
@@ -84,7 +84,7 @@
                 </div>
                 @if($agent->isDesktop())
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="tabelTagihan">
+                    <table class="table table-hover {{ (Session::get('tagihanindex') == 'report') ? 'table-danger' : 'table-flush' }}" width="100%" id="tabelTagihan">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:15%;">Kontrol</th>
@@ -104,7 +104,7 @@
                 </div>
                 @else
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="tabelTagihan">
+                    <table class="table table-flush table-hover" width="100%" id="tabelTagihan">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:30%;">Kontrol</th>
@@ -1564,7 +1564,8 @@ $(document).ready(function(){
         order: [[ 0, "asc" ]],
         stateSave: true,
         deferRender: true,
-        aLengthMenu: [[10,25,50,100,-1], [10,25,50,100,"All"]],
+        pageLength: 5,
+        aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
         language: {
             paginate: {
                 previous: "<i class='fas fa-angle-left'>",
@@ -1589,7 +1590,7 @@ $(document).ready(function(){
                 $("[data-toggle='tooltip']").tooltip();
             }, 10)
         },
-    }).columns.adjust().draw();
+    });
     <?php } ?>
 
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
@@ -1706,6 +1707,7 @@ $(document).ready(function(){
 
                 if(data.success){
                     $('#tabelTagihan').DataTable().ajax.reload(function(){}, false);
+                    $(".tooltip").tooltip("hide");
                 }
             }
         });

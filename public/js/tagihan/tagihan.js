@@ -1266,34 +1266,4 @@ $(document).ready(function(){
             }
         });
     });
-
-    $(document).on('click', '#checking-report', function(){
-        $.ajax({
-            url :"/tagihan/checking/report",
-            cache:false,
-            dataType:"json",
-            success:function(data)
-            {
-                if(data.success)
-                    location.reload();
-                else
-                    alert(data.errors);
-            }
-        });
-    });
-
-    $(document).on('click', '.home-tagihan', function(){
-        $.ajax({
-            url :"/tagihan/checking/home",
-            cache:false,
-            dataType:"json",
-            success:function(data)
-            {
-                if(data.success)
-                    location.reload();
-                else
-                    alert(data.errors);
-            }
-        });
-    });
 });

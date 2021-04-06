@@ -7,7 +7,7 @@
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">Data Penghapusan</h6>
+<h6 class="h2 text-red d-inline-block mb-0" style="background-color:#fff;border-radius:1rem;padding:0.275rem;">Data Penghapusan</h6>
 @endsection
 
 @section('button')
@@ -368,7 +368,7 @@ $(document).ready(function(){
         order: [[ 1, "asc" ]],
         stateSave: true,
         deferRender: true,
-        aLengthMenu: [[10,25,50,100,-1], [10,25,50,100,"All"]],
+        aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
         language: {
             paginate: {
                 previous: "<i class='fas fa-angle-left'>",
@@ -381,18 +381,22 @@ $(document).ready(function(){
         ],
         scrollX: true,
         scrollY: "50vh",
+        pageLength: 5,
         fixedColumns:   {
             "leftColumns": 3,
             "rightColumns": 3,
         },
-        "preDrawCallback": function( settings ) {
+        preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
-        "drawCallback": function( settings ) {
+        drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
             }
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
         },
     }).columns.adjust().draw();
     <?php } ?>
@@ -414,7 +418,7 @@ $(document).ready(function(){
         order: [[ 1, "asc" ]],
         stateSave: true,
         deferRender: true,
-        aLengthMenu: [[10,25,50,100,-1], [10,25,50,100,"All"]],
+        aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
         language: {
             paginate: {
                 previous: "<i class='fas fa-angle-left'>",
@@ -426,14 +430,19 @@ $(document).ready(function(){
             { "bSearchable": false, "aTargets": [3,4] }
         ],
         responsive: true,
-        "preDrawCallback": function( settings ) {
+        scrollY: "50vh",
+        pageLength: 5,
+        preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
-        "drawCallback": function( settings ) {
+        drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
             }
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
         },
     }).columns.adjust().draw();
     <?php } ?>

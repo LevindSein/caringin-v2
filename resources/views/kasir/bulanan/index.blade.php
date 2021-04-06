@@ -129,6 +129,7 @@
     class="modal fade"
     id="mySisa"
     role="dialog"
+    tabIndex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -167,6 +168,7 @@
     class="modal fade"
     id="mySelesai"
     role="dialog"
+    tabIndex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">

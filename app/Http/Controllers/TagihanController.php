@@ -78,13 +78,13 @@ class TagihanController extends Controller
             if(Session::get('role') == 'admin'){
                 $wherein = Session::get('otoritas')->otoritas;
 
-                if(Session::get("tagihanindex") ==  'report')
+                if(Session::get("tagihanindex") ===  'report')
                     $data = Tagihan::where('review',0)->whereIn('blok',$wherein);
                 else
                     $data = Tagihan::where('bln_tagihan',Session::get('periodetagihan'))->whereIn('blok',$wherein);
             }
             else{
-                if(Session::get("tagihanindex") ==  'report')
+                if(Session::get("tagihanindex") ===  'report')
                     $data = Tagihan::where('review',0);
                 else
                     $data = Tagihan::where('bln_tagihan',Session::get('periodetagihan'));
@@ -157,84 +157,84 @@ class TagihanController extends Controller
                     $hasil = number_format($data->ttl_listrik);
                     $warna = $data->warna_listrik;
                     if ($data->ttl_listrik == 0 && $data->stt_listrik === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_listrik == 0 && $data->stt_listrik !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_airbersih', function ($data) {
                     $hasil = number_format($data->ttl_airbersih);
                     $warna = $data->warna_airbersih;
                     if ($data->ttl_airbersih == 0 && $data->stt_airbersih === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airbersih == 0 && $data->stt_airbersih !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_keamananipk', function ($data) {
                     $hasil = number_format($data->ttl_keamananipk);
                     if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else 
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_kebersihan', function ($data) {
                     $hasil = number_format($data->ttl_kebersihan);
                     if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_airkotor', function ($data) {
                     $hasil = number_format($data->ttl_airkotor);
                     if ($data->ttl_airkotor == 0 && $data->stt_airkotor === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airkotor == 0 && $data->stt_airkotor !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_lain', function ($data) {
                     $hasil = number_format($data->ttl_lain);
                     if ($data->ttl_lain == 0 && $data->stt_lain === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_lain == 0 && $data->stt_lain !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_tagihan', function ($data) {
                     $hasil = number_format($data->ttl_tagihan);
                     $warna = max($data->warna_airbersih, $data->warna_listrik);
                     if ($data->ttl_tagihan === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_tagihan === 0)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->addColumn('show', function($data){
@@ -613,7 +613,7 @@ class TagihanController extends Controller
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master' || Session::get('role') == 'admin'){
                         if(Session::get('role') == 'master' || Session::get('otoritas')->tagihan){
-                            $button = '<a type="button" title="Restore" name="restore" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#e74a3b;"></i></a>';
+                            $button = '<a type="button" data-toggle="tooltip" data-original-title="Restore" name="restore" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#e74a3b;"></i></a>';
                         }
                         else if(Session::get('otoritas')->publish && Session::get('otoritas')->tagihan == false){
                             $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -652,84 +652,84 @@ class TagihanController extends Controller
                     $hasil = number_format($data->ttl_listrik);
                     $warna = $data->warna_listrik;
                     if ($data->ttl_listrik == 0 && $data->stt_listrik === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_listrik == 0 && $data->stt_listrik !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_airbersih', function ($data) {
                     $hasil = number_format($data->ttl_airbersih);
                     $warna = $data->warna_airbersih;
                     if ($data->ttl_airbersih == 0 && $data->stt_airbersih === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airbersih == 0 && $data->stt_airbersih !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_keamananipk', function ($data) {
                     $hasil = number_format($data->ttl_keamananipk);
                     if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else 
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_kebersihan', function ($data) {
                     $hasil = number_format($data->ttl_kebersihan);
                     if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_airkotor', function ($data) {
                     $hasil = number_format($data->ttl_airkotor);
                     if ($data->ttl_airkotor == 0 && $data->stt_airkotor === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airkotor == 0 && $data->stt_airkotor !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_lain', function ($data) {
                     $hasil = number_format($data->ttl_lain);
                     if ($data->ttl_lain == 0 && $data->stt_lain === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_lain == 0 && $data->stt_lain !== NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_tagihan', function ($data) {
                     $hasil = number_format($data->ttl_tagihan);
                     $warna = max($data->warna_airbersih, $data->warna_listrik);
                     if ($data->ttl_tagihan === NULL)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_tagihan === 0)
-                        return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" title="Click for Details!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->addColumn('show', function($data){
@@ -2530,11 +2530,8 @@ class TagihanController extends Controller
     public function report($status){
         if(request()->ajax()){
             try{
-                if($status == 'report')
-                    Session::put("tagihanindex","report");
-                else
-                    Session::put("tagihanindex","home");
-                return response()->json(['success' => "Berhasil Mengambil Data"]);
+                Session::put('tagihanindex',$status);
+                return response()->json(['success' => $status]);
             }
             catch(\Exception $e){
                 return response()->json(['errors' => "Gagal Mengambil Data"]);

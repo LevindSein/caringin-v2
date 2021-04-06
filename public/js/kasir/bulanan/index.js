@@ -40,7 +40,9 @@ $(document).ready(function () {
             if(typeof rowIndex != 'undefined') {
                 dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
             }
-            $('[data-toggle="tooltip"]').tooltip();
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
         },
     }).columns.adjust().draw();
     
@@ -87,6 +89,19 @@ $(document).ready(function () {
                 ],
                 order: [[0, 'asc']],
                 responsive: true,
+                scrollY: "50vh",
+                preDrawCallback: function( settings ) {
+                    scrollPosition = $(".dataTables_scrollBody").scrollTop();
+                },
+                drawCallback: function( settings ) {
+                    $(".dataTables_scrollBody").scrollTop(scrollPosition);
+                    if(typeof rowIndex != 'undefined') {
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                    }
+                    setTimeout( function () {
+                        $("[data-toggle='tooltip']").tooltip();
+                    }, 10)
+                },
             }).columns.adjust().draw();
 
 
@@ -144,6 +159,19 @@ $(document).ready(function () {
                     }
                 },
                 responsive: true,
+                scrollY: "50vh",
+                preDrawCallback: function( settings ) {
+                    scrollPosition = $(".dataTables_scrollBody").scrollTop();
+                },
+                drawCallback: function( settings ) {
+                    $(".dataTables_scrollBody").scrollTop(scrollPosition);
+                    if(typeof rowIndex != 'undefined') {
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                    }
+                    setTimeout( function () {
+                        $("[data-toggle='tooltip']").tooltip();
+                    }, 10)
+                },
             }).columns.adjust().draw();
 
 

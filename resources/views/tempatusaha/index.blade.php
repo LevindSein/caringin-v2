@@ -72,6 +72,7 @@
     class="modal fade"
     id="myModal"
     role="dialog"
+    tabIndex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">

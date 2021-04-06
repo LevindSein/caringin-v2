@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="{{asset('datatables/responsive/css/responsive.bootstrap.min.css')}}">
         <!-- Argon CSS -->
         <link rel="stylesheet" href="{{asset('argon/vendor/select2/dist/css/select2.min.css')}}">
-        <link rel="stylesheet" href="{{asset('argon/css/argon.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{asset('argon/css/argon.min.css')}}" type="text/css">
         
         <script src="{{asset('argon/vendor/jquery/dist/jquery.min.js')}}"></script>
     </head>
@@ -466,6 +466,21 @@
                         }
                     });
                 });
+                
+                $(document).on('click', '#checking-report', function(){
+                    $.ajax({
+                        url :"/tagihan/checking/report",
+                        cache:false,
+                        dataType:"json",
+                        success:function(data)
+                        {
+                            if(data.success)
+                                location.reload();
+                            else
+                                alert(data.errors);
+                        }
+                    });
+                });
             });
         </script>
         
@@ -484,7 +499,7 @@
         <script src="{{asset('datatables/responsive/js/responsive.min.js')}}"></script>
         <script src="{{asset('datatables/responsive/js/responsiveBootstrap.min.js')}}"></script>
         <!-- Argon JS -->
-        <script src="{{asset('argon/js/argon.js')}}"></script>
+        <script src="{{asset('argon/js/argon.min.js')}}"></script>
         
         <script src="{{asset('vendor/chart-js/Chart.min.js')}}"></script>
         
