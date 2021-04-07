@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Tagihan Air Bersih | BP3C</title>
-        <link rel="stylesheet" href="{{asset('css/style-pemakaian.css')}}" media="all"/>
+        <link rel="stylesheet" href="{{asset('css/laporan/pemakaian/style-pemakaian.css')}}" media="all"/>
         <link rel="icon" href="{{asset('img/logo.png')}}">
     </head>
     <style type="text/css">
@@ -13,10 +13,14 @@
     <body onload="window.print()">
         @for($i=1;$i<=2;$i++)
         @if($i == 1)
-        <h2 style="text-align:center;">REKAP TAGIHAN AIR BERSIH<br>{{$bln}}</h2>
         <main>
             <table class="tg">
                 <thead>
+                    <tr>
+                        <th colspan="8" style="border-style:none;">
+                            <h3 style="text-align:center;">REKAP TAGIHAN AIR BERSIH<br>{{$bln}}</h3>
+                        </th>
+                    </tr>
                     <tr>
                         <th class="tg-r8fv">No.</th>
                         <th class="tg-r8fv">Blok</th>
@@ -26,8 +30,6 @@
                         <th class="tg-r8fv">Pemeliharaan</th>
                         <th class="tg-r8fv">Air Kotor</th>
                         <th class="tg-r8fv">Tagihan</th>
-                        <th class="tg-r8fv">Realisasi</th>
-                        <th class="tg-r8fv">Selisih</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,13 +39,11 @@
                         <td class="tg-cegc">{{$no}}</td>
                         <td class="tg-cegc">{{$d->blok}}</td>
                         <td class="tg-cegc">{{$d->pengguna}}</td>
-                        <td class="tg-g25h">{{number_format($d->pakai)}}</td>
-                        <td class="tg-g25h">{{number_format($d->beban)}}</td>
-                        <td class="tg-g25h">{{number_format($d->pemeliharaan)}}</td>
-                        <td class="tg-g25h">{{number_format($d->arkot)}}</td>
-                        <td class="tg-g25h">{{number_format($d->tagihan)}}</td>
-                        <td class="tg-g25h">{{number_format($d->realisasi)}}</td>
-                        <td class="tg-g25h">{{number_format($d->selisih)}}</td>
+                        <td class="tg-cegc">{{number_format($d->pakai)}}</td>
+                        <td class="tg-cegc">{{number_format($d->beban)}}</td>
+                        <td class="tg-cegc">{{number_format($d->pemeliharaan)}}</td>
+                        <td class="tg-cegc">{{number_format($d->arkot)}}</td>
+                        <td class="tg-cegc">{{number_format($d->tagihan)}}</td>
                     </tr>
                     <?php $no++; ?>
                     @endforeach
@@ -55,20 +55,22 @@
                         <td class="tg-8m6k">Rp. {{number_format($ttlRekap[3])}}</td>
                         <td class="tg-8m6k">Rp. {{number_format($ttlRekap[4])}}</td>
                         <td class="tg-8m6k">Rp. {{number_format($ttlRekap[5])}}</td>
-                        <td class="tg-8m6k">Rp. {{number_format($ttlRekap[6])}}</td>
-                        <td class="tg-8m6k">Rp. {{number_format($ttlRekap[7])}}</td>
                     </tr>
                 </tbody>
             </table>
         </main>
         @else
-        <h2 style="text-align:center;page-break-before:always">RINCIAN TAGIHAN AIR BERSIH<br>{{$bln}}</h2>
+        <div style="page-break-before:always"></div>
         @foreach($rincian as $data)
         <div>
-            <h3>{{$data[0]}}</h3>
             <main>
                 <table class="tg">
                     <thead>
+                        <tr>
+                            <th colspan="12" style="border-style:none;">
+                                <h3 style="text-align:center;">RINCIAN TAGIHAN AIR BERSIH<br>{{$bln}}<br>{{$data[0]}}</h3>
+                            </th>
+                        </tr>
                         <tr>
                             <th class="tg-r8fv">No.</th>
                             <th class="tg-r8fv">Kontrol</th>
@@ -81,8 +83,6 @@
                             <th class="tg-r8fv">B.Pemeliharaan </th>
                             <th class="tg-r8fv">B.Air Kotor</th>
                             <th class="tg-r8fv">Tagihan</th>
-                            <th class="tg-r8fv">Realisasi</th>
-                            <th class="tg-r8fv">Selisih</th>
                             <th class="tg-r8fv" style="width:10%">Ket</th>
                         </tr>
                     </thead>
@@ -93,16 +93,14 @@
                             <td class="tg-cegc">{{$no}}</td>
                             <td class="tg-cegc">{{$d->kontrol}}</td>
                             <td class="tg-cegc" style="text-align:left;">{{$d->pengguna}}</td>
-                            <td class="tg-g25h">{{number_format($d->lalu)}}</td>
-                            <td class="tg-g25h">{{number_format($d->baru)}}</td>
-                            <td class="tg-g25h">{{number_format($d->pakai)}}</td>
-                            <td class="tg-g25h">{{number_format($d->bPakai)}}</td>
-                            <td class="tg-g25h">{{number_format($d->beban)}}</td>
-                            <td class="tg-g25h">{{number_format($d->pemeliharaan)}}</td>
-                            <td class="tg-g25h">{{number_format($d->arkot)}}</td>
-                            <td class="tg-g25h">{{number_format($d->tagihan)}}</td>
-                            <td class="tg-g25h">{{number_format($d->realisasi)}}</td>
-                            <td class="tg-g25h">{{number_format($d->selisih)}}</td>
+                            <td class="tg-cegc">{{number_format($d->lalu)}}</td>
+                            <td class="tg-cegc">{{number_format($d->baru)}}</td>
+                            <td class="tg-cegc">{{number_format($d->pakai)}}</td>
+                            <td class="tg-cegc">{{number_format($d->bPakai)}}</td>
+                            <td class="tg-cegc">{{number_format($d->beban)}}</td>
+                            <td class="tg-cegc">{{number_format($d->pemeliharaan)}}</td>
+                            <td class="tg-cegc">{{number_format($d->arkot)}}</td>
+                            <td class="tg-cegc">{{number_format($d->tagihan)}}</td>
                             <td class="tg-cegc" style="white-space:normal; word-break:break-word;">{{$d->lokasi}}</td>
                         </tr>
                         <?php $no++; $x++; ?>
@@ -116,8 +114,6 @@
                             <td class="tg-8m6k">{{number_format($d->pemeliharaan)}}</td>
                             <td class="tg-8m6k">{{number_format($d->arkot)}}</td>
                             <td class="tg-8m6k">{{number_format($d->tagihan)}}</td>
-                            <td class="tg-8m6k">{{number_format($d->realisasi)}}</td>
-                            <td class="tg-8m6k">{{number_format($d->selisih)}}</td>
                             <td class="tg-8m6k"></td>
                         </tr>
                         @endforeach

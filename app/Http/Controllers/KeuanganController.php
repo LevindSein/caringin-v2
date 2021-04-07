@@ -88,9 +88,70 @@ class KeuanganController extends Controller
         ]);
     }
 
-    public function tagihanGenerate(Request $request, $data){
-        if(request()->ajax()){
+    public function tagihanGenerate(Request $request){
+        $data = $request->hidden_data;
+        $bulan = $request->tahun_generate."-".$request->bulan_generate;
+        if($data == 'listrik'){
+            $rekap = Keuangan::rekapListrik($bulan);
 
+            return view("keuangan.tagihan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlRekapListrik($rekap),
+                'rincian'=>Keuangan::rincianListrik($bulan),
+            ]);
+        }
+
+        else if($data == 'airbersih'){
+            $rekap = Keuangan::rekapAirBersih($bulan);
+
+            return view("keuangan.tagihan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlRekapAirBersih($rekap),
+                'rincian'=>Keuangan::rincianAirBersih($bulan),
+            ]);
+        }
+
+        else if($data == 'keamananipk'){
+            $rekap = Keuangan::rekapKeamananIpk($bulan);
+
+            return view("keuangan.tagihan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlRekapKeamananIpk($rekap),
+                'rincian'=>Keuangan::rincianKeamananIpk($bulan),
+            ]);
+        }
+
+        else if($data == 'kebersihan'){
+            $rekap = Keuangan::rekapKebersihan($bulan);
+
+            return view("keuangan.tagihan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlRekapKebersihan($rekap),
+                'rincian'=>Keuangan::rincianKebersihan($bulan),
+            ]);
+        }
+
+        else if($data == 'airkotor'){
+            return view("keuangan.tagihan.generate.$data");
+        }
+
+        else if($data == 'lain'){
+            return view("keuangan.tagihan.generate.$data");
+        }
+
+        else if($data == 'tagihan'){
+            $rekap = Keuangan::rekapTotal($bulan);
+
+            return view("keuangan.tagihan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlRekapTotal($rekap),
+                'rincian'=>Keuangan::rincianTotal($bulan),
+            ]);
         }
     }
 
