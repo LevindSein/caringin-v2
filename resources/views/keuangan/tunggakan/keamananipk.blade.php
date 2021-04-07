@@ -1,16 +1,16 @@
 @extends('layout.master')
 
 @section('title')
-<title>Laporan Tagihan Semua Faslitas | BP3C</title>
+<title>Laporan Tunggakan Keamanan IPK | BP3C</title>
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">Tagihan Semua Faslitas {{$periode}}</h6>
+<h6 class="h2 text-white d-inline-block mb-0">Tunggakan Keamanan IPK {{$periode}}</h6>
 @endsection
 
 @section('button')
 <a 
-    href="{{url('keuangan/tagihan/tagihan')}}"
+    href="{{url('keuangan/tunggakan/keamananipk')}}"
     class="btn btn-sm btn-success"
     data-toggle="tooltip" data-original-title="Home">
     <i class="fas fa-home text-white"></i>
@@ -34,7 +34,7 @@
                             <tr>
                                 <th class="text-center" style="max-width:20%">Kontrol</th>
                                 <th class="text-center" style="min-width:80px;max-width:40%">Nama</th>
-                                <th class="text-center" style="max-width:25%">Tagihan</th>
+                                <th class="text-center" style="max-width:25%">Tunggakan</th>
                                 <th class="text-center" style="max-width:15%">Details</th>
                             </tr>
                         </thead>
@@ -97,16 +97,16 @@
 @section('js')
 <script>
 $(document).ready(function () {
-    $('#tabel').DataTable({
+    var dtable = $('#tabel').DataTable({
         serverSide: true,
 		ajax: {
-			url: "/keuangan/tagihan/tagihan/?periode=" + <?php echo Session::get('periodetagihan')?>,
+			url: "/keuangan/tunggakan/keamananipk/?periode=" + <?php echo Session::get('periodetagihan')?>,
             cache:false,
 		},
 		columns: [
 			{ data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
 			{ data: 'nama', name: 'nama', class : 'text-center-td' },
-			{ data: 'ttl_tagihan', name: 'ttl_tagihan', class : 'text-center' },
+			{ data: 'sel_keamananipk', name: 'sel_keamananipk', class : 'text-center' },
 			{ data: 'show', name: 'show', class : 'text-center' },
         ],
         pageLength: 5,
@@ -161,7 +161,7 @@ $(document).ready(function () {
         var tahun = $("#tahun").val();
         var periode = tahun + "-" + bulan;
 
-        window.location.href = "/keuangan/tagihan/tagihan?periode=" + periode;
+        window.location.href = "/keuangan/tunggakan/keamananipk?periode=" + periode;
     });
 });
 </script>

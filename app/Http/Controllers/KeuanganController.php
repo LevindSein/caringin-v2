@@ -89,6 +89,97 @@ class KeuanganController extends Controller
     }
 
     public function tagihanGenerate(Request $request, $data){
-    
+        if(request()->ajax()){
+
+        }
+    }
+
+    public function tunggakan(Request $request, $fasilitas){
+        $now = date("Y-m-d",strtotime(Carbon::now()));
+        $check = date("Y-m-23",strtotime(Carbon::now()));
+
+        if($now < $check){
+            $sekarang = date("Y-m", strtotime(Carbon::now()));
+            $time     = strtotime($sekarang);
+            $periode  = date("Y-m", strtotime(Carbon::now()));
+        }
+        else if($now >= $check){
+            $sekarang = date("Y-m", strtotime(Carbon::now()));
+            $time     = strtotime($sekarang);
+            $periode  = date("Y-m", strtotime("+1 month", $time));
+        }
+
+        if($request->periode !== NULL || $request->periode != '')
+            Session::put('periodetagihan',$request->periode);
+        else
+            Session::put('periodetagihan',$periode);
+
+        $fas = Session::put("fasilitas",$fasilitas);
+
+        if(request()->ajax()){
+            if(Session::get("fasilitas") != 'tagihan')
+                $data = Tagihan::where([['bln_tagihan',Session::get('periodetagihan')],["sel_$fasilitas",'>',0],["stt_$fasilitas",'!=',NULL]]);
+            else
+                $data = Tagihan::where([['bln_tagihan',Session::get('periodetagihan')],["sel_$fasilitas",'>',0]]);
+            return DataTables::of($data)
+            ->editColumn("sel_$fasilitas", function ($data) {
+                $data['fasilitas'] = Session::get("fasilitas");
+                if($data->fasilitas == 'listrik')
+                    $hasil = $data->sel_listrik;
+                else if($data->fasilitas == 'airbersih')
+                    $hasil = $data->sel_airbersih;
+                else if($data->fasilitas == 'keamananipk')
+                    $hasil = $data->sel_keamananipk;
+                elseif($data->fasilitas == 'kebersihan')
+                    $hasil = $data->sel_kebersihan;
+                else if($data->fasilitas == 'airkotor')
+                    $hasil = $data->sel_airkotor;
+                else if($data->fasilitas == 'lain')
+                    $hasil = $data->sel_lain;
+                else
+                    $hasil = $data->sel_tagihan;
+                $hasil = number_format($hasil);
+                return "<span style='color:#172b4d;'>$hasil</span></a>";
+            })
+            ->addColumn('show', function($data){
+                $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                return $button;
+            })
+            ->rawColumns([
+                'show',
+                "sel_$fasilitas",
+            ])
+            ->make(true);
+        }
+        return view("keuangan.tunggakan.$fasilitas",[
+            "periode" => IndoDate::bulan(Session::get("periodetagihan"), " ")
+        ]);
+    }
+
+    public function tunggakanGenerate(Request $request, $data){
+        if(request()->ajax()){
+
+        }
+    }
+
+    public function pendapatan($data){
+        if($data == 'harian'){
+            if(request()->ajax())
+            {
+                $data = Pembayaran::orderBy('tgl_bayar','desc');
+                return DataTables::of($data)
+                ->editColumn('realisasi', function ($data) {
+                    return number_format($data->realisasi);
+                })
+                ->make(true);
+            }
+            return view('keuangan.pendapatan.harian');
+        }
+    }
+
+    public function pendapatanGenerate(Request $request, $data){
+        if(request()->ajax()){
+
+        }
     }
 }

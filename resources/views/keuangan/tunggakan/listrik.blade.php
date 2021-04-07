@@ -1,16 +1,16 @@
 @extends('layout.master')
 
 @section('title')
-<title>Laporan Tagihan Semua Faslitas | BP3C</title>
+<title>Laporan Tunggakan Listrik | BP3C</title>
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">Tagihan Semua Faslitas {{$periode}}</h6>
+<h6 class="h2 text-white d-inline-block mb-0">Tunggakan Listrik {{$periode}}</h6>
 @endsection
 
 @section('button')
 <a 
-    href="{{url('keuangan/tagihan/tagihan')}}"
+    href="{{url('keuangan/tunggakan/listrik')}}"
     class="btn btn-sm btn-success"
     data-toggle="tooltip" data-original-title="Home">
     <i class="fas fa-home text-white"></i>
@@ -29,12 +29,12 @@
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 <div class="table-responsive py-4">
-                    <table class="table table-flush" width="100%" id="tabel">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="tabel">
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-center" style="max-width:20%">Kontrol</th>
                                 <th class="text-center" style="min-width:80px;max-width:40%">Nama</th>
-                                <th class="text-center" style="max-width:25%">Tagihan</th>
+                                <th class="text-center" style="max-width:25%">Tunggakan</th>
                                 <th class="text-center" style="max-width:15%">Details</th>
                             </tr>
                         </thead>
@@ -97,16 +97,16 @@
 @section('js')
 <script>
 $(document).ready(function () {
-    $('#tabel').DataTable({
+    var dtable = $('#tabel').DataTable({
         serverSide: true,
 		ajax: {
-			url: "/keuangan/tagihan/tagihan/?periode=" + <?php echo Session::get('periodetagihan')?>,
+			url: "/keuangan/tunggakan/listrik/?periode=" + <?php echo Session::get('periodetagihan')?>,
             cache:false,
 		},
 		columns: [
 			{ data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
 			{ data: 'nama', name: 'nama', class : 'text-center-td' },
-			{ data: 'ttl_tagihan', name: 'ttl_tagihan', class : 'text-center' },
+			{ data: 'sel_listrik', name: 'sel_listrik', class : 'text-center' },
 			{ data: 'show', name: 'show', class : 'text-center' },
         ],
         pageLength: 5,
@@ -161,7 +161,7 @@ $(document).ready(function () {
         var tahun = $("#tahun").val();
         var periode = tahun + "-" + bulan;
 
-        window.location.href = "/keuangan/tagihan/tagihan?periode=" + periode;
+        window.location.href = "/keuangan/tunggakan/listrik?periode=" + periode;
     });
 });
 </script>

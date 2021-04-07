@@ -141,6 +141,10 @@ Route::get('logout',function(){
 });
 
 Route::middleware('ceklogin:keuangan')->group(function(){
+    Route::get('keuangan/pendapatan/generate/{data}',[KeuanganController::class, 'pendapatanGenerate']);
+    Route::get('keuangan/pendapatan/{data}',[KeuanganController::class, 'pendapatan']);
+    Route::get('keuangan/tunggakan/generate/{data}',[KeuanganController::class, 'tunggakanGenerate']);
+    Route::get('keuangan/tunggakan/{data}',[KeuanganController::class, 'tunggakan']);
     Route::get('keuangan/tagihan/generate/{data}',[KeuanganController::class, 'tagihanGenerate']);
     Route::get('keuangan/tagihan/{data}',[KeuanganController::class, 'tagihan']);
 });
@@ -190,7 +194,6 @@ Route::middleware('ceklogin:tempatusaha')->group(function (){
 });
 
 Route::middleware('ceklogin:tagihan')->group(function (){
-    Route::get('tagihan/checking/{status}', [TagihanController::class, 'report']);
     Route::get('penghapusan/show/{fas}/{id}', [TagihanController::class, 'showPenghapusan']);
     Route::get('tagihan/show/{fas}/{id}', [TagihanController::class, 'show']);
     Route::post('tagihan/update', [TagihanController::class, 'update']);
@@ -209,7 +212,6 @@ Route::middleware('ceklogin:tagihan')->group(function (){
     Route::post('tagihan/publish', [TagihanController::class, 'publish']);
     Route::get('tagihan/notif/edit/{id}', [TagihanController::class, 'notifEdit']);
     Route::post('tagihan/notif/{id}', [TagihanController::class, 'notif']);
-    Route::get('tagihan/periode', [TagihanController::class, 'periode']);
     Route::post('tagihan/unpublish/{id}', [TagihanController::class, 'unpublish']);
     Route::get('tagihan/penghapusan', [TagihanController::class, 'penghapusan']);
     Route::post('tagihan/penghapusan/{id}', [TagihanController::class, 'penghapusanRestore']);

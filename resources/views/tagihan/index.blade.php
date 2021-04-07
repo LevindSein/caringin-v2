@@ -17,7 +17,8 @@
 @if($agent->isDesktop())
 <a 
     href="{{url('tagihan')}}"
-    class="btn btn-sm btn-success home-tagihan">
+    class="btn btn-sm btn-success"
+    data-toggle="tooltip" data-original-title="Home">
     <i class="fas fa-home text-white"></i>
 </a>
 @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
@@ -38,7 +39,7 @@
 <a class="dropdown-toggle btn btn-sm btn-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
 <div class="dropdown-menu dropdown-menu-right">
     @if($agent->isMobile())
-    <a type="button" href="{{url('tagihan')}}" class="dropdown-item home-tagihan"><i class="fas fa-fw fa-home text-gray"></i><span>Home</span></a>
+    <a type="button" href="{{url('tagihan')}}" class="dropdown-item"><i class="fas fa-fw fa-home text-gray"></i><span>Home</span></a>
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
     <button class="dropdown-item" name="add_listrik" id="add_listrik"><i class="fas fa-fw fa-plus text-gray"></i><span>Tambah Listrik</span><span class="badge badge-pill badge-warning badge-listrik"></span></button>
     <button class="dropdown-item" name="add_air" id="add_air"><i class="fas fa-fw fa-plus text-gray"></i><span>Tambah Air</span><span class="badge badge-pill badge-primary badge-air"></span></button>
@@ -60,7 +61,7 @@
     <div class="dropdown-divider"></div>
     @endif
 
-    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal" type="button"><i class="fas fa-fw fa-search text-gray"></i><span>Cari Periode</span></a>
+    <a class="dropdown-item cari-periode" href="#" type="button"><i class="fas fa-fw fa-search text-gray"></i><span>Cari Periode</span></a>
     <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myTempat"><i class="far fa-fw fa-file text-gray"></i><span>Form Tagihan</span></a>
     <a type="button" class="dropdown-item" href="{{url('tagihan/print')}}" target="_blank"><i class="far fa-fw fa-file text-gray"></i><span>Form Pendataan</span></a>
     <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPemberitahuan"><i class="fas fa-fw fa-exclamation text-gray"></i><span>Pemberitahuan</span></a>
@@ -250,40 +251,38 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="{{url('tagihan/periode')}}" method="GET">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-control-label" for="bulan">Bulan</label>
-                        <select class="form-control" name="bulan" id="bulan" required>
-                            <option value="01">Januari</option>
-                            <option value="02">Februari</option>
-                            <option value="03">Maret</option>
-                            <option value="04">April</option>
-                            <option value="05">Mei</option>
-                            <option value="06">Juni</option>
-                            <option value="07">Juli</option>
-                            <option value="08">Agustus</option>
-                            <option value="09">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="tahun">Tahun</label>
-                        <select class="form-control" name="tahun" id="tahun" required>
-                            <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
-                            @foreach($tahun as $t)
-                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-control-label" for="bulan">Bulan</label>
+                    <select class="form-control" name="bulan" id="bulan" required>
+                        <option value="01">Januari</option>
+                        <option value="02">Februari</option>
+                        <option value="03">Maret</option>
+                        <option value="04">April</option>
+                        <option value="05">Mei</option>
+                        <option value="06">Juni</option>
+                        <option value="07">Juli</option>
+                        <option value="08">Agustus</option>
+                        <option value="09">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <input type="submit" name="periode_button" id="periode_button" class="btn btn-primary" value="Cari" />
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                <div class="form-group">
+                    <label class="form-control-label" for="tahun">Tahun</label>
+                    <select class="form-control" name="tahun" id="tahun" required>
+                        <?php $tahun = Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                        @foreach($tahun as $t)
+                        <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                        @endforeach
+                    </select>
                 </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button name="periode_button" id="periode_button" class="btn btn-primary">Cari</button>
+                <button class="btn btn-light" data-dismiss="modal">Batal</button>
+            </div>
         </div>
     </div>
 </div>
@@ -2705,6 +2704,22 @@ $(document).ready(function(){
                 $('#myTagihan').modal('hide');
 			}
 		});
+    });
+
+    $(".cari-periode").click(function() {
+        $("#myModal").modal("show");
+    });
+
+    $('#periode_button').click(function(){
+        var bulan = $("#bulan").val();
+        var tahun = $("#tahun").val();
+        var periode = tahun + "-" + bulan;
+
+        window.location.href = "/tagihan?periode=" + periode;
+    });
+
+    $('#checking-report').click(function(){
+        window.location.href = "/tagihan?report=report";
     });
 });
 </script>

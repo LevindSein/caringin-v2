@@ -56,14 +56,15 @@ class TagihanController extends Controller
             $periode  = date("Y-m", strtotime("+1 month", $time));
         }
 
-        if($request->periode !== NULL || $request->periode != ''){
+        if($request->report !== NULL || $request->report != '')
+            Session::put('tagihanindex','report');
+        else
+            Session::put('tagihanindex','home');
+
+        if($request->periode !== NULL || $request->periode != '')
             Session::put('periodetagihan',$request->periode);
-        }
         else
             Session::put('periodetagihan',$periode);
-        
-        if($request->unset)
-            unset($request->unset);
 
         if(Session::get('role') == 'admin'){
             $wherein = Session::get('otoritas')->otoritas;
@@ -261,11 +262,6 @@ class TagihanController extends Controller
             'periode' => IndoDate::bulan(Session::get('periodetagihan'),' '),
             'blok'    => $blok,
         ]);
-    }
-    
-    public function periode(Request $request){
-        $periode = $request->tahun."-".$request->bulan;
-        return redirect()->route('tagihan', ['periode' => $periode]);
     }
 
     public function initiate(){
@@ -2524,18 +2520,6 @@ class TagihanController extends Controller
             }
 
             return response()->json(["result" => $data]);
-        }
-    }
-
-    public function report($status){
-        if(request()->ajax()){
-            try{
-                Session::put('tagihanindex',$status);
-                return response()->json(['success' => $status]);
-            }
-            catch(\Exception $e){
-                return response()->json(['errors' => "Gagal Mengambil Data"]);
-            }
         }
     }
 

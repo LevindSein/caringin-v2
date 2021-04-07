@@ -1,78 +1,96 @@
-@extends('layout.keuangan')
+@extends('layout.master')
 
-@section('breadcrumb')
+@section('title')
 <title>Pendapatan Harian | BP3C</title>
-<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
-    <div>
-        <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
-            <li class="breadcrumb-item" aria-current="page">Laporan</li>
-            <li class="breadcrumb-item" aria-current="page">Pendapatan</li>
-            <li class="breadcrumb-item active" aria-current="page">Harian</li>
-        </ol>
-        </nav>
-        <h4 class="mg-b-0 tx-spacing--1">Daftar Pendapatan Harian</h4>
-    </div>
-    <hr>
-    <div class="text-center">
-        <button type="button" data-toggle="modal" data-target="#myGenerate" title="Cetak Pendapatan Harian" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"><i data-feather="printer"></i> Generate</button>
-    </div>
-</div>
+@endsection
+
+@section('judul')
+<h6 class="h2 text-white d-inline-block mb-0">Pendapatan Harian</h6>
+@endsection
+
+@section('button')
 @endsection
 
 @section('content')
-<input type="hidden" id="fasilitas" value="harian" />
-<table 
-    id="tabel" 
-    class="table table-bordered"
-    cellspacing="0"
-    width="100%">
-    <thead>
-        <tr>
-            <th class="wd-25p"><b>Kontrol</b></th>
-            <th class="wd-20p"><b>Tanggal</b></th>
-            <th class="wd-20p"><b>Bayar</b></th>
-            <th class="wd-15p"><b>Kasir</b></th>
-        </tr>
-    </thead>
-</table>
-
-<div
-    class="modal fade"
-    id="myGenerate"
-    tabIndex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cetak Pendapatan Tanggal ?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+<span id="form_result"></span>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="text-right">
+                    <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                </div>
+                <div class="table-responsive py-4">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="tabel">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="max-width:20%">Tanggal</th>
+                                <th class="text-center" style="max-width:20%">Kontrol</th>
+                                <th class="text-center" style="min-width:80px;max-width:25%">Nama</th>
+                                <th class="text-center" style="max-width:20%">Realisasi</th>
+                                <th class="text-center" style="max-width:15%">Details</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
-            <form class="user" action="{{url('keuangan/laporan/pendapatan/generate/harian')}}" method="GET" target="_blank">
-                <div class="modal-body-short">
-                    <div class="form-group col-lg-12">
-                        <input
-                            required
-                            placeholder="Masukkan Tanggal" class="form-control" type="text" onfocus="(this.type='date')"
-                            autocomplete="off"
-                            type="date"
-                            name="tgl_utama"
-                            id="tgl_utama">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
-                </div>
-            </form>
         </div>
     </div>
 </div>
+@include('home.footer')
+@endsection
+
+@section('modal')
 @endsection
 
 @section('js')
-<script src="{{asset('js/keuangan/pendapatan-harian.js')}}"></script>
+<script>
+$(document).ready(function () {
+    var dtable = $('#tabel').DataTable({
+        serverSide: true,
+		ajax: {
+			url: "/keuangan/tunggakan/listrik/?periode=" + <?php echo Session::get('periodetagihan')?>,
+            cache:false,
+		},
+		columns: [
+			{ data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
+			{ data: 'nama', name: 'nama', class : 'text-center-td' },
+			{ data: 'sel_listrik', name: 'sel_listrik', class : 'text-center' },
+			{ data: 'show', name: 'show', class : 'text-center' },
+        ],
+        pageLength: 5,
+        stateSave: true,
+        lengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
+        deferRender: true,
+        language: {
+            paginate: {
+                previous: "<i class='fas fa-angle-left'>",
+                next: "<i class='fas fa-angle-right'>"
+            }
+        },
+        aoColumnDefs: [
+            { "bSortable": false, "aTargets": [3] }, 
+            { "bSearchable": false, "aTargets": [3] }
+        ],
+        order:[[0, 'asc']],
+        responsive:true,
+        scrollY: "50vh",
+        "drawCallback": function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        },
+    }).columns.adjust().draw();
+
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic") }, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
+    });
+});
+</script>
 @endsection
