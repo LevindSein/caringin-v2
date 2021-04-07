@@ -26,7 +26,7 @@ class InformationController extends Controller
     {
         if(request()->ajax())
         {
-            $data = Information::orderBy('tanggal','desc');
+            $data = Information::orderBy('id','desc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){

@@ -24,7 +24,6 @@
 @endsection
 
 @section('content')
-<span id="form_result"></span>
 <div class="row">
     <div class="col-xl-12">
         <div class="card shadow mb-4">
@@ -42,9 +41,10 @@
                         </li>
                     </ul>
                 </div>
-                <div class="text-right">
+                <div class="form-group text-right">
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
+                <span id="form_result"></span>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-animated-0" role="tabpanel">
                         @include('kasir.bulanan.tagihan')

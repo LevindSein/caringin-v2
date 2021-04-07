@@ -84,8 +84,8 @@ $(document).ready(function () {
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [1,2,3,4] }, 
-                    { "bSearchable": false, "aTargets": [1,2,3,4] }
+                    { "bSortable": false, "aTargets": [1,4] }, 
+                    { "bSearchable": false, "aTargets": [1,4] }
                 ],
                 order: [[0, 'asc']],
                 responsive: true,
@@ -131,7 +131,8 @@ $(document).ready(function () {
                     { data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
                     { data: 'bayar', name: 'bayar', class : 'text-center' },
                     { data: 'totalTagihan', name: 'totalTagihan', class : 'text-center' },
-                    { data: 'lokasi', name: 'lokasi', class : 'text-center-td' },
+                    { data: 'ref', name: 'ref', class : 'text-center' },
+                    { data: 'kasir', name: 'kasir', class : 'text-center-td' },
                     { data: 'action', name: 'action', class : 'text-center' }
                 ],
                 pageLength: 5,
@@ -145,8 +146,8 @@ $(document).ready(function () {
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [1,2,3,4] }, 
-                    { "bSearchable": false, "aTargets": [1,2,3,4] }
+                    { "bSortable": false, "aTargets": [2,5] }, 
+                    { "bSearchable": false, "aTargets": [2,5] }
                 ],
                 order:[[0, 'asc']],
                 "preDrawCallback": function( settings ) {

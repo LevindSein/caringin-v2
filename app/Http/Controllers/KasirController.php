@@ -142,7 +142,7 @@ class KasirController extends Controller
     public function struk(Request $request, $struk){
         if($struk == 'tagihan'){
             if(request()->ajax()){
-                $data = StrukPembayaran::orderBy('updated_at','desc');
+                $data = StrukPembayaran::orderBy('updated_at','desc')->limit(1500);
                 return DataTables::of($data)
                     ->addColumn('action', function($data){
                         $button = '<button title="Cetak" name="cetak" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="cetak btn btn-sm btn-info">Cetak</button>';
