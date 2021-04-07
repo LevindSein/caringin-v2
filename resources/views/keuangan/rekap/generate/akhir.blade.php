@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Rekap Akhir Bulan | BP3C</title>
-        <link rel="stylesheet" href="{{asset('css/penerimaan.css')}}" media="all"/>
+        <link rel="stylesheet" href="{{asset('css/master/kasir/akhir.css')}}" media="all"/>
         <link rel="icon" href="{{asset('img/logo.png')}}">
     </head>
 

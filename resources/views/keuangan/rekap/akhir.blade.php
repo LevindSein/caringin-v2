@@ -9,7 +9,7 @@
 @endsection
 
 @section('button')
-<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate" type="button"><i class="fas fa-fw fa-download text-white"></i></a>
+<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate"><i class="fas fa-fw fa-download text-white"></i></button>
 @endsection
 
 @section('content')
@@ -33,6 +33,61 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="myGenerate"
+    role="dialog"
+    tabIndex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rekap Akhir Bulan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="user" action="{{url('keuangan/rekap/generate')}}" target="_blank" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group col-lg-12">
+                        <label class="form-control-label" for="bulanselesai">Bulan</label>
+                        <select class="form-control" name="bulanselesai" id="bulanselesai" required>
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="form-control-label" for="tahunselesai">Tahun</label>
+                        <select class="form-control" name="tahunselesai" id="tahunselesai" required>
+                            <?php $tahun = \App\Models\Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                            @foreach($tahun as $t)
+                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="hidden_data" value="akhir"/>
+                    <button type="submit" class="btn btn-primary">Cetak</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -97,6 +152,10 @@ $(document).ready(function () {
             $('#refresh-data').text("Refresh Data");
             $('#refresh-img').hide();
         }, 2000);
+    });
+    
+    $(".generate").click(function() {
+        $("#myGenerate").modal("show");
     });
 });
 </script>

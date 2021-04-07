@@ -2,8 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Sisa Tagihan | Keuangan</title>
-        <link rel="stylesheet" href="{{asset('css/penerimaan.css')}}" media="all"/>
+        <title>Sisa Tagihan | BP3C</title>
+        <link rel="stylesheet" href="{{asset('css/master/kasir/sisa.css')}}" media="all"/>
         <link rel="icon" href="{{asset('img/logo.png')}}">
     </head>
 
@@ -16,7 +16,7 @@
     <body onload="window.print()">
         <div>
             <header class="clearfix">
-                <h2 style="text-align:center;">Rekap Sisa Tagihan<br>{{$tanggal}}</h2>
+                <h2 style="text-align:center;">Rekap Sisa Tagihan<br>{{$bulan}}</h2>
             </header>
             <main>
             <table class="tg">
@@ -82,7 +82,7 @@
         </div>
         <div style="page-break-before:always">
             <header class="clearfix">
-                <h2 style="text-align:center;">Rincian Sisa Tagihan<br>{{$tanggal}}</h2>
+                <h2 style="text-align:center;">Rincian Sisa Tagihan<br>{{$bulan}}</h2>
             </header>
             <main>
                 <table class="tg">
@@ -93,7 +93,7 @@
                             <th class="tg-r8fv" rowspan="3">Nama</th>
                             <th class="tg-r8fv" colspan="8">Sisa Tagihan</th>
                             <th class="tg-r8fv" rowspan="3">Jumlah</th>
-                            <th class="tg-r8fv" rowspan="3" style="width:7%">Keterangan</th>
+                            <th class="tg-r8fv" rowspan="3">Keterangan</th>
                         </tr>
                         <tr>
                             <th class="tg-r8fv" rowspan="2">Listrik</th>
@@ -127,7 +127,7 @@
                             <td class="tg-r8fx">{{number_format($r['airkotor'])}}</td>
                             <td class="tg-r8fx">{{number_format($r['lain'])}}</td>
                             <td class="tg-r8fx">{{number_format($r['jumlah'])}}</td>
-                            <td class="tg-r8fy" style="white-space:normal; word-break:break-word;">{{$r['lokasi']}}</td>
+                            <td class="tg-r8fy">{{$r['lokasi']}}</td>
                         </tr>
                     <?php
                     $i++;

@@ -9,7 +9,7 @@
 @endsection
 
 @section('button')
-<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate" type="button"><i class="fas fa-fw fa-download text-white"></i></a>
+<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate"><i class="fas fa-fw fa-download text-white"></i></button>
 @endsection
 
 @section('content')

@@ -15,8 +15,8 @@
     data-toggle="tooltip" data-original-title="Home">
     <i class="fas fa-home text-white"></i>
 </a>
-<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate" type="button"><i class="fas fa-fw fa-download text-white"></i></a>
-<button class="btn btn-sm btn-info cari-periode" data-toggle="tooltip" data-original-title="Cari Periode" type="button"><i class="fas fa-fw fa-search text-white"></i></a>
+<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate"><i class="fas fa-fw fa-download text-white"></i></button>
+<button class="btn btn-sm btn-info cari-periode" data-toggle="tooltip" data-original-title="Cari Periode"><i class="fas fa-fw fa-search text-white"></i></button>
 @endsection
 
 @section('content')
