@@ -217,9 +217,70 @@ class KeuanganController extends Controller
         ]);
     }
 
-    public function tunggakanGenerate(Request $request, $data){
-        if(request()->ajax()){
+    public function tunggakanGenerate(Request $request){
+        $data = $request->hidden_data;
+        $bulan = $request->tahun_generate."-".$request->bulan_generate;
+        if($data == 'listrik'){
+            $rekap = Keuangan::tunggakanListrik($bulan);
 
+            return view("keuangan.tunggakan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlTunggakanListrik($rekap),
+                'rincian'=>Keuangan::rincianTunggakanListrik($bulan),
+            ]);
+        }
+
+        else if($data == 'airbersih'){
+            $rekap = Keuangan::tunggakanAirBersih($bulan);
+
+            return view("keuangan.tunggakan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlTunggakanAirBersih($rekap),
+                'rincian'=>Keuangan::rincianTunggakanAirBersih($bulan),
+            ]);
+        }
+
+        else if($data == 'keamananipk'){
+            $rekap = Keuangan::tunggakanKeamananIpk($bulan);
+
+            return view("keuangan.tunggakan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlTunggakanKeamananIpk($rekap),
+                'rincian'=>Keuangan::rincianTunggakanKeamananIpk($bulan),
+            ]);
+        }
+
+        else if($data == 'kebersihan'){
+            $rekap = Keuangan::tunggakanKebersihan($bulan);
+
+            return view("keuangan.tunggakan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlTunggakanKebersihan($rekap),
+                'rincian'=>Keuangan::rincianTunggakanKebersihan($bulan),
+            ]);
+        }
+
+        else if($data == 'airkotor'){
+            return view("keuangan.tunggakan.generate.$data");
+        }
+
+        else if($data == 'lain'){
+            return view("keuangan.tunggakan.generate.$data");
+        }
+
+        else if($data == 'tagihan'){
+            $rekap = Keuangan::tunggakanTotal($bulan);
+
+            return view("keuangan.tunggakan.generate.$data",[
+                'bln'=>IndoDate::bulanB($bulan,' '),
+                'rekap'=>$rekap,
+                'ttlRekap'=>Keuangan::ttlTunggakanTotal($rekap),
+                'rincian'=>Keuangan::rincianTunggakanTotal($bulan),
+            ]);
         }
     }
 

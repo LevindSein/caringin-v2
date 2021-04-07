@@ -92,6 +92,57 @@
         </div>
     </div>
 </div>
+
+<div id="myGenerate" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generate</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{url('keuangan/tunggakan/generate')}}" method="POST" target="_blank">
+            @csrf
+            <div class="modal-body">
+                <div class="form-group">
+                    <span>Pilih Periode Tagihan yang ingin di cetak.</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="bulan_generate">Bulan</label>
+                    <select class="form-control" name="bulan_generate" id="bulan_generate" required>
+                        <option value="01">Januari</option>
+                        <option value="02">Februari</option>
+                        <option value="03">Maret</option>
+                        <option value="04">April</option>
+                        <option value="05">Mei</option>
+                        <option value="06">Juni</option>
+                        <option value="07">Juli</option>
+                        <option value="08">Agustus</option>
+                        <option value="09">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="tahun_generate">Tahun</label>
+                    <select class="form-control" name="tahun_generate" id="tahun_generate" required>
+                        <?php $tahun = \App\Models\Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                        @foreach($tahun as $t)
+                        <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="hidden_data" value="airbersih"/>
+                <button type="submit" class="btn btn-primary">Cetak</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -154,6 +205,10 @@ $(document).ready(function () {
 
     $(".cari-periode").click(function() {
         $("#myModal").modal("show");
+    });
+
+    $(".generate").click(function() {
+        $("#myGenerate").modal("show");
     });
 
     $('#periode_button').click(function(){
