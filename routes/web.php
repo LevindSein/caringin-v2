@@ -113,20 +113,18 @@ Route::get('login', function(){
 //LOGIN
 Route::post('storelogin',function(Request $request){
     try{
-        if(csrf_token() === $request->_token){
-            if($request->role === 'master')
-                return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
-            else if($request->role === 'manajer')
-                return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
-            else if($request->role === 'kasir')
-                return redirect()->route('kasir.index');
-            else if($request->role === 'admin')
-                return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
-            else if($request->role === 'keuangan')
-                return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
-            else
-                abort(404);
-        }   
+        if($request->role === 'master')
+            return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
+        else if($request->role === 'manajer')
+            return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
+        else if($request->role === 'kasir')
+            return redirect()->route('kasir.index');
+        else if($request->role === 'admin')
+            return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
+        else if($request->role === 'keuangan')
+            return redirect()->route('dashboard')->with('success',"Selamat Datang $request->nama");
+        else
+            abort(419);
     }
     catch(\Exception $e){
         abort(404);

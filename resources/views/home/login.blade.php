@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Aplikasi Pengelolaan Pasar Induk Caringin di Kota Bandung">
-        <meta name="author" content="Sein & Maizu">
+        <meta name="author" content="Levind Sein & Maizu">
 
         <title>Login | BP3C</title>
 
@@ -20,7 +20,7 @@
         <script src="{{asset('sbadmin/vendor/jquery/jquery.min.js')}}"></script>
     </head>
 
-    <body class="bg-gradient-vine" id="body-dynamic">
+    <body id="body-dynamic">
         <div class="container">
             <!-- Outer Row -->
             <div class="row justify-content-center">
@@ -29,12 +29,12 @@
                         <div class="card-body p-0">
                             <!-- Nested Row within Card Body -->
                             <div class="row">
-                                <div class="col-lg-6 d-none d-lg-block bg-login-image" id="img-dynamic"></div>
+                                <div class="col-lg-6 d-none d-lg-block" id="img-dynamic"></div>
                                 <div class="col-lg-6">
                                     <div class="p-5">
                                         <div class="text-center">
                                             @include('message.flash-message')
-                                            <h1 class="h4 text-gray-900 mb-4" id="login-dynamic">Login</h1>
+                                            <h1 class="h4 text-gray-900 mb-4" id="login-dynamic"></h1>
                                         </div>
                                         <form class="user" action="{{url('storelogin')}}" method="POST" id="sample_form">
                                             @csrf
@@ -61,7 +61,7 @@
                                                     maxlength="30"
                                                     placeholder="Password">
                                             </div>
-                                            <input type="submit" value="Login" id="save" class="btn btn-primary btn-user btn-block">
+                                            <input type="submit" value="Login" id="save" class="btn btn-user btn-block">
                                             <hr>
                                             <div id="process" style="display:none;">
                                                 <p>Please Wait, Updating <img src="{{asset('img/updating.gif')}}"/></p>
@@ -107,36 +107,36 @@
         @if($time == 'pagi')
         <script>
             $(document).ready(function () {
-                $("#body-dynamic").removeClass("bg-gradient-vine").addClass("bg-gradient-evening");
-                $("#save").removeClass("btn-primary").addClass("btn-success");
-                $("#img-dynamic").removeClass("bg-login-image").addClass("bg-login-image-evening");
+                $("#body-dynamic").addClass("bg-gradient-evening").fadeOut(10).fadeIn(2000);
+                $("#save").addClass("btn-success").fadeOut(10).fadeIn(2000);
+                $("#img-dynamic").addClass("bg-login-image-evening").fadeOut(10).fadeIn(2000);
                 $("#login-dynamic").html("Selamat Pagi");
             });
         </script>
         @elseif($time == 'siang')
         <script>
             $(document).ready(function () {
-                $("#body-dynamic").removeClass("bg-gradient-vine").addClass("bg-gradient-afternoon");
-                $("#save").removeClass("btn-primary").addClass("btn-danger");
-                $("#img-dynamic").removeClass("bg-login-image").addClass("bg-login-image-afternoon");
+                $("#body-dynamic").addClass("bg-gradient-afternoon").fadeOut(10).fadeIn(2000);
+                $("#save").addClass("btn-danger").fadeOut(10).fadeIn(2000);
+                $("#img-dynamic").addClass("bg-login-image-afternoon").fadeOut(10).fadeIn(2000);
                 $("#login-dynamic").html("Selamat Siang");
             });
         </script>
         @elseif($time == 'sore')
         <script>
             $(document).ready(function () {
-                $("#body-dynamic").removeClass("bg-gradient-vine").addClass("bg-gradient-vine");
-                $("#save").removeClass("btn-primary").addClass("btn-primary");
-                $("#img-dynamic").removeClass("bg-login-image").addClass("bg-login-image");
+                $("#body-dynamic").addClass("bg-gradient-vine").fadeOut(10).fadeIn(2000);
+                $("#save").addClass("btn-primary").fadeOut(10).fadeIn(2000);
+                $("#img-dynamic").addClass("bg-login-image").fadeOut(10).fadeIn(2000);
                 $("#login-dynamic").html("Selamat Sore");
             });
         </script>
         @elseif($time == 'malam')
         <script>
             $(document).ready(function () {
-                $("#body-dynamic").removeClass("bg-gradient-vine").addClass("bg-gradient-night");
-                $("#save").removeClass("btn-primary").addClass("btn-dark");
-                $("#img-dynamic").removeClass("bg-login-image").addClass("bg-login-image-night");
+                $("#body-dynamic").addClass("bg-gradient-night").fadeOut(10).fadeIn(2000);
+                $("#save").addClass("btn-dark").fadeOut(10).fadeIn(2000);
+                $("#img-dynamic").addClass("bg-login-image-night").fadeOut(10).fadeIn(2000);
                 $("#login-dynamic").html("Selamat Malam");
             });
         </script>

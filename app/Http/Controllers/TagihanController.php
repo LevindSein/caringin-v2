@@ -104,7 +104,7 @@ class TagihanController extends Controller
                             }
                             else if(Session::get('otoritas')->publish && Session::get('otoritas')->tagihan == false){
                                 $hasil = number_format($data->ttl_tagihan);
-                                $warna = max($data->warna_airbersih, $data->warna_listrik);        
+                                $warna = max($data->warna_airbersih, $data->warna_listrik);
                                 if($warna == 1 || $warna == 2)
                                     $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#c4b71f;"></i></a>';
                                 else if($warna == 3)
@@ -114,10 +114,22 @@ class TagihanController extends Controller
                             }
                         }
                         else{
-                            if(Session::get('role') == 'master')
-                                $button = '<button type="button" data-toggle="tooltip" data-original-title="Unpublish '.$data->kd_kontrol.'" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-danger"><i class="fas fa-undo"></i></button>';
-                            else
-                                $button = '<span style="color:#1cc88a;">Published</span>';
+                            if(Session::get('role') == 'master'){
+                                if($data->stt_lunas == 1)
+                                    $button = '<button type="button" data-toggle="tooltip" data-original-title="Lunas" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-success"><i class="fas fa-check"></i></button>';
+                                else if($data->stt_bayar == 1 && $data->stt_lunas == 0)
+                                    $button = '<button type="button" data-html="true" data-toggle="tooltip" data-original-title="Dibayar<br>Belum Lunas" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-primary"><i class="fas fa-undo"></i></button>';
+                                else
+                                    $button = '<button type="button" data-toggle="tooltip" data-original-title="Unpublish '.$data->kd_kontrol.'" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-danger"><i class="fas fa-undo"></i></button>';
+                            }
+                            else{
+                                if($data->stt_lunas == 1)
+                                    $button = '<i data-toggle="tooltip" data-original-title="Lunas" class="fas fa-check" style="color:#1cc88a;"></i>';
+                                else if($data->stt_bayar == 1 && $data->stt_lunas == 0)
+                                    $button = '<i data-html="true" data-toggle="tooltip" data-original-title="Dibayar<br>Belum Lunas" class="fad fa-check" style="color:#5e72e4;"></i>';
+                                else
+                                    $button = '<i data-toggle="tooltip" data-original-title="Published" class="fad fa-paper-plane" style="color:#f5365c;"></i>';
+                            }
                         }
                     }
                     else{

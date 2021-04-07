@@ -87,8 +87,8 @@
                     <table class="table table-flush" width="100%" id="tabelTagihan">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:13%;">Kontrol</th>
-                                <th class="text-center" style="min-width:80px;max-width:15%;">Nama</th>
+                                <th class="text-center" style="min-width:60px;max-width:13%;">Kontrol</th>
+                                <th class="text-center" style="min-width:90px;max-width:15%;">Nama</th>
                                 <th class="text-center" style="min-width:70px;max-width:8%">Listrik</th>
                                 <th class="text-center" style="min-width:70px;max-width:8%">Air&nbsp;Bersih</th>
                                 <th class="text-center" style="min-width:70px;max-width:8%">K.aman&nbsp;IPK</th>
