@@ -145,7 +145,7 @@
     <div class="col-xl-12">
         <div class="card shadow mb-4">
             <div class="card-header">
-                <h5 class="h3 mb-0">Pendapatan Tagihan Tahun {{$thn}}</h5>
+                <h5 class="h3 mb-0">Tagihan Tahun {{$thn}}</h5>
             </div>
             <div class="card-body">
                 <div class="chart-area-new">
@@ -160,7 +160,7 @@
     <div class="col-xl-12">
         <div class="card shadow mb-4">
             <div class="card-header">
-                <h5 class="h3 mb-0">Akumulasi Pendapatan Tahun {{$thn}}</h5>
+                <h5 class="h3 mb-0">Akumulasi Tagihan Tahun {{$thn}}</h5>
             </div>
             <div class="card-body">
                 <div class="chart-area-new">

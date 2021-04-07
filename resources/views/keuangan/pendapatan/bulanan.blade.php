@@ -1,93 +1,103 @@
-@extends('layout.keuangan')
+@extends('layout.master')
 
-@section('breadcrumb')
+@section('title')
 <title>Pendapatan Bulanan | BP3C</title>
-<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
-    <div>
-        <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
-            <li class="breadcrumb-item" aria-current="page">Laporan</li>
-            <li class="breadcrumb-item" aria-current="page">Pendapatan</li>
-            <li class="breadcrumb-item active" aria-current="page">Bulanan</li>
-        </ol>
-        </nav>
-        <h4 class="mg-b-0 tx-spacing--1">Daftar Pendapatan Bulanan</h4>
-    </div>
-    <hr>
-    <div class="text-center">
-        <button type="button" data-toggle="modal" data-target="#myGenerate" title="Cetak Pendapatan Bulanan" class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"><i data-feather="printer"></i> Generate</button>
-    </div>
-</div>
+@endsection
+
+@section('judul')
+<h6 class="h2 text-white d-inline-block mb-0">Pendapatan Bulanan</h6>
+@endsection
+
+@section('button')
+<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate" type="button"><i class="fas fa-fw fa-download text-white"></i></a>
 @endsection
 
 @section('content')
-<input type="hidden" id="fasilitas" value="bulanan" />
-<table 
-    id="tabel" 
-    class="table table-bordered" 
-    cellspacing="0"
-    width="100%">
-    <thead>
-        <tr>
-            <th class="wd-25p"><b>Bulan</b></th>
-            <th class="wd-20p"><b>Realisasi</b></th>
-            <th class="wd-20p"><b>Diskon</b></th>
-        </tr>
-    </thead>
-</table>
-
-<div
-    class="modal fade"
-    id="myGenerate"
-    tabIndex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cetak Pendapatan Bulan ?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+<span id="form_result"></span>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="text-right">
+                    <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                </div>
+                <div class="table-responsive py-4">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="tabel">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="max-width:20%">Bulan</th>
+                                <th class="text-center" style="max-width:65%">Realisasi</th>
+                                <th class="text-center" style="max-width:15%">Details</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
-            <form class="user" action="{{url('keuangan/laporan/pendapatan/generate/bulanan')}}" method="GET" target="_blank">
-                <div class="modal-body-short">
-                    <div class="form-group col-lg-12">
-                        <label for="bulanpendapatan">Bulan</label>
-                        <select class="form-control" name="bulanpendapatan" id="bulanpendapatan" required>
-                            <option value="01">Januari</option>
-                            <option value="02">Februari</option>
-                            <option value="03">Maret</option>
-                            <option value="04">April</option>
-                            <option value="05">Mei</option>
-                            <option value="06">Juni</option>
-                            <option value="07">Juli</option>
-                            <option value="08">Agustus</option>
-                            <option value="09">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label for="tahunpendapatan">Tahun</label>
-                        <select class="form-control" name="tahunpendapatan" id="tahunpendapatan" required>
-                            @foreach($dataTahun as $d)
-                            <option value="{{$d->thn_tagihan}}">{{$d->thn_tagihan}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
-                </div>
-            </form>
         </div>
     </div>
 </div>
+@include('home.footer')
+@endsection
+
+@section('modal')
 @endsection
 
 @section('js')
-<script src="{{asset('js/keuangan/pendapatan-bulanan.js')}}"></script>
+<script>
+$(document).ready(function () {
+    var dtable = $('#tabel').DataTable({
+        serverSide: true,
+		ajax: {
+			url: "/keuangan/pendapatan/bulanan",
+            cache:false,
+		},
+		columns: [
+			{ data: 'bln_bayar', name: 'bln_bayar', class : 'text-center' },
+			{ data: 'realisasi', name: 'realisasi', class : 'text-center' },
+			{ data: 'show', name: 'show', class : 'text-center' },
+        ],
+        pageLength: 5,
+        stateSave: true,
+        lengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
+        deferRender: true,
+        language: {
+            paginate: {
+                previous: "<i class='fas fa-angle-left'>",
+                next: "<i class='fas fa-angle-right'>"
+            }
+        },
+        aoColumnDefs: [
+            { "bSortable": false, "aTargets": [2] }, 
+            { "bSearchable": false, "aTargets": [2] }
+        ],
+        order:[[0, 'asc']],
+        responsive:true,
+        scrollY: "50vh",
+        "preDrawCallback": function( settings ) {
+            scrollPosition = $(".dataTables_scrollBody").scrollTop();
+        },
+        "drawCallback": function( settings ) {
+            $(".dataTables_scrollBody").scrollTop(scrollPosition);
+            if(typeof rowIndex != 'undefined') {
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+            }
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
+        },
+    }).columns.adjust().draw();
+
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic"); $(".tooltip").tooltip("hide");}, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
+    });
+});
+</script>
 @endsection

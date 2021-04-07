@@ -9,6 +9,7 @@
 @endsection
 
 @section('button')
+<button class="btn btn-sm btn-danger generate" data-toggle="tooltip" data-original-title="Generate" type="button"><i class="fas fa-fw fa-download text-white"></i></a>
 @endsection
 
 @section('content')
@@ -24,10 +25,11 @@
                     <table class="table table-flush table-hover table-striped" width="100%" id="tabel">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:20%">Tanggal</th>
-                                <th class="text-center" style="max-width:20%">Kontrol</th>
-                                <th class="text-center" style="min-width:80px;max-width:25%">Nama</th>
-                                <th class="text-center" style="max-width:20%">Realisasi</th>
+                                <th class="text-center" style="max-width:15%">Tanggal</th>
+                                <th class="text-center" style="max-width:15%">Kontrol</th>
+                                <th class="text-center" style="min-width:80px;max-width:20%">Pengguna</th>
+                                <th class="text-center" style="min-width:80px;max-width:20%">Kasir</th>
+                                <th class="text-center" style="max-width:15%">Realisasi</th>
                                 <th class="text-center" style="max-width:15%">Details</th>
                             </tr>
                         </thead>
@@ -49,13 +51,15 @@ $(document).ready(function () {
     var dtable = $('#tabel').DataTable({
         serverSide: true,
 		ajax: {
-			url: "/keuangan/tunggakan/listrik/?periode=" + <?php echo Session::get('periodetagihan')?>,
+			url: "/keuangan/pendapatan/harian",
             cache:false,
 		},
 		columns: [
+			{ data: 'tgl_bayar', name: 'tgl_bayar', class : 'text-center' },
 			{ data: 'kd_kontrol', name: 'kd_kontrol', class : 'text-center' },
+			{ data: 'pengguna', name: 'pengguna', class : 'text-center-td' },
 			{ data: 'nama', name: 'nama', class : 'text-center-td' },
-			{ data: 'sel_listrik', name: 'sel_listrik', class : 'text-center' },
+			{ data: 'realisasi', name: 'realisasi', class : 'text-center' },
 			{ data: 'show', name: 'show', class : 'text-center' },
         ],
         pageLength: 5,
@@ -69,18 +73,27 @@ $(document).ready(function () {
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [3] }, 
-            { "bSearchable": false, "aTargets": [3] }
+            { "bSortable": false, "aTargets": [5] }, 
+            { "bSearchable": false, "aTargets": [5] }
         ],
         order:[[0, 'asc']],
         responsive:true,
         scrollY: "50vh",
-        "drawCallback": function() {
-            $('[data-toggle="tooltip"]').tooltip();
+        "preDrawCallback": function( settings ) {
+            scrollPosition = $(".dataTables_scrollBody").scrollTop();
+        },
+        "drawCallback": function( settings ) {
+            $(".dataTables_scrollBody").scrollTop(scrollPosition);
+            if(typeof rowIndex != 'undefined') {
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+            }
+            setTimeout( function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 10)
         },
     }).columns.adjust().draw();
 
-    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic") }, false); }, 60000);
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic"); $(".tooltip").tooltip("hide");}, false); }, 60000);
     $('#refresh').click(function(){
         $('#refresh-img').show();
         $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Tagihan;
 use App\Models\TempatUsaha;
+use App\Models\Pembayaran;
 
 class Dashboard extends Model
 {

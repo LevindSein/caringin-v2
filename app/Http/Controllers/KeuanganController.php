@@ -163,23 +163,134 @@ class KeuanganController extends Controller
     }
 
     public function pendapatan($data){
-        if($data == 'harian'){
-            if(request()->ajax())
-            {
+        if(request()->ajax())
+        {
+            if($data == 'harian'){
                 $data = Pembayaran::orderBy('tgl_bayar','desc');
                 return DataTables::of($data)
                 ->editColumn('realisasi', function ($data) {
                     return number_format($data->realisasi);
                 })
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
+                })
+                ->rawColumns([
+                    'show'
+                ])
                 ->make(true);
             }
-            return view('keuangan.pendapatan.harian');
+
+            else if($data == 'bulanan'){
+                $data = Pembayaran::select('bln_bayar')->groupBy('bln_bayar')->orderBy('bln_bayar','desc');
+                return DataTables::of($data)
+                ->addColumn('realisasi', function($data){
+                    $tagihan = Pembayaran::where('bln_bayar',$data->bln_bayar)
+                    ->select(DB::raw('SUM(realisasi) as tagihan'))->get();
+                    if($tagihan != NULL){
+                        return number_format($tagihan[0]->tagihan);
+                    }
+                    else{
+                        return 0;
+                    }
+                })
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->bln_bayar.'" nama="'.$data->bln_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
+                })
+                ->rawColumns([
+                    'show'
+                ])
+                ->make(true);
+            }
+
+            else if($data == 'tahunan'){
+                $data = Pembayaran::select('thn_bayar')->groupBy('thn_bayar')->orderBy('thn_bayar','desc');
+                return DataTables::of($data)
+                ->addColumn('realisasi', function($data){
+                    $tagihan = Pembayaran::where('thn_bayar',$data->thn_bayar)
+                    ->select(DB::raw('SUM(realisasi) as tagihan'))->get();
+                    if($tagihan != NULL){
+                        return number_format($tagihan[0]->tagihan);
+                    }
+                    else{
+                        return 0;
+                    }
+                })
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->thn_bayar.'" nama="'.$data->thn_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
+                })
+                ->rawColumns([
+                    'show'
+                ])
+                ->make(true);
+            }
         }
+    
+        return view("keuangan.pendapatan.$data");
     }
 
     public function pendapatanGenerate(Request $request, $data){
         if(request()->ajax()){
 
         }
+    }
+
+    public function rekap($data){
+        if(request()->ajax())
+        {
+            if($data == 'sisa'){
+                $data = Tagihan::select('blok')->groupBy('blok')->orderBy('blok','asc');
+                return DataTables::of($data)
+                ->addColumn('tagihan', function ($data) {
+                    $tagihan = Tagihan::where([['stt_lunas',0],['stt_publish',1],['sel_tagihan','>',0],['blok',$data->blok]])
+                    ->select(DB::raw('SUM(sel_tagihan) as tagihan'))->get();
+                    if($tagihan != NULL){
+                        return number_format($tagihan[0]->tagihan);
+                    }
+                    else{
+                        return 0;
+                    }
+                })
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->blok.'" nama="'.$data->blok.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
+                })
+                ->rawColumns([
+                    'show'
+                ])
+                ->make(true);
+            }
+
+            else if($data == 'akhir'){
+                $data = Pembayaran::select('bln_bayar')->groupBy('bln_bayar')->orderBy('bln_bayar','desc');
+                return DataTables::of($data)
+                ->addColumn('realisasi', function($data){
+                    $tagihan = Pembayaran::where('bln_bayar',$data->bln_bayar)
+                    ->select(DB::raw('SUM(realisasi) as tagihan'))->get();
+                    if($tagihan != NULL){
+                        return number_format($tagihan[0]->tagihan);
+                    }
+                    else{
+                        return 0;
+                    }
+                })
+                ->addColumn('show', function($data){
+                    $button = '<button title="Show Details" name="show" id="'.$data->bln_bayar.'" nama="'.$data->bln_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
+                    return $button;
+                })
+                ->rawColumns([
+                    'show'
+                ])
+                ->make(true);
+            }
+        }
+    
+        return view("keuangan.rekap.$data");
+    }
+
+    public function rekapGenerate(Request $request, $data){
+
     }
 }

@@ -141,11 +141,13 @@ Route::get('logout',function(){
 });
 
 Route::middleware('ceklogin:keuangan')->group(function(){
-    Route::get('keuangan/pendapatan/generate/{data}',[KeuanganController::class, 'pendapatanGenerate']);
+    Route::post('keuangan/rekap/generate',[KeuanganController::class, 'rekapGenerate']);
+    Route::get('keuangan/rekap/{data}',[KeuanganController::class, 'rekap']);
+    Route::post('keuangan/pendapatan/generate',[KeuanganController::class, 'pendapatanGenerate']);
     Route::get('keuangan/pendapatan/{data}',[KeuanganController::class, 'pendapatan']);
-    Route::get('keuangan/tunggakan/generate/{data}',[KeuanganController::class, 'tunggakanGenerate']);
+    Route::post('keuangan/tunggakan/generate',[KeuanganController::class, 'tunggakanGenerate']);
     Route::get('keuangan/tunggakan/{data}',[KeuanganController::class, 'tunggakan']);
-    Route::get('keuangan/tagihan/generate/{data}',[KeuanganController::class, 'tagihanGenerate']);
+    Route::post('keuangan/tagihan/generate',[KeuanganController::class, 'tagihanGenerate']);
     Route::get('keuangan/tagihan/{data}',[KeuanganController::class, 'tagihan']);
 });
 

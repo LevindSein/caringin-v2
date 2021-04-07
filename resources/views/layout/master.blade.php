@@ -152,7 +152,7 @@
                                 <div class="collapse {{ (request()->is('keuangan/rekap*')) ? 'show' : '' }}" id="laporan-rekap">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item"><a href="{{url('keuangan/rekap/sisa')}}" class="nav-link {{ (request()->is('keuangan/rekap/sisa')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-day text-yellow"></i>Sisa&nbsp;Tagihan</a></li>
-                                        <li class="nav-item"><a href="{{url('keuangan/rekap/selesai')}}" class="nav-link {{ (request()->is('keuangan/rekap/selesai')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-week text-success"></i>Akhir&nbsp;Bulan</a></li>
+                                        <li class="nav-item"><a href="{{url('keuangan/rekap/akhir')}}" class="nav-link {{ (request()->is('keuangan/rekap/akhir')) ? 'text-teal' : '' }}"><i class="fad fa-calendar-week text-success"></i>Akhir&nbsp;Bulan</a></li>
                                     </ul>
                                 </div>
                             </li>

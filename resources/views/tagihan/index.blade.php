@@ -1539,7 +1539,7 @@ $(document).ready(function(){
                 $("[data-toggle='tooltip']").tooltip();
             }, 10)
         },
-    }).columns.adjust().draw();
+    });
     <?php } ?>
     
     <?php if($agent->isDesktop() == false){ ?>
