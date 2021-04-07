@@ -36,7 +36,10 @@
         </div>
     </div>
 </div>
+@include('home.footer')
+@endsection
 
+@section('modal')
 <div
     class="modal fade"
     id="myGenerate"
@@ -55,6 +58,9 @@
             <form class="user" action="{{url('keuangan/rekap/generate')}}" target="_blank" method="POST">
                 @csrf
                 <div class="modal-body">
+                    <div class="form-group">
+                        <span>Pilih Periode Tagihan yang ingin di cetak.</span>
+                    </div>
                     <div class="form-group col-lg-12">
                         <label class="form-control-label" for="bulanselesai">Bulan</label>
                         <select class="form-control" name="bulanselesai" id="bulanselesai" required>
@@ -91,10 +97,6 @@
         </div>
     </div>
 </div>
-@include('home.footer')
-@endsection
-
-@section('modal')
 @endsection
 
 @section('js')

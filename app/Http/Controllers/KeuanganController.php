@@ -353,9 +353,184 @@ class KeuanganController extends Controller
         return view("keuangan.pendapatan.$data");
     }
 
-    public function pendapatanGenerate(Request $request, $data){
-        if(request()->ajax()){
+    public function pendapatanGenerate(Request $request){
+        $data = $request->hidden_data;
+        if($data == 'harian'){
+            $fasilitas = $request->fasilitas;
+            $tanggal   = $request->tanggal_generate;
+            $cetak   = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
 
+            if($fasilitas == 'listrik'){
+                $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_listrik','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+                    'dataset' => $dataset, 
+                    'tanggal' => IndoDate::tanggal($tanggal, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'airbersih'){
+                $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_airbersih','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+                    'dataset' => $dataset, 
+                    'tanggal' => IndoDate::tanggal($tanggal, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'keamananipk'){
+                $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_keamananipk','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+                    'dataset' => $dataset, 
+                    'tanggal' => IndoDate::tanggal($tanggal, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'kebersihan'){
+                $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_kebersihan','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+                    'dataset' => $dataset, 
+                    'tanggal' => IndoDate::tanggal($tanggal, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'airkotor'){
+                $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_airkotor','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+                    'dataset' => $dataset, 
+                    'tanggal' => IndoDate::tanggal($tanggal, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'lain'){
+                $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_lain','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+                    'dataset' => $dataset, 
+                    'tanggal' => IndoDate::tanggal($tanggal, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'tagihan'){
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+
+                ]);
+            }
+        }
+        else if($data == 'bulanan'){
+            $fasilitas = $request->fasilitas;
+            $periode   = $request->tahun_generate."-".$request->bulan_generate;
+            $cetak     = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
+
+            if($fasilitas == 'listrik'){
+                $dataset = Pembayaran::where([['bln_bayar',$periode],['byr_listrik','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.bulanan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'bulan'   => IndoDate::bulan($periode, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'airbersih'){
+                $dataset = Pembayaran::where([['bln_bayar',$periode],['byr_airbersih','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.bulanan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'bulan'   => IndoDate::bulan($periode, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'keamananipk'){
+                $dataset = Pembayaran::where([['bln_bayar',$periode],['byr_keamananipk','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.bulanan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'bulan'   => IndoDate::bulan($periode, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'kebersihan'){
+                $dataset = Pembayaran::where([['bln_bayar',$periode],['byr_kebersihan','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.bulanan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'bulan'   => IndoDate::bulan($periode, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'airkotor'){
+                $dataset = Pembayaran::where([['bln_bayar',$periode],['byr_airkotor','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.bulanan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'bulan'   => IndoDate::bulan($periode, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'lain'){
+                $dataset = Pembayaran::where([['bln_bayar',$periode],['byr_lain','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.bulanan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'bulan'   => IndoDate::bulan($periode, " "),
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'tagihan'){
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+
+                ]);
+            }
+        }
+        else if($data == 'tahunan'){
+            $fasilitas = $request->fasilitas;
+            $periode   = $request->tahun_generate;
+            $cetak     = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
+
+            if($fasilitas == 'listrik'){
+                $dataset = Pembayaran::where([['thn_bayar',$periode],['byr_listrik','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.tahunan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'tahun'   => $periode,
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'airbersih'){
+                $dataset = Pembayaran::where([['thn_bayar',$periode],['byr_airbersih','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.tahunan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'tahun'   => $periode,
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'keamananipk'){
+                $dataset = Pembayaran::where([['thn_bayar',$periode],['byr_keamananipk','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.tahunan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'tahun'   => $periode,
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'kebersihan'){
+                $dataset = Pembayaran::where([['thn_bayar',$periode],['byr_kebersihan','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.tahunan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'tahun'   => $periode,
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'airkotor'){
+                $dataset = Pembayaran::where([['thn_bayar',$periode],['byr_airkotor','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.tahunan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'tahun'   => $periode,
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'lain'){
+                $dataset = Pembayaran::where([['thn_bayar',$periode],['byr_lain','>',0]])->orderBy('kd_kontrol','asc')->get();
+                return view("keuangan.pendapatan.generate.tahunan.$fasilitas",[
+                    'dataset' => $dataset,
+                    'tahun'   => $periode,
+                    'cetak'   => $cetak,
+                ]);
+            }
+            else if($fasilitas == 'tagihan'){
+                return view("keuangan.pendapatan.generate.harian.$fasilitas",[
+
+                ]);
+            }
         }
     }
 

@@ -43,6 +43,43 @@
 @endsection
 
 @section('modal')
+<div id="myGenerate" class="modal fade" role="dialog" tabIndex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generate</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{url('keuangan/pendapatan/generate')}}" method="POST" target="_blank">
+            @csrf
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-control-label" for="fasilitas">Pilih Fasilitas</label>
+                    <select class="form-control" name="fasilitas" id="fasilitas" required>
+                        <option value="listrik">Listrik</option>
+                        <option value="airbersih">Air Bersih</option>
+                        <option value="keamananipk">Keamanan IPK</option>
+                        <option value="kebersihan">Kebersihan</option>
+                        <option value="airkotor">Air Kotor</option>
+                        <option value="lain">Lainnya</option>
+                        <!-- <option value="tagihan">Semua Fasilitas</option> -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="tanggal_generate">Pilih Tanggal Penerimaan</label>
+                    <input class="form-control" type="date" name="tanggal_generate" id="tanggal_generate" required/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="hidden_data" value="harian"/>
+                <button type="submit" class="btn btn-primary">Cetak</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -103,6 +140,10 @@ $(document).ready(function () {
             $('#refresh-data').text("Refresh Data");
             $('#refresh-img').hide();
         }, 2000);
+    });
+
+    $(".generate").click(function() {
+        $("#myGenerate").modal("show");
     });
 });
 </script>
