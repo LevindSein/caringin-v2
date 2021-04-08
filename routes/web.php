@@ -26,6 +26,9 @@ use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PendapatanController;
 
+//Data Usaha
+use App\Http\Controllers\DataUsahaController;
+
 //Tarif
 use App\Http\Controllers\TarifController;
 
@@ -234,6 +237,11 @@ Route::middleware('ceklogin:pendapatan')->group(function(){
     Route::get('rekap/pendapatan/tahunan', [PendapatanController::class, 'tahunan']);
     Route::get('rekap/pendapatan/bulanan', [PendapatanController::class, 'bulanan']);
     Route::resource('rekap/pendapatan', PendapatanController::class);
+});
+
+Route::middleware('ceklogin:datausaha')->group(function(){
+    Route::get('datausaha/tunggakan', [DataUsahaController::class, 'tunggakan']);
+    Route::get('datausaha', [DataUsahaController::class, 'index']);
 });
 
 Route::middleware('ceklogin:tarif')->group(function(){
