@@ -174,6 +174,16 @@ $(document).ready(function(){
             $('#refresh-img').hide();
         }, 2000);
     });
+
+    $(".generate").click(function() {
+        var value = $(this).attr('value');
+        if(value == 'harian')
+            $("#generateHarian").modal("show");
+        else if(value == 'bulanan')
+            $("#generateBulanan").modal("show");
+        else if(value == 'tahunan')
+            $("#generateTahunan").modal("show");
+    });
     
     $(document).on('click', '.harian', function(){
 		id = $(this).attr('id');
@@ -419,8 +429,4 @@ $(document).ready(function(){
         
         $('#show-details').modal('show');
 	});
-
-    $(".generate").click(function() {
-        alert($(this).attr('value'));
-    });
 });

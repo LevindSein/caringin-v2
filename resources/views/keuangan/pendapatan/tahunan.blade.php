@@ -50,38 +50,39 @@
                 </button>
             </div>
             <form action="{{url('keuangan/pendapatan/generate')}}" method="POST" target="_blank">
-            @csrf
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-control-label" for="fasilitas">Pilih Fasilitas</label>
-                    <select class="form-control" name="fasilitas" id="fasilitas" required>
-                        <option value="listrik">Listrik</option>
-                        <option value="airbersih">Air Bersih</option>
-                        <option value="keamananipk">Keamanan IPK</option>
-                        <option value="kebersihan">Kebersihan</option>
-                        <option value="airkotor">Air Kotor</option>
-                        <option value="lain">Lainnya</option>
-                        <!-- <option value="tagihan">Semua Fasilitas</option> -->
-                    </select>
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-control-label" for="fasilitas">Pilih Fasilitas</label>
+                        <select class="form-control" name="fasilitas" id="fasilitas" required>
+                            <option value="listrik">Listrik</option>
+                            <option value="airbersih">Air Bersih</option>
+                            <option value="keamananipk">Keamanan IPK</option>
+                            <option value="kebersihan">Kebersihan</option>
+                            <option value="airkotor">Air Kotor</option>
+                            <option value="lain">Lainnya</option>
+                            <!-- <option value="tagihan">Semua Fasilitas</option> -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span>Pilih tahun pendapatan yang ingin di cetak.</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="tahun_generate">Tahun</label>
+                        <select class="form-control" name="tahun_generate" id="tahun_generate" required>
+                            <?php $tahun = \App\Models\Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
+                            @foreach($tahun as $t)
+                            <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <span>Pilih tahun pendapatan yang ingin di cetak.</span>
+                <div class="modal-footer">
+                    <input type="hidden" name="hidden_data" value="tahunan"/>
+                    <button type="submit" class="btn btn-primary">Cetak</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="tahun_generate">Tahun</label>
-                    <select class="form-control" name="tahun_generate" id="tahun_generate" required>
-                        <?php $tahun = \App\Models\Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
-                        @foreach($tahun as $t)
-                        <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="hidden_data" value="tahunan"/>
-                <button type="submit" class="btn btn-primary">Cetak</button>
-                <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
