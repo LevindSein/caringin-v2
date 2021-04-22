@@ -322,15 +322,15 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="form-control-label" for="fasilitas">Pilih Fasilitas</label>
-                        <select class="form-control" name="fasilitas" id="fasilitas" required>
+                        <label class="form-control-label" for="fasilitasi">Pilih Fasilitas</label>
+                        <select class="form-control" name="fasilitas" id="fasilitasi" required>
                             <option value="listrik">Listrik</option>
                             <option value="airbersih">Air Bersih</option>
                             <option value="keamananipk">Keamanan IPK</option>
                             <option value="kebersihan">Kebersihan</option>
                             <option value="airkotor">Air Kotor</option>
                             <option value="lain">Lainnya</option>
-                            <!-- <option value="tagihan">Semua Fasilitas</option> -->
+                            <option value="tagihan">Semua Fasilitas</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -361,15 +361,15 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="form-control-label" for="fasilitas">Pilih Fasilitas</label>
-                        <select class="form-control" name="fasilitas" id="fasilitas" required>
+                        <label class="form-control-label" for="fasilitasii">Pilih Fasilitas</label>
+                        <select class="form-control" name="fasilitas" id="fasilitasii" required>
                             <option value="listrik">Listrik</option>
                             <option value="airbersih">Air Bersih</option>
                             <option value="keamananipk">Keamanan IPK</option>
                             <option value="kebersihan">Kebersihan</option>
                             <option value="airkotor">Air Kotor</option>
                             <option value="lain">Lainnya</option>
-                            <!-- <option value="tagihan">Semua Fasilitas</option> -->
+                            <option value="tagihan">Semua Fasilitas</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -393,8 +393,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" for="tahun_generate">Tahun</label>
-                        <select class="form-control" name="tahun_generate" id="tahun_generate" required>
+                        <label class="form-control-label" for="tahun_generatei">Tahun</label>
+                        <select class="form-control" name="tahun_generate" id="tahun_generatei" required>
                             <?php $tahun = \App\Models\Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
                             @foreach($tahun as $t)
                             <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>
@@ -425,23 +425,23 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="form-control-label" for="fasilitas">Pilih Fasilitas</label>
-                        <select class="form-control" name="fasilitas" id="fasilitas" required>
+                        <label class="form-control-label" for="fasilitasiii">Pilih Fasilitas</label>
+                        <select class="form-control" name="fasilitas" id="fasilitasiii" required>
                             <option value="listrik">Listrik</option>
                             <option value="airbersih">Air Bersih</option>
                             <option value="keamananipk">Keamanan IPK</option>
                             <option value="kebersihan">Kebersihan</option>
                             <option value="airkotor">Air Kotor</option>
                             <option value="lain">Lainnya</option>
-                            <!-- <option value="tagihan">Semua Fasilitas</option> -->
+                            <option value="tagihan">Semua Fasilitas</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <span>Pilih tahun pendapatan yang ingin di cetak.</span>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" for="tahun_generate">Tahun</label>
-                        <select class="form-control" name="tahun_generate" id="tahun_generate" required>
+                        <label class="form-control-label" for="tahun_generateii">Tahun</label>
+                        <select class="form-control" name="tahun_generate" id="tahun_generateii" required>
                             <?php $tahun = \App\Models\Tagihan::select('thn_tagihan')->groupBy('thn_tagihan')->orderBy('thn_tagihan','desc')->get();?>
                             @foreach($tahun as $t)
                             <option value="{{$t->thn_tagihan}}">{{$t->thn_tagihan}}</option>

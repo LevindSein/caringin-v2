@@ -64,7 +64,7 @@
                             <option value="kebersihan">Kebersihan</option>
                             <option value="airkotor">Air Kotor</option>
                             <option value="lain">Lainnya</option>
-                            <!-- <option value="tagihan">Semua Fasilitas</option> -->
+                            <option value="tagihan">Semua Fasilitas</option>
                         </select>
                     </div>
                     <div class="form-group">

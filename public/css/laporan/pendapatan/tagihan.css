@@ -1,0 +1,101 @@
+@media print{
+    @page {
+      width: 33cm;   /* auto is the initial value */
+      height: 21cm; 
+      padding-top: 10px;
+      margin: 1.3cm 1.3cm 1cm 1cm;  /* this affects the margin in the printer settings */
+      border: 1px solid black;  /* set a border for all printed pages */
+    }
+  }
+  
+  .clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+  
+  td{
+    white-space: nowrap;
+  }
+  
+  body {
+    position: relative; 
+    width: 33cm;
+    height: 21cm; 
+    background: #FFFFFF; 
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  header {
+    margin-bottom: 30px;
+  }
+  
+  #project {
+    float: left;
+  }
+  
+  #project span {
+    color: #000;
+    text-align: right;
+    width: 52px;
+    margin-right: 60px;
+    display: inline-block;
+  
+  }
+  
+  #company {
+    float: right;
+    text-align: right;
+  }
+  
+  #ttd {
+    float: right;
+    text-align: center;
+  }
+  
+  #project div,
+  #company div {
+    white-space: nowrap;        
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+  }
+  
+  .tg  {border-collapse:collapse;border-spacing:0;padding-top:10px}
+  .tg td{font-family:Arial, sans-serif;font-size:14px;padding:4px 4px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+  .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 1px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+  .tg .tg-vbo4{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:right;vertical-align:middle}
+  .tg .tg-ccvv{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:center;vertical-align:top}
+  .tg .tg-rtqe{font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:left;vertical-align:middle}
+  .tg .tg-8m6k{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:right;vertical-align:top}
+  .tg .tg-r8fv{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:center;vertical-align:middle;}
+  .tg .tg-r8fz{font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:center;vertical-align:middle;}
+  .tg .tg-r8fp{font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:center;vertical-align:middle;outline:1px solid #000;outline-offset:-3px;}
+  .tg .tg-r8fx{font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:right;vertical-align:middle}
+  .tg .tg-r8fy{font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:left;vertical-align:middle}
+  .tg .tg-cegc{font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:center;vertical-align:middle}
+  .tg .tg-g25h{font-family:Arial, Helvetica, sans-serif !important;;color:#000000;text-align:right;vertical-align:top}
+  .tg .tg-g255{border-right:none;border-left:none}
+  
+  #notices .notice {
+    color: black; 
+  }
+  
+  footer {
+    color: black;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #000;
+    text-align: center;
+  }
