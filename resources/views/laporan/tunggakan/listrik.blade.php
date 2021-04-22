@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Pemakaian Listrik | BP3C</title>
+        <title>Tunggakan Listrik | BP3C</title>
         <link rel="stylesheet" href="{{asset('css/laporan/pemakaian/style-pemakaian.css')}}" media="all"/>
         <link rel="icon" href="{{asset('img/logo.png')}}">
     </head>
@@ -18,7 +18,7 @@
                 <thead>
                     <tr>
                         <th colspan="8" style="border-style:none;">
-                            <h3 style="text-align:center;">REKAP PEMAKAIAN LISTRIK<br>{{$bln}}</h3>
+                            <h3 style="text-align:center;">REKAP TUNGGAKAN LISTRIK<br>{{$bln}}</h3>
                         </th>
                     </tr>
                     <tr>
@@ -29,9 +29,7 @@
                         <th class="tg-r8fv">Pakai</th>
                         <th class="tg-r8fv">Beban</th>
                         <th class="tg-r8fv">BPJU</th>
-                        <th class="tg-r8fv">Tagihan</th>
-                        <!-- <th class="tg-r8fv">Realisasi</th>
-                        <th class="tg-r8fv">Selisih</th> -->
+                        <th class="tg-r8fv">Tunggakan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,8 +44,6 @@
                         <td class="tg-cegc">{{number_format($d->beban)}}</td>
                         <td class="tg-cegc">{{number_format($d->bpju)}}</td>
                         <td class="tg-cegc">{{number_format($d->tagihan)}}</td>
-                        <!-- <td class="tg-cegc">{{number_format($d->realisasi)}}</td>
-                        <td class="tg-cegc">{{number_format($d->selisih)}}</td> -->
                     </tr>
                     <?php $no++; ?>
                     @endforeach
@@ -59,8 +55,6 @@
                         <td class="tg-8m6k">Rp. {{number_format($ttlRekap[3])}}</td>
                         <td class="tg-8m6k">Rp. {{number_format($ttlRekap[4])}}</td>
                         <td class="tg-8m6k">Rp. {{number_format($ttlRekap[5])}}</td>
-                        <!-- <td class="tg-8m6k">Rp. {{number_format($ttlRekap[6])}}</td>
-                        <td class="tg-8m6k">Rp. {{number_format($ttlRekap[7])}}</td> -->
                     </tr>
                 </tbody>
             </table>
@@ -74,7 +68,7 @@
                     <thead>
                         <tr>
                             <th colspan="14" style="border-style:none;">
-                                <h3 style="text-align:center;">RINCIAN PEMAKAIAN LISTRIK<br>{{$bln}}<br>{{$data[0]}}</h3>
+                                <h3 style="text-align:center;">RINCIAN TUNGGAKAN LISTRIK<br>{{$bln}}<br>{{$data[0]}}</h3>
                             </th>
                         </tr>
                         <tr>
@@ -90,10 +84,8 @@
                             <th class="tg-r8fv">B.Blok2</th>
                             <th class="tg-r8fv">B.Beban</th>
                             <th class="tg-r8fv">BPJU</th>
-                            <th class="tg-r8fv">Tagihan</th>
+                            <th class="tg-r8fv">Tunggakan</th>
                             <th class="tg-r8fv" style="width:10%">Ket</th>
-                            <!-- <th class="tg-r8fv">Realisasi</th>
-                            <th class="tg-r8fv">Selisih</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -114,8 +106,6 @@
                             <td class="tg-cegc">{{number_format($d->bpju)}}</td>
                             <td class="tg-cegc">{{number_format($d->tagihan)}}</td>
                             <td class="tg-cegc" style="white-space:normal; word-break:break-word;">{{$d->lokasi}}</td>
-                            <!-- <td class="tg-cegc">{{number_format($d->realisasi)}}</td>
-                            <td class="tg-cegc">{{number_format($d->selisih)}}</td> -->
                         </tr>
                         <?php $no++; ?>
                         @endforeach
@@ -130,8 +120,6 @@
                             <td class="tg-8m6k">{{number_format($d->bpju)}}</td>
                             <td class="tg-8m6k">{{number_format($d->tagihan)}}</td>
                             <td class="tg-8m6k"></td>
-                            <!-- <td class="tg-8m6k">{{number_format($d->realisasi)}}</td>
-                            <td class="tg-8m6k">{{number_format($d->selisih)}}</td> -->
                         </tr>
                         @endforeach
                     </tbody>

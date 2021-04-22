@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Pemakaian Keamanan IPK | BP3C</title>
+        <title>Tunggakan Keamanan IPK | BP3C</title>
         <link rel="stylesheet" href="{{asset('css/laporan/pemakaian/style-pemakaian1.css')}}" media="all"/>
         <link rel="icon" href="{{asset('img/logo.png')}}">
     </head>
@@ -18,7 +18,7 @@
                 <thead>
                     <tr>
                         <th colspan="6" style="border-style:none;">
-                            <h3 style="text-align:center;">REKAP TAGIHAN KEAMANAN & IPK<br>{{$bln}}</h3>
+                            <h3 style="text-align:center;">REKAP TUNGGAKAN KEAMANAN & IPK<br>{{$bln}}</h3>
                         </th>
                     </tr>
                     <tr>
@@ -27,7 +27,7 @@
                         <th class="tg-r8fv">Jml.Unit</th>
                         <th class="tg-r8fv">Tagihan</th>
                         <th class="tg-r8fv">Diskon</th>
-                        <th class="tg-r8fv">Jml Hrs Bayar</th>
+                        <th class="tg-r8fv">Tunggakan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,7 +73,7 @@
                             <th class="tg-r8fv">Jml.Unit</th>
                             <th class="tg-r8fv">Tagihan</th>
                             <th class="tg-r8fv">Diskon</th>
-                            <th class="tg-r8fv">Jml Hrs Bayar</th>
+                            <th class="tg-r8fv">Tunggakan</th>
                         </tr>
                     </thead>
                     <tbody>

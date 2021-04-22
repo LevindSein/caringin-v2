@@ -76,7 +76,6 @@ function indoDate($tanggal){
                             <option value="airkotor">Air Kotor</option>
                             <option value="lain">Lain - Lain</option>
                             <option value="total">Total Tunggakan</option>
-                            <option value="diskon">Pengguna Diskon</option>
                         </select>
                     </div>
                 </div>

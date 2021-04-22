@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Total Pemakaian | BP3C</title>
+        <title>Tunggakan Semua Fasilitas | BP3C</title>
         <link rel="stylesheet" href="{{asset('css/laporan/pemakaian/style-pemakaian.css')}}" media="all"/>
         <link rel="icon" href="{{asset('img/logo.png')}}">
     </head>
@@ -14,7 +14,7 @@
                 <thead>
                     <tr>
                         <th colspan="10" style="border-style:none;">
-                            <h3 style="text-align:center;">REKAP TOTAL PEMAKAIAN FASILITAS<br>{{$bln}}</h3>
+                            <h3 style="text-align:center;">REKAP TUNGGAKAN SEMUA FASILITAS<br>{{$bln}}</h3>
                         </th>
                     </tr>
                     <tr>
@@ -27,7 +27,7 @@
                         <th class="tg-r8fv">Kebersihan</th>
                         <th class="tg-r8fv">Air Kotor</th>
                         <th class="tg-r8fv">Lainnya</th>
-                        <th class="tg-r8fv">Tagihan</th>
+                        <th class="tg-r8fv">Tunggakan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@
                     <thead>
                         <tr>
                             <th colspan="12" style="border-style:none;">
-                                <h3 style="text-align:center;">RINCIAN PEMAKAIAN FASILITAS<br>{{$bln}}<br>{{$data[0]}}</h3>
+                                <h3 style="text-align:center;">RINCIAN TUNGGAKAN SEMUA FASILITAS<br>{{$bln}}<br>{{$data[0]}}</h3>
                             </th>
                         </tr>
                         <tr>
@@ -85,7 +85,7 @@
                             <th class="tg-r8fv">Kebersihan</th>
                             <th class="tg-r8fv">Air Kotor</th>
                             <th class="tg-r8fv">Lainnya</th>
-                            <th class="tg-r8fv">Tagihan</th>
+                            <th class="tg-r8fv">Tunggakan</th>
                         </tr>
                     </thead>
                     <tbody>
