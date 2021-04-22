@@ -42,7 +42,7 @@ class PedagangController extends Controller
                     $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
-                ->rawColumns(['action','show','ktp','email','hp'])
+                ->rawColumns(['action','show'])
                 ->make(true);
         }
         return view('pedagang.index');

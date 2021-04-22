@@ -24,9 +24,10 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [0,1,2,3] }, 
             { "bSearchable": false, "aTargets": [0,2,3] }
         ],
-        order:[[0, 'asc']],
-        responsive:true,
+        order: [[0, 'asc']],
+        responsive: true,
         scrollY: "50vh",
+        scrollX: true,
         preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },

@@ -28,8 +28,9 @@ $(document).ready(function(){
             { "bSearchable": false, "aTargets": [5,6] }
         ],
         order:[[0, 'asc']],
-        responsive:true,
+        responsive: true,
         scrollY: "50vh",
+        scrollX: true,
         preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },

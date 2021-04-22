@@ -24,6 +24,7 @@ $(document).ready(function(){
         pageLength: 10,
         responsive: true,
         scrollY: "50vh",
+        scrollX: true,
         preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },

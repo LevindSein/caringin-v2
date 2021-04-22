@@ -1571,6 +1571,8 @@ $(document).ready(function(){
             { "bSearchable": false, "aTargets": [2,3] }
         ],
         responsive: true,
+        scrollX: true,
+        scrollY: "60vh",
         "preDrawCallback": function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },

@@ -224,6 +224,11 @@
                                             <a class="nav-link {{ (request()->is('rekap/pendapatan')) ? 'text-teal' : '' }}" href="{{url('rekap/pendapatan')}}">Pendapatan</a>
                                             @endif
                                         </li>
+                                        <li class="nav-item">
+                                            @if(Session::get('role') == 'master' || Session::get('role') == 'manajer' || Session::get('role') == 'admin' && (Session::get('otoritas')->tunggakan))
+                                            <a class="nav-link {{ (request()->is('rekap/tunggakan')) ? 'text-teal' : '' }}" href="{{url('rekap/tunggakan')}}">Tunggakan</a>
+                                            @endif
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

@@ -288,6 +288,29 @@ class CekLogin
                 }
             }
 
+            if($page == 'tunggakan'){
+                $explode = explode('-',Session::get('login'));
+                $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
+                $roles = array('master','admin','manajer');
+                if($validator != NULL){
+                    if(in_array($explode[1],$roles)){
+                        if(Session::get('role') == 'admin' && Session::get('otoritas')->tunggakan)
+                            return $next($request);
+                        else if(Session::get('role') == 'master' || Session::get('role') == 'manajer')
+                            return $next($request);
+                        else
+                            abort(403);
+                    }
+                    else{
+                        abort(403);
+                    }
+                }
+                else{
+                    Session::flush();
+                    return redirect()->route('login')->with('info','Silahkan Login Terlebih Dahulu');
+                }
+            }
+
             if($page == 'datausaha'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();

@@ -382,20 +382,81 @@ class UserController extends Controller
             }
             else{
                 $otoritas  = json_decode($data->otoritas);
-                $data['bloks'] = $otoritas->otoritas;
-                $data['pedagang'] = $otoritas->pedagang;
-                $data['tempatusaha'] = $otoritas->tempatusaha;
-                $data['tagihan'] = $otoritas->tagihan;
-                $data['blok'] = $otoritas->blok;
-                $data['pemakaian'] = $otoritas->pemakaian;
-                $data['pendapatan'] = $otoritas->pendapatan;
-                $data['datausaha'] = $otoritas->datausaha;
-                $data['publish'] = $otoritas->publish;
-                $data['alatmeter'] = $otoritas->alatmeter;
-                $data['tarif'] = $otoritas->tarif;
-                $data['harilibur'] = $otoritas->harilibur;
-                $data['layanan'] = $otoritas->layanan;
-                $data['simulasi'] = $otoritas->simulasi;
+                
+                if(isset($otoritas->otoritas))
+                    $data['bloks'] = $otoritas->otoritas;
+                else
+                    $data['bloks'] = false;
+
+                if(isset($otoritas->pedagang))
+                    $data['pedagang'] = $otoritas->pedagang;
+                else
+                    $data['pedagang'] = false;
+
+                if(isset($otoritas->tempatusaha))
+                    $data['tempatusaha'] = $otoritas->tempatusaha;
+                else
+                    $data['tempatusaha'] = false;
+                
+                if(isset($otoritas->tagihan))
+                    $data['tagihan'] = $otoritas->tagihan;
+                else
+                    $data['tagihan'] = false;
+                
+                if(isset($otoritas->blok))
+                    $data['blok'] = $otoritas->blok;
+                else
+                    $data['blok'] = false;
+                
+                if(isset($otoritas->pemakaian))
+                    $data['pemakaian'] = $otoritas->pemakaian;
+                else
+                    $data['pemakaian'] = false;
+                
+                if(isset($otoritas->pendapatan))
+                    $data['pendapatan'] = $otoritas->pendapatan;
+                else
+                    $data['pendapatan'] = false;
+                
+                if(isset($otoritas->tunggakan))
+                    $data['tunggakan'] = $otoritas->tunggakan;
+                else
+                    $data['tunggakan'] = false;
+                
+                if(isset($otoritas->datausaha))
+                    $data['datausaha'] = $otoritas->datausaha;
+                else
+                    $data['datausaha'] = false;
+            
+                if(isset($otoritas->publish))
+                    $data['publish'] = $otoritas->publish;
+                else
+                    $data['publish'] = false;
+                
+                if(isset($otoritas->alatmeter))
+                    $data['alatmeter'] = $otoritas->alatmeter;
+                else
+                    $data['alatmeter'] = false;
+                
+                if(isset($otoritas->tarif))
+                    $data['tarif'] = $otoritas->tarif;
+                else
+                    $data['tarif'] = false;
+                
+                if(isset($otoritas->harilibur))
+                    $data['harilibur'] = $otoritas->harilibur;
+                else
+                    $data['harilibur'] = false;
+                
+                if(isset($otoritas->layanan))
+                    $data['layanan'] = $otoritas->layanan;
+                else
+                    $data['layanan'] = false;
+                
+                if(isset($otoritas->simulasi))
+                    $data['simulasi'] = $otoritas->simulasi;
+                else
+                    $data['simulasi'] = false;
             }
 
             return response()->json(['result' => $data]);
@@ -412,7 +473,7 @@ class UserController extends Controller
     public function otoritas(Request $request)
     {
         if(request()->ajax()){
-            $pilihanKelola = array('pedagang','tempatusaha','tagihan','blok','pemakaian','pendapatan','datausaha','publish','alatmeter','tarif','harilibur','layanan','simulasi');
+            $pilihanKelola = array('pedagang','tempatusaha','tagihan','blok','pemakaian','pendapatan','tunggakan','datausaha','publish','alatmeter','tarif','harilibur','layanan','simulasi');
 
             $kelola = array();
             $kelola['otoritas'] = $request->blokOtoritas;

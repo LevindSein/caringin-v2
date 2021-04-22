@@ -9,11 +9,11 @@ function indoDate($tanggal){
 @extends('layout.master')
 
 @section('title')
-<title>Laporan Pemakaian | BP3C</title>
+<title>Laporan Tunggakan | BP3C</title>
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">Laporan Pemakaian</h6>
+<h6 class="h2 text-white d-inline-block mb-0">Laporan Tunggakan</h6>
 @endsection
 
 @section('button')
@@ -26,19 +26,19 @@ function indoDate($tanggal){
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive py-4">
-                    <table class="table table-flush table-hover table-striped" width="100%" id="pemakaian">
+                    <table class="table table-flush table-hover table-striped" width="100%" id="tunggakan">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:70%">Pemakaian</th>
+                                <th class="text-center" style="max-width:70%">Tagihan</th>
                                 <th class="text-center" style="max-width:30%">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($dataset as $d)
                             <tr>
-                                <td class="text-center-td" <?php $bulan = indoDate($d->bln_pakai); ?>>{{$bulan}}</td>
+                                <td class="text-center-td" <?php $bulan = indoDate($d->bln_tagihan); ?>>{{$bulan}}</td>
                                 <td class="text-center">
-                                    <button title="Cetak Pemakaian" name="cetak" id="{{$d->bln_pakai}}" nama="{{$bulan}}" class="cetak btn btn-sm btn-primary">Cetak</button>
+                                    <button title="Cetak Tunggakan" name="cetak" id="{{$d->bln_tagihan}}" nama="{{$bulan}}" class="cetak btn btn-sm btn-primary">Cetak</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -63,7 +63,7 @@ function indoDate($tanggal){
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form id="form_pemakaian" target="_blank" method="POST" action="{{url('rekap/pemakaian')}}">
+            <form id="form_tunggakan" target="_blank" method="POST" action="{{url('rekap/tunggakan')}}">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -75,7 +75,7 @@ function indoDate($tanggal){
                             <option value="kebersihan">Kebersihan</option>
                             <option value="airkotor">Air Kotor</option>
                             <option value="lain">Lain - Lain</option>
-                            <option value="total">Total Pemakaian</option>
+                            <option value="total">Total Tunggakan</option>
                             <option value="diskon">Pengguna Diskon</option>
                         </select>
                     </div>
@@ -92,5 +92,5 @@ function indoDate($tanggal){
 @endsection
 
 @section('js')
-<script src="{{asset('js/laporan/pemakaian.js')}}"></script>
+<script src="{{asset('js/laporan/tunggakan.js')}}"></script>
 @endsection

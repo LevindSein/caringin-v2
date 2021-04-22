@@ -25,6 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link mb-sm-3 mb-md-0" id="tab-c-1" data-toggle="tab" href="#tab-animated-1" role="tab">Tunggakan</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0" id="tab-c-2" data-toggle="tab" href="#tab-animated-2" role="tab">Pendapatan</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="text-right">
@@ -36,6 +39,9 @@
                     </div>
                     <div class="tab-pane fade" id="tab-animated-1" role="tabpanel">
                         @include('datausaha.tunggakan')
+                    </div>
+                    <div class="tab-pane fade" id="tab-animated-2" role="tabpanel">
+                        @include('datausaha.pendapatan')
                     </div>
                 </div>
             </div>

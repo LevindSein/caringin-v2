@@ -28,6 +28,7 @@ $(document).ready(function () {
         ],
         responsive:true,
         scrollY: "50vh",
+        scrollX: true,
         preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
@@ -83,6 +84,7 @@ $(document).ready(function () {
                 ],
                 responsive:true,
                 scrollY: "50vh",
+                scrollX: true,
                 preDrawCallback: function( settings ) {
                     scrollPosition = $(".dataTables_scrollBody").scrollTop();
                 },
@@ -155,7 +157,7 @@ $(document).ready(function () {
                 }
                 
 				$('#hidden_id').val(id);
-				$('.titles').text('Edit Pedagang');
+				$('.titles').text('Edit Alat');
 				$('#action_btn').val('Update');
 				$('#action').val('Edit');
                 $('#myModal').modal('show');

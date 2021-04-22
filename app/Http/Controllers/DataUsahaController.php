@@ -28,66 +28,6 @@ class DataUsahaController extends Controller
         if(request()->ajax()){
             $data = Tagihan::select('bln_tagihan')->groupBy('bln_tagihan');
             return DataTables::of($data)
-            ->addColumn('ttl_listrik', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(ttl_listrik) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('ttl_airbersih', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(ttl_airbersih) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('ttl_keamananipk', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(ttl_keamananipk) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('ttl_kebersihan', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(ttl_kebersihan) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('ttl_airkotor', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(ttl_airkotor) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('ttl_lain', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(ttl_lain) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
             ->addColumn('ttl_tagihan', function($data){
                 $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
                 ->select(DB::raw('SUM(ttl_tagihan) as tagihan'))->get();
@@ -101,6 +41,11 @@ class DataUsahaController extends Controller
             ->editColumn('bln_tagihan', function($data){
                 return IndoDate::bulanS($data->bln_tagihan,' ');
             })
+            ->addColumn('show', function($data){
+                $button = '<button title="Show Details" name="show" id="'.$data->bln_tagihan.'" nama="'.$data->bln_tagihan.'" class="details btn btn-sm btn-primary">Show</button>';
+                return $button;
+            })
+            ->rawColumns(['show'])
             ->make(true);
         }
         return view('datausaha.index');
@@ -111,66 +56,6 @@ class DataUsahaController extends Controller
         if(request()->ajax()){
             $data = Tagihan::select('bln_tagihan')->groupBy('bln_tagihan')->where('sel_tagihan','>',0);
             return DataTables::of($data)
-            ->addColumn('sel_listrik', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(sel_listrik) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('sel_airbersih', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(sel_airbersih) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('sel_keamananipk', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(sel_keamananipk) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('sel_kebersihan', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(sel_kebersihan) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('sel_airkotor', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(sel_airkotor) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
-            ->addColumn('sel_lain', function($data){
-                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
-                ->select(DB::raw('SUM(sel_lain) as tagihan'))->get();
-                if($tagihan != NULL){
-                    return number_format($tagihan[0]->tagihan);
-                }
-                else{
-                    return 0;
-                }
-            })
             ->addColumn('sel_tagihan', function($data){
                 $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
                 ->select(DB::raw('SUM(sel_tagihan) as tagihan'))->get();
@@ -184,6 +69,38 @@ class DataUsahaController extends Controller
             ->editColumn('bln_tagihan', function($data){
                 return IndoDate::bulanS($data->bln_tagihan,' ');
             })
+            ->addColumn('show', function($data){
+                $button = '<button title="Show Details" name="show" id="'.$data->bln_tagihan.'" nama="'.$data->bln_tagihan.'" class="details btn btn-sm btn-primary">Show</button>';
+                return $button;
+            })
+            ->rawColumns(['show'])
+            ->make(true);
+        }
+    }
+
+    public function pendapatan()
+    {
+        if(request()->ajax()){
+            $data = Tagihan::select('bln_tagihan')->groupBy('bln_tagihan')->where('rea_tagihan','>',0);
+            return DataTables::of($data)
+            ->addColumn('rea_tagihan', function($data){
+                $tagihan = Tagihan::where('bln_tagihan',$data->bln_tagihan)
+                ->select(DB::raw('SUM(rea_tagihan) as tagihan'))->get();
+                if($tagihan != NULL){
+                    return number_format($tagihan[0]->tagihan);
+                }
+                else{
+                    return 0;
+                }
+            })
+            ->editColumn('bln_tagihan', function($data){
+                return IndoDate::bulanS($data->bln_tagihan,' ');
+            })
+            ->addColumn('show', function($data){
+                $button = '<button title="Show Details" name="show" id="'.$data->bln_tagihan.'" nama="'.$data->bln_tagihan.'" class="details btn btn-sm btn-primary">Show</button>';
+                return $button;
+            })
+            ->rawColumns(['show'])
             ->make(true);
         }
     }

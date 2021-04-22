@@ -25,6 +25,7 @@ use App\Http\Controllers\TagihanController;
 //Laporan
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PendapatanController;
+use App\Http\Controllers\TunggakanController;
 
 //Data Usaha
 use App\Http\Controllers\DataUsahaController;
@@ -239,7 +240,13 @@ Route::middleware('ceklogin:pendapatan')->group(function(){
     Route::resource('rekap/pendapatan', PendapatanController::class);
 });
 
+Route::middleware('ceklogin:tunggakan')->group(function(){
+    Route::get('rekap/tunggakan', [TunggakanController::class, 'index']);
+    Route::post('rekap/tunggakan',[TunggakanController::class, 'fasilitas']);
+});
+
 Route::middleware('ceklogin:datausaha')->group(function(){
+    Route::get('datausaha/pendapatan', [DataUsahaController::class, 'pendapatan']);
     Route::get('datausaha/tunggakan', [DataUsahaController::class, 'tunggakan']);
     Route::get('datausaha', [DataUsahaController::class, 'index']);
 });

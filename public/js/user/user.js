@@ -27,6 +27,7 @@ $(document).ready(function(){
         ],
         responsive:true,
         scrollY: "50vh",
+        scrollX: true,
         preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
@@ -78,6 +79,7 @@ $(document).ready(function(){
                 ],
                 responsive:true,
                 scrollY: "50vh",
+                scrollX: true,
                 preDrawCallback: function( settings ) {
                     scrollPosition = $(".dataTables_scrollBody").scrollTop();
                 },
@@ -131,6 +133,7 @@ $(document).ready(function(){
                 ],
                 responsive:true,
                 scrollY: "50vh",
+                scrollX: true,
                 preDrawCallback: function( settings ) {
                     scrollPosition = $(".dataTables_scrollBody").scrollTop();
                 },
@@ -184,6 +187,7 @@ $(document).ready(function(){
                 ],
                 responsive:true,
                 scrollY: "50vh",
+                scrollX: true,
                 preDrawCallback: function( settings ) {
                     scrollPosition = $(".dataTables_scrollBody").scrollTop();
                 },
@@ -237,6 +241,7 @@ $(document).ready(function(){
                 ],
                 responsive:true,
                 scrollY: "50vh",
+                scrollX: true,
                 preDrawCallback: function( settings ) {
                     scrollPosition = $(".dataTables_scrollBody").scrollTop();
                 },
@@ -511,6 +516,7 @@ $(document).ready(function(){
         $("#blok").prop("checked", false);
         $("#pemakaian").prop("checked", false);
         $("#pendapatan").prop("checked", false);
+        $("#tunggakan").prop("checked", false);
         $("#datausaha").prop("checked", false);
         $("#publish").prop("checked", false);
         $("#alatmeter").prop("checked", false);
@@ -571,6 +577,8 @@ $(document).ready(function(){
                     if(data.result.pemakaian == true) $("#pemakaian").prop("checked", true);
 
                     if(data.result.pendapatan == true) $("#pendapatan").prop("checked", true);
+                    
+                    if(data.result.tunggakan == true) $("#tunggakan").prop("checked", true);
 
                     if(data.result.datausaha == true) $("#datausaha").prop("checked", true);
                     

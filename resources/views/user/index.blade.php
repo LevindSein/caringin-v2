@@ -388,6 +388,17 @@
                                     Blok
                                 </label>
                             </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="kelola[]"
+                                    id="simulasi"
+                                    value="simulasi">
+                                <label class="form-control-label" for="simulasi">
+                                    Simulasi
+                                </label>
+                            </div>
                         </div>
                         <div>
                             <div class="form-check">
@@ -417,6 +428,17 @@
                                     class="form-check-input"
                                     type="checkbox"
                                     name="kelola[]"
+                                    id="tunggakan"
+                                    value="tunggakan">
+                                <label class="form-control-label" for="tunggakan">
+                                    Tunggakan
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="kelola[]"
                                     id="datausaha"
                                     value="datausaha">
                                 <label class="form-control-label" for="datausaha">
@@ -432,17 +454,6 @@
                                     value="publish">
                                 <label class="form-control-label" for="publish">
                                     Publishing
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    name="kelola[]"
-                                    id="simulasi"
-                                    value="simulasi">
-                                <label class="form-control-label" for="simulasi">
-                                    Simulasi
                                 </label>
                             </div>
                         </div>

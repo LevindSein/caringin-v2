@@ -29,6 +29,7 @@ $(document).ready(function(){
         ],
         responsive:true,
         scrollY: "50vh",
+        scrollX: true,
         preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },
@@ -71,6 +72,7 @@ $(document).ready(function(){
                 ],
                 responsive:true,
                 scrollY: "50vh",
+                scrollX: true,
                 preDrawCallback: function( settings ) {
                     scrollPosition = $(".dataTables_scrollBody").scrollTop();
                 },
@@ -127,6 +129,7 @@ $(document).ready(function(){
                 ],
                 responsive:true,
                 scrollY: "50vh",
+                scrollX: true,
                 preDrawCallback: function( settings ) {
                     scrollPosition = $(".dataTables_scrollBody").scrollTop();
                 },
