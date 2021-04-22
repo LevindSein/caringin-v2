@@ -42,6 +42,7 @@
                     </ul>
                 </div>
                 <div class="form-group text-right">
+                    <button id="workasir" class="btn btn-sm">Status</button>
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 <span id="form_result"></span>

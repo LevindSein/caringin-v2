@@ -365,7 +365,7 @@ Route::middleware('ceklogin:human')->group(function(){
 });
 
 Route::get('work',[WorkController::class, 'work']);
-Route::post('work/update',[WorkController::class, 'update']);
+Route::post('work',[WorkController::class, 'update']);
 
 Route::get('optimize.p3cmaster',function(){
     Artisan::call('optimize');
