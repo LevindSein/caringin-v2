@@ -25,7 +25,7 @@
                     <table class="table table-flush table-hover table-striped" width="100%" id="tabel">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:15%">Tanggal</th>
+                                <th class="text-center" style="max-width:15%">Tgl.Bayar</th>
                                 <th class="text-center" style="max-width:15%">Kontrol</th>
                                 <th class="text-center" style="min-width:80px;max-width:20%">Pengguna</th>
                                 <th class="text-center" style="min-width:80px;max-width:20%">Kasir</th>

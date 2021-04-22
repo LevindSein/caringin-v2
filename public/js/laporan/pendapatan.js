@@ -43,8 +43,13 @@ $(document).ready(function(){
             }, 10)
         },
     });
+    
+    $("#tab-c-0").click(function(){
+        $(".generate").val('harian');
+    });
 
     $("#tab-c-1").click(function(){
+        $(".generate").val('bulanan');
         if (!$.fn.dataTable.isDataTable('#bulanan')) {
             var dtable = $('#bulanan').DataTable({
                 serverSide: true,
@@ -101,6 +106,7 @@ $(document).ready(function(){
     });
 
     $("#tab-c-2").click(function(){
+        $(".generate").val('tahunan');
         if (!$.fn.dataTable.isDataTable('#tahunan')) {
             var dtable = $('#tahunan').DataTable({
                 processing: true,
@@ -413,4 +419,8 @@ $(document).ready(function(){
         
         $('#show-details').modal('show');
 	});
+
+    $(".generate").click(function() {
+        alert($(this).attr('value'));
+    });
 });

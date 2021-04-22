@@ -9,6 +9,8 @@
 @endsection
 
 @section('button')
+<button id="generate" class="btn btn-sm btn-danger generate" value="harian" data-toggle="tooltip" data-original-title="Generate"><i class="fas fa-fw fa-download text-white"></i></button>
+<button class="btn btn-sm btn-info realisasi" title="Realisasi">Realisasi</button>
 @endsection
 
 @section('content')

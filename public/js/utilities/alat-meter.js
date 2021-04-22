@@ -141,8 +141,8 @@ $(document).ready(function () {
                     $('input[id="air"]').attr('disabled',true);
                     $("#meteranListrik").show();
                     $("#meteranAir").hide();
-                    $('#standListrik').val(data.result.akhir);
-                    $('#dayaListrik').val(data.result.daya);
+                    $('#standListrik').val(data.result.akhir.toLocaleString("en-US"));
+                    $('#dayaListrik').val(data.result.daya.toLocaleString("en-US"));
                     $("#standAir").prop('required',false);
                 }
                 else{
@@ -151,7 +151,7 @@ $(document).ready(function () {
                     $('input[id="listrik"]').attr('disabled',true);
                     $("#meteranListrik").hide();
                     $("#meteranAir").show();
-                    $('#standAir').val(data.result.akhir);
+                    $('#standAir').val(data.result.akhir.toLocaleString("en-US"));
                     $("#standListrik").prop('required',false);
                     $("#dayaListrik").prop('required',false);
                 }
@@ -213,12 +213,9 @@ $(document).ready(function () {
                         }
                     }
                 }
-                if($('#action').val() == 'Edit')
-                {
-                    setTimeout(function(){
-                        $('#myModal').modal('hide');
-                    }, 3000);
-                }
+                
+                $('#myModal').modal('hide');
+
 				$('#form_result').html(html);
                 $("#listrik").prop("checked", true);
                 $("#meteranListrik").show();

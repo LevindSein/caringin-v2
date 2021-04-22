@@ -25,7 +25,7 @@
                     <table class="table table-flush table-hover table-striped" width="100%" id="tabel">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" style="max-width:20%">Bulan</th>
+                                <th class="text-center" style="max-width:20%">Bln.Bayar</th>
                                 <th class="text-center" style="max-width:65%">Realisasi</th>
                                 <th class="text-center" style="max-width:15%">Details</th>
                             </tr>
