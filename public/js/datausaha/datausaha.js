@@ -165,4 +165,8 @@ $(document).ready(function(){
             });
         }
     });
+
+    $(document).on('click', '.details', function(){
+        $("#show-details").modal("show");
+    });
 });

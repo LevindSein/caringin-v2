@@ -74,8 +74,9 @@ class TempatController extends Controller
                     $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
-                ->editColumn('no_alamat', function ($data) {
-                    return '<span style="white-space:normal;">'.$data->no_alamat.'</span>';
+                ->editColumn('jml_alamat', function($data){
+                    $button = '<span data-html="true" data-toggle="tooltip" data-original-title="No. '.$data->no_alamat.'">'.$data->jml_alamat.'</span>';
+                    return $button;
                 })
                 ->editColumn('kd_kontrol', function ($data) {
                     if($data->stt_tempat == 1)
@@ -92,7 +93,7 @@ class TempatController extends Controller
                 ->rawColumns([
                     'action',
                     'show',
-                    'no_alamat',
+                    'jml_alamat',
                     'id_pengguna',
                     'kd_kontrol'])
                 ->make(true);

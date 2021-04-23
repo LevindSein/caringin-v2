@@ -33,16 +33,17 @@
                                 <div class="col-lg-6">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            @include('message.flash-message')
                                             <h1 class="h4 text-gray-900 mb-4" id="login-dynamic"></h1>
+                                            @include('message.flash-message')
                                         </div>
                                         <form class="user" action="{{url('storelogin')}}" method="POST" id="sample_form">
                                             @csrf
                                             <div class="form-group">
                                                 <input
-                                                    required="required"
+                                                    autofocus
+                                                    required
                                                     type="text"
-                                                    class="form-control form-control-user"
+                                                    class="form-control form-control-user shadow"
                                                     id="username"
                                                     name="username"
                                                     minlength="5"
@@ -52,17 +53,16 @@
                                             </div>
                                             <div class="form-group">
                                                 <input
-                                                    required="required"
+                                                    required
                                                     type="password"
-                                                    class="form-control form-control-user"
+                                                    class="form-control form-control-user shadow"
                                                     id="password"
                                                     name="password"
                                                     minlength="6"
                                                     maxlength="30"
                                                     placeholder="Password">
                                             </div>
-                                            <input type="submit" value="Login" id="save" class="btn btn-user btn-block">
-                                            <hr>
+                                            <input type="submit" value="Login" id="save" class="btn btn-user btn-block shadow">
                                             <div id="process" style="display:none;">
                                                 <p>Please Wait, Updating <img src="{{asset('img/updating.gif')}}"/></p>
                                             </div>

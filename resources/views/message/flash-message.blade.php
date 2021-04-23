@@ -27,8 +27,6 @@
 
 <script>
     $(document).ready(function () {
-        $("#success-alert,#warning-alert,#error-alert,#info-alert").fadeTo(1000, 500).slideUp(1000, function () {
-            $("#success-alert,#warning-alert,#error-alert,#info-alert").slideUp(500);
-        });
+        $("#success-alert,#warning-alert,#error-alert,#info-alert").fadeTo(1000, 500).slideUp(1200);
     });
 </script>

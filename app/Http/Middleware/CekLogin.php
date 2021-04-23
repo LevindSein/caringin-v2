@@ -62,8 +62,7 @@ class CekLogin
                     if($user->role === 'master' || $user->role === 'manajer' || $user->role === 'keuangan') {
                         return $next($request);
                     }
-                    
-                    if($user->role === 'kasir') {
+                    else if($user->role === 'kasir') {
                         Session::put('mode','bulanan');
                         Session::put('work',$user->stt_aktif);
                         if($agent->isDesktop()){
@@ -78,8 +77,7 @@ class CekLogin
                         }
                         return $next($request);
                     }
-
-                    if($user->role === 'admin') {
+                    else if($user->role === 'admin') {
                         if($user->otoritas != NULL){
                             Session::put('otoritas',json_decode($user->otoritas));
                         }
