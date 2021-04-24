@@ -22,6 +22,7 @@ $(document).ready(function(){
         },
         deferRender: true,
         pageLength: 10,
+        aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
         responsive: true,
         scrollY: "50vh",
         scrollX: true,

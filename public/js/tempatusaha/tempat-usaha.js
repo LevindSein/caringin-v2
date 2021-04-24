@@ -31,6 +31,7 @@ $(document).ready(function(){
         responsive: true,
         scrollY: "50vh",
         scrollX: true,
+        aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
         preDrawCallback: function( settings ) {
             scrollPosition = $(".dataTables_scrollBody").scrollTop();
         },

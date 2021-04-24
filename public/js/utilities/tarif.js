@@ -75,6 +75,7 @@ $(document).ready(function(){
                 stateSave: true,
                 deferRender: true,
                 pageLength: 10,
+                aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",
@@ -129,6 +130,7 @@ $(document).ready(function(){
                 stateSave: true,
                 deferRender: true,
                 pageLength: 10,
+                aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",
@@ -183,6 +185,7 @@ $(document).ready(function(){
                 stateSave: true,
                 deferRender: true,
                 pageLength: 10,
+                aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",
@@ -237,6 +240,7 @@ $(document).ready(function(){
                 stateSave: true,
                 deferRender: true,
                 pageLength: 10,
+                aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
                 language: {
                     paginate: {
                         previous: "<i class='fas fa-angle-left'>",

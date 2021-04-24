@@ -164,6 +164,7 @@ $(document).ready(function(){
             }
         },
         pageLength: 10,
+        aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
         order: [ 0, "asc" ],
         responsive:true,
     }).columns.adjust().draw();

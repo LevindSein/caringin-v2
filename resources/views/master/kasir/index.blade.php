@@ -174,7 +174,7 @@ $(document).ready(function () {
 			{ data: 'action', name: 'action', class : 'text-center' },
         ],
         stateSave: true,
-        lengthMenu: [[10,25,50,100,-1], [10,25,50,100,"All"]],
+        lengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
         language: {
             paginate: {
                 previous: "<i class='fas fa-angle-left'>",

@@ -22,8 +22,8 @@ $(document).ready(function(){
             { "bSortable": false, "aTargets": [1,2] }, 
             { "bSearchable": false, "aTargets": [1,2] }
         ],
-        aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
-        pageLength: 5,
+        aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
+        pageLength: 10,
         scrollX: true,
         scrollY: "50vh",
         order: [[0,'desc']],
@@ -77,8 +77,8 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [1,2] }, 
                     { "bSearchable": false, "aTargets": [1,2] }
                 ],
-                aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
-                pageLength: 5,
+                aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
+                pageLength: 10,
                 scrollX: true,
                 scrollY: "50vh",
                 order: [[0,'desc']],
@@ -134,8 +134,8 @@ $(document).ready(function(){
                     { "bSortable": false, "aTargets": [1,2] }, 
                     { "bSearchable": false, "aTargets": [1,2] }
                 ],
-                aLengthMenu: [[5,10,25,50,100,-1], [5,10,25,50,100,"All"]],
-                pageLength: 5,
+                aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
+                pageLength: 10,
                 scrollX: true,
                 scrollY: "50vh",
                 order: [[0,'desc']],

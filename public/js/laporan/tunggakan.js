@@ -7,6 +7,7 @@ $(document).ready(function () {
             }
         },
         pageLength:10,
+        aLengthMenu: [[5,10,25,50,100], [5,10,25,50,100]],
         bSortable: false,
         deferRender: true,
         ordering: false,
