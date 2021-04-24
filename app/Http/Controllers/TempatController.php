@@ -789,9 +789,22 @@ class TempatController extends Controller
             $airId = $data->id_meteran_air;
 
             try{
-                $exists = Tagihan::where([['kd_kontrol', $data->kd_kontrol],['stt_lunas',0]])->first();
-                if($exists != NULL)
-                    return response()->json(['errors' => 'Data gagal dihapus, ada sejumlah tagihan']);
+                $exists = Tagihan::where([['kd_kontrol', $data->kd_kontrol],['stt_lunas',0]])->get();
+                if($exists != "[]"){
+                    $totalpublish = 0;
+                    $totalunpublish = 0;
+                    $i = 0;
+                    foreach($exists as $d){
+                        if($d->stt_publish == 1){
+                            $totalpublish = $totalpublish + $d->sel_tagihan;
+                        }
+                        else{
+                            $totalunpublish = $totalunpublish + $d->sel_tagihan;
+                        }
+                        $i++;
+                    }
+                    return response()->json(['errors' => "$data->kd_kontrol gagal dihapus, Rp.". number_format($totalpublish). ",- belum dibayar dan Rp.".number_format($totalunpublish).",- tagihan yang akan datang."]);
+                }
 
                 if($listrikId != NULL){
                     $alat = AlatListrik::find($listrikId);
@@ -811,8 +824,9 @@ class TempatController extends Controller
                     }
                 }
 
+                $kontrol = $data->kd_kontrol;
                 $data->delete();
-                return response()->json(['success' => 'Data telah dihapus.']);
+                return response()->json(['success' => "$kontrol telah dihapus."]);
             }
             catch(\Exception $e){
                 return response()->json(['errors' => 'Data gagal dihapus.']);

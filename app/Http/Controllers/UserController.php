@@ -326,7 +326,7 @@ class UserController extends Controller
             $dataset = array();
             try{
                 $role = $data->role;
-                $dataset['success'] = 'Data telah dihapus';
+                $dataset['success'] = "Data $data->nama telah dihapus";
                 $dataset['role'] = $role;
                 $data->delete();
                 return response()->json(['result' => $dataset]);

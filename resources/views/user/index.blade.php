@@ -121,11 +121,11 @@
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <h1><b><span id="password_baru">Password Baru</span></b></h1>
+                    <h1><b><span id="password_baru"></span></b></h1>
                 </div>
             </div>
             <div class="modal-footer">
-            	<button type="button" data-dismiss="modal" class="btn btn-success">OK</button>
+            	<button type="button" id="btn_copy" data-toggle="sweet-alert" data-sweet-alert="success" data-dismiss="modal" class="btn btn-success">Click for Copy!</button>
             </div>
         </div>
     </div>

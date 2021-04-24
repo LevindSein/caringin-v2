@@ -1644,6 +1644,7 @@ $(document).ready(function(){
             }
         })
 		$('#confirmModal').modal('show');
+        $('#form_result').html('');
 	});
 
     $('#form_destroy').on('submit',function(e){
@@ -1659,18 +1660,34 @@ $(document).ready(function(){
 			},
 			success:function(data)
 			{
+                $('#confirmModal').modal('hide');
                 $("#tabelTagihan").DataTable().ajax.reload(function(){}, false);
-                if(data.success)
-                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
-                if(data.errors)
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
-                $('#form_result').html(html);     
+                if(data.success){
+                    swal({
+                        title: 'Success',
+                        text: data.success,
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+                    // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
+                }
+                if(data.errors){
+                    swal({
+                        title: 'Oops!',
+                        text: data.errors,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
+                }
+                // $('#form_result').html(html);     
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
-                $('#confirmModal').modal('hide');
             },
             complete:function(){
                 $('#ok_button').text('Hapus');

@@ -54,6 +54,7 @@ $(document).ready(function(){
 		$('#sync_status').val('synchronize');
         $('#sync_button').removeClass("btn-danger").addClass("btn-primary");
 		$('#syncModal').modal('show');
+        $('#form_result').html('');
 	});
     $(document).on('click', '.unsynchronize', function(){
 		$('.titles').text("Batalkan Tagihan Periode " + periode + " ?");
@@ -61,6 +62,7 @@ $(document).ready(function(){
 		$('#sync_status').val('unsynchronize');
         $('#sync_button').removeClass("btn-primary").addClass("btn-danger");
 		$('#syncModal').modal('show');
+        $('#form_result').html('');
 	});
 
     $('#form_sync').on('submit', function(event){
@@ -69,7 +71,7 @@ $(document).ready(function(){
         $('#refresh-img').show();
 		var action_url = '';
         $('#syncModal').modal('hide');
-        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Tunggu Hingga Status Konfirmasi Muncul disini.</div>')
+        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Harap tunggu hingga status konfirmasi tampil.</div>')
 
         if($('#sync_status').val() == 'unsynchronize')
 		{
@@ -89,17 +91,31 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data)
 			{
-                $('#form_result').show();
+                // $('#form_result').show();
 				var html = '';
 				if(data.errors)
 				{
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                    swal({
+                        title: 'Oops!',
+                        text: data.errors,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
 				}
 				if(data.success)
 				{
-					html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
+                    swal({
+                        title: 'Success',
+                        text: data.success,
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+					// html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
                 }
-				$('#form_result').html(html);
+				// $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -204,6 +220,7 @@ $(document).ready(function(){
         $('#publish_button').removeClass("btn-danger").addClass("btn-success").val("Publish");
         $("#publish_text").html('Dengan Melakukan <b>Publish</b>, maka tagihan akan berstatus <b style="color:green;">aktif</b> sesuai dengan periode yang dipilih. Jika setuju silakan <b>Submit</b>.');
         $("#publishModal").show();
+        $('#form_result').html('');
     });
     
     $(document).on('click', '.cancel-publish', function(){
@@ -212,6 +229,7 @@ $(document).ready(function(){
         $('#publish_button').removeClass("btn-success").addClass("btn-danger").val("Unpublish");
 		$('#publish_text').html('<b style="color:red;">WARNING!</b> Membatalkan tagihan, maka <b>semua data tagihan</b> untuk periode yang anda pilih <b style="color:red;">akan dinon-aktifkan</b>. <b>Kecuali, Tagihan yang sudah terbayar</b>. Jika setuju silakan <b>Submit</b>.');
         $("#publishModal").show();
+        $('#form_result').html('');
     });
 
     $('#form_publish').on('submit',function(e){
@@ -219,7 +237,7 @@ $(document).ready(function(){
         $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
         $('#refresh-img').show();
         $('#publishModal').modal('hide');
-        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Tunggu Hingga Status Konfirmasi Muncul disini.</div>');
+        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Harap tunggu hingga status konfirmasi tampil.</div>');
 		$.ajax({
 			url:"/tagihan/publish",
             cache:false,
@@ -228,11 +246,27 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data)
 			{
-                if(data.result.status)
-                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.message + '</div>';
-                if(data.result.status == false)
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
-                $('#form_result').html(html);     
+                if(data.result.status){
+                    swal({
+                        title: 'Success',
+                        text: data.result.message,
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+                    // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.message + '</div>';
+                }
+                if(data.result.status == false){
+                    swal({
+                        title: 'Oops!',
+                        text: data.result.message,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
+                }
+                // $('#form_result').html(html);     
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -268,7 +302,7 @@ $(document).ready(function(){
         $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
         $('#refresh-img').show();
         $('#myRefresh').modal('hide');
-        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Tunggu Hingga Status Konfirmasi Muncul disini.</div>');
+        $('#form_result').html('<div class="alert alert-info" id="info-alert"> <strong>Penting ! </strong> Harap tunggu hingga status konfirmasi tampil.</div>');
 		$.ajax({
 			url:"/tagihan/refresh/tarif",
             cache:false,
@@ -277,11 +311,27 @@ $(document).ready(function(){
 			dataType:"json",
 			success:function(data)
 			{
-                if(data.result.status)
-                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.message + '</div>';
-                if(data.errors)
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
-                $('#form_result').html(html);     
+                if(data.result.status){
+                    swal({
+                        title: 'Success',
+                        text: data.result.message,
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+                    // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.message + '</div>';
+                }
+                if(data.result.status == false){
+                    swal({
+                        title: 'Oops!',
+                        text: data.result.message,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
+                }
+                // $('#form_result').html(html);     
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {

@@ -214,33 +214,38 @@ class MasterController extends Controller
     public function kasirEdit(Request $request){
         if(request()->ajax()){
             try{
-                $pembayaran = Pembayaran::where('ref',$request->hidden_ref)->get();
-                if($pembayaran != NULL){
-                    foreach($pembayaran as $d){
-                        $tanggal = $request->edittanggal;
-                        $d->tgl_bayar = $tanggal;
-                        $d->bln_bayar = date("Y-m",strtotime($tanggal));
-                        $d->thn_bayar = date("Y",strtotime($tanggal));
-                        $d->save();
+                if($request->edittanggal <= date('Y-m-d',strtotime(Carbon::now()))){
+                    $pembayaran = Pembayaran::where('ref',$request->hidden_ref)->get();
+                    if($pembayaran != NULL){
+                        foreach($pembayaran as $d){
+                            $tanggal = $request->edittanggal;
+                            $d->tgl_bayar = $tanggal;
+                            $d->bln_bayar = date("Y-m",strtotime($tanggal));
+                            $d->thn_bayar = date("Y",strtotime($tanggal));
+                            $d->save();
+                        }
                     }
-                }
 
-                $struk = StrukPembayaran::where('ref', $request->hidden_ref)->get();
-                if($struk != NULL){
-                    foreach($struk as $d){
-                        $tanggal = $request->edittanggal;
-                        $d->tgl_bayar = $tanggal;
-                        $d->bln_bayar = date("Y-m",strtotime($tanggal));
+                    $struk = StrukPembayaran::where('ref', $request->hidden_ref)->get();
+                    if($struk != NULL){
+                        foreach($struk as $d){
+                            $tanggal = $request->edittanggal;
+                            $d->tgl_bayar = $tanggal;
+                            $d->bln_bayar = date("Y-m",strtotime($tanggal));
 
-                        $bayar   = $d->bayar;
-                        $pattern = date("d/m/Y", strtotime($tanggal));
-                        $bayar   = substr_replace($bayar,$pattern,0,10);
+                            $bayar   = $d->bayar;
+                            $pattern = date("d/m/Y", strtotime($tanggal));
+                            $bayar   = substr_replace($bayar,$pattern,0,10);
 
-                        $d->bayar = $bayar;
-                        $d->save();
+                            $d->bayar = $bayar;
+                            $d->save();
+                        }
                     }
+                    return response()->json(['success' => 'Berhasil Melakukan Update']);
                 }
-                return response()->json(['success' => 'Berhasil Melakukan Update']);
+                else{
+                    return response()->json(['errors' => 'Gagal Melakukan Update, Tanggal lebih daripada hari ini']);
+                }
             }
             catch(\Exception $e){
                 return response()->json(['errors' => 'Gagal Melakukan Update']);

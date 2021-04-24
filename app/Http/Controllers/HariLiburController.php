@@ -111,8 +111,9 @@ class HariLiburController extends Controller
         if(request()->ajax()){
             try{
                 $tanggal = HariLibur::find($id);
+                $data = $tanggal->tanggal;
                 $tanggal->delete();
-                return response()->json(['success' => 'Data telah dihapus.']);
+                return response()->json(['success' => "Data $data telah dihapus."]);
             }
             catch(\Exception $e){
                 return response()->json(['errors' => 'Data gagal dihapus.']);

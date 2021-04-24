@@ -259,7 +259,7 @@ class AlatController extends Controller
 
             $dataset = array();
             try{
-                $dataset['success'] = 'Data telah dihapus';
+                $dataset['success'] = 'Data '.$data->kode.' telah dihapus';
                 $dataset['role'] = $role;
                 $data->delete();
                 return response()->json(['result' => $dataset]);

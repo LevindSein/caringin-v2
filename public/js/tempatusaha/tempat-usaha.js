@@ -556,6 +556,7 @@ $(document).ready(function(){
 		username = $(this).attr('nama');
 		$('.titles').text('Hapus data ' + username + ' ?');
 		$('#confirmModal').modal('show');
+        $('#form_result').html('');
 	});
 
 	$('#ok_button').click(function(){
@@ -567,18 +568,34 @@ $(document).ready(function(){
 			},
 			success:function(data)
 			{
+                $('#confirmModal').modal('hide');
                 $('#tabelTempat').DataTable().ajax.reload(function(){}, false);
-                if(data.success)
-                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
-                if(data.errors)
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
-                $('#form_result').html(html);     
+                if(data.success){
+                    swal({
+                        title: 'Success',
+                        text: data.success,
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+                    // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
+                    // $('#form_result').html(html);     
+                }
+                if(data.errors){
+                    swal({
+                        title: 'Oops!',
+                        text: data.errors,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
+                }
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
-                $('#confirmModal').modal('hide');
             },
             complete:function(){
                 $('#ok_button').text('Hapus');

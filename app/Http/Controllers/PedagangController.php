@@ -329,8 +329,9 @@ class PedagangController extends Controller
         if(request()->ajax()){
             $data = Pedagang::find($id);
             try{
+                $nama = $data->nama;
                 $data->delete();
-                return response()->json(['success' => 'Data telah dihapus.']);
+                return response()->json(['success' => "Data $nama telah dihapus."]);
             }
             catch(\Exception $e){
                 return response()->json(['errors' => 'Data gagal dihapus.']);

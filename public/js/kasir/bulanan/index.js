@@ -207,6 +207,7 @@ $(document).ready(function () {
 		username = $(this).attr('nama');
 		$('.titles').text('Restore Pembayaran ' + username + ' ?');
 		$('#confirmModal').modal('show');
+        $('#form_result').html('');
 	});
 
 	$('#ok_button').click(function(){
@@ -222,23 +223,37 @@ $(document).ready(function () {
 			dataType:"json",
 			success:function(data)
 			{
+                $('#confirmModal').modal('hide');
                 $('#tabelRestore').DataTable().ajax.reload(function(){}, false);
                 var html = '';
 				if(data.errors)
 				{
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                    swal({
+                        title: 'Oops!',
+                        text: data.errors,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
 				}
 				if(data.success)
 				{
-					html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
+                    swal({
+                        title: 'Success',
+                        text: data.success,
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+					// html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
                 }
-				$('#form_result').html(html);
+				// $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
-                $('#confirmModal').modal('hide');
             }
 		});
     });
@@ -634,22 +649,36 @@ $(document).ready(function () {
 			dataType:"json",
 			success:function(data)
 			{
+                $('#myRincian').modal('hide');
 				var html = '';
 				if(data.result.status == 'error')
 				{
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops ! </strong> Transaksi Gagal</div>';
+                    swal({
+                        title: 'Oops!',
+                        text: 'Transaksi Gagal',
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops ! </strong> Transaksi Gagal</div>';
 				}
 				if(data.result.status == 'success')
 				{
-                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>Transaksi Berhasil</div>';
+                    swal({
+                        title: 'Success',
+                        text: 'Transaksi Sukses',
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+                    // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>Transaksi Berhasil</div>';
                     if(data.result.totalTagihan != 0){
-                        ajax_print('/kasir/bayar/' + JSON.stringify(data.result));
+                        kasir_print('/kasir/bayar/' + JSON.stringify(data.result));
                     }
 				}
                 
                 $('#tabelKasir').DataTable().ajax.reload(function(){}, false);
-                $('#myRincian').modal('hide');
-                $('#form_result').html(html);
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -701,15 +730,36 @@ $(document).ready(function () {
         socket.bufferType = "arraybuffer";
         socket.onerror = function(error) {  
             console.log("Transaksi Berhasil Tanpa Print Struk");
+            swal({
+                title: 'Info',
+                text: 'Printer Belum Siap, Transaksi Berhasil',
+                type: 'info',
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-info'
+            });
         };			
         socket.onopen = function() {
             socket.send(data);
             socket.close(1000, "Work complete");
+            swal({
+                title: 'Success',
+                text: 'Cetak Berhasil',
+                type: 'success',
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-success'
+            });
         };
     }	
 
     function android_print(data){
-        window.location.href = data;  
+        window.location.href = data;
+        swal({
+            title: 'Success',
+            text: 'Cetak Berhasil',
+            type: 'success',
+            buttonsStyling: false,
+            confirmButtonClass: 'btn btn-success'
+        });
     }
 
     function ajax_print(url) {
@@ -720,6 +770,44 @@ $(document).ready(function () {
                 android_print(data);
             }else{
                 pc_print(data);
+            }
+        }).fail(function (data) {
+            console.log(data);
+        });
+    }
+
+    //Print Via Bluetooth atau USB
+    function pcc_print(data){
+        var socket = new WebSocket("ws://127.0.0.1:40213/");
+        socket.bufferType = "arraybuffer";
+        socket.onerror = function(error) {  
+            console.log("Transaksi Berhasil Tanpa Print Struk");
+            swal({
+                title: 'Info',
+                text: 'Printer Belum Siap, Transaksi Berhasil',
+                type: 'info',
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-info'
+            });
+        };			
+        socket.onopen = function() {
+            socket.send(data);
+            socket.close(1000, "Work complete");
+        };
+    }	
+
+    function androidd_print(data){
+        window.location.href = data;
+    }
+
+    function kasir_print(url) {
+        $.get(url, function (data) {
+            var ua = navigator.userAgent.toLowerCase();
+            var isAndroid = ua.indexOf("android") > -1; 
+            if(isAndroid) {
+                androidd_print(data);
+            }else{
+                pcc_print(data);
             }
         }).fail(function (data) {
             console.log(data);

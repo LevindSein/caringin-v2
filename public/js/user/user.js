@@ -445,6 +445,7 @@ $(document).ready(function(){
 		nama = $(this).attr('nama');
 		$('.titles').text('Hapus data ' + nama + ' ?');
 		$('#confirmModal').modal('show');
+        $('#form_result').html('');
 	});
 
 	$('#ok_button').click(function(){
@@ -456,6 +457,7 @@ $(document).ready(function(){
 			},
 			success:function(data)
 			{
+                $('#confirmModal').modal('hide');
                 if(data.result.role == 'admin'){
                     $('#userAdmin').DataTable().ajax.reload(function(){}, false);
                 }
@@ -471,17 +473,32 @@ $(document).ready(function(){
                 if(data.result.role == 'nasabah'){
                     $('#userNasabah').DataTable().ajax.reload(function(){}, false);
                 }
-                if(data.result.success)
-                    html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.success + '</div>';
-                if(data.result.errors)
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.errors + '</div>';
-                $('#form_result').html(html);  
+                if(data.result.success){
+                    swal({
+                        title: 'Success',
+                        text: data.result.success,
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    });
+                    // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.result.success + '</div>';
+                }
+                if(data.result.errors){
+                    swal({
+                        title: 'Oops!',
+                        text: data.result.errors,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.errors + '</div>';
+                }
+                // $('#form_result').html(html);  
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
-                $('#confirmModal').modal('hide');
             },
             complete:function(){
                 $('#ok_button').text('Hapus');
@@ -662,6 +679,7 @@ $(document).ready(function(){
 		reset_nama = $(this).attr('nama');
 		$('.titles').text('Reset password ' + reset_nama + ' ?');
 		$('#confirmReset').modal('show');
+        $('#form_result').html('');
 	});
 
     $('#ya_button').click(function(){
@@ -802,5 +820,53 @@ $(document).ready(function(){
 
     $("#nama").on("change paste keyup", function(e){
         $(e.target).val($(e.target).val().replace(/[^a-zA-Z.\s]/gi,''));
+    });
+
+    $(document).on('click', '#btn_copy', function(){
+        var copyText = document.getElementById("password_baru");
+        var textArea = document.createElement("textarea");
+        textArea.value = copyText.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+    });
+
+    $(function() {
+        $('[data-toggle="sweet-alert"]').on('click', function(){
+            var type = $(this).data('sweet-alert');
+
+            switch (type) {
+                case 'info':
+                    swal({
+                        title: 'Info',
+                        text: 'A few words about this sweet alert ...',
+                        type: 'info',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-info'
+                    })
+                break;
+
+                case 'success':
+                    swal({
+                        title: 'Success',
+                        text: 'Password Berhasil Disalin',
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    })
+                break;
+
+                case 'warning':
+                    swal({
+                        title: 'Warning',
+                        text: 'A few words about this sweet alert ...',
+                        type: 'warning',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-warning'
+                    })
+                break;
+            }
+        });
     });
 });

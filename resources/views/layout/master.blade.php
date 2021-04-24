@@ -24,6 +24,8 @@
         <link rel="stylesheet" href="{{asset('datatables/fixed-columns/css/fixed-columns.min.css')}}">
         <link rel="stylesheet" href="{{asset('datatables/responsive/css/responsive.bootstrap.min.css')}}">
         <!-- Argon CSS -->
+        <link rel="stylesheet" href="{{asset('argon/vendor/animate.css/animate.min.css')}}">
+        <link rel="stylesheet" href="{{asset('argon/vendor/sweetalert2/dist/sweetalert2.min.css')}}">
         <link rel="stylesheet" href="{{asset('argon/vendor/select2/dist/css/select2.min.css')}}">
         <link rel="stylesheet" href="{{asset('argon/css/argon.min.css')}}" type="text/css">
         
@@ -471,6 +473,9 @@
         <script src="{{asset('datatables/fixed-columns/js/fixed-columns.min.js')}}"></script>
         <script src="{{asset('datatables/responsive/js/responsive.min.js')}}"></script>
         <script src="{{asset('datatables/responsive/js/responsiveBootstrap.min.js')}}"></script>
+        <script src="{{asset('argon/vendor/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+        <script src="{{asset('argon/vendor/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+
         <!-- Argon JS -->
         <script src="{{asset('argon/js/argon.min.js')}}"></script>
         

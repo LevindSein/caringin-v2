@@ -29,11 +29,10 @@
                         <input
                             required
                             style="color: #6e707e;background-color: #fff;background-clip: padding-box;border: 1px solid #d1d3e2;border-radius: 0.35rem;"
-                            autocomplete="off"
                             type="date"
                             name="tanggal"
                             id="tanggal"
-                            value="<?php echo Session::get('masterkasir'); ?>">
+                            value="<?php echo Session::get('masterkasir'); ?>" />
                         <input type="submit" class="btn btn-sm btn-info" style="margin-top:-3px;" value="Cari"/>
                     </form>
                 </div>
@@ -216,6 +215,7 @@ $(document).ready(function () {
 		restore_nama = $(this).attr('nama');
 		$('.titles').text('Restore ' + restore_nama + ' ?');
 		$('#confirmRestore').modal('show');
+        $('#form_result').html('');
 	});
 
     $('#ya_button').click(function(){
@@ -231,23 +231,37 @@ $(document).ready(function () {
 			dataType:"json",
 			success:function(data)
 			{
+                $('#confirmRestore').modal('hide');
                 $('#tabel').DataTable().ajax.reload(function(){}, false);
                 var html = '';
 				if(data.errors)
 				{
-                    html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                    // html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                    swal({
+                        title: 'Oops!',
+                        text: data.errors,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
 				}
 				if(data.success)
 				{
-					html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
+					// html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>' + data.success + '</div>';
+                    swal({
+                        title: 'Success',
+                        text: 'Berhasil Restorasi',
+                        type: 'success',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-success'
+                    })
                 }
-				$('#form_result').html(html);
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
-                $('#confirmRestore').modal('hide');
             },
             error: function(data){
                 alert('Oops! Kesalahan Sistem');

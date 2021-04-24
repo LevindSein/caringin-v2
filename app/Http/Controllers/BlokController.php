@@ -178,11 +178,11 @@ class BlokController extends Controller
                 $nama = $blok->nama;
                 $pengguna = Tempatusaha::where('blok',$nama)->count();
                 if($pengguna != 0 || $pengguna != NULL){
-                    return response()->json(['errors' => 'Data gagal dihapus.']);
+                    return response()->json(['errors' => "Data $nama gagal dihapus."]);
                 }
                 else{
                     $blok->delete();
-                    return response()->json(['success' => 'Data telah dihapus.']);
+                    return response()->json(['success' => "Data $nama telah dihapus."]);
                 }
             }
             catch(\Exception $e){

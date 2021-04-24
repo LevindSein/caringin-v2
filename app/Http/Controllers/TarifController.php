@@ -397,7 +397,7 @@ class TarifController extends Controller
                 $role = 'lain';
             }
             try{
-                $dataset['success'] = 'Data telah dihapus';
+                $dataset['success'] = "Data ".number_format($data->tarif)." telah dihapus";
                 $dataset['role'] = $role;
                 $data->delete();
                 return response()->json(['result' => $dataset]);

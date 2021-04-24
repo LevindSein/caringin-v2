@@ -100,9 +100,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary btn-sm" name="action_btn" id="action_btn" value="Tambah" />
                     <input type="hidden" name="action" id="action" value="Add" />
                     <input type="hidden" name="hidden_id" id="hidden_id" />
-                    <input type="submit" class="btn btn-primary btn-sm" name="action_btn" id="action_btn" value="Tambah" />
                 </div>
             </form>
         </div>
