@@ -1702,6 +1702,7 @@ $(document).ready(function(){
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $("#form_result").html('');
 		$.ajax({
 			url :"/tagihan/unpublish/"+id,
             cache:false,
@@ -1710,11 +1711,25 @@ $(document).ready(function(){
 			success:function(data)
 			{
                 if(data.errors){
-                    alert(data.errors);
+                    swal({
+                        title: 'Oops!',
+                        text: data.errors,
+                        type: 'error',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-danger'
+                    });
+                    // alert(data.errors);
                 }
 
                 if(data.unsuccess){
-                    alert(data.unsuccess);
+                    swal({
+                        title: 'Info',
+                        text: data.unsuccess,
+                        type: 'info',
+                        buttonsStyling: false,
+                        confirmButtonClass: 'btn btn-info'
+                    });
+                    // alert(data.unsuccess);
                 }
 
                 if(data.success){
@@ -2231,66 +2246,35 @@ $(document).ready(function(){
                 }
 
                 if(data.result.stt_listrik !== null){
-                    $('#editListrik').show();
-                    $("#dayaListrik_edit").val(data.result.daya_listrik.toLocaleString('en-US'));
-                    $("#awalListrik_edit").val(data.result.awal_listrik.toLocaleString('en-US'));
-                    $("#akhirListrik_edit").val(data.result.akhir_listrik.toLocaleString('en-US'));
-                    $("#dayaListrik_edit").prop("required", true);
-                    $("#awalListrik_edit").prop("required", true);
-                    $("#akhirListrik_edit").prop("required", true);
-                    $("#edit_listrik").val(1);
+                    if(data.result.stt_listrik == 1){
+                        $('#editListrik').show();
+                        $("#dayaListrik_edit").val(data.result.daya_listrik.toLocaleString('en-US'));
+                        $("#awalListrik_edit").val(data.result.awal_listrik.toLocaleString('en-US'));
+                        $("#akhirListrik_edit").val(data.result.akhir_listrik.toLocaleString('en-US'));
+                        $("#dayaListrik_edit").prop("required", true);
+                        $("#awalListrik_edit").prop("required", true);
+                        $("#akhirListrik_edit").prop("required", true);
+                        $("#edit_listrik").val(1);
 
-                    document
-                        .getElementById('akhirListrik_edit')
-                        .addEventListener(
-                            'input',
-                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
-                        );
-                    document
-                        .getElementById('awalListrik_edit')
-                        .addEventListener(
-                            'input',
-                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
-                        );
-                    document
-                        .getElementById('dayaListrik_edit')
-                        .addEventListener(
-                            'input',
-                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
-                        );
+                        document
+                            .getElementById('akhirListrik_edit')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('awalListrik_edit')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('dayaListrik_edit')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
 
-                    var daya = $('#dayaListrik_edit').val();
-                    daya = daya.split(',');
-                    daya = daya.join('');
-                    daya = parseInt(daya);
-
-                    var awal = $('#awalListrik_edit').val();
-                    awal = awal.split(',');
-                    awal = awal.join('');
-                    awal = parseInt(awal); 
-                
-                    var akhir = $('#akhirListrik_edit').val();
-                    akhir = akhir.split(',');
-                    akhir = akhir.join('');
-                    akhir = parseInt(akhir);
-
-                    if(daya > 0 && akhir >= awal){
-                        listrik = 1;
-                    }
-                    else if(daya == 0){
-                        listrik = 0
-                    }
-                    else{
-                        if (awal > akhir && daya > 0){
-                            $("#resetListrik_edit").prop('checked', true);
-                            listrik = 1;
-                        }
-                        else{
-                            listrik = 0;
-                        }
-                    }
-
-                    $("#dayaListrik_edit,#awalListrik_edit,#akhirListrik_edit").on("change paste keyup", function() {
                         var daya = $('#dayaListrik_edit').val();
                         daya = daya.split(',');
                         daya = daya.join('');
@@ -2313,98 +2297,120 @@ $(document).ready(function(){
                             listrik = 0
                         }
                         else{
-                            if ($("#resetListrik_edit").prop('checked') == true){
+                            if (awal > akhir && daya > 0){
+                                $("#resetListrik_edit").prop('checked', true);
                                 listrik = 1;
                             }
                             else{
                                 listrik = 0;
                             }
                         }
-                    });
 
-                    $("#resetListrik_edit").change(function() {
-                        var daya = $('#dayaListrik_edit').val();
-                        daya = daya.split(',');
-                        daya = daya.join('');
-                        daya = parseInt(daya);
+                        $("#dayaListrik_edit,#awalListrik_edit,#akhirListrik_edit").on("change paste keyup", function() {
+                            var daya = $('#dayaListrik_edit').val();
+                            daya = daya.split(',');
+                            daya = daya.join('');
+                            daya = parseInt(daya);
 
-                        var awal = $('#awalListrik_edit').val();
-                        awal = awal.split(',');
-                        awal = awal.join('');
-                        awal = parseInt(awal); 
-                    
-                        var akhir = $('#akhirListrik_edit').val();
-                        akhir = akhir.split(',');
-                        akhir = akhir.join('');
-                        akhir = parseInt(akhir);
+                            var awal = $('#awalListrik_edit').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
                         
-                        if(this.checked) {
-                            if(daya > 0){
-                                listrik = 1;
-                            }
-                            else{
-                                listrik = 0;
-                            }
-                        }
-                        else{
+                            var akhir = $('#akhirListrik_edit').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
                             if(daya > 0 && akhir >= awal){
                                 listrik = 1;
                             }
-                            else{
-                                listrik = 0;
+                            else if(daya == 0){
+                                listrik = 0
                             }
-                        }
-                    });
+                            else{
+                                if ($("#resetListrik_edit").prop('checked') == true){
+                                    listrik = 1;
+                                }
+                                else{
+                                    listrik = 0;
+                                }
+                            }
+                        });
+
+                        $("#resetListrik_edit").change(function() {
+                            var daya = $('#dayaListrik_edit').val();
+                            daya = daya.split(',');
+                            daya = daya.join('');
+                            daya = parseInt(daya);
+
+                            var awal = $('#awalListrik_edit').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                        
+                            var akhir = $('#akhirListrik_edit').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+                            
+                            if(this.checked) {
+                                if(daya > 0){
+                                    listrik = 1;
+                                }
+                                else{
+                                    listrik = 0;
+                                }
+                            }
+                            else{
+                                if(daya > 0 && akhir >= awal){
+                                    listrik = 1;
+                                }
+                                else{
+                                    listrik = 0;
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        $.notify({
+                            icon: 'fas fa-exclamation',
+                            title: 'Tagihan Belum Lengkap',
+                            message: 'Tagihan Listrik belum diinput, namun tagihan tetap dapat diupdate',
+                        },{
+                            type: "warning",
+                            animate: { enter: "animated jello", exit: "animated fadeOutRight" },
+                        })
+
+                        listrik = 1;
+                    }
                 }
                 else{
                     listrik = 1;
                 }
 
                 if(data.result.stt_airbersih !== null){
-                    $("#editAirBersih").show();
-                    $("#awalAirBersih_edit").val(data.result.awal_airbersih.toLocaleString('en-US'));
-                    $("#akhirAirBersih_edit").val(data.result.akhir_airbersih.toLocaleString('en-US'));
-                    $("#awalAirBersih_edit").prop("required", true);
-                    $("#akhirAirBersih_edit").prop("required", true);
-                    $("#edit_airbersih").val(1);
+                    if(data.result.stt_airbersih == 1){
+                        $("#editAirBersih").show();
+                        $("#awalAirBersih_edit").val(data.result.awal_airbersih.toLocaleString('en-US'));
+                        $("#akhirAirBersih_edit").val(data.result.akhir_airbersih.toLocaleString('en-US'));
+                        $("#awalAirBersih_edit").prop("required", true);
+                        $("#akhirAirBersih_edit").prop("required", true);
+                        $("#edit_airbersih").val(1);
 
-                    document
-                        .getElementById('akhirAirBersih_edit')
-                        .addEventListener(
-                            'input',
-                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
-                        );
-                    document
-                        .getElementById('awalAirBersih_edit')
-                        .addEventListener(
-                            'input',
-                            event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
-                        );
+                        document
+                            .getElementById('akhirAirBersih_edit')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
+                        document
+                            .getElementById('awalAirBersih_edit')
+                            .addEventListener(
+                                'input',
+                                event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+                            );
 
-                    var akhir = $('#akhirAirBersih_edit').val();
-                    akhir = akhir.split(',');
-                    akhir = akhir.join('');
-                    akhir = parseInt(akhir);
-
-                    var awal = $('#awalAirBersih_edit').val();
-                    awal = awal.split(',');
-                    awal = awal.join('');
-                    awal = parseInt(awal); 
-                    
-                    if(akhir >= awal){
-                        airbersih = 1;
-                    }
-                    else{
-                        if (awal > akhir){
-                            $("#resetAirBersih_edit").prop('checked', true);
-                            airbersih = 1;
-                        }
-                        else{
-                            airbersih = 0;
-                        }
-                    }
-                    
-                    $("#akhirAirBersih_edit,#awalAirBersih_edit").on("change paste keyup", function() {
                         var akhir = $('#akhirAirBersih_edit').val();
                         akhir = akhir.split(',');
                         akhir = akhir.join('');
@@ -2419,38 +2425,75 @@ $(document).ready(function(){
                             airbersih = 1;
                         }
                         else{
-                            if ($("#resetAirBersih_edit").prop('checked') == true){
+                            if (awal > akhir){
+                                $("#resetAirBersih_edit").prop('checked', true);
                                 airbersih = 1;
                             }
                             else{
                                 airbersih = 0;
                             }
                         }
-                    });
-
-                    $("#resetAirBersih_edit").change(function() {
-                        var awal = $('#awalAirBersih_edit').val();
-                        awal = awal.split(',');
-                        awal = awal.join('');
-                        awal = parseInt(awal); 
-                    
-                        var akhir = $('#akhirAirBersih_edit').val();
-                        akhir = akhir.split(',');
-                        akhir = akhir.join('');
-                        akhir = parseInt(akhir);
                         
-                        if(this.checked) {
-                            airbersih = 1;
-                        }
-                        else{
+                        $("#akhirAirBersih_edit,#awalAirBersih_edit").on("change paste keyup", function() {
+                            var akhir = $('#akhirAirBersih_edit').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+
+                            var awal = $('#awalAirBersih_edit').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                            
                             if(akhir >= awal){
                                 airbersih = 1;
                             }
                             else{
-                                airbersih = 0;
+                                if ($("#resetAirBersih_edit").prop('checked') == true){
+                                    airbersih = 1;
+                                }
+                                else{
+                                    airbersih = 0;
+                                }
                             }
-                        }
-                    });
+                        });
+
+                        $("#resetAirBersih_edit").change(function() {
+                            var awal = $('#awalAirBersih_edit').val();
+                            awal = awal.split(',');
+                            awal = awal.join('');
+                            awal = parseInt(awal); 
+                        
+                            var akhir = $('#akhirAirBersih_edit').val();
+                            akhir = akhir.split(',');
+                            akhir = akhir.join('');
+                            akhir = parseInt(akhir);
+                            
+                            if(this.checked) {
+                                airbersih = 1;
+                            }
+                            else{
+                                if(akhir >= awal){
+                                    airbersih = 1;
+                                }
+                                else{
+                                    airbersih = 0;
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        $.notify({
+                            icon: 'fas fa-exclamation',
+                            title: 'Tagihan Belum Lengkap',
+                            message: 'Tagihan Air belum diinput, namun tagihan tetap dapat diupdate',
+                        },{
+                            type: "warning",
+                            animate: { enter: "animated jello", exit: "animated fadeOutRight" },
+                        })
+
+                        airbersih = 1;
+                    }
                 }
                 else{
                     airbersih = 1;
