@@ -57,6 +57,9 @@ use App\Http\Controllers\InformationController;
 //Saran
 use App\Http\Controllers\SaranController;
 
+//Setting
+use App\Http\Controllers\SettingController;
+
 //Search
 use App\Http\Controllers\SearchController;
 
@@ -355,6 +358,10 @@ Route::middleware('ceklogin:information')->group(function(){
 Route::middleware('ceklogin:saran')->group(function(){
     Route::post('saran/confirm/{id}', [SaranController::class, 'confirm']);
     Route::resource('saran', SaranController::class);
+});
+
+Route::middleware('ceklogin:settings')->group(function(){
+    Route::resource('settings', SettingController::class);
 });
 
 Route::middleware('ceklogin:human')->group(function(){

@@ -393,7 +393,7 @@
                                     </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="#!" class="dropdown-item">
+                                    <a href="{{url('settings')}}" class="dropdown-item">
                                         <i class="ni ni-settings-gear-65"></i>
                                         <span>Settings</span>
                                     </a>

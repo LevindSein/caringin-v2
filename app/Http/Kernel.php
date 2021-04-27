@@ -83,6 +83,7 @@ class Kernel extends HttpKernel
         'log' => \App\Http\Middleware\Log::class,
         'information' => \App\Http\Middleware\Information::class,
         'saran' => \App\Http\Middleware\Saran::class,
+        'settings' => \App\Http\Middleware\Settings::class,
         'human' => \App\Http\Middleware\Human::class,
 
         'kasir' => \App\Http\Middleware\Kasir::class,

@@ -42,6 +42,11 @@ class CekLogin
                 try{
                     Session::put('userId',$user->id);
                     Session::put('username',$user->nama);
+                    Session::put('nama',$user->username);
+                    Session::put('email',$user->email);
+                    Session::put('hp',substr($user->hp,2));
+                    Session::put('alamatktp',$user->alamat);
+                    Session::put('ktp',$user->ktp);
                     Session::put('role',$user->role);
                     Session::put('login',$user->username.'-'.$user->role);
                     Session::put('otoritas',NULL);
@@ -520,6 +525,24 @@ class CekLogin
             }
 
             else if($page == 'saran'){
+                $explode = explode('-',Session::get('login'));
+                $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
+                $roles = array('master','admin','manajer','keuangan','kasir');
+                if($validator != NULL){
+                    if(in_array($explode[1],$roles)){
+                        return $next($request);
+                    }
+                    else{
+                        abort(403);
+                    }
+                }
+                else{
+                    Session::flush();
+                    return redirect()->route('login')->with('info','Silahkan Login Terlebih Dahulu');
+                }
+            }
+
+            else if($page == 'settings'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','manajer','keuangan','kasir');
