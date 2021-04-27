@@ -247,6 +247,7 @@ Route::middleware('ceklogin:tunggakan')->group(function(){
 });
 
 Route::middleware('ceklogin:datausaha')->group(function(){
+    Route::get('datausaha/show/details/{bln}', [DataUsahaController::class, 'show']);
     Route::get('datausaha/pendapatan', [DataUsahaController::class, 'pendapatan']);
     Route::get('datausaha/tunggakan', [DataUsahaController::class, 'tunggakan']);
     Route::get('datausaha', [DataUsahaController::class, 'index']);

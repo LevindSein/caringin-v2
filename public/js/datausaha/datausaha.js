@@ -167,6 +167,53 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.details', function(){
-        $("#show-details").modal("show");
+        $(".fasilitas").text("DETAILS");
+        $(".periode").text($(this).attr("nama"));
+        id = $(this).attr('id');
+        $.ajax({
+			url :"/datausaha/show/details/" + id,
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                $(".diskon-listrik").html("<span style='color:red;'>" + data.result.diskon_listrik + "</span");
+                $(".tagihan-listrik").html("<span style='color:green;'>" + data.result.tagihan_listrik + "</span");
+                $(".denda-listrik").html("<span style='color:blue;'>" + data.result.denda_listrik + "</span");
+                $(".realisasi-listrik").html("<span style='color:green;'>" + data.result.realisasi_listrik + "</span");
+                $(".selisih-listrik").html("<span style='color:green;'>" + data.result.selisih_listrik + "</span");
+
+                $(".diskon-airbersih").html("<span style='color:red;'>" + data.result.diskon_airbersih + "</span");
+                $(".tagihan-airbersih").html("<span style='color:green;'>" + data.result.tagihan_airbersih + "</span");
+                $(".denda-airbersih").html("<span style='color:blue;'>" + data.result.denda_airbersih + "</span");
+                $(".realisasi-airbersih").html("<span style='color:green;'>" + data.result.realisasi_airbersih + "</span");
+                $(".selisih-airbersih").html("<span style='color:green;'>" + data.result.selisih_airbersih + "</span");
+
+                $(".diskon-keamananipk").html("<span style='color:red;'>" + data.result.diskon_keamananipk + "</span");
+                $(".tagihan-keamananipk").html("<span style='color:green;'>" + data.result.tagihan_keamananipk + "</span");
+                $(".realisasi-keamananipk").html("<span style='color:green;'>" + data.result.realisasi_keamananipk + "</span");
+                $(".selisih-keamananipk").html("<span style='color:green;'>" + data.result.selisih_keamananipk + "</span");
+                
+                $(".diskon-kebersihan").html("<span style='color:red;'>" + data.result.diskon_kebersihan + "</span");
+                $(".tagihan-kebersihan").html("<span style='color:green;'>" + data.result.tagihan_kebersihan + "</span");
+                $(".realisasi-kebersihan").html("<span style='color:green;'>" + data.result.realisasi_kebersihan + "</span");
+                $(".selisih-kebersihan").html("<span style='color:green;'>" + data.result.selisih_kebersihan + "</span");
+                
+                $(".tagihan-airkotor").html("<span style='color:green;'>" + data.result.tagihan_airkotor + "</span");
+                $(".realisasi-airkotor").html("<span style='color:green;'>" + data.result.realisasi_airkotor + "</span");
+                $(".selisih-airkotor").html("<span style='color:green;'>" + data.result.selisih_airkotor + "</span");
+                
+                $(".tagihan-lain").html("<span style='color:green;'>" + data.result.tagihan_lain + "</span");
+                $(".realisasi-lain").html("<span style='color:green;'>" + data.result.realisasi_lain + "</span");
+                $(".selisih-lain").html("<span style='color:green;'>" + data.result.selisih_lain + "</span");
+                
+                $(".diskon-total").html("<span style='color:red;'>" + data.result.diskon_total + "</span");
+                $(".tagihan-total").html("<span style='color:green;'>" + data.result.tagihan_total + "</span");
+                $(".denda-total").html("<span style='color:blue;'>" + data.result.denda_total + "</span");
+                $(".realisasi-total").html("<span style='color:green;'>" + data.result.realisasi_total + "</span");
+                $(".selisih-total").html("<span style='color:green;'>" + data.result.selisih_total + "</span");
+
+                $("#show-details").modal("show");
+            }
+        })
     });
 });
