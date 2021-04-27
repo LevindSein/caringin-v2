@@ -128,6 +128,20 @@ class TempatController extends Controller
     {
         if(request()->ajax()){
             try{
+                $rules = array(
+                    'blok'     => 'required',
+                    'los'      => ['required', 'regex:/^[a-zA-Z0-9\,\s]+$/u','min:1', 'max:50'],
+                    'lokasi'   => ['max:50'],
+                    'usaha'    => ['max:30'],
+                );
+    
+                $error = Validator::make($request->all(), $rules);
+    
+                if($error->fails())
+                {
+                    return response()->json(['errors' => 'Gagal Mengambil Data']);
+                }
+
                 //deklarasi model
                 $tempat = new TempatUsaha;
 
@@ -530,6 +544,20 @@ class TempatController extends Controller
     {
         if(request()->ajax()){
             try{
+                $rules = array(
+                    'blok'     => 'required',
+                    'los'      => ['required', 'regex:/^[a-zA-Z0-9\,\s]+$/u','min:1', 'max:50'],
+                    'lokasi'   => ['max:50'],
+                    'usaha'    => ['max:30'],
+                );
+    
+                $error = Validator::make($request->all(), $rules);
+    
+                if($error->fails())
+                {
+                    return response()->json(['errors' => 'Gagal Mengambil Data']);
+                }
+
                 //deklarasi model
                 $tempat = TempatUsaha::find($request->hidden_id);
 

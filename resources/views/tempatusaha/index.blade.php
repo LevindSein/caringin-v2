@@ -98,6 +98,7 @@
                             autocomplete="off"
                             name="los"
                             id="los"
+                            maxLength="50"
                             class="form-control"
                             placeholder="1A,2,3 (Pisahkan dengan Koma)">
                     </div>

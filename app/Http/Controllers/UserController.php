@@ -144,11 +144,11 @@ class UserController extends Controller
     {
         if(request()->ajax()){
             $rules = array(
-                'ktp'      => 'required',
-                'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
+                'ktp'      => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:20'],
+                'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:2', 'max:30'],
                 'username' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u','min:2', 'max:30'],
                 'password' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u','min:6', 'max:30'],
-                'hp'       => 'required',
+                'hp'       => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:13'],
                 'role'     => 'required',
             );
 
@@ -159,7 +159,7 @@ class UserController extends Controller
             if($error->fails())
             {
                 $dataset['status'] = 'error';
-                $dataset['message'] = 'Data Gagal Ditambah';
+                $dataset['message'] = 'Gagal Mengambil Data';
                 return response()->json(['result' => $dataset]);
             }
 
@@ -251,9 +251,9 @@ class UserController extends Controller
     {
         if(request()->ajax()){
             $rules = array(
-                'ktp'      => 'required',
-                'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
-                'hp'       => 'required',
+                'ktp'      => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:20'],
+                'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:2', 'max:30'],
+                'hp'       => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:13'],
                 'role'     => 'required',
             );
 
@@ -264,7 +264,7 @@ class UserController extends Controller
             if($error->fails())
             {
                 $dataset['status'] = 'error';
-                $dataset['message'] = 'Data Gagal Diupdate';
+                $dataset['message'] = 'Gagal Mengambil Data';
                 return response()->json(['result' => $dataset]);
             }
 

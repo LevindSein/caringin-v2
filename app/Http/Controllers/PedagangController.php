@@ -73,7 +73,7 @@ class PedagangController extends Controller
                 'username' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u', 'min:1', 'max:30'],
                 'anggota'  => ['required', 'regex:/^[a-zA-Z0-9]+$/u', 'min:10', 'max:20'],
                 'hp'       => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:13'],
-                'email'    => ['min:1', 'max:20'],
+                'email'    => ['max:20'],
                 'alamat'   => ['required', 'min:1'],
             );
 
@@ -81,7 +81,7 @@ class PedagangController extends Controller
 
             if($error->fails())
             {
-                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+                return response()->json(['errors' => 'Gagal Mengambil Data.']);
             }
 
             if (strpos(strtoupper($request->anggota), 'BP3C') !== false) {
@@ -223,7 +223,7 @@ class PedagangController extends Controller
 
             if($error->fails())
             {
-                return response()->json(['errors' => 'Data Gagal Diedit.']);
+                return response()->json(['errors' => 'Gagal Mengambil Data.']);
             }
 
             $data = [
