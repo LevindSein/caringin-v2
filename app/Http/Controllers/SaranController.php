@@ -75,7 +75,9 @@ class SaranController extends Controller
     {
         $rules = array(
             'nama'       => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:2', 'max:30'],
-            'keterangan' => 'required',
+            'hp'         => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:13'],
+            'email'      => ['min:1', 'max:20'],
+            'keterangan' => ['required', 'min:1'],
         );
 
         $error = Validator::make($request->all(), $rules);

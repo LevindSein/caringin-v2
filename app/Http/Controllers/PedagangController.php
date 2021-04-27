@@ -68,12 +68,13 @@ class PedagangController extends Controller
     {
         if(request()->ajax()){
             $rules = array(
-                'ktp'      => 'required',
+                'ktp'      => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:20'],
                 'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:2', 'max:30'],
-                'username' => 'required',
-                'anggota'  => 'required',
-                'hp'       => 'required',
-                'alamat'   => 'required',
+                'username' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u', 'min:1', 'max:30'],
+                'anggota'  => ['required', 'regex:/^[a-zA-Z0-9]+$/u', 'min:10', 'max:20'],
+                'hp'       => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:13'],
+                'email'    => ['min:1', 'max:20'],
+                'alamat'   => ['required', 'min:1'],
             );
 
             $error = Validator::make($request->all(), $rules);
@@ -83,16 +84,21 @@ class PedagangController extends Controller
                 return response()->json(['errors' => 'Data Gagal Ditambah.']);
             }
 
-            $data = [
-                'ktp'      => $request->ktp,
-                'nama'     => ucwords($request->nama),
-                'username' => strtolower($request->username),
-                'password' => sha1(md5(hash('gost','1234567'))),
-                'anggota'  => strtoupper($request->anggota),
-                'email'    => strtolower($request->email.'@gmail.com'),
-                'alamat'   => $request->alamat,
-                'role'     => 'nasabah',
-            ];
+            if (strpos(strtoupper($request->anggota), 'BP3C') !== false) {
+                $data = [
+                    'ktp'      => $request->ktp,
+                    'nama'     => ucwords($request->nama),
+                    'username' => strtolower($request->username),
+                    'password' => sha1(md5(hash('gost','1234567'))),
+                    'anggota'  => strtoupper($request->anggota),
+                    'email'    => strtolower($request->email.'@gmail.com'),
+                    'alamat'   => $request->alamat,
+                    'role'     => 'nasabah',
+                ];
+            }
+            else{
+                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+            }
         
             if($request->email == NULL) {
                 $data['email'] = NULL;
@@ -207,10 +213,10 @@ class PedagangController extends Controller
     {
         if(request()->ajax()){
             $rules = array(
-                'ktp'      => 'required',
+                'ktp'      => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:20'],
                 'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:2', 'max:30'],
-                'hp'       => 'required',
-                'alamat'   => 'required',
+                'hp'       => ['required', 'regex:/^[0-9]+$/u', 'min:1', 'max:13'],
+                'alamat'   => ['required', 'min:1'],
             );
 
             $error = Validator::make($request->all(), $rules);

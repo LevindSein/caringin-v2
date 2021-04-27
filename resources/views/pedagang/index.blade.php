@@ -112,7 +112,7 @@
                             maxlength="30"
                             placeholder="Nama Sesuai KTP">
                     </div>
-                    <div class="form-group col-lg-12">
+                    <div class="form-group col-lg-12" id="divUsername">
                         <label class="form-control-label" for="username">Username</label>
                         <input
                             required
@@ -123,7 +123,7 @@
                             name="username"
                             id="username">
                     </div>
-                    <div class="form-group col-lg-12">
+                    <div class="form-group col-lg-12" id="divPassword">
                         <label class="form-control-label" for="anggota">Nomor Anggota</label>
                         <input
                             required

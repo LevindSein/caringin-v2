@@ -146,8 +146,8 @@ class UserController extends Controller
             $rules = array(
                 'ktp'      => 'required',
                 'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
-                'username' => 'required',
-                'password' => 'required',
+                'username' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u','min:2', 'max:30'],
+                'password' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u','min:6', 'max:30'],
                 'hp'       => 'required',
                 'role'     => 'required',
             );
@@ -253,7 +253,6 @@ class UserController extends Controller
             $rules = array(
                 'ktp'      => 'required',
                 'nama'     => ['required', 'regex:/^[a-zA-Z\.\s]+$/u','min:1', 'max:30'],
-                'username' => 'required',
                 'hp'       => 'required',
                 'role'     => 'required',
             );
@@ -272,7 +271,6 @@ class UserController extends Controller
             $data = [
                 'ktp'      => $request->ktp,
                 'nama'     => ucwords($request->nama),
-                'username' => strtolower($request->username),
                 'email'    => strtolower($request->email.'@gmail.com'),
                 'role'     => $request->role,
             ];
@@ -291,17 +289,17 @@ class UserController extends Controller
             }
 
             try{
-                $dataset['status'] = 'success';
-                $dataset['message'] = 'Data Berhasil Diupdate';
-                $dataset['role'] = $request->role;
-
-                User::whereId($request->hidden_id)->update($data);
+                User::find($request->hidden_id)->update($data);
 
                 if($request->role != 'admin'){
                     $user = User::find($request->hidden_id);
                     $user->otoritas = NULL;
                     $user->save();
                 }
+                
+                $dataset['status'] = 'success';
+                $dataset['message'] = 'Data Berhasil Diupdate';
+                $dataset['role'] = $request->role;
 
                 return response()->json(['result' => $dataset]);
             }

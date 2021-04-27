@@ -70,6 +70,9 @@ $(document).ready(function(){
         $('#displayPengguna').hide();
         $('#username').val();
         $('#form_pedagang')[0].reset();
+        $("#divPassword").show();
+        $("#divUsername").show();
+        $('#action_btn').prop('disabled',false);
 
         $('#alamatPemilik').select2("destroy").val('').html('').select2({
             placeholder: '--- Pilih Kepemilikan ---',
@@ -127,6 +130,9 @@ $(document).ready(function(){
         $('#displayPemilik').hide();
         $('#displayPengguna').hide();
         $('#username').val();
+        $("#divPassword").hide();
+        $("#divUsername").hide();
+        $('#action_btn').prop('disabled',false);
         $('#form_pedagang')[0].reset();
 
         var s1 = $('#alamatPemilik').select2("destroy").val('').html('').select2({
@@ -238,6 +244,8 @@ $(document).ready(function(){
 			action_url = "/pedagang/update";
 		}
 
+		$('#action_btn').prop('disabled',true);
+
 		$.ajax({
 			url: action_url,
             cache:false,
@@ -265,6 +273,8 @@ $(document).ready(function(){
                         $("#success-alert,#error-alert").slideUp(500);
                 });
                 $('#myModal').modal('hide');
+                
+                $('#action_btn').prop('disabled',false);
 			}
 		});
     });

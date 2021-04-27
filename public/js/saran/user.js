@@ -14,6 +14,9 @@ $(document).ready(function(){
     $('#form_saran').on('submit', function(event){
 		event.preventDefault();
 
+        $(".form_result").html('');
+        $("#kirim").prop('disabled',true);
+
 		$.ajax({
 			url: "/saran",
             cache:false,
@@ -46,6 +49,9 @@ $(document).ready(function(){
                 });
 			}
 		});
+        setTimeout(function() {
+            $("#kirim").prop('disabled',false);
+        }, 1000);
     });
 
     $('[type=tel]').on('change', function(e) {

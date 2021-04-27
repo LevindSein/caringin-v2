@@ -281,6 +281,8 @@ $(document).ready(function(){
 		$('#action').val('Add');
 		$('#form_result').html('');
         $('#form_user')[0].reset();
+        $("#divPassword").show();
+        $("#divUsername").show();
 		$('#myModal').modal('show');
     });
 
@@ -357,6 +359,8 @@ $(document).ready(function(){
     
     $(document).on('click', '.edit', function(){
 		id = $(this).attr('id');
+        $("#divPassword").hide();
+        $("#divUsername").hide();
 		$.ajax({
 			url :"/user/"+id+"/edit",
             cache:false,
@@ -388,7 +392,7 @@ $(document).ready(function(){
                 }
                 
 				$('#hidden_id').val(id);
-				$('.titles').text('Edit Pedagang');
+				$('.titles').text('Edit User');
 				$('#action_btn').val('Update');
 				$('#action').val('Edit');
                 $('#myModal').modal('show');
