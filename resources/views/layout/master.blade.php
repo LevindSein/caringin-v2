@@ -317,11 +317,18 @@
                             </li>
                             @endif
                             
-                            <!-- Nav Item - Log -->
+                            <!-- Nav Item - Informasi -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('information*')) ? 'active' : '' }}" href="{{url('information')}}">
                                     <i class="fad fa-info text-yellow"></i>
                                     <span class="nav-link-text">Patch&nbsp;Info</span></a>
+                            </li>
+
+                            <!-- Nav Item - Saran -->
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request()->is('saran*')) ? 'active' : '' }}" href="{{url('saran')}}">
+                                    <i class="fad fa-box-open text-info"></i>
+                                    <span class="nav-link-text">Kotak&nbsp;Saran</span></a>
                             </li>
                         </ul>
                     </div>

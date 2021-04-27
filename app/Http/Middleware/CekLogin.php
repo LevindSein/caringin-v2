@@ -110,7 +110,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'kasir'){
+            else if($page == 'kasir'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('kasir');
@@ -128,7 +128,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'keuangan'){
+            else if($page == 'keuangan'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('keuangan');
@@ -146,7 +146,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'layanan'){
+            else if($page == 'layanan'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin');
@@ -169,7 +169,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'pedagang'){
+            else if($page == 'pedagang'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin');
@@ -192,7 +192,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'tempatusaha'){
+            else if($page == 'tempatusaha'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','manajer');
@@ -215,7 +215,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'tagihan'){
+            else if($page == 'tagihan'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','kasir');
@@ -240,7 +240,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'pemakaian'){
+            else if($page == 'pemakaian'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','manajer');
@@ -263,7 +263,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'pendapatan'){
+            else if($page == 'pendapatan'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','manajer');
@@ -286,7 +286,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'tunggakan'){
+            else if($page == 'tunggakan'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','manajer');
@@ -309,7 +309,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'datausaha'){
+            else if($page == 'datausaha'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','manajer');
@@ -332,7 +332,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'tarif'){
+            else if($page == 'tarif'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin');
@@ -355,7 +355,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'alatmeter'){
+            else if($page == 'alatmeter'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin');
@@ -378,7 +378,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'harilibur'){
+            else if($page == 'harilibur'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin');
@@ -401,7 +401,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'blok'){
+            else if($page == 'blok'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin');
@@ -424,7 +424,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'simulasi'){
+            else if($page == 'simulasi'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin');
@@ -447,7 +447,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'master'){
+            else if($page == 'master'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master');
@@ -465,7 +465,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'user'){
+            else if($page == 'user'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master');
@@ -483,7 +483,7 @@ class CekLogin
                 }
             }
 
-            if($page == 'log'){
+            else if($page == 'log'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master');
@@ -501,7 +501,25 @@ class CekLogin
                 }
             }
 
-            if($page == 'information'){
+            else if($page == 'information'){
+                $explode = explode('-',Session::get('login'));
+                $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
+                $roles = array('master','admin','manajer','keuangan','kasir');
+                if($validator != NULL){
+                    if(in_array($explode[1],$roles)){
+                        return $next($request);
+                    }
+                    else{
+                        abort(403);
+                    }
+                }
+                else{
+                    Session::flush();
+                    return redirect()->route('login')->with('info','Silahkan Login Terlebih Dahulu');
+                }
+            }
+
+            else if($page == 'saran'){
                 $explode = explode('-',Session::get('login'));
                 $validator = User::where([['username',$explode[0]],['role',$explode[1]]])->first();
                 $roles = array('master','admin','manajer','keuangan','kasir');

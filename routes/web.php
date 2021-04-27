@@ -54,6 +54,9 @@ use App\Http\Controllers\UserController;
 //Information
 use App\Http\Controllers\InformationController;
 
+//Saran
+use App\Http\Controllers\SaranController;
+
 //Search
 use App\Http\Controllers\SearchController;
 
@@ -347,6 +350,11 @@ Route::middleware('ceklogin:information')->group(function(){
     Route::post('information/update', [InformationController::class, 'update']);
     Route::get('information/destroy/{id}', [InformationController::class, 'destroy']);
     Route::resource('information', InformationController::class);
+});
+
+Route::middleware('ceklogin:saran')->group(function(){
+    Route::post('saran/confirm/{id}', [SaranController::class, 'confirm']);
+    Route::resource('saran', SaranController::class);
 });
 
 Route::middleware('ceklogin:human')->group(function(){
