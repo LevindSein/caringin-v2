@@ -106,7 +106,6 @@ $(document).ready(function () {
                 },
             }).columns.adjust().draw();
 
-
             setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
             $('#refresh').click(function(){
                 $('#refresh-img').show();
@@ -221,9 +220,11 @@ $(document).ready(function () {
             cache:false,
 			method:"POST",
 			dataType:"json",
+            beforeSend:function(){
+                $("#ok_button").prop("disabled",true);
+            },
 			success:function(data)
 			{
-                $('#confirmModal').modal('hide');
                 $('#tabelRestore').DataTable().ajax.reload(function(){}, false);
                 var html = '';
 				if(data.errors)
@@ -254,12 +255,17 @@ $(document).ready(function () {
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+            },
+            complete:function(){
+                $('#confirmModal').modal('hide');
+                $("#ok_button").prop("disabled",false);
             }
 		});
     });
 
     $(document).on('click', '.bayar', function(){
         kontrol = $(this).attr('id');
+        $('#form_result').html('');
         $('#form_rincian')[0].reset();
         var total = 0;
         $.ajax({
@@ -647,9 +653,11 @@ $(document).ready(function () {
 			method:"POST",
 			data:$(this).serialize(),
 			dataType:"json",
+            beforeSend:function(){
+                $("#printStruk").prop("disabled",true);
+            },
 			success:function(data)
 			{
-                $('#myRincian').modal('hide');
 				var html = '';
 				if(data.result.status == 'error')
 				{
@@ -684,6 +692,10 @@ $(document).ready(function () {
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+            },
+            complete:function(){
+                $('#myRincian').modal('hide');
+                $("#printStruk").prop("disabled",false);
             }
 		});
     });

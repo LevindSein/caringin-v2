@@ -473,31 +473,36 @@ class UserController extends Controller
         if(request()->ajax()){
             $pilihanKelola = array('pedagang','tempatusaha','tagihan','blok','pemakaian','pendapatan','tunggakan','datausaha','publish','alatmeter','tarif','harilibur','layanan','simulasi');
 
-            $kelola = array();
-            $kelola['otoritas'] = $request->blokOtoritas;
-
             try{
+                $kelola = NULL;
+
                 if($request->blokOtoritas != NULL){
                     for($i=0; $i<count($pilihanKelola); $i++){
-                        if(in_array($pilihanKelola[$i],$request->kelola)){
-                            $kelola[$pilihanKelola[$i]] = true;
-                        }
-                        else{
-                            $kelola[$pilihanKelola[$i]] = false;
+                        if($request->kelola != NULL){
+                            if(in_array($pilihanKelola[$i],$request->kelola)){
+                                $kelola[$pilihanKelola[$i]] = true;
+                            }
+                            else{
+                                $kelola[$pilihanKelola[$i]] = false;
+                            }
                         }
                     }
-            
+                }
+
+                if($kelola == NULL)
+                    $json = NULL;
+                else{
+                    $kelola['otoritas'] = $request->blokOtoritas;
                     $json = json_encode($kelola);
                 }
-                else{
-                    $json = NULL;
-                }
+
                 $data = User::find($request->hidden_id_otoritas);
                 $data->otoritas = $json;
                 $data->save();
                 return response()->json(['success' => 'Otoritas Berhasil Diupdate.']);
             }
             catch(\Exception $e){
+                \Log::info($e);
                 return response()->json(['errors' => 'Otoritas Gagal Diupdate.']);
             }
         }
@@ -529,16 +534,22 @@ class UserController extends Controller
             $pilihanKelola = array('kepala_kasir','lapangan_kasir');
 
             try{
+                $kelola = NULL;
                 for($i=0; $i<count($pilihanKelola); $i++){
-                    if(in_array($pilihanKelola[$i],$request->kelola_kasir)){
-                        $kelola[$pilihanKelola[$i]] = true;
-                    }
-                    else{
-                        $kelola[$pilihanKelola[$i]] = false;
+                    if($request->kelola_kasir != NULL){
+                        if(in_array($pilihanKelola[$i],$request->kelola_kasir)){
+                            $kelola[$pilihanKelola[$i]] = true;
+                        }
+                        else{
+                            $kelola[$pilihanKelola[$i]] = false;
+                        }
                     }
                 }
 
-                $json = json_encode($kelola);
+                if($kelola == NULL)
+                    $json = NULL;
+                else
+                    $json = json_encode($kelola);
 
                 $data = User::find($request->hidden_id_kasir);
                 $data->otoritas = $json;

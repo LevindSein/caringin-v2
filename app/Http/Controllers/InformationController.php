@@ -69,7 +69,7 @@ class InformationController extends Controller
             $error = Validator::make($request->all(), $rules);
             if($error->fails())
             {
-                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+                return response()->json(['errors' => 'Gagal Mengambil Data.']);
             }
 
             try{
@@ -180,7 +180,7 @@ class InformationController extends Controller
             $error = Validator::make($request->all(), $rules);
             if($error->fails())
             {
-                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+                return response()->json(['errors' => 'Gagal Mengambil Data.']);
             }
 
             try{
@@ -210,10 +210,10 @@ class InformationController extends Controller
 
                 Information::find($request->hidden_id)->update($data);
                 
-                return response()->json(['success' => 'Data Berhasil Ditambah.']);
+                return response()->json(['success' => 'Data Berhasil Diupdate.']);
             }
             catch(\Exception $e){
-                return response()->json(['errors' => 'Data Gagal Ditambah.']);
+                return response()->json(['errors' => 'Data Gagal Diupdate.']);
             }
         }
     }
@@ -230,7 +230,7 @@ class InformationController extends Controller
             $data = Information::findOrFail($id);
             try{
                 $data->delete();
-                return response()->json(['success' => 'Data telah dihapus.']);
+                return response()->json(['success' => 'Data berhasil dihapus.']);
             }
             catch(\Exception $e){
                 return response()->json(['errors' => 'Data gagal dihapus.']);

@@ -72,7 +72,6 @@ $(document).ready(function(){
         $('#form_pedagang')[0].reset();
         $("#divPassword").show();
         $("#divUsername").show();
-        $('#action_btn').prop('disabled',false);
 
         $('#alamatPemilik').select2("destroy").val('').html('').select2({
             placeholder: '--- Pilih Kepemilikan ---',
@@ -132,7 +131,6 @@ $(document).ready(function(){
         $('#username').val();
         $("#divPassword").hide();
         $("#divUsername").hide();
-        $('#action_btn').prop('disabled',false);
         $('#form_pedagang')[0].reset();
 
         var s1 = $('#alamatPemilik').select2("destroy").val('').html('').select2({
@@ -244,17 +242,17 @@ $(document).ready(function(){
 			action_url = "/pedagang/update";
 		}
 
-		$('#action_btn').prop('disabled',true);
-
 		$.ajax({
 			url: action_url,
             cache:false,
 			method:"POST",
 			data:$(this).serialize(),
 			dataType:"json",
+			beforeSend:function(){
+                $('#action_btn').prop('disabled',true);
+			},
 			success:function(data)
 			{
-                $('#form_result').show();
 				var html = '';
 				if(data.errors)
 				{
@@ -272,10 +270,11 @@ $(document).ready(function(){
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+			},
+            complete:function(){
                 $('#myModal').modal('hide');
-                
                 $('#action_btn').prop('disabled',false);
-			}
+            }
 		});
     });
     
@@ -350,11 +349,10 @@ $(document).ready(function(){
 			url:"/pedagang/destroy/"+user_id,
             cache:false,
 			beforeSend:function(){
-				$('#ok_button').text('Menghapus...');
+				$('#ok_button').text('Menghapus...').prop("disabled",true);
 			},
 			success:function(data)
 			{
-                $('#confirmModal').modal('hide');
                 $('#tabelPedagang').DataTable().ajax.reload(function(){}, false);
                 if(data.success){
                     // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
@@ -384,7 +382,8 @@ $(document).ready(function(){
                 });
             },
             complete:function(){
-                $('#ok_button').text('Hapus');
+                $('#confirmModal').modal('hide');
+                $('#ok_button').text('Hapus').prop("disabled",false);
             }
         })
     });

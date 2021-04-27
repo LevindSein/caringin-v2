@@ -523,9 +523,11 @@ $(document).ready(function(){
 			method:"POST",
 			data:$(this).serialize(),
 			dataType:"json",
+            beforeSend:function(){
+                $('#action_btn').prop('disabled',true);
+            },
 			success:function(data)
 			{
-                $('#form_result').show();
 				var html = '';
 				if(data.errors)
 				{
@@ -545,8 +547,11 @@ $(document).ready(function(){
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+			},
+            complete:function(){
                 $('#myModal').modal('hide');
-			}
+                $('#action_btn').prop('disabled',false);
+            }
 		});
     });
 
@@ -564,11 +569,10 @@ $(document).ready(function(){
 			url:"/tempatusaha/destroy/"+user_id,
             cache:false,
 			beforeSend:function(){
-				$('#ok_button').text('Menghapus...');
+				$('#ok_button').text('Menghapus...').prop('disabled',true);
 			},
 			success:function(data)
 			{
-                $('#confirmModal').modal('hide');
                 $('#tabelTempat').DataTable().ajax.reload(function(){}, false);
                 if(data.success){
                     swal({
@@ -598,7 +602,8 @@ $(document).ready(function(){
                 });
             },
             complete:function(){
-                $('#ok_button').text('Hapus');
+                $('#confirmModal').modal('hide');
+                $('#ok_button').text('Hapus').prop('disabled',false);
             }
         })
     });

@@ -16,9 +16,11 @@ $(document).ready(function () {
 			method:"POST",
 			data:$(this).serialize(),
 			dataType:"json",
+            beforeSend:function(){
+                $("#action_btn").prop("disabled",true);
+            },
 			success:function(data)
 			{
-                $('#myModal').modal('hide');
                 $('#tabel').DataTable().ajax.reload(function(){}, false);
 				var html = '';
 				if(data.errors)
@@ -49,7 +51,11 @@ $(document).ready(function () {
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
-			}
+			},
+            complete:function(){
+                $('#myModal').modal('hide');
+                $("#action_btn").prop("disabled",false);
+            }
 		});
     });
 

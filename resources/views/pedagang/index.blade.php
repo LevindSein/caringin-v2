@@ -198,7 +198,7 @@
                     </div>
                     <div class="form-group col-lg-12">
                         <label class="form-control-label" for="alamat">Alamat KTP <span style="color:red;">*</span></label>
-                        <textarea autocomplete="off" name="alamat" class="form-control" id="alamat" required></textarea>
+                        <textarea autocomplete="off" name="alamat" class="form-control" id="alamat" placeholder="Masukkan Alamat KTP . . ." required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

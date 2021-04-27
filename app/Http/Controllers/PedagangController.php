@@ -247,7 +247,7 @@ class PedagangController extends Controller
             }
 
             try{
-                Pedagang::whereId($request->hidden_id)->update($data);
+                Pedagang::find($request->hidden_id)->update($data);
 
                 $ped = Pedagang::find($request->hidden_id);
 

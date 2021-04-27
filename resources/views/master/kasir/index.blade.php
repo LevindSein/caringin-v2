@@ -110,7 +110,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="hidden_ref" id="hidden_ref"/>
-                    <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
+                    <input type="submit" class="btn btn-primary btn-sm" id="action_btn" value="Submit" />
                 </div>
             </form>
         </div>
@@ -229,9 +229,11 @@ $(document).ready(function () {
             cache:false,
 			method:"POST",
 			dataType:"json",
+            beforeSend:function(){
+                $("#ya_button").prop("disabled",true);
+            },
 			success:function(data)
 			{
-                $('#confirmRestore').modal('hide');
                 $('#tabel').DataTable().ajax.reload(function(){}, false);
                 var html = '';
 				if(data.errors)
@@ -262,6 +264,10 @@ $(document).ready(function () {
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+            },
+            complete:function(){
+                $('#confirmRestore').modal('hide');
+                $("#ya_button").prop("disabled",false);
             },
             error: function(data){
                 alert('Oops! Kesalahan Sistem');

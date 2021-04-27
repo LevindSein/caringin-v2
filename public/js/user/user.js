@@ -306,6 +306,9 @@ $(document).ready(function(){
 			method:"POST",
 			data:$(this).serialize(),
 			dataType:"json",
+            beforeSend:function(){
+                $("#action_btn").prop("disabled",true);
+            },
 			success:function(data)
 			{
 				var html = '';
@@ -352,8 +355,11 @@ $(document).ready(function(){
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+			},
+            complete:function(){
                 $('#myModal').modal('hide');
-			}
+                $("#action_btn").prop("disabled",false);
+            }
 		});
     });
     
@@ -457,11 +463,10 @@ $(document).ready(function(){
 			url:"/user/destroy/"+user_id,
             cache:false,
 			beforeSend:function(){
-				$('#ok_button').text('Menghapus...');
+				$('#ok_button').text('Menghapus...').prop("disabled",true);
 			},
 			success:function(data)
 			{
-                $('#confirmModal').modal('hide');
                 if(data.result.role == 'admin'){
                     $('#userAdmin').DataTable().ajax.reload(function(){}, false);
                 }
@@ -505,7 +510,8 @@ $(document).ready(function(){
                 });
             },
             complete:function(){
-                $('#ok_button').text('Hapus');
+                $('#confirmModal').modal('hide');
+                $('#ok_button').text('Hapus').prop("disabled",false);
             }
         })
     });
@@ -653,6 +659,9 @@ $(document).ready(function(){
 			method:"POST",
 			data:$(this).serialize(),
 			dataType:"json",
+            beforeSend:function(){
+                $("#action_btn_otoritas").prop("disabled",true);
+            },
 			success:function(data)
 			{
                 $('#userAdmin').DataTable().ajax.reload(function(){}, false);
@@ -671,7 +680,10 @@ $(document).ready(function(){
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+            },
+            complete:function(){
                 $('#myOtoritas').modal('hide');
+                $("#action_btn_otoritas").prop("disabled",false);
             }
 		});
     });
@@ -790,6 +802,9 @@ $(document).ready(function(){
 			method:"POST",
 			data:$(this).serialize(),
 			dataType:"json",
+            beforeSend:function(){
+                $("#action_btn_kasir").prop("disabled",true);
+            },
 			success:function(data)
 			{
                 $('#userKasir').DataTable().ajax.reload(function(){}, false);
@@ -797,6 +812,7 @@ $(document).ready(function(){
 				if(data.errors)
 				{
                     html = '<div class="alert alert-danger" id="error-alert"> <strong>Maaf ! </strong>' + data.errors + '</div>';
+                    console.log(data.errors);
 				}
 				if(data.success)
 				{
@@ -808,8 +824,11 @@ $(document).ready(function(){
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
+            },
+            complete:function(){
                 $('#myKasir').modal('hide');
-            }
+                $("#action_btn_kasir").prop("disabled",false);
+            },
 		});
     });
 
