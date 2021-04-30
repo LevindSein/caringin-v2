@@ -1483,11 +1483,15 @@ class TagihanController extends Controller
                 $ket = '';
             }
 
+            $tagihan['encryptId'] = LevindCrypt::encryptString($tagihan->id);
+
             return view('tagihan.listrik',['dataset' => $tagihan, 'suggest' => $suggest, 'ket' => $ket,'blok' => $blok]);
         }
     }
 
     public function listrikUpdate(Request $request){
+        $id = LevindCrypt::decryptString($request->hidden_id);
+
         $blok = $request->hidden_blok;
 
         $daya = explode(',',$request->daya);
@@ -1499,7 +1503,7 @@ class TagihanController extends Controller
         $akhir = explode(',',$request->akhir);
         $akhir = implode('',$akhir);
         
-        Tagihan::listrik($awal, $akhir, $daya, $request->hidden_id);
+        Tagihan::listrik($awal, $akhir, $daya, $id);
 
         $tempat = TempatUsaha::where('kd_kontrol',$request->kd_kontrol)->first();
         if($tempat != NULL){
@@ -1511,14 +1515,14 @@ class TagihanController extends Controller
             }
         }
 
-        $tagihan = Tagihan::find($request->hidden_id);
+        $tagihan = Tagihan::find($id);
         $tagihan->save();
 
-        $nama = Tagihan::find($request->hidden_id);
+        $nama = Tagihan::find($id);
         $nama->nama = $request->nama;
         $nama->save();
 
-        $this->total($request->hidden_id);
+        $this->total($id);
 
         return redirect()->route('listrik',['tagihan_blok'=>$blok]);
     }
@@ -1574,11 +1578,15 @@ class TagihanController extends Controller
                 $ket = '';
             }
 
+            $tagihan['encryptId'] = LevindCrypt::encryptString($tagihan->id);
+
             return view('tagihan.airbersih',['dataset' => $tagihan, 'suggest' => $suggest, 'ket' => $ket,'blok' => $blok]);
         }
     }
 
     public function airbersihUpdate(Request $request){
+        $id = LevindCrypt::decryptString($request->hidden_id);
+
         $blok = $request->hidden_blok;
 
         $awal = explode(',',$request->awal);
@@ -1587,7 +1595,7 @@ class TagihanController extends Controller
         $akhir = explode(',',$request->akhir);
         $akhir = implode('',$akhir);
         
-        Tagihan::airbersih($awal, $akhir, $request->hidden_id);
+        Tagihan::airbersih($awal, $akhir, $id);
 
         $tempat = TempatUsaha::where('kd_kontrol',$request->kd_kontrol)->first();
         if($tempat != NULL){
@@ -1598,14 +1606,14 @@ class TagihanController extends Controller
             }
         }
 
-        $tagihan = Tagihan::find($request->hidden_id);
+        $tagihan = Tagihan::find($id);
         $tagihan->save();
 
-        $nama = Tagihan::find($request->hidden_id);
+        $nama = Tagihan::find($id);
         $nama->nama = $request->nama;
         $nama->save();
 
-        $this->total($request->hidden_id);
+        $this->total($id);
 
         return redirect()->route('airbersih',['tagihan_blok'=>$blok]);
     }

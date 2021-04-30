@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="hidden_blok" id="hidden_blok" value="{{$blok}}">
-                    <input type="hidden" name="hidden_id" id="hidden_id" value="{{$dataset->id}}">
+                    <input type="hidden" name="hidden_id" id="hidden_id" value="{{$dataset->encryptId}}">
                     <input type="hidden" name="kd_kontrol" id="kd_kontrol" value="{{$dataset->kd_kontrol}}">
                     <div class="form-group col-lg-12">
                         <Input type="submit" id="tambah" value="Tambah" class="btn btn-primary btn-user btn-block">
