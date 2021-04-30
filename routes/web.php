@@ -69,6 +69,7 @@ use App\Http\Controllers\WorkController;
 //Login
 use App\Models\User;
 use App\Models\LoginLog;
+use App\Models\LevindCrypt;
 
 //Time
 use Carbon\Carbon;
@@ -160,6 +161,7 @@ Route::middleware('ceklogin:keuangan')->group(function(){
 });
 
 Route::middleware('ceklogin:kasir')->group(function(){
+    Route::post('kasir/printer/{printer}',[KasirController::class, 'printer']);
     Route::get('kasir/utama',[KasirController::class, 'getutama']);
     Route::get('kasir/utama/bulan',[KasirController::class, 'getutamaBulan']);
     
@@ -389,4 +391,11 @@ Route::get('optimize.p3cmaster',function(){
     Artisan::call('cron:log');
     Artisan::call('cron:login');
     return "Oops";
+});
+
+Route::get('encrypt/{value}',function ($value){
+    if(request()->ajax()){
+        if($value == 'value')
+            return response()->json(['result' => LevindCrypt::encryptString(0)]);
+    }
 });

@@ -1,4 +1,4 @@
-<?php use App\Models\Tagihan; ?>
+<?php use App\Models\Tagihan; use Jenssegers\Agent\Agent; $agent = new Agent();?>
 @extends('layout.master')
 
 @section('title')
@@ -42,9 +42,25 @@
                     </ul>
                 </div>
                 <div class="form-group text-right">
+                    @if($agent->isDesktop())
+                    <select class="btn btn-neutral btn-sm" name="printer" id="printer">
+                        <option <?php if(Session::get('printer') == 'panda') { ?> selected <?php } ?> value="panda">Panda Printer 80mm</option>
+                        <option <?php if(Session::get('printer') == 'androidpos') { ?> selected <?php } ?> value="androidpos">Android Pos Printer 50mm</option>
+                        <option <?php if(Session::get('printer') == 'epson') { ?> selected <?php } ?> value="epson">Epson Printer 80mm</option>
+                    </select>
+                    @endif
                     <button id="workasir" class="btn btn-sm">Status</button>
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
+                @if($agent->isMobile())
+                <div class="form-group text-center">
+                    <select class="btn btn-neutral btn-sm" name="printer" id="printer">
+                        <option <?php if(Session::get('printer') == 'panda') { ?> selected <?php } ?> value="panda">Panda Printer 80mm</option>
+                        <option <?php if(Session::get('printer') == 'androidpos') { ?> selected <?php } ?> value="androidpos">Android Pos Printer 50mm</option>
+                        <option <?php if(Session::get('printer') == 'epson') { ?> selected <?php } ?> value="epson">Epson Printer 80mm</option>
+                    </select>
+                </div>
+                @endif
                 <span id="form_result"></span>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-animated-0" role="tabpanel">
@@ -605,7 +621,7 @@
                     <input hidden id="taglain" name="taglain"/>
                     <input hidden id="tagtunglain" name="tagtunglain"/>
 
-                    <input hidden id="totalTagihan" name="totalTagihan"/>
+                    <!-- <input hidden id="totalTagihan" name="totalTagihan"/> -->
                 </div>
             </form>
         </div>

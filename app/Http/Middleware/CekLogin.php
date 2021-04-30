@@ -73,7 +73,7 @@ class CekLogin
                         Session::put('mode','bulanan');
                         Session::put('work',$user->stt_aktif);
                         if($agent->isDesktop()){
-                            Session::put('printer','desktop');
+                            Session::put('printer','epson');
                         }
                         else{
                             Session::put('printer','androidpos');

@@ -265,9 +265,16 @@ $(document).ready(function () {
 
     $(document).on('click', '.bayar', function(){
         kontrol = $(this).attr('id');
+        nama = $(this).attr('nama');
         $('#form_result').html('');
         $('#form_rincian')[0].reset();
         var total = 0;
+        checkListrik = 0;
+        checkAirBersih = 0;
+        checkKeamananIpk = 0;
+        checkKebersihan = 0;
+        checkAirKotor = 0;
+        checkLain = 0;
         $.ajax({
 			url :"/kasir/rincian/" + kontrol,
 			dataType:"json",
@@ -275,13 +282,13 @@ $(document).ready(function () {
 			success:function(data)
 			{
                 $("#tempatId").val(kontrol);
-                $("#judulRincian").html(kontrol);
+                $("#judulRincian").html(nama);
 
-                $("#pedagang").val(data.result.pedagang);
-                $("#los").val(data.result.los);
-                $("#lokasi").val(data.result.lokasi);
-                $("#faktur").val(data.result.faktur);
-                $("#ref").val(data.result.ref);
+                $("#pedagang").val(data.hidden.pedagang);
+                $("#los").val(data.hidden.los);
+                $("#lokasi").val(data.hidden.lokasi);
+                $("#faktur").val(data.hidden.faktur);
+                $("#ref").val(data.hidden.ref);
                 
                 total = 0;
 
@@ -316,48 +323,60 @@ $(document).ready(function () {
                 if(listrik == 0 && tunglistrik == 0 && denlistrik == 0){
                     $("#fasListrik").hide();
                     $("#checkListrik").prop("checked", false).prop("disabled", true);
+                    checkListrik = 0;
                 }
                 else{
                     $("#fasListrik").show();
                     $("#checkListrik").prop("checked", true).prop("disabled", false);
+                    checkListrik = 1;
                 }
                 
-                $("#taglistrik").val(data.result.listrik);
-                $("#tagtunglistrik").val(data.result.tunglistrik);
-                $("#tagdenlistrik").val(data.result.denlistrik);
+                $("#taglistrik").val(data.hidden.listrik);
+                $("#tagtunglistrik").val(data.hidden.tunglistrik);
+                $("#tagdenlistrik").val(data.hidden.denlistrik);
                 
-                $("#tagdylistrik").val(data.result.dylistrik);
-                $("#tagawlistrik").val(data.result.awlistrik);
-                $("#tagaklistrik").val(data.result.aklistrik);
-                $("#tagpklistrik").val(data.result.pklistrik);
+                $("#tagdylistrik").val(data.hidden.dylistrik);
+                $("#tagawlistrik").val(data.hidden.awlistrik);
+                $("#tagaklistrik").val(data.hidden.aklistrik);
+                $("#tagpklistrik").val(data.hidden.pklistrik);
 
                 $('#checkListrik').click(function() {
                     if(!$(this).is(':checked')){
                         total = total - listrik - tunglistrik - denlistrik;
+                        checkListrik = 0;
                         $("#fasListrik").hide();
 
-                        $("#taglistrik").val(0);
-                        $("#tagtunglistrik").val(0);
-                        $("#tagdenlistrik").val(0);
-                        $("#tagdylistrik").val(0);
-                        $("#tagawlistrik").val(0);
-                        $("#tagaklistrik").val(0);
-                        $("#tagpklistrik").val(0);
+                        $.ajax({
+                            url :"/encrypt/value",
+                            dataType:"json",
+                            cache:false,
+                            success:function(d)
+                            {
+                                $("#taglistrik").val(d.result);
+                                $("#tagtunglistrik").val(d.result);
+                                $("#tagdenlistrik").val(d.result);
+                                $("#tagdylistrik").val(d.result);
+                                $("#tagawlistrik").val(d.result);
+                                $("#tagaklistrik").val(d.result);
+                                $("#tagpklistrik").val(d.result);
+                            }
+                        });
                     }
                     else{
                         total = total + listrik + tunglistrik + denlistrik;
+                        checkListrik = 1;
                         $("#fasListrik").show();
 
-                        $("#taglistrik").val(data.result.listrik);
-                        $("#tagtunglistrik").val(data.result.tunglistrik);
-                        $("#tagdenlistrik").val(data.result.denlistrik);
-                        $("#tagdylistrik").val(data.result.dylistrik);
-                        $("#tagawlistrik").val(data.result.awlistrik);
-                        $("#tagaklistrik").val(data.result.aklistrik);
-                        $("#tagpklistrik").val(data.result.pklistrik);
+                        $("#taglistrik").val(data.hidden.listrik);
+                        $("#tagtunglistrik").val(data.hidden.tunglistrik);
+                        $("#tagdenlistrik").val(data.hidden.denlistrik);
+                        $("#tagdylistrik").val(data.hidden.dylistrik);
+                        $("#tagawlistrik").val(data.hidden.awlistrik);
+                        $("#tagaklistrik").val(data.hidden.aklistrik);
+                        $("#tagpklistrik").val(data.hidden.pklistrik);
                     }
                     $('#nominalTotal').html('Rp. ' + total.toLocaleString("en-US"));
-                    $("#totalTagihan").val(total);
+                    // $("#totalTagihan").val(total);
                 });
 
                 //Air Bersih
@@ -388,46 +407,58 @@ $(document).ready(function () {
                 if(airbersih == 0 && tungairbersih == 0 && denairbersih == 0){
                     $("#fasAirBersih").hide();
                     $("#checkAirBersih").prop("checked", false).prop("disabled", true);
+                    checkAirBersih = 0;
                 }
                 else{
                     $("#fasAirBersih").show();
                     $("#checkAirBersih").prop("checked", true).prop("disabled", false);
+                    checkAirBersih = 1;
                 }
                 
-                $("#tagairbersih").val(data.result.airbersih);
-                $("#tagtungairbersih").val(data.result.tungairbersih);
-                $("#tagdenairbersih").val(data.result.denairbersih);
+                $("#tagairbersih").val(data.hidden.airbersih);
+                $("#tagtungairbersih").val(data.hidden.tungairbersih);
+                $("#tagdenairbersih").val(data.hidden.denairbersih);
 
-                $("#tagawairbersih").val(data.result.awairbersih);
-                $("#tagakairbersih").val(data.result.akairbersih);
-                $("#tagpkairbersih").val(data.result.pkairbersih);
+                $("#tagawairbersih").val(data.hidden.awairbersih);
+                $("#tagakairbersih").val(data.hidden.akairbersih);
+                $("#tagpkairbersih").val(data.hidden.pkairbersih);
 
                 $('#checkAirBersih').click(function() {
                     if(!$(this).is(':checked')){
+                        checkAirBersih = 0;
                         total = total - airbersih - tungairbersih - denairbersih;
                         $("#fasAirBersih").hide();
                         
-                        $("#tagairbersih").val(0);
-                        $("#tagtungairbersih").val(0);
-                        $("#tagdenairbersih").val(0);
-                        $("#tagawairbersih").val(0);
-                        $("#tagakairbersih").val(0);
-                        $("#tagpkairbersih").val(0);
+                        $.ajax({
+                            url :"/encrypt/value",
+                            dataType:"json",
+                            cache:false,
+                            success:function(d)
+                            {
+                                $("#tagairbersih").val(d.result);
+                                $("#tagtungairbersih").val(d.result);
+                                $("#tagdenairbersih").val(d.result);
+                                $("#tagawairbersih").val(d.result);
+                                $("#tagakairbersih").val(d.result);
+                                $("#tagpkairbersih").val(d.result);
+                            }
+                        });
                     }
                     else{
+                        checkAirBersih = 1;
                         total = total + airbersih + tungairbersih + denairbersih;
                         $("#fasAirBersih").show();
                                 
-                        $("#tagairbersih").val(data.result.airbersih);
-                        $("#tagtungairbersih").val(data.result.tungairbersih);
-                        $("#tagdenairbersih").val(data.result.denairbersih);
+                        $("#tagairbersih").val(data.hidden.airbersih);
+                        $("#tagtungairbersih").val(data.hidden.tungairbersih);
+                        $("#tagdenairbersih").val(data.hidden.denairbersih);
 
-                        $("#tagawairbersih").val(data.result.awairbersih);
-                        $("#tagakairbersih").val(data.result.akairbersih);
-                        $("#tagpkairbersih").val(data.result.pkairbersih);
+                        $("#tagawairbersih").val(data.hidden.awairbersih);
+                        $("#tagakairbersih").val(data.hidden.akairbersih);
+                        $("#tagpkairbersih").val(data.hidden.pkairbersih);
                     }
                     $('#nominalTotal').html('Rp. ' + total.toLocaleString("en-US"));
-                    $("#totalTagihan").val(total);
+                    // $("#totalTagihan").val(total);
                 });
 
                 //Keamanan IPK
@@ -450,35 +481,44 @@ $(document).ready(function () {
                 if(keamananipk == 0 && tungkeamananipk == 0){
                     $("#fasKeamananIpk").hide();
                     $("#checkKeamananIpk").prop("checked", false).prop("disabled", true);
+                    checkKeamananIpk = 0;
                 }
                 else{
                     $("#fasKeamananIpk").show();
                     $("#checkKeamananIpk").prop("checked", true).prop("disabled", false);
+                    checkKeamananIpk = 1;
                 }
 
-                $("#tagkeamananipk").val(data.result.keamananipk);
-                $("#tagtungkeamananipk").val(data.result.tungkeamananipk);
-                $("#tagdenkeamananipk").val(data.result.denkeamananipk);
+                $("#tagkeamananipk").val(data.hidden.keamananipk);
+                $("#tagtungkeamananipk").val(data.hidden.tungkeamananipk);
 
                 $('#checkKeamananIpk').click(function() {
                     if(!$(this).is(':checked')){
+                        checkKeamananIpk = 0;
                         total = total - keamananipk - tungkeamananipk;
                         $("#fasKeamananIpk").hide();
                         
-                        $("#tagkeamananipk").val(0);
-                        $("#tagtungkeamananipk").val(0);
-                        $("#tagdenkeamananipk").val(0);
+                        $.ajax({
+                            url :"/encrypt/value",
+                            dataType:"json",
+                            cache:false,
+                            success:function(d)
+                            {
+                                $("#tagkeamananipk").val(d.result);
+                                $("#tagtungkeamananipk").val(d.result);
+                            }
+                        });
                     }
                     else{
+                        checkKeamananIpk = 1;
                         total = total + keamananipk + tungkeamananipk;
                         $("#fasKeamananIpk").show();
 
-                        $("#tagkeamananipk").val(data.result.keamananipk);
-                        $("#tagtungkeamananipk").val(data.result.tungkeamananipk);
-                        $("#tagdenkeamananipk").val(data.result.denkeamananipk);
+                        $("#tagkeamananipk").val(data.hidden.keamananipk);
+                        $("#tagtungkeamananipk").val(data.hidden.tungkeamananipk);
                     }
                     $('#nominalTotal').html('Rp. ' + total.toLocaleString("en-US"));
-                    $("#totalTagihan").val(total);
+                    // $("#totalTagihan").val(total);
                 });
 
                 //Kebersihan
@@ -501,35 +541,44 @@ $(document).ready(function () {
                 if(kebersihan == 0 && tungkebersihan == 0){
                     $("#fasKebersihan").hide();
                     $("#checkKebersihan").prop("checked", false).prop("disabled", true);
+                    checkKebersihan = 0;
                 }
                 else{
                     $("#fasKebersihan").show();
                     $("#checkKebersihan").prop("checked", true).prop("disabled", false);
+                    checkKebersihan = 1;
                 }
 
-                $("#tagkebersihan").val(data.result.kebersihan);
-                $("#tagtungkebersihan").val(data.result.tungkebersihan);
-                $("#tagdenkebersihan").val(data.result.denkebersihan);
+                $("#tagkebersihan").val(data.hidden.kebersihan);
+                $("#tagtungkebersihan").val(data.hidden.tungkebersihan);
 
                 $('#checkKebersihan').click(function() {
                     if(!$(this).is(':checked')){
+                        checkKebersihan = 0;
                         total = total - kebersihan - tungkebersihan;
                         $("#fasKebersihan").hide();
 
-                        $("#tagkebersihan").val(0);
-                        $("#tagtungkebersihan").val(0);
-                        $("#tagdenkebersihan").val(0);
+                        $.ajax({
+                            url :"/encrypt/value",
+                            dataType:"json",
+                            cache:false,
+                            success:function(d)
+                            {
+                                $("#tagkebersihan").val(d.result);
+                                $("#tagtungkebersihan").val(d.result);
+                            }
+                        });
                     }
                     else{
+                        checkKebersihan = 1;
                         total = total + kebersihan + tungkebersihan;
                         $("#fasKebersihan").show();
                         
-                        $("#tagkebersihan").val(data.result.kebersihan);
-                        $("#tagtungkebersihan").val(data.result.tungkebersihan);
-                        $("#tagdenkebersihan").val(data.result.denkebersihan);
+                        $("#tagkebersihan").val(data.hidden.kebersihan);
+                        $("#tagtungkebersihan").val(data.hidden.tungkebersihan);
                     }
                     $('#nominalTotal').html('Rp. ' + total.toLocaleString("en-US"));
-                    $("#totalTagihan").val(total);
+                    // $("#totalTagihan").val(total);
                 });
 
                 //Air Kotor
@@ -552,35 +601,44 @@ $(document).ready(function () {
                 if(airkotor == 0 && tungairkotor == 0){
                     $("#fasAirKotor").hide();
                     $("#checkAirKotor").prop("checked", false).prop("disabled", true);
+                    checkAirKotor = 0;
                 }
                 else{
                     $("#fasAirKotor").show();
                     $("#checkAirKotor").prop("checked", true).prop("disabled", false);
+                    checkAirKotor = 1;
                 }
 
-                $("#tagairkotor").val(data.result.airkotor);
-                $("#tagtungairkotor").val(data.result.tungairkotor);
-                $("#tagdenairkotor").val(data.result.denairkotor);
+                $("#tagairkotor").val(data.hidden.airkotor);
+                $("#tagtungairkotor").val(data.hidden.tungairkotor);
 
                 $('#checkAirKotor').click(function() {
                     if(!$(this).is(':checked')){
+                        checkAirKotor = 0;
                         total = total - airkotor - tungairkotor;
                         $("#fasAirKotor").hide();
 
-                        $("#tagairkotor").val(0);
-                        $("#tagtungairkotor").val(0);
-                        $("#tagdenairkotor").val(0);
+                        $.ajax({
+                            url :"/encrypt/value",
+                            dataType:"json",
+                            cache:false,
+                            success:function(d)
+                            {
+                                $("#tagairkotor").val(d.result);
+                                $("#tagtungairkotor").val(d.result);
+                            }
+                        });
                     }
                     else{
+                        checkAirKotor = 1;
                         total = total + airkotor + tungairkotor;
                         $("#fasAirKotor").show();
 
-                        $("#tagairkotor").val(data.result.airkotor);
-                        $("#tagtungairkotor").val(data.result.tungairkotor);
-                        $("#tagdenairkotor").val(data.result.denairkotor);
+                        $("#tagairkotor").val(data.hidden.airkotor);
+                        $("#tagtungairkotor").val(data.hidden.tungairkotor);
                     }
                     $('#nominalTotal').html('Rp. ' + total.toLocaleString("en-US"));
-                    $("#totalTagihan").val(total);
+                    // $("#totalTagihan").val(total);
                 });
 
                 //Lain
@@ -603,41 +661,72 @@ $(document).ready(function () {
                 if(lain == 0 && tunglain == 0){
                     $("#fasLain").hide();
                     $("#checkLain").prop("checked", false).prop("disabled", true);
+                    checkLain = 0;
                 }
                 else{
                     $("#fasLain").show();
                     $("#checkLain").prop("checked", true).prop("disabled", false);
+                    checkLain = 1;
                 }
 
-                $("#taglain").val(data.result.lain);
-                $("#tagtunglain").val(data.result.tunglain);
-                $("#tagdenlain").val(data.result.denlain);
+                $("#taglain").val(data.hidden.lain);
+                $("#tagtunglain").val(data.hidden.tunglain);
 
                 $('#checkLain').click(function() {
                     if(!$(this).is(':checked')){
+                        checkLain = 0;
                         total = total - lain - tunglain;
                         $("#fasLain").hide();
 
-                        $("#taglain").val(0);
-                        $("#tagtunglain").val(0);
-                        $("#tagdenlain").val(0);
+                        $.ajax({
+                            url :"/encrypt/value",
+                            dataType:"json",
+                            cache:false,
+                            success:function(d)
+                            {
+                                $("#taglain").val(d.result);
+                                $("#tagtunglain").val(d.result);
+                            }
+                        });
                     }
                     else{
+                        checkLain = 1;
                         total = total + lain + tunglain;
                         $("#fasLain").show();
 
-                        $("#taglain").val(data.result.lain);
-                        $("#tagtunglain").val(data.result.tunglain);
-                        $("#tagdenlain").val(data.result.denlain);
+                        $("#taglain").val(data.hidden.lain);
+                        $("#tagtunglain").val(data.hidden.tunglain);
                     }
                     $('#nominalTotal').html('Rp. ' + total.toLocaleString("en-US"));
-                    $("#totalTagihan").val(total);
+                    // $("#totalTagihan").val(total);
                 });
 
                 //Total
                 $("#nominalTotal").html("Rp. " + total.toLocaleString("en-US"));
                 
-                $("#totalTagihan").val(total);
+                // $("#totalTagihan").val(total);
+
+                if(checkListrik == 0 && checkAirBersih == 0 && checkKeamananIpk == 0 && checkKebersihan == 0 && checkAirKotor == 0 && checkLain == 0)
+                    $("#printStruk").prop("disabled",true);
+                else
+                    $("#printStruk").prop("disabled",false);
+                
+                $('#checkListrik, #checkAirBersih, #checkKeamananIpk, #checkKebersihan, #checkAirKotor, #checkLain').on("click", function() {
+                    if(checkListrik == 0 && checkAirBersih == 0 && checkKeamananIpk == 0 && checkKebersihan == 0 && checkAirKotor == 0 && checkLain == 0){
+                        $("#printStruk").prop("disabled",true);
+                        $.notify({
+                            icon: 'fas fa-exclamation',
+                            title: 'Transaksi Gagal',
+                            message: 'Tidak Dapat Melakukan Transaksi Rp.0',
+                        },{
+                            type: "danger",
+                            animate: { enter: "animated fadeInRight", exit: "animated fadeOutRight" },
+                        })
+                    }
+                    else{
+                        $("#printStruk").prop("disabled",false);
+                    }
+                });
 
                 $('#myRincian').modal('show');
 			}
@@ -658,7 +747,6 @@ $(document).ready(function () {
             },
 			success:function(data)
 			{
-				var html = '';
 				if(data.result.status == 'error')
 				{
                     swal({
@@ -680,8 +768,9 @@ $(document).ready(function () {
                         confirmButtonClass: 'btn btn-success'
                     });
                     // html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses ! </strong>Transaksi Berhasil</div>';
-                    if(data.result.totalTagihan != 0){
-                        kasir_print('/kasir/bayar/' + JSON.stringify(data.result));
+                    if(data.result.totalTagihan){
+                        // kasir_print('/kasir/bayar/' + JSON.stringify(data.hidden));
+                        kasir_print('/kasir/bayar/' + data.hidden);
                     }
 				}
                 
@@ -858,6 +947,47 @@ $(document).ready(function () {
                 else{
                     $('#workasir').html('SHIFT 2').addClass('btn-danger').removeClass('btn-success');
                 }
+            }
+        });
+    });
+
+    $(document).on('change', '#printer', function() {
+        printer = $(this).val();
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+			url :"/kasir/printer/" + printer,
+            cache:false,
+			method:"POST",
+			dataType:"json",
+			success:function(data)
+			{
+                if(data.errors){
+                    $.notify({
+                        icon: 'fas fa-exclamation',
+                        title: 'Kegagalan Printer',
+                        message: 'Gagal mengganti printer',
+                    },{
+                        type: "danger",
+                        animate: { enter: "animated fadeInRight", exit: "animated fadeOutRight" },
+                    })
+                }
+                if(data.success){
+                    $.notify({
+                        icon: 'fas fa-check',
+                        title: 'Printer Changed',
+                        message: data.success,
+                    },{
+                        type: "success",
+                        animate: { enter: "animated fadeInRight", exit: "animated fadeOutRight" },
+                    })
+                }
+            },
+            error:function(data){
+                console.log(data);
             }
         });
     });
