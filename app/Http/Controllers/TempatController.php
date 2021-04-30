@@ -31,6 +31,8 @@ use App\Models\IndoDate;
 
 use App\Models\Dokumen;
 
+use App\Models\LevindCrypt;
+
 use Carbon\Carbon;
 
 class TempatController extends Controller
@@ -62,16 +64,16 @@ class TempatController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Print QR" name="qr" id="'.$data->id.'" class="qr"><i class="fas fa-qrcode" style="color:#fd7e14;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit Tempat" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tempat" name="delete" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Print QR" name="qr" id="'.LevindCrypt::encryptString($data->id).'" class="qr"><i class="fas fa-qrcode" style="color:#fd7e14;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit Tempat" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tempat" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->editColumn('jml_alamat', function($data){
@@ -352,6 +354,7 @@ class TempatController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = TempatUsaha::find($id);
 
             $data['pengguna'] = NULL;
@@ -443,6 +446,7 @@ class TempatController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = TempatUsaha::find($id);
 
             $pemilik = Pedagang::find($data->id_pemilik);
@@ -558,8 +562,10 @@ class TempatController extends Controller
                     return response()->json(['errors' => 'Gagal Mengambil Data']);
                 }
 
+                $id = LevindCrypt::decryptString($request->hidden_id);
+
                 //deklarasi model
-                $tempat = TempatUsaha::find($request->hidden_id);
+                $tempat = TempatUsaha::find($id);
 
                 //blok
                 $blok = $request->blok;
@@ -812,6 +818,8 @@ class TempatController extends Controller
     public function destroy($id)
     {
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
+
             $data = TempatUsaha::findOrFail($id);
             $listrikId = $data->id_meteran_listrik;
             $airId = $data->id_meteran_air;
@@ -936,6 +944,8 @@ class TempatController extends Controller
     }
 
     public function qr($id){
+        $id = LevindCrypt::decryptString($id);
+        
         $dataset = TempatUsaha::find($id);
         $kode = 'KODEKONTROL@'.$dataset->kd_kontrol;
         $kontrol = $dataset->kd_kontrol;

@@ -13,6 +13,8 @@ use App\Models\AlatListrik;
 use App\Models\AlatAir;
 use App\Models\TempatUsaha;
 
+use App\Models\LevindCrypt;
+
 class AlatController extends Controller
 {
     public function __construct()
@@ -28,9 +30,9 @@ class AlatController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') ==  'master'){
-                        $button = '<a type="button"  data-toggle="tooltip" data-original-title="Print QR Alat" name="qr" id="'.$data->id.'" fas="listrik" class="qr"><i class="fas fa-qrcode" style="color:#fd7e14;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button"  data-toggle="tooltip" data-original-title="Edit Alat" name="edit" id="'.$data->id.'" fas="listrik" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button"  data-toggle="tooltip" data-original-title="Hapus Alat" name="delete" id="'.$data->id.'" nama="'.$data->kode.'" fas="listrik" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button"  data-toggle="tooltip" data-original-title="Print QR Alat" name="qr" id="'.LevindCrypt::encryptString($data->id).'" fas="listrik" class="qr"><i class="fas fa-qrcode" style="color:#fd7e14;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button"  data-toggle="tooltip" data-original-title="Edit Alat" name="edit" id="'.LevindCrypt::encryptString($data->id).'" fas="listrik" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button"  data-toggle="tooltip" data-original-title="Hapus Alat" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kode.'" fas="listrik" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -60,9 +62,9 @@ class AlatController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Print QR Alat" name="edit" id="'.$data->id.'" fas="air" class="qr"><i class="fas fa-qrcode fa-sm" style="color:#fd7e14;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit Alat" name="edit" id="'.$data->id.'" fas="air" class="edit"><i class="fas fa-edit fa-sm" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Alat" name="delete" id="'.$data->id.'" nama="'.$data->kode.'" fas="air" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Print QR Alat" name="edit" id="'.LevindCrypt::encryptString($data->id).'" fas="air" class="qr"><i class="fas fa-qrcode" style="color:#fd7e14;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit Alat" name="edit" id="'.LevindCrypt::encryptString($data->id).'" fas="air" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Alat" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kode.'" fas="air" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -163,6 +165,7 @@ class AlatController extends Controller
     public function edit($fasilitas, $id){
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             if($fasilitas == 'listrik'){
                 $data = AlatListrik::findOrFail($id);
                 return response()->json(['result' => $data]);
@@ -208,6 +211,7 @@ class AlatController extends Controller
             $dataset = array();
 
             try{
+                $id = LevindCrypt::decryptString($request->hidden_id);
                 if($request->radioMeter == 'listrik'){
                     $akhir = explode(',',$request->standListrik);
                     $akhir = implode('',$akhir);
@@ -219,7 +223,7 @@ class AlatController extends Controller
                         'daya'      => $daya
                     ];
 
-                    AlatListrik::whereId($request->hidden_id)->update($data);
+                    AlatListrik::find($id)->update($data);
                 }
 
                 if($request->radioMeter == 'air'){
@@ -230,7 +234,7 @@ class AlatController extends Controller
                         'akhir'     => $akhir
                     ];
 
-                    AlatAir::whereId($request->hidden_id)->update($data);
+                    AlatAir::find($id)->update($data);
                 }
                 $dataset['status'] = 'success';
                 $dataset['message'] = 'Data Berhasil Diupdate';
@@ -248,6 +252,7 @@ class AlatController extends Controller
 
     public function destroy($fasilitas, $id){
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             if($fasilitas == 'listrik'){
                 $data = AlatListrik::find($id);
                 $role = 'listrik';
@@ -273,6 +278,7 @@ class AlatController extends Controller
     }
 
     public function qr($fasilitas, $id){
+        $id = LevindCrypt::decryptString($id);
         if($fasilitas == 'listrik'){
             $fasilitas = 'Listrik';
             $kode = AlatListrik::find($id);

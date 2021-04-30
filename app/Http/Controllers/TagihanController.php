@@ -33,6 +33,8 @@ use App\Models\Pedagang;
 use Carbon\Carbon;
 use App\Models\Carbonet;
 
+use App\Models\LevindCrypt;
+
 class TagihanController extends Controller
 {
     public function __construct()
@@ -96,31 +98,31 @@ class TagihanController extends Controller
                         if($data->stt_publish === 0){
                             if(Session::get('role') == 'master' || Session::get('otoritas')->tagihan){
                                 if($data->review === 0)
-                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tagihan" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tagihan" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
                                 else
-                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tagihan" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#000000;"></i></a>';
-                                $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tagihan" name="delete" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
-                                $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Publish Tagihan" name="unpublish" id="'.$data->id.'" class="unpublish"><i class="fas fa-check-circle" style="color:#1cc88a;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tagihan" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#000000;"></i></a>';
+                                $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tagihan" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                                $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Publish Tagihan" name="unpublish" id="'.LevindCrypt::encryptString($data->id).'" class="unpublish"><i class="fas fa-check-circle" style="color:#1cc88a;"></i></a>';
                             }
                             else if(Session::get('otoritas')->publish && Session::get('otoritas')->tagihan == false){
                                 $hasil = number_format($data->ttl_tagihan);
                                 $warna = max($data->warna_airbersih, $data->warna_listrik);
                                 if($warna == 1 || $warna == 2)
-                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#c4b71f;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#c4b71f;"></i></a>';
                                 else if($warna == 3)
-                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#e74a3b;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#e74a3b;"></i></a>';
                                 else
-                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#172b4d;"></i></a>';
+                                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Report Checking" name="report" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="report"><i class="fas fa-bell" style="color:#172b4d;"></i></a>';
                             }
                         }
                         else{
                             if(Session::get('role') == 'master'){
                                 if($data->stt_lunas == 1)
-                                    $button = '<button type="button" data-toggle="tooltip" data-original-title="Lunas" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-success"><i class="fas fa-check"></i></button>';
+                                    $button = '<button type="button" data-toggle="tooltip" data-original-title="Lunas" name="unpublish" id="'.LevindCrypt::encryptString($data->id).'" class="unpublish btn btn-sm btn-success"><i class="fas fa-check"></i></button>';
                                 else if($data->stt_bayar == 1 && $data->stt_lunas == 0)
-                                    $button = '<button type="button" data-html="true" data-toggle="tooltip" data-original-title="Dibayar<br>Belum Lunas" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-primary"><i class="fas fa-undo"></i></button>';
+                                    $button = '<button type="button" data-html="true" data-toggle="tooltip" data-original-title="Dibayar<br>Belum Lunas" name="unpublish" id="'.LevindCrypt::encryptString($data->id).'" class="unpublish btn btn-sm btn-primary"><i class="fas fa-undo"></i></button>';
                                 else
-                                    $button = '<button type="button" data-toggle="tooltip" data-original-title="Unpublish '.$data->kd_kontrol.'" name="unpublish" id="'.$data->id.'" class="unpublish btn btn-sm btn-danger"><i class="fas fa-undo"></i></button>';
+                                    $button = '<button type="button" data-toggle="tooltip" data-original-title="Unpublish '.$data->kd_kontrol.'" name="unpublish" id="'.LevindCrypt::encryptString($data->id).'" class="unpublish btn btn-sm btn-danger"><i class="fas fa-undo"></i></button>';
                             }
                             else{
                                 if($data->stt_lunas == 1)
@@ -170,88 +172,88 @@ class TagihanController extends Controller
                     $hasil = number_format($data->ttl_listrik);
                     $warna = $data->warna_listrik;
                     if ($data->ttl_listrik == 0 && $data->stt_listrik === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_listrik == 0 && $data->stt_listrik !== NULL)
-                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Dy: '.number_format($data->daya_listrik).'<br>Aw: '.number_format($data->awal_listrik).'<br>Ak: '.number_format($data->akhir_listrik).'<br>Pk: '.number_format($data->pakai_listrik).'<hr>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_airbersih', function ($data) {
                     $hasil = number_format($data->ttl_airbersih);
                     $warna = $data->warna_airbersih;
                     if ($data->ttl_airbersih == 0 && $data->stt_airbersih === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airbersih == 0 && $data->stt_airbersih !== NULL)
-                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Aw: '.number_format($data->awal_airbersih).'<br>Ak: '.number_format($data->akhir_airbersih).'<br>Pk: '.number_format($data->pakai_airbersih).'<hr>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_keamananipk', function ($data) {
                     $hasil = number_format($data->ttl_keamananipk);
                     if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else 
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_kebersihan', function ($data) {
                     $hasil = number_format($data->ttl_kebersihan);
                     if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkebersihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_airkotor', function ($data) {
                     $hasil = number_format($data->ttl_airkotor);
                     if ($data->ttl_airkotor == 0 && $data->stt_airkotor === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairkotor" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airkotor == 0 && $data->stt_airkotor !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_lain', function ($data) {
                     $hasil = number_format($data->ttl_lain);
                     if ($data->ttl_lain == 0 && $data->stt_lain === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallain" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_lain == 0 && $data->stt_lain !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_tagihan', function ($data) {
                     $hasil = number_format($data->ttl_tagihan);
                     $warna = max($data->warna_airbersih, $data->warna_listrik);
                     if ($data->ttl_tagihan === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_tagihan === 0)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([
@@ -382,6 +384,7 @@ class TagihanController extends Controller
 
     public function destroyEdit($id){
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $data = Tagihan::find($id);
             return response()->json(['result' => $data]);
         }
@@ -390,7 +393,9 @@ class TagihanController extends Controller
     public function destroy(Request $request,$id){
         if(request()->ajax()){
             try{
-                $data = Tagihan::findOrFail($id);
+                $id = LevindCrypt::decryptString($id);
+                
+                $data = Tagihan::find($id);
                 
                 $hapus = Penghapusan::find($data->id);
                 if($hapus == NULL){
@@ -621,7 +626,7 @@ class TagihanController extends Controller
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master' || Session::get('role') == 'admin'){
                         if(Session::get('role') == 'master' || Session::get('otoritas')->tagihan){
-                            $button = '<a type="button" data-toggle="tooltip" data-original-title="Restore" name="restore" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#e74a3b;"></i></a>';
+                            $button = '<a type="button" data-toggle="tooltip" data-original-title="Restore" name="restore" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#e74a3b;"></i></a>';
                         }
                         else if(Session::get('otoritas')->publish && Session::get('otoritas')->tagihan == false){
                             $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -660,88 +665,88 @@ class TagihanController extends Controller
                     $hasil = number_format($data->ttl_listrik);
                     $warna = $data->warna_listrik;
                     if ($data->ttl_listrik == 0 && $data->stt_listrik === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_listrik == 0 && $data->stt_listrik !== NULL)
-                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_listrik).'<br>Akhir: '.number_format($data->akhir_listrik).'<br>Pakai: '.number_format($data->pakai_listrik).'<br>Click more!" class="totallistrik" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_airbersih', function ($data) {
                     $hasil = number_format($data->ttl_airbersih);
                     $warna = $data->warna_airbersih;
                     if ($data->ttl_airbersih == 0 && $data->stt_airbersih === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airbersih == 0 && $data->stt_airbersih !== NULL)
-                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-html="true" data-toggle="tooltip" data-original-title="Awal: '.number_format($data->awal_airbersih).'<br>Akhir: '.number_format($data->akhir_airbersih).'<br>Pakai: '.number_format($data->pakai_airbersih).'<br>Click more!" class="totalairbersih" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->editColumn('ttl_keamananipk', function ($data) {
                     $hasil = number_format($data->ttl_keamananipk);
                     if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else 
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_kebersihan', function ($data) {
                     $hasil = number_format($data->ttl_kebersihan);
                     if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkebersihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_kebersihan == 0 && $data->stt_kebersihan !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkebersihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_airkotor', function ($data) {
                     $hasil = number_format($data->ttl_airkotor);
                     if ($data->ttl_airkotor == 0 && $data->stt_airkotor === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalairkotor" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_airkotor == 0 && $data->stt_airkotor !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalairkotor" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_lain', function ($data) {
                     $hasil = number_format($data->ttl_lain);
                     if ($data->ttl_lain == 0 && $data->stt_lain === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totallain" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_lain == 0 && $data->stt_lain !== NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totallain" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_tagihan', function ($data) {
                     $hasil = number_format($data->ttl_tagihan);
                     $warna = max($data->warna_airbersih, $data->warna_listrik);
                     if ($data->ttl_tagihan === NULL)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_tagihan === 0)
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">0</span></a>';
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
                     else {
                         if($warna == 1 || $warna == 2)
-                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#c4b71f;">'.$hasil.'</span></a>';
                         else if($warna == 3)
-                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#e74a3b;">'.$hasil.'</span></a>';
                         else
-                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.$data->id.'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
+                            return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totaltagihan" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                     }
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([
@@ -765,6 +770,7 @@ class TagihanController extends Controller
     public function penghapusanRestore($id){
         if(request()->ajax()){
             try{
+                $id = LevindCrypt::decryptString($id);
                 $data  = Tagihan::find($id);
                 $hapus = Penghapusan::find($id);
                 if($data == NULL){
@@ -992,6 +998,7 @@ class TagihanController extends Controller
     public function unpublish($id){
         if(request()->ajax()){
             try{
+                $id = LevindCrypt::decryptString($id);
                 $tagihan = Tagihan::find($id);
                 $publish = $tagihan->stt_publish;
                 if($publish === 1){
@@ -1022,6 +1029,7 @@ class TagihanController extends Controller
 
     public function notifEdit($id){
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $data = Tagihan::find($id);
             return response()->json(['result' => $data]);
         }
@@ -1030,6 +1038,7 @@ class TagihanController extends Controller
     public function notif(Request $request, $id){
         if(request()->ajax()){
             try{
+                $id = LevindCrypt::decryptString($id);
                 $data = Tagihan::find($id);
                 $ket = '';
                 if(empty($request->notifListrik) == FALSE){
@@ -2252,6 +2261,7 @@ class TagihanController extends Controller
 
     public function edit($id){
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $data = Tagihan::find($id);
             $data['periode'] = IndoDate::bulan($data->bln_tagihan," ");
             return response()->json(['result' => $data]);
@@ -2264,7 +2274,7 @@ class TagihanController extends Controller
                 $today = strtotime(Carbon::now());
                 $sekarang = date('Y-m',$today);
 
-                $id = $request->hidden_id;
+                $id = LevindCrypt::decryptString($request->hidden_id);
                 $nama = ucwords($request->nama_edit);
 
                 $tagihan = Tagihan::find($id);
@@ -2443,6 +2453,7 @@ class TagihanController extends Controller
 
     public function show($fas, $id){
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $data = Tagihan::find($id);
             $data['periode'] = IndoDate::bulan($data->bln_tagihan, " ");
             $data['data_periode'] = $data->bln_tagihan;
@@ -2490,6 +2501,7 @@ class TagihanController extends Controller
 
     public function showPenghapusan($fas, $id){
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $data = Penghapusan::find($id);
             $data['periode'] = IndoDate::bulan($data->bln_tagihan, " ");
             $data['data_periode'] = $data->bln_tagihan;

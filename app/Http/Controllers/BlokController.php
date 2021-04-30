@@ -15,6 +15,8 @@ use App\Models\Penghapusan;
 use App\Models\Pembayaran;
 use App\Models\PasangAlat;
 
+use App\Models\LevindCrypt;
+
 class BlokController extends Controller
 {
     public function __construct()
@@ -30,8 +32,8 @@ class BlokController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Blok" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Blok" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Blok" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Blok" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -76,6 +78,7 @@ class BlokController extends Controller
     public function edit($id){
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = Blok::findOrFail($id);
             return response()->json(['result' => $data]);
         }
@@ -95,7 +98,8 @@ class BlokController extends Controller
             }
 
             try{
-                $blok = Blok::find($request->hidden_id);
+                $id = LevindCrypt::decryptString($request->hidden_id);
+                $blok = Blok::find($id);
                 $blokLama = $blok->nama;
                 $nama = strtoupper($request->blokInput);
                 $blok->nama = $nama;
@@ -174,6 +178,7 @@ class BlokController extends Controller
     public function destroy($id){
         if(request()->ajax()){
             try{
+                $id = LevindCrypt::decryptString($id);
                 $blok = Blok::find($id);
                 $nama = $blok->nama;
                 $pengguna = Tempatusaha::where('blok',$nama)->count();

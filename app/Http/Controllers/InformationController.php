@@ -10,6 +10,7 @@ use Exception;
 use Carbon\Carbon;
 
 use App\Models\Information;
+use App\Models\LevindCrypt;
 
 class InformationController extends Controller
 {
@@ -30,8 +31,8 @@ class InformationController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Informasi" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Informasi" name="delete" id="'.$data->id.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Informasi" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Informasi" name="delete" id="'.LevindCrypt::encryptString($data->id).'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -128,6 +129,8 @@ class InformationController extends Controller
     public function edit($id)
     {
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
+
             $data = Information::find($id);
             
             $pengaruh = explode(", ", $data->pengaruh);
@@ -208,7 +211,8 @@ class InformationController extends Controller
                     'pengaruh'   => $pengaruh
                 ];
 
-                Information::find($request->hidden_id)->update($data);
+                $id = LevindCrypt::decryptString($request->hidden_id);
+                Information::find($id)->update($data);
                 
                 return response()->json(['success' => 'Data Berhasil Diupdate.']);
             }
@@ -227,6 +231,8 @@ class InformationController extends Controller
     public function destroy($id)
     {
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
+            
             $data = Information::findOrFail($id);
             try{
                 $data->delete();

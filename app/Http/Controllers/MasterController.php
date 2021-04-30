@@ -22,6 +22,7 @@ use App\Models\Item;
 use App\Models\Sinkronisasi;
 
 use App\Models\IndoDate;
+use App\Models\LevindCrypt;
 
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
@@ -53,9 +54,9 @@ class MasterController extends Controller
             ->where('tgl_bayar',Session::get('masterkasir'));
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Restore" name="restore" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#4e73df;"></i></a>&nbsp;&nbsp;';
-                    $button .= '<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.$data->ref.'" nama="'.$data->kd_kontrol.'" class="edit"><i class="fas fa-edit" style="color:#e74a3b;"></i></a>&nbsp;&nbsp;';
-                    $button .= '<a type="button" data-toggle="tooltip" data-original-title="Cetak" name="cetak" id="'.$data->ref.'" class="cetak"><i class="fas fa-print" style="color:#1cc88a;"></a>';
+                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Restore" name="restore" id="'.LevindCrypt::encryptString($data->ref).'" nama="'.$data->kd_kontrol.'" class="restore"><i class="fas fa-undo" style="color:#4e73df;"></i></a>&nbsp;&nbsp;';
+                    $button .= '<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.LevindCrypt::encryptString($data->ref).'" nama="'.$data->kd_kontrol.'" class="edit"><i class="fas fa-edit" style="color:#e74a3b;"></i></a>&nbsp;&nbsp;';
+                    $button .= '<a type="button" data-toggle="tooltip" data-original-title="Cetak" name="cetak" id="'.LevindCrypt::encryptString($data->ref).'" class="cetak"><i class="fas fa-print" style="color:#1cc88a;"></a>';
                     return $button;
                 })
                 ->addColumn('pengguna', function($data){
@@ -95,6 +96,8 @@ class MasterController extends Controller
     public function kasirRestore(Request $request, $ref){
         if(request()->ajax()){
             try{
+                $ref = LevindCrypt::decryptString($ref);
+
                 $pembayaran = Pembayaran::where('ref',$ref)->get();
                 foreach($pembayaran as $p){
                     $tagihan = Tagihan::find($p->id_tagihan);
@@ -214,8 +217,9 @@ class MasterController extends Controller
     public function kasirEdit(Request $request){
         if(request()->ajax()){
             try{
+                $ref = LevindCrypt::decryptString($request->hidden_ref);
                 if($request->edittanggal <= date('Y-m-d',strtotime(Carbon::now()))){
-                    $pembayaran = Pembayaran::where('ref',$request->hidden_ref)->get();
+                    $pembayaran = Pembayaran::where('ref', $ref)->get();
                     if($pembayaran != NULL){
                         foreach($pembayaran as $d){
                             $tanggal = $request->edittanggal;
@@ -226,7 +230,7 @@ class MasterController extends Controller
                         }
                     }
 
-                    $struk = StrukPembayaran::where('ref', $request->hidden_ref)->get();
+                    $struk = StrukPembayaran::where('ref', $ref)->get();
                     if($struk != NULL){
                         foreach($struk as $d){
                             $tanggal = $request->edittanggal;
@@ -254,6 +258,7 @@ class MasterController extends Controller
     }
 
     public function cetakStruk(Request $request, $struk, $id){
+        $id = LevindCrypt::decryptString($id);
         if($struk == 'tagihan'){
             $struk = StrukPembayaran::where('ref',$id)->first();
 

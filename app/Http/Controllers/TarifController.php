@@ -15,6 +15,8 @@ use App\Models\TarifKebersihan;
 use App\Models\TarifAirKotor;
 use App\Models\TarifLain;
 
+use App\Models\LevindCrypt;
+
 class TarifController extends Controller
 {
     public function __construct()
@@ -36,8 +38,8 @@ class TarifController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.$data->id.'" fas="keamananipk" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="keamananipk" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.LevindCrypt::encryptString($data->id).'" fas="keamananipk" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->tarif.'" fas="keamananipk" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -58,8 +60,8 @@ class TarifController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.$data->id.'" fas="kebersihan" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="kebersihan" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.LevindCrypt::encryptString($data->id).'" fas="kebersihan" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->tarif.'" fas="kebersihan" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -80,8 +82,8 @@ class TarifController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.$data->id.'" fas="airkotor" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="airkotor" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.LevindCrypt::encryptString($data->id).'" fas="airkotor" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->tarif.'" fas="airkotor" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -102,8 +104,8 @@ class TarifController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.$data->id.'" fas="lain" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.$data->id.'" nama="'.$data->tarif.'" fas="lain" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Tarif" name="edit" id="'.LevindCrypt::encryptString($data->id).'" fas="lain" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Tarif" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->tarif.'" fas="lain" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -191,6 +193,7 @@ class TarifController extends Controller
     public function edit($fasilitas, $id){
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = '';
             if($fasilitas == 'keamananipk'){
                 $data = TarifKeamananIpk::find($id);
@@ -305,6 +308,7 @@ class TarifController extends Controller
 
                 }
             }
+            $id = LevindCrypt::decryptString($request->hidden_id);
             if($request->fasilitas == 'tarif'){
                 $dataset = array();
                 $role = '';
@@ -327,7 +331,7 @@ class TarifController extends Controller
                             'prs_keamanan' => $request->prs_keamanan,
                             'prs_ipk'      => $request->prs_ipk,
                         ];
-                        TarifKeamananIpk::whereId($request->hidden_id)->update($data);
+                        TarifKeamananIpk::find($id)->update($data);
                         $role = 'keamananipk';
                     }
 
@@ -337,7 +341,7 @@ class TarifController extends Controller
                         $data = [
                             'tarif' => $tarif,
                         ];
-                        TarifKebersihan::whereId($request->hidden_id)->update($data);
+                        TarifKebersihan::find($id)->update($data);
                         $role = 'kebersihan';
                     }
 
@@ -347,7 +351,7 @@ class TarifController extends Controller
                         $data = [
                             'tarif' => $tarif,
                         ];
-                        TarifAirKotor::whereId($request->hidden_id)->update($data);
+                        TarifAirKotor::find($id)->update($data);
                         $role = 'airkotor';
                     }
 
@@ -357,7 +361,7 @@ class TarifController extends Controller
                         $data = [
                             'tarif' => $tarif,
                         ];
-                        TarifLain::whereId($request->hidden_id)->update($data);
+                        TarifLain::find($id)->update($data);
                         $role = 'lain';
                     }
 
@@ -378,6 +382,7 @@ class TarifController extends Controller
     public function destroy($fasilitas, $id)
     {
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $dataset = array();
             $role = '';
             if($fasilitas == 'keamananipk'){

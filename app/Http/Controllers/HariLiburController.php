@@ -11,6 +11,8 @@ use Exception;
 use App\Models\HariLibur;
 use App\Models\IndoDate;
 
+use App\Models\LevindCrypt;
+
 class HariLiburController extends Controller
 {
     public function __construct()
@@ -25,8 +27,8 @@ class HariLiburController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Hari" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Hari" name="delete" id="'.$data->id.'" nama="'.$data->tanggal.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Hari" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Hari" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->tanggal.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
@@ -71,6 +73,7 @@ class HariLiburController extends Controller
     public function edit($id){
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = HariLibur::findOrFail($id);
             return response()->json(['result' => $data]);
         }
@@ -97,7 +100,8 @@ class HariLiburController extends Controller
             ];
 
             try{
-                HariLibur::whereId($request->hidden_id)->update($data);
+                $id = LevindCrypt::decryptString($request->hidden_id);
+                HariLibur::find($id)->update($data);
                 return response()->json(['success' => 'Data Berhasil Diupdate.']);
             }
             catch(\Exception $e){
@@ -110,6 +114,7 @@ class HariLiburController extends Controller
     {
         if(request()->ajax()){
             try{
+                $id = LevindCrypt::decryptString($id);
                 $tanggal = HariLibur::find($id);
                 $data = $tanggal->tanggal;
                 $tanggal->delete();

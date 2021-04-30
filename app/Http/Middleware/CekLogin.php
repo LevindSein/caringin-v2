@@ -51,6 +51,8 @@ class CekLogin
                     Session::put('login',$user->username.'-'.$user->role);
                     Session::put('otoritas',NULL);
 
+                    Session::put('cryptString',md5($request->username));
+
                     $request->request->add(['role' => $user->role]);
                     $request->request->add(['nama' => $user->nama]);
 

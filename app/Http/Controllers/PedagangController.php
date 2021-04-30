@@ -10,6 +10,7 @@ use Exception;
 
 use App\Models\Pedagang;
 use App\Models\TempatUsaha;
+use App\Models\LevindCrypt;
 
 class PedagangController extends Controller
 {
@@ -31,15 +32,15 @@ class PedagangController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                     if(Session::get('role') == 'master'){
-                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Pedagang" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Pedagang" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                        $button = '<a type="button" data-toggle="tooltip" data-original-title="Edit Pedagang" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                        $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus Pedagang" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     }
                     else
                         $button = '<span style="color:#e74a3b;"><i class="fas fa-ban"></i></span>';
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns(['action','show'])
@@ -157,6 +158,7 @@ class PedagangController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = Pedagang::findOrFail($id);
             return response()->json(['result' => $data]);
         }
@@ -172,6 +174,7 @@ class PedagangController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = Pedagang::findOrFail($id);
             if($data->email != NULL){
                 $email = substr($data->email, 0, strpos($data->email, '@'));
@@ -247,14 +250,15 @@ class PedagangController extends Controller
             }
 
             try{
-                Pedagang::find($request->hidden_id)->update($data);
+                $id = LevindCrypt::decryptString($request->hidden_id);
+                Pedagang::find($id)->update($data);
 
-                $ped = Pedagang::find($request->hidden_id);
+                $ped = Pedagang::find($id);
 
                 if($request->pemilik == "pemilik"){
                     $alamatPemilik = $request->alamatPemilik;
 
-                    $tempat = TempatUsaha::where('id_pemilik',$request->hidden_id)->get();
+                    $tempat = TempatUsaha::where('id_pemilik',$id)->get();
                     if($tempat != NULL){
                         foreach($tempat as $t){
                             if(in_array($t->kd_kontrol, $alamatPemilik) == FALSE){
@@ -274,7 +278,7 @@ class PedagangController extends Controller
                     }
                 }
                 else{
-                    $tempat = TempatUsaha::where('id_pemilik',$request->hidden_id)->get();
+                    $tempat = TempatUsaha::where('id_pemilik',$id)->get();
                     if($tempat != NULL){
                         foreach($tempat as $t){
                             $hapus = TempatUsaha::find($t->id);
@@ -287,7 +291,7 @@ class PedagangController extends Controller
                 if($request->pengguna == "pengguna"){
                     $alamatPengguna = $request->alamatPengguna;
 
-                    $tempat = TempatUsaha::where('id_pengguna',$request->hidden_id)->get();
+                    $tempat = TempatUsaha::where('id_pengguna',$id)->get();
                     if($tempat != NULL){
                         foreach($tempat as $t){
                             if(in_array($t->kd_kontrol, $alamatPengguna) == FALSE){
@@ -307,7 +311,7 @@ class PedagangController extends Controller
                     }
                 }
                 else{
-                    $tempat = TempatUsaha::where('id_pengguna',$request->hidden_id)->get();
+                    $tempat = TempatUsaha::where('id_pengguna',$id)->get();
                     if($tempat != NULL){
                         foreach($tempat as $t){
                             $hapus = TempatUsaha::find($t->id);
@@ -333,6 +337,7 @@ class PedagangController extends Controller
     public function destroy($id)
     {
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $data = Pedagang::find($id);
             try{
                 $nama = $data->nama;

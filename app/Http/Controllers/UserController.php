@@ -8,6 +8,7 @@ use Validator;
 use Exception;
 
 use App\Models\User;
+use App\Models\LevindCrypt;
 
 class UserController extends Controller
 {
@@ -28,10 +29,10 @@ class UserController extends Controller
             $data = User::where('role','admin')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Otoritas" name="otoritas" id="'.$data->id.'" nama="'.$data->nama.'" class="otoritas"><i class="fas fa-hand-point-up" style="color:#36b9cc;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Otoritas" name="otoritas" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="otoritas"><i class="fas fa-hand-point-up" style="color:#36b9cc;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
                 ->editColumn('otoritas', function ($data) {
@@ -39,7 +40,7 @@ class UserController extends Controller
                     else return '<span class="text-center"><i class="fas fa-check fa-sm"></i></span>';
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns(['action','show','otoritas'])
@@ -53,13 +54,13 @@ class UserController extends Controller
             $data = User::where('role','manajer')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns(['action','show'])
@@ -72,13 +73,13 @@ class UserController extends Controller
             $data = User::where('role','keuangan')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns(['action','show'])
@@ -91,14 +92,14 @@ class UserController extends Controller
             $data = User::where('role','kasir')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Otoritas" name="otoritas" id="'.$data->id.'" nama="'.$data->nama.'" class="otoritas-kasir"><i class="fas fa-hand-point-up" style="color:#36b9cc;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.$data->id.'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Otoritas" name="otoritas" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="otoritas-kasir"><i class="fas fa-hand-point-up" style="color:#36b9cc;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Edit" name="edit" id="'.LevindCrypt::encryptString($data->id).'" class="edit"><i class="fas fa-edit" style="color:#4e73df;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns(['action','show'])
@@ -111,12 +112,12 @@ class UserController extends Controller
             $data = User::where('role','nasabah')->orderBy('nama','asc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
-                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.$data->id.'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
-                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.$data->id.'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
+                    $button = '<a type="button" data-toggle="tooltip" data-original-title="Reset Password" name="reset" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="reset"><i class="fas fa-key" style="color:#fd7e14;"></i></a>';
+                    $button .= '&nbsp;&nbsp;<a type="button" data-toggle="tooltip" data-original-title="Hapus" name="delete" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="delete"><i class="fas fa-trash-alt" style="color:#e74a3b;"></i></a>';
                     return $button;
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->nama.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns(['action','show'])
@@ -211,6 +212,7 @@ class UserController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = User::findOrFail($id);
             return response()->json(['result' => $data]);
         }
@@ -226,6 +228,7 @@ class UserController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
             $data = User::findOrFail($id);
             if($data->email != NULL){
                 $email = substr($data->email, 0, strpos($data->email, '@'));
@@ -289,10 +292,11 @@ class UserController extends Controller
             }
 
             try{
-                User::find($request->hidden_id)->update($data);
+                $id = LevindCrypt::decryptString($request->hidden_id);
+                User::find($id)->update($data);
 
                 if($request->role != 'admin'){
-                    $user = User::find($request->hidden_id);
+                    $user = User::find($id);
                     $user->otoritas = NULL;
                     $user->save();
                 }
@@ -320,6 +324,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
             $data = User::findOrFail($id);
             $dataset = array();
             try{
@@ -347,6 +352,8 @@ class UserController extends Controller
     {
         if(request()->ajax()){
             try{
+                $id = LevindCrypt::decryptString($id);
+
                 $pass = str_shuffle('abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789');
                 $pass = substr($pass,0,8);
 
@@ -373,6 +380,8 @@ class UserController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
+
             $data = User::find($id);
 
             if($data->otoritas == NULL){
@@ -496,7 +505,9 @@ class UserController extends Controller
                     $json = json_encode($kelola);
                 }
 
-                $data = User::find($request->hidden_id_otoritas);
+                $id = LevindCrypt::decryptString($request->hidden_id_otoritas);
+
+                $data = User::find($id);
                 $data->otoritas = $json;
                 $data->save();
                 return response()->json(['success' => 'Otoritas Berhasil Diupdate.']);
@@ -512,6 +523,8 @@ class UserController extends Controller
     {
         if(request()->ajax())
         {
+            $id = LevindCrypt::decryptString($id);
+
             $data = User::find($id);
 
             if($data->otoritas == NULL){
@@ -551,7 +564,8 @@ class UserController extends Controller
                 else
                     $json = json_encode($kelola);
 
-                $data = User::find($request->hidden_id_kasir);
+                $id = LevindCrypt::decryptString($request->hidden_id_kasir);
+                $data = User::find($id);
                 $data->otoritas = $json;
                 $data->save();
                 return response()->json(['success' => 'Otoritas Berhasil Diupdate.']);
