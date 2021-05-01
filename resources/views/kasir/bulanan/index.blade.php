@@ -44,9 +44,8 @@
                 <div class="form-group text-right">
                     @if($agent->isDesktop())
                     <select class="btn btn-neutral btn-sm" name="printer" id="printer">
-                        <option <?php if(Session::get('printer') == 'panda') { ?> selected <?php } ?> value="panda">Panda Printer 80mm</option>
-                        <option <?php if(Session::get('printer') == 'androidpos') { ?> selected <?php } ?> value="androidpos">Android Pos Printer 50mm</option>
-                        <option <?php if(Session::get('printer') == 'epson') { ?> selected <?php } ?> value="epson">Epson Printer 80mm</option>
+                        <option <?php if(Session::get('printer') == 'mm80') { ?> selected <?php } ?> value="mm80">Desktop Printer L 80mm</option>
+                        <option <?php if(Session::get('printer') == 'mm50') { ?> selected <?php } ?> value="mm50">Android Printer L 50mm</option>
                     </select>
                     @endif
                     <button id="workasir" class="btn btn-sm">Status</button>
@@ -55,9 +54,8 @@
                 @if($agent->isMobile())
                 <div class="form-group text-center">
                     <select class="btn btn-neutral btn-sm" name="printer" id="printer">
-                        <option <?php if(Session::get('printer') == 'panda') { ?> selected <?php } ?> value="panda">Panda Printer 80mm</option>
-                        <option <?php if(Session::get('printer') == 'androidpos') { ?> selected <?php } ?> value="androidpos">Android Pos Printer 50mm</option>
-                        <option <?php if(Session::get('printer') == 'epson') { ?> selected <?php } ?> value="epson">Epson Printer 80mm</option>
+                        <option <?php if(Session::get('printer') == 'mm80') { ?> selected <?php } ?> value="mm80">Desktop Printer L 80mm</option>
+                        <option <?php if(Session::get('printer') == 'mm50') { ?> selected <?php } ?> value="mm50">Android Printer L 50mm</option>
                     </select>
                 </div>
                 @endif

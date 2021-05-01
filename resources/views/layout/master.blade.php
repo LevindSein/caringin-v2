@@ -489,10 +489,12 @@
         <script src="{{asset('vendor/chart-js/Chart.min.js')}}"></script>
         
         <!--for column table toggle-->
+        @yield('js')
+        
         <script>
             $(document).ready(function() {
                 $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-                    $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
+                    $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust();
                 } );
 
                 setInterval(function(){
@@ -502,7 +504,5 @@
                 }, 10000);
             });
         </script>
-
-        @yield('js')
     </body>
 </html>

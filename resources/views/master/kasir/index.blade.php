@@ -37,6 +37,10 @@
                     </form>
                 </div>
                 <div class="text-right">
+                    <select class="btn btn-neutral btn-sm" name="printer" id="printer">
+                        <option <?php if(Session::get('printer') == 'mm80') { ?> selected <?php } ?> value="mm80">Desktop Printer L 80mm</option>
+                        <option <?php if(Session::get('printer') == 'mm50') { ?> selected <?php } ?> value="mm50">Android Printer L 50mm</option>
+                    </select>
                     <img src="{{asset('img/updating.gif')}}" style="display:none;" id="refresh-img"/><button class="btn btn-sm btn-primary" id="refresh"><i class="fas fa-sync-alt"></i> Refresh Data</button>
                 </div>
                 <div class="table-responsive py-4">
