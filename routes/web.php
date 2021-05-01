@@ -145,7 +145,7 @@ Route::post('storelogin',function(Request $request){
 //LOGOUT
 Route::get('logout',function(){
     Session::flush();
-    Artisan::call('cache:clear');
+    \Artisan::call('cache:clear');
     return redirect()->route('login')->with('success','Sampai Jumpa Lagi');
 });
 
