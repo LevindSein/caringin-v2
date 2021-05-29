@@ -144,6 +144,8 @@
         </div>
     </div>
 </div>
+
+@include('keuangan.tunggakan.details')
 @endsection
 
 @section('js')
@@ -217,6 +219,78 @@ $(document).ready(function () {
         var periode = tahun + "-" + bulan;
 
         window.location.href = "/keuangan/tunggakan/tagihan?periode=" + periode;
+    });
+
+    $(document).on('click', '.details', function(){
+		id = $(this).attr('id');
+        $(".divListrik").hide();
+        $(".divAirBersih").hide();
+        $(".divKeamananIpk").hide();
+        $(".divKebersihan").hide();
+        $(".divAirKotor").hide();
+        $(".divLain").hide();
+        $(".divTagihan").show();
+        $(".fasilitas").text("DETAILS TAGIHAN");
+        $.ajax({
+			url :"/keuangan/tagihan/show/" + id,
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                $(".kontrol").text(data.result.kd_kontrol);
+                $(".periode").text(data.result.periode);
+                $(".pengguna").text(data.result.nama);
+
+                $(".tagihan-listrik").text(data.result.sel_listrik.toLocaleString("en-US"));
+                $(".tagihan-airbersih").text(data.result.sel_airbersih.toLocaleString("en-US"));
+                $(".tagihan-keamananipk").text(data.result.sel_keamananipk.toLocaleString("en-US"));
+                $(".tagihan-kebersihan").text(data.result.sel_kebersihan.toLocaleString("en-US"));
+                $(".tagihan-airkotor").text(data.result.sel_airkotor.toLocaleString("en-US"));
+                $(".tagihan-lain").text(data.result.sel_lain.toLocaleString("en-US"));
+                $(".tagihan-diskon").html("<span style='color:red;'>" + data.result.dis_tagihan.toLocaleString("en-US") + "</span");
+                $(".tagihan-denda").html("<span style='color:blue;'>" + data.result.den_tagihan.toLocaleString("en-US") + "</span");
+                
+                if(data.result.no_alamat !== null)
+                    $(".los").text(data.result.no_alamat);
+                else
+                    $(".los").html("&mdash;");
+
+                if(data.result.jml_alamat !== null)
+                    $(".jumlah").text(data.result.jml_alamat);
+                else
+                    $(".jumlah").html("&mdash;");
+
+                if(data.result.lok_tempat !== null)
+                    $(".lokasi").text(data.result.lok_tempat);
+                else
+                    $(".lokasi").html("&mdash;");
+                
+                if(data.result.sel_tagihan > 0 && data.result.stt_lunas == 0)
+                    $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
+                else if(data.result.sel_tagihan == 0 && data.result.stt_lunas == 1)
+                    $(".pembayaran").html("<span style='color:green;'>Lunas</span");
+                else
+                    $(".pembayaran").html("&times;");
+
+                if(data.result.stt_publish == 1)
+                    $(".status").html("<span style='color:green;'>Publish</span");
+                else if(data.result.review == 0)
+                    $(".status").html("<span style='color:red;'>Checking</span");
+                else if(data.result.review == 2)
+                    $(".status").html("<span style='color:blue;'>Edited</span");
+                else
+                    $(".status").html("<span style='color:red;'>Unpublish</span");
+
+                if(data.result.via_publish !== null)
+                    $(".publisher").text(data.result.via_publish);
+                else
+                    $(".publisher").html("&mdash;");
+                    
+                $(".pengelola").text(data.result.via_tambah);
+
+                $("#show-details").modal("show");
+            }
+        });
     });
 });
 </script>

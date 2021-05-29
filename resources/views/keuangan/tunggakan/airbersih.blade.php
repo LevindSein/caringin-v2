@@ -144,6 +144,8 @@
         </div>
     </div>
 </div>
+
+@include("keuangan.tunggakan.details")
 @endsection
 
 @section('js')
@@ -218,6 +220,91 @@ $(document).ready(function () {
         var periode = tahun + "-" + bulan;
 
         window.location.href = "/keuangan/tunggakan/airbersih?periode=" + periode;
+    });
+    
+    $(document).on('click', '.details', function(){
+		id = $(this).attr('id');
+        $(".divListrik").hide();
+        $(".divAirBersih").show();
+        $(".divKeamananIpk").hide();
+        $(".divKebersihan").hide();
+        $(".divAirKotor").hide();
+        $(".divLain").hide();
+        $(".divTagihan").hide();
+        $(".fasilitas").text("DETAILS AIR BERSIH");
+        $.ajax({
+			url :"/keuangan/tagihan/show/" + id,
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                $(".kontrol").text(data.result.kd_kontrol);
+                $(".periode").text(data.result.periode);
+                $(".pengguna").text(data.result.nama);
+
+                if(data.result.awal_airbersih !== null)
+                    $(".awal-airbersih").text(data.result.awal_airbersih.toLocaleString("en-US"));
+                else 
+                    $(".awal-airbersih").html("&mdash;");
+                
+                if(data.result.akhir_airbersih !== null)
+                    $(".akhir-airbersih").text(data.result.akhir_airbersih.toLocaleString("en-US"));
+                else
+                    $(".akhir-airbersih").html("&mdash;")
+                
+                if(data.result.pakai_airbersih !== null)
+                    $(".pakai-airbersih").html("<span style='color:green;'>" + data.result.pakai_airbersih.toLocaleString("en-US") + "</span");
+                else
+                    $(".pakai-airbersih").html("&mdash;")
+
+                $(".diskon-airbersih").html("<span style='color:red;'>" + data.result.dis_airbersih.toLocaleString("en-US") + "</span");
+                $(".tagihan-airbersih").html("<span style='color:green;'>" + data.result.ttl_airbersih.toLocaleString("en-US") + "</span");
+                $(".denda-airbersih").html("<span style='color:blue;'>" + data.result.den_airbersih.toLocaleString("en-US") + "</span");
+
+                $(".realisasi-airbersih").html("<span style='color:green;'>" + data.result.rea_airbersih.toLocaleString("en-US") + "</span");
+                $(".selisih-airbersih").html("<span style='color:red;'>" + data.result.sel_airbersih.toLocaleString("en-US") + "</span");
+
+                if(data.result.no_alamat !== null)
+                    $(".los").text(data.result.no_alamat);
+                else
+                    $(".los").html("&mdash;");
+
+                if(data.result.jml_alamat !== null)
+                    $(".jumlah").text(data.result.jml_alamat);
+                else
+                    $(".jumlah").html("&mdash;");
+
+                if(data.result.lok_tempat !== null)
+                    $(".lokasi").text(data.result.lok_tempat);
+                else
+                    $(".lokasi").html("&mdash;");
+                
+                if(data.result.sel_tagihan > 0 && data.result.stt_lunas == 0)
+                    $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
+                else if(data.result.sel_tagihan == 0 && data.result.stt_lunas == 1)
+                    $(".pembayaran").html("<span style='color:green;'>Lunas</span");
+                else
+                    $(".pembayaran").html("&times;");
+
+                if(data.result.stt_publish == 1)
+                    $(".status").html("<span style='color:green;'>Publish</span");
+                else if(data.result.review == 0)
+                    $(".status").html("<span style='color:red;'>Checking</span");
+                else if(data.result.review == 2)
+                    $(".status").html("<span style='color:blue;'>Edited</span");
+                else
+                    $(".status").html("<span style='color:red;'>Unpublish</span");
+
+                if(data.result.via_publish !== null)
+                    $(".publisher").text(data.result.via_publish);
+                else
+                    $(".publisher").html("&mdash;");
+                    
+                $(".pengelola").text(data.result.via_tambah);
+
+                $("#show-details").modal("show");
+            }
+        });
     });
 });
 </script>
