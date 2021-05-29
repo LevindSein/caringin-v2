@@ -156,6 +156,7 @@ Route::middleware('ceklogin:keuangan')->group(function(){
     Route::get('keuangan/pendapatan/{data}',[KeuanganController::class, 'pendapatan']);
     Route::post('keuangan/tunggakan/generate',[KeuanganController::class, 'tunggakanGenerate']);
     Route::get('keuangan/tunggakan/{data}',[KeuanganController::class, 'tunggakan']);
+    Route::get('keuangan/tagihan/show/{data}',[KeuanganController::class, 'tagihanDetails']);
     Route::post('keuangan/tagihan/generate',[KeuanganController::class, 'tagihanGenerate']);
     Route::get('keuangan/tagihan/{data}',[KeuanganController::class, 'tagihan']);
 });

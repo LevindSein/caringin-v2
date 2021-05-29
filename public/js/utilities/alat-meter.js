@@ -35,24 +35,10 @@ $(document).ready(function () {
         },
         drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
-            if(typeof rowIndex != 'undefined') {
-                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
-            }
             setTimeout( function () {
                 $("[data-toggle='tooltip']").tooltip();
             }, 10)
         },
-    });
-    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
-    $('#refresh').click(function(){
-        $('#refresh-img').show();
-        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
-        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
-        setTimeout(function(){
-            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
-            $('#refresh-data').text("Refresh Data");
-            $('#refresh-img').hide();
-        }, 2000);
     });
 
     $("#tab-c-1").click(function(){
@@ -92,26 +78,24 @@ $(document).ready(function () {
                 },
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
-                    if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
-                    }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
                     }, 10)
                 },
             });
-            setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
-            $('#refresh').click(function(){
-                $('#refresh-img').show();
-                $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
-                dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
-                setTimeout(function(){
-                    $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
-                    $('#refresh-data').text("Refresh Data");
-                    $('#refresh-img').hide();
-                }, 2000);
-            });
         }
+    });
+    
+    setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
+    $('#refresh').click(function(){
+        $('#refresh-img').show();
+        $('#refresh').removeClass("btn-primary").addClass("btn-success").html('Refreshing');
+        dtable.ajax.reload(function(){console.log("Refresh Manual")}, false);
+        setTimeout(function(){
+            $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
+            $('#refresh-data').text("Refresh Data");
+            $('#refresh-img').hide();
+        }, 2000);
     });
 
     $('#add_alat').click(function(){

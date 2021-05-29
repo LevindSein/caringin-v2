@@ -19,6 +19,8 @@ use App\Models\IndoDate;
 use DataTables;
 use Exception;
 
+use App\Models\LevindCrypt;
+
 class KeuanganController extends Controller
 {
     public function __construct()
@@ -74,7 +76,7 @@ class KeuanganController extends Controller
                 return "<span style='color:#172b4d;'>$hasil</span></a>";
             })
             ->addColumn('show', function($data){
-                $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                 return $button;
             })
             ->rawColumns([
@@ -86,6 +88,17 @@ class KeuanganController extends Controller
         return view("keuangan.tagihan.$fasilitas",[
             "periode" => IndoDate::bulan(Session::get("periodetagihan"), " ")
         ]);
+    }
+
+    public function tagihanDetails($id){
+        if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
+            $data = Tagihan::find($id);
+            $data['periode'] = IndoDate::bulan($data->bln_tagihan, " ");
+            $data['data_periode'] = $data->bln_tagihan;
+
+            return response()->json(["result" => $data]);
+        }
     }
 
     public function tagihanGenerate(Request $request){
@@ -203,7 +216,7 @@ class KeuanganController extends Controller
                 return "<span style='color:#172b4d;'>$hasil</span></a>";
             })
             ->addColumn('show', function($data){
-                $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                 return $button;
             })
             ->rawColumns([
@@ -294,7 +307,7 @@ class KeuanganController extends Controller
                     return number_format($data->realisasi);
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->id.'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([
@@ -317,7 +330,7 @@ class KeuanganController extends Controller
                     }
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->bln_bayar.'" nama="'.$data->bln_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->bln_bayar).'" nama="'.$data->bln_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([
@@ -340,7 +353,7 @@ class KeuanganController extends Controller
                     }
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->thn_bayar.'" nama="'.$data->thn_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->thn_bayar).'" nama="'.$data->thn_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([
@@ -473,7 +486,7 @@ class KeuanganController extends Controller
                     }
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->blok.'" nama="'.$data->blok.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->blok).'" nama="'.$data->blok.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([
@@ -496,7 +509,7 @@ class KeuanganController extends Controller
                     }
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.$data->bln_bayar.'" nama="'.$data->bln_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->bln_bayar).'" nama="'.$data->bln_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([

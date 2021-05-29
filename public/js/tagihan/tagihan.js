@@ -1090,8 +1090,7 @@ $(document).ready(function(){
                 $(".history-heading").text("Riwayat Details Tagihan");
 
                 $(".pengguna").text(data.result.nama);
-
-                
+    
                 if(data.result.daya_listrik !== null)
                     $(".daya-listrik").text(data.result.daya_listrik.toLocaleString("en-US"));
                 else
@@ -1115,6 +1114,7 @@ $(document).ready(function(){
                 $(".diskon-listrik").html("<span style='color:red;'>" + data.result.dis_listrik.toLocaleString("en-US") + "</span");
                 $(".tagihan-listrik").html("<span style='color:green;'>" + data.result.ttl_listrik.toLocaleString("en-US") + "</span");
                 $(".denda-listrik").html("<span style='color:blue;'>" + data.result.den_listrik.toLocaleString("en-US") + "</span");
+                
                 if(data.result.awal_airbersih !== null)
                     $(".awal-airbersih").text(data.result.awal_airbersih.toLocaleString("en-US"));
                 else 
@@ -1133,11 +1133,15 @@ $(document).ready(function(){
                 $(".diskon-airbersih").html("<span style='color:red;'>" + data.result.dis_airbersih.toLocaleString("en-US") + "</span");
                 $(".tagihan-airbersih").html("<span style='color:green;'>" + data.result.ttl_airbersih.toLocaleString("en-US") + "</span");
                 $(".denda-airbersih").html("<span style='color:blue;'>" + data.result.den_airbersih.toLocaleString("en-US") + "</span");
+
                 $(".diskon-keamananipk").html("<span style='color:red;'>" + data.result.dis_keamananipk.toLocaleString("en-US") + "</span");
                 $(".tagihan-keamananipk").html("<span style='color:green;'>" + data.result.ttl_keamananipk.toLocaleString("en-US") + "</span");
+                
                 $(".diskon-kebersihan").html("<span style='color:red;'>" + data.result.dis_kebersihan.toLocaleString("en-US") + "</span");
                 $(".tagihan-kebersihan").html("<span style='color:green;'>" + data.result.ttl_kebersihan.toLocaleString("en-US") + "</span");
+                
                 $(".tagihan-airkotor").html("<span style='color:green;'>" + data.result.ttl_airkotor.toLocaleString("en-US") + "</span");
+                
                 $(".tagihan-lain").html("<span style='color:green;'>" + data.result.ttl_lain.toLocaleString("en-US") + "</span");
 
                 if(data.result.no_alamat !== null)
