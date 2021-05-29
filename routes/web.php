@@ -152,6 +152,7 @@ Route::get('logout',function(){
 Route::middleware('ceklogin:keuangan')->group(function(){
     Route::post('keuangan/rekap/generate',[KeuanganController::class, 'rekapGenerate']);
     Route::get('keuangan/rekap/{data}',[KeuanganController::class, 'rekap']);
+    Route::get('keuangan/pendapatan/show/{fasilitas}/{data}',[KeuanganController::class, 'pendapatanDetails']);
     Route::post('keuangan/pendapatan/generate',[KeuanganController::class, 'pendapatanGenerate']);
     Route::get('keuangan/pendapatan/{data}',[KeuanganController::class, 'pendapatan']);
     Route::post('keuangan/tunggakan/generate',[KeuanganController::class, 'tunggakanGenerate']);

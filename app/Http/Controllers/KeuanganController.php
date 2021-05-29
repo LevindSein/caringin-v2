@@ -307,7 +307,7 @@ class KeuanganController extends Controller
                     return number_format($data->realisasi);
                 })
                 ->addColumn('show', function($data){
-                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="details btn btn-sm btn-primary">Show</button>';
+                    $button = '<button title="Show Details" name="show" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" bayar="'.$data->tgl_bayar.'" class="details btn btn-sm btn-primary">Show</button>';
                     return $button;
                 })
                 ->rawColumns([
@@ -364,6 +364,18 @@ class KeuanganController extends Controller
         }
     
         return view("keuangan.pendapatan.$data");
+    }
+
+    public function pendapatanDetails($fasilitas, $id){
+        if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
+
+            if($fasilitas == 'harian'){
+                $data = Pembayaran::find($id);
+            }
+
+            return response()->json(['result' => $data]);
+        }
     }
 
     public function pendapatanGenerate(Request $request){
