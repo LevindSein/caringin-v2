@@ -622,6 +622,58 @@ class KeuanganController extends Controller
         return view("keuangan.rekap.$data");
     }
 
+    public function rekapDetails($fasilitas, $id){
+        if(request()->ajax()){
+            $id = LevindCrypt::decryptString($id);
+
+            if($fasilitas == 'akhirbulan'){
+                $tagihan = Pembayaran::where('bln_bayar',$id)
+                ->select(
+                    DB::raw('SUM(realisasi) as realisasi'),
+                    DB::raw('SUM(diskon) as diskon'),
+                    DB::raw('SUM(byr_listrik) as listrik'),
+                    DB::raw('SUM(byr_denlistrik) as denlistrik'),
+                    DB::raw('SUM(dis_listrik) as dislistrik'),
+                    DB::raw('SUM(byr_airbersih) as airbersih'),
+                    DB::raw('SUM(byr_denairbersih) as denairbersih'),
+                    DB::raw('SUM(dis_airbersih) as disairbersih'),
+                    DB::raw('SUM(byr_keamananipk) as keamananipk'),
+                    DB::raw('SUM(dis_keamananipk) as diskeamananipk'),
+                    DB::raw('SUM(byr_kebersihan) as kebersihan'),
+                    DB::raw('SUM(dis_kebersihan) as diskebersihan'),
+                    DB::raw('SUM(byr_airkotor) as airkotor'),
+                    DB::raw('SUM(byr_lain) as lain'),
+                )
+                ->get();
+
+                $data['realisasi'] = $tagihan[0]->realisasi;
+                $data['diskon'] = $tagihan[0]->diskon;
+
+                $data['byr_listrik'] = $tagihan[0]->listrik;
+                $data['byr_denlistrik'] = $tagihan[0]->denlistrik;
+                $data['dis_listrik'] = $tagihan[0]->dislistrik;
+                
+                $data['byr_airbersih'] = $tagihan[0]->airbersih;
+                $data['byr_denairbersih'] = $tagihan[0]->denairbersih;
+                $data['dis_airbersih'] = $tagihan[0]->disairbersih;
+                
+                $data['byr_keamananipk'] = $tagihan[0]->keamananipk;
+                $data['dis_keamananipk'] = $tagihan[0]->diskeamananipk;
+                
+                $data['byr_kebersihan'] = $tagihan[0]->kebersihan;
+                $data['dis_kebersihan'] = $tagihan[0]->diskebersihan;
+                
+                $data['byr_airkotor'] = $tagihan[0]->airkotor;
+                
+                $data['byr_lain'] = $tagihan[0]->lain;
+
+                $data['bulan'] = IndoDate::bulan($id, " ");
+            }
+
+            return response()->json(['result' => $data]);
+        }
+    }
+
     public function rekapGenerate(Request $request){
         $data = $request->hidden_data;
         if($data == 'sisa'){$bulan   = IndoDate::bulan(date('Y-m',strtotime(Carbon::now())),' ');
