@@ -80,6 +80,80 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="show-details" tabindex="-1" role="dialog" aria-labelledby="show-details" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-header bg-gradient-vine">
+                        <h1 class="text-white text-center kode" style="font-weight:700"></h1>
+                    </div>
+                    <div class="card-body px-lg-3 py-lg-3">
+                        <div class="card-body modal-body-short">
+                            <div class="card-profile-stats d-flex justify-content-center">
+                                <div class="col">
+                                    <div class="divTagihan">
+                                        <span class="heading">Sisa Tagihan</span>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="description">Listrik</span>
+                                                        <span class="heading tagihan-listrik">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Keamanan IPK</span>
+                                                        <span class="heading tagihan-keamananipk">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Air Kotor</span>
+                                                        <span class="heading tagihan-airkotor">&mdash;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="description">Air Bersih</span>
+                                                        <span class="heading tagihan-airbersih">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Kebersihan</span>
+                                                        <span class="heading tagihan-kebersihan">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Lainnya</span>
+                                                        <span class="heading tagihan-lain">&mdash;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-profile-stats d-flex justify-content-between">
+                                                    <div>
+                                                        <span class="description">Diskon</span>
+                                                        <span class="heading tagihan-diskon">&mdash;</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="description">Denda</span>
+                                                        <span class="heading tagihan-denda">&mdash;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">&times; Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -178,6 +252,30 @@ $(document).ready(function () {
             $("#sebagian").prop('required',true);
         }
     });
+
+    $(document).on('click', '.details', function(){
+		id = $(this).attr('id');
+        $.ajax({
+			url :"/keuangan/rekap/show/sisatagihan/" + id,
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                $('.kode').html("<h1 style='color:white;font-weight:700;'>" + data.result.kode + "</h1>");
+                
+                $(".tagihan-listrik").text(data.result.sel_listrik);
+                $(".tagihan-airbersih").text(data.result.sel_airbersih);
+                $(".tagihan-keamananipk").text(data.result.sel_keamananipk);
+                $(".tagihan-kebersihan").text(data.result.sel_kebersihan);
+                $(".tagihan-airkotor").text(data.result.sel_airkotor);
+                $(".tagihan-lain").text(data.result.sel_lain);
+                $(".tagihan-diskon").html("<span style='color:red;'>" + data.result.dis_tagihan + "</span");
+                $(".tagihan-denda").html("<span style='color:blue;'>" + data.result.den_tagihan + "</span");
+			}
+		});
+        
+        $('#show-details').modal('show');
+	});
 });
 </script>
 @endsection

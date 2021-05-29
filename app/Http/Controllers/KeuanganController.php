@@ -626,6 +626,34 @@ class KeuanganController extends Controller
         if(request()->ajax()){
             $id = LevindCrypt::decryptString($id);
 
+            if($fasilitas == 'sisatagihan'){
+                $data['kode'] = $id;
+
+                $tagihan = Tagihan::where([['stt_lunas',0],['stt_publish',1],['sel_tagihan','>',0],['blok',$id]])
+                ->select(
+                    DB::raw('SUM(sel_listrik) as listrik'),
+                    DB::raw('SUM(sel_airbersih) as airbersih'),
+                    DB::raw('SUM(sel_keamananipk) as keamananipk'),
+                    DB::raw('SUM(sel_kebersihan) as kebersihan'),
+                    DB::raw('SUM(sel_airkotor) as airkotor'),
+                    DB::raw('SUM(sel_lain) as lain'),
+                    DB::raw('SUM(dis_tagihan) as diskon'),
+                    DB::raw('SUM(den_tagihan) as denda'),
+                )
+                ->get();
+
+                $tagihan = $tagihan[0];
+
+                $data['sel_listrik'] = number_format($tagihan->listrik);
+                $data['sel_airbersih'] = number_format($tagihan->airbersih);
+                $data['sel_keamananipk'] = number_format($tagihan->keamananipk);
+                $data['sel_kebersihan'] = number_format($tagihan->kebersihan);
+                $data['sel_airkotor'] = number_format($tagihan->airkotor);
+                $data['sel_lain'] = number_format($tagihan->lain);
+                $data['dis_tagihan'] = number_format($tagihan->diskon);
+                $data['den_tagihan'] = number_format($tagihan->denda);
+            }
+
             if($fasilitas == 'akhirbulan'){
                 $tagihan = Pembayaran::where('bln_bayar',$id)
                 ->select(
