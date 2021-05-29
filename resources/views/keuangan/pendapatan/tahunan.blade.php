@@ -86,6 +86,125 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="show-details" tabindex="-1" role="dialog" aria-labelledby="show-details" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-header bg-gradient-vine">
+                        <div class="text-white text-center titles"></div>
+                    </div>
+                    <div class="card-body px-lg-3 py-lg-3">
+                        <div class="card-body">
+                            <div class="card-profile-stats d-flex justify-content-center">
+                                <div class="col">
+                                    <div>
+                                        <span class="description">Pendapatan</span>
+                                        <span class="heading realisasi">&mdash;</span>
+                                    </div>
+                                    <div>
+                                        <span class="description">Disc</span>
+                                        <span class="heading diskon" style="color:red;">&mdash;</span>
+                                    </div>
+                                    <hr>
+                                    <span class="heading">Rincian</span>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Listrik</span>
+                                                    <span class="heading bayar-listrik">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Denda Listrik</span>
+                                                    <span class="heading denda-listrik">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-listrik" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Air Brs</span>
+                                                    <span class="heading bayar-airbersih">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Denda Air Brs</span>
+                                                    <span class="heading denda-airbersih">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-airbersih" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Keamanan IPK</span>
+                                                    <span class="heading bayar-keamananipk">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-keamananipk" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-between">
+                                                <div>
+                                                    <span class="description">Bayar Kebersihan</span>
+                                                    <span class="heading bayar-kebersihan">&mdash;</span>
+                                                </div>
+                                                <div>
+                                                    <span class="description">Disc</span>
+                                                    <span class="heading diskon-kebersihan" style="color:red;">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-center">
+                                                <div>
+                                                    <span class="description">Bayar Air Kotor</span>
+                                                    <span class="heading bayar-airkotor">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-profile-stats d-flex justify-content-center">
+                                                <div>
+                                                    <span class="description">Bayar Lain Lain</span>
+                                                    <span class="heading bayar-lain">&mdash;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">&times; Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -148,6 +267,81 @@ $(document).ready(function () {
     $(".generate").click(function() {
         $("#myGenerate").modal("show");
     });
+
+    $(document).on('click', '.details', function(){
+		id = $(this).attr('id');
+        $.ajax({
+			url :"/keuangan/pendapatan/show/tahunan/" + id,
+            cache:false,
+			dataType:"json",
+			success:function(data)
+			{
+                $('.titles').html("<h1 style='color:white;font-weight:700;'>" + data.result.tahun + "</h1>");
+
+                if(data.result.realisasi !== null)
+                    $('.realisasi').text(Number(data.result.realisasi).toLocaleString('en-US'));
+                else
+                    $('.realisasi').html("&mdash;");
+                    
+                if(data.result.diskon !== null)
+                    $('.diskon').text(Number(data.result.diskon).toLocaleString('en-US'));
+                else
+                    $('.diskon').html("&mdash;");
+
+                if(data.result.byr_listrik !== null){
+                    $('.bayar-listrik').text((data.result.byr_listrik - data.result.byr_denlistrik).toLocaleString('en-US'));
+                    $('.denda-listrik').text(Number(data.result.byr_denlistrik).toLocaleString('en-US'));
+                    $('.diskon-listrik').text(Number(data.result.dis_listrik).toLocaleString('en-US'));
+                }
+                else{
+                    $('.bayar-listrik').html("&mdash;");
+                    $('.denda-listrik').html("&mdash;");
+                    $('.diskon-listrik').html("&mdash;");
+                }
+
+                if(data.result.byr_airbersih !== null){
+                    $('.bayar-airbersih').text((data.result.byr_airbersih - data.result.byr_denairbersih).toLocaleString('en-US'));
+                    $('.denda-airbersih').text(Number(data.result.byr_denairbersih).toLocaleString('en-US'));
+                    $('.diskon-airbersih').text(Number(data.result.dis_airbersih).toLocaleString('en-US'));
+                }
+                else{
+                    $('.bayar-airbersih').html("&mdash;");
+                    $('.denda-airbersih').html("&mdash;");
+                    $('.diskon-airbersih').html("&mdash;");
+                }
+                
+                if(data.result.byr_keamananipk !== null){
+                    $('.bayar-keamananipk').text(Number(data.result.byr_keamananipk).toLocaleString('en-US'));
+                    $('.diskon-keamananipk').text(Number(data.result.dis_keamananipk).toLocaleString('en-US'));
+                }
+                else{
+                    $('.bayar-keamananipk').html("&mdash;");
+                    $('.diskon-keamananipk').html("&mdash;");
+                }
+                
+                if(data.result.byr_kebersihan !== null){
+                    $('.bayar-kebersihan').text(Number(data.result.byr_kebersihan).toLocaleString('en-US'));
+                    $('.diskon-kebersihan').text(Number(data.result.dis_kebersihan).toLocaleString('en-US'));
+                }
+                else{
+                    $('.bayar-kebersihan').html("&mdash;");
+                    $('.diskon-kebersihan').html("&mdash;");
+                }
+                
+                if(data.result.byr_airkotor !== null)
+                    $('.bayar-airkotor').text(Number(data.result.byr_airkotor).toLocaleString('en-US'));
+                else
+                    $('.bayar-airkotor').html("&mdash;");
+
+                if(data.result.byr_lain !== null)
+                    $('.bayar-lain').text(Number(data.result.byr_lain).toLocaleString('en-US'));
+                else
+                    $('.bayar-lain').html("&mdash;");
+			}
+		});
+        
+        $('#show-details').modal('show');
+	});
 });
 </script>
 @endsection
