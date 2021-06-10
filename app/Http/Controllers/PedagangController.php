@@ -14,6 +14,8 @@ use App\Models\LevindCrypt;
 use App\Models\IndoDate;
 
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PedagangExport;
 
 class PedagangController extends Controller
 {
@@ -354,28 +356,6 @@ class PedagangController extends Controller
     }
 
     public function generate(){
-        $time = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
-
-        $dataset = Pedagang::where('role','nasabah')->orderBy('nama','asc')->get();
-        foreach($dataset as $d){
-            $pengguna = TempatUsaha::where('id_pengguna', $d->id)->select('kd_kontrol')->get();
-            $d['pengguna'] = '';
-            foreach($pengguna as $p){
-                $d['pengguna'] .= $p->kd_kontrol." ";
-            }
-            $d['pengguna'] = rtrim($d['pengguna'], " ");
-
-            $pemilik = TempatUsaha::where('id_pemilik', $d->id)->select('kd_kontrol')->get();
-            $d['pemilik'] = '';
-            foreach($pemilik as $p){
-                $d['pemilik'] .= $p->kd_kontrol." ";
-            }
-            $d['pemilik'] = rtrim($d['pemilik'], " ");
-        }
-
-        return view("pedagang.generate",[
-            'time' => $time,
-            'dataset' => $dataset,
-        ]);
+        return Excel::download(new PedagangExport, 'data_pedagang_BP3C.xlsx');
     }
 }
