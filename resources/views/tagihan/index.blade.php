@@ -2218,6 +2218,17 @@ $(document).ready(function(){
         $('#edit_airkotor').val(0);
         $('#edit_lain').val(0);
         $("#edit_button").prop("disabled", true);
+        $("#dayaListrik_edit").prop("required", false);
+        $("#awalListrik_edit").prop("required", false);
+        $("#akhirListrik_edit").prop("required", false);
+        $("#awalAirBersih_edit").prop("required", false);
+        $("#akhirAirBersih_edit").prop("required", false);
+        $("#keamananIpk_edit").prop("required", false);
+        $("#disKeamananIpk_edit").prop("required", false);
+        $("#kebersihan_edit").prop("required", false);
+        $("#disKebersihan_edit").prop("required", false);
+        $("#airKotor_edit").prop("required", false);
+        $("#lain_edit").prop("required", false);
 		$.ajax({
 			url :"/tagihan/"+id+"/edit",
             cache:false,

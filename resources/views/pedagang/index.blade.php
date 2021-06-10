@@ -18,6 +18,7 @@
         id="add_pedagang" 
         class="btn btn-sm btn-success">
         <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> Pedagang</button>
+    <a href="{{url('pedagang/generate')}}" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Generate" target="_blank"><i class="fas fa-fw fa-download text-white"></i></a>
 </div>
 @endif
 @endsection

@@ -13,6 +13,9 @@ use App\Http\Controllers\KasirController;
 //Dashboard
 use App\Http\Controllers\DashboardController;
 
+//Layanan
+use App\Http\Controllers\LayananController;
+
 //Pedagang
 use App\Http\Controllers\PedagangController;
 
@@ -189,7 +192,16 @@ Route::middleware('ceklogin:dashboard')->group(function () {
     Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
 });
 
+Route::middleware('ceklogin:layanan')->group(function (){
+    Route::get('layanan/alatmeter/riwayat', [LayananController::class, 'alatMeterRiwayat']);
+    Route::get('layanan/alatmeter/bongkar', [LayananController::class, 'alatMeterBongkar']);
+    Route::get('layanan/alatmeter/ganti', [LayananController::class, 'alatMeterGanti']);
+    Route::get('layanan/alatmeter', [LayananController::class, 'alatMeterIndex']);
+    Route::get('layanan/nasabah', [LayananController::class, 'nasabahIndex']);
+});
+
 Route::middleware('ceklogin:pedagang')->group(function (){
+    Route::get('pedagang/generate', [PedagangController::class, 'generate']);
     Route::get('pedagang/{id}', [PedagangController::class, 'show']);
     Route::post('pedagang/update', [PedagangController::class, 'update']);
     Route::get('pedagang/destroy/{id}', [PedagangController::class, 'destroy']);

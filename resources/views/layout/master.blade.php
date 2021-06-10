@@ -166,11 +166,22 @@
                         @if(Session::get('role') == 'master' || Session::get('role') == 'manajer'||  Session::get('role') == 'admin' && (Session::get('otoritas')->pedagang || Session::get('otoritas')->tempatusaha || Session::get('otoritas')->tagihan || Session::get('otoritas')->publish || Session::get('otoritas')->layanan))
                         <ul class="navbar-nav">
                             @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->layanan))
-                            <!-- Nav Item - Pedagang -->
+                            <!-- Nav Item - Layanan -->
                             <li class="nav-item">
-                                <a class="nav-link {{ (request()->is('layanan*')) ? 'active' : '' }}" href="{{url('layanan')}}">
-                                    <i class="fas fa-headset text-success"></i>
-                                    <span class="nav-link-text">Layanan</span></a>
+                                <a class="nav-link {{ (request()->is('layanan/*')) ? 'active' : '' }}" href="#navbar-layanan" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('layanan/*')) ? 'true' : 'false' }}" aria-controls="navbar-layanan">
+                                    <i class="fas fa-user-headset text-success"></i>
+                                    <span class="nav-link-text">Layanan</span>
+                                </a>
+                                <div class="collapse {{ (request()->is('layanan/*')) ? 'show' : '' }}" id="navbar-layanan">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link {{ (request()->is('layanan/nasabah*')) ? 'text-teal' : '' }}" href="{{url('layanan/nasabah')}}">Nasabah</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link {{ (request()->is('layanan/alatmeter*')) ? 'text-teal' : '' }}" href="{{url('layanan/alatmeter')}}">Alat&nbsp;Meter</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                             @endif
 

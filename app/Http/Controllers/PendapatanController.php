@@ -260,6 +260,7 @@ class PendapatanController extends Controller
             $fasilitas = $request->fasilitas;
             $tanggal   = $request->tanggal_generate;
             $cetak   = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
+            $rekap = array();
 
             if($fasilitas == 'listrik'){
                 $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_listrik','>',0]])->orderBy('kd_kontrol','asc')->get();
@@ -280,10 +281,17 @@ class PendapatanController extends Controller
                 $dataset = Pembayaran::where([['tgl_bayar',$tanggal],['byr_lain','>',0]])->orderBy('kd_kontrol','asc')->get();
             }
             else if($fasilitas == 'tagihan'){
-                $dataset = Pembayaran::where('tgl_bayar',$tanggal)->orderBy('kd_kontrol','asc')->get();
+                $dataset = Pembayaran::where('tgl_bayar',$tanggal)->orderBy('nama','asc')->orderBy('kd_kontrol','asc')->get();
+                $rekap = Pembayaran::where('tgl_bayar',$tanggal)->groupBy('nama')
+                ->select(
+                    'nama',
+                    DB::raw('SUM(realisasi) as realisasi'),
+                )
+                ->get();
             }
             
             return view("laporan.pendapatan.generate.harian.$fasilitas",[
+                'rekap'   => $rekap,
                 'dataset' => $dataset, 
                 'tanggal' => IndoDate::tanggal($tanggal, " "),
                 'cetak'   => $cetak,

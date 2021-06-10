@@ -11,7 +11,7 @@ $(document).ready(function(){
 			{ data: 'ktp', name: 'ktp', class : 'text-center-td' },
 			{ data: 'role', name: 'role', class : 'text-center' },
 			{ data: 'platform', name: 'platform', class : 'text-center-td' },
-			{ name: 'created_at', data: { '_': 'created_at.display', 'sort': 'created_at.timestamp' }, class : 'text-center-td'  }
+			{ data: { '_': 'created_at.display', 'sort': 'created_at.timestamp' }, name: 'created_at', class : 'text-center-td'  }
         ],
         stateSave: true,
         language: {

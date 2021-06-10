@@ -19,7 +19,7 @@
                     <a href="https://github.com/LevindSein" class="nav-link" target="_blank">License</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{url('information')}}" class="nav-link">Version 2.2.1</a>
+                    <a href="{{url('information')}}" class="nav-link">Version 2.3.0</a>
                 </li>
             </ul>
         </div>

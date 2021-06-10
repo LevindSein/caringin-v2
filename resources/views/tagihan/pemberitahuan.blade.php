@@ -270,7 +270,7 @@
                         </tr>
                         <tr>
                             <td class="tg-0r15">-</td>
-                            <td class="tg-tb37" colspan="4">Sistem baru BP3C beroperasi sejak Januari 2021. Harap melakukan pembayaran sebelum tanggal 15, untuk menghindari <b>denda</b>.</td>
+                            <td class="tg-tb37" colspan="4">Pembayaran via Bank BRI 0401.01.000928.307 An. Sri Indra Nurhayati. Hindari <b>denda</b>, bayar sebelum tanggal 15.</td>
                         </tr>
                         <tr>
                             <td class="tg-0r16">-</td>

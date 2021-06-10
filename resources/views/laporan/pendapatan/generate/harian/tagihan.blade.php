@@ -13,8 +13,61 @@
                 <table class="tg">
                     <thead>
                         <tr>
+                            <th colspan="3" style="border-style:none;">
+                                <h2 style="text-align:center;">Rekap Pendapatan Semua Fasilitas<br>{{$tanggal}}</h2>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="tg-r8fv">No.</th>
+                            <th class="tg-r8fv">Kasir</th>
+                            <th class="tg-r8fv">Jumlah</th>
+                        </tr>
+                        <tr>
+                            <th class="tg-g255" colspan="3" style="height:1px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $i = 1;
+                        $realisasi = 0;
+                        ?>
+                        @foreach($rekap as $r)
+                            <tr>
+                                <td class="tg-r8fz">{{$i}}</td>
+                                <td class="tg-r8fz">{{$r->nama}}</td>
+                                <td class="tg-r8fx">{{number_format($r->realisasi)}}</td>
+                            </tr>
+                            <?php 
+                            $realisasi += $r->realisasi;
+                            $i++;
+                            ?>
+                        @endforeach
+                    </tbody>
+                    <tr>
+                        <td class="tg-g255" colspan="3" style="height:1px"></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-r8fz" colspan="2"><b>Total<b></td>
+                        <td class="tg-r8fx"><b>{{number_format($realisasi)}}<b></td>
+                    </tr>
+                </table>
+            </main>
+        </div>
+        <div id="notices">
+            <div style="text-align:right;">
+                <b>Bandung, {{$cetak}}</b>
+            </div>
+            <br><br><br><br><br>
+            <div class="notice" style="text-align:right;">{{Session::get('username')}}</div>
+        </div>
+        <div style="page-break-before:always"></div>
+        <div>
+            <main>
+                <table class="tg">
+                    <thead>
+                        <tr>
                             <th colspan="15" style="border-style:none;">
-                                <h2 style="text-align:center;">Pendapatan Semua Fasilitas<br>{{$tanggal}}</h2>
+                                <h2 style="text-align:center;">Rincian Pendapatan Semua Fasilitas<br>{{$tanggal}}</h2>
                             </th>
                         </tr>
                         <tr>
@@ -58,8 +111,58 @@
                         $lain = 0;
                         $jumlah = 0;
                         $i = 1;
+                        $nama = '';
+                        $listrik1 = 0;
+                        $denlistrik1 = 0;
+                        $airbersih1 = 0;
+                        $denairbersih1 = 0;
+                        $keamanan1 = 0;
+                        $ipk1 = 0;
+                        $kebersihan901 = 0;
+                        $kebersihan101 = 0;
+                        $airkotor1 = 0;
+                        $lain1 = 0;
+                        $jumlah1 = 0;
                         ?>
                         @foreach($dataset as $r)
+                            @if($nama == '')
+                            <?php
+                                $nama = substr($r->nama,0,8);
+                            ?>
+                            @elseif($nama != substr($r->nama,0,8))
+                            <tr>
+                                <td class="tg-r8fz" colspan="4"><b>Total<b></td>
+                                <td class="tg-r8fx"><b>{{number_format($listrik)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($denlistrik)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($airbersih)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($denairbersih)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($keamanan)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($ipk)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($kebersihan90)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($kebersihan10)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($airkotor)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($lain)}}</b></td>
+                                <td class="tg-r8fx"><b>{{number_format($jumlah)}}</b></td>
+                            </tr>
+                            <tr>
+                                <td class="tg-g255" colspan="15" style="height:1px"></td>
+                            </tr>
+                            <?php
+                                $nama = substr($r->nama,0,8);
+                                $listrik = 0;
+                                $denlistrik = 0;
+                                $airbersih = 0;
+                                $denairbersih = 0;
+                                $keamanan = 0;
+                                $ipk = 0;
+                                $kebersihan90 = 0;
+                                $kebersihan10 = 0;
+                                $airkotor = 0;
+                                $lain = 0;
+                                $jumlah = 0;
+                                $i = 1;
+                            ?>
+                            @endif
                             <tr>
                                 <td class="tg-r8fz">{{$i}}</td>
                                 <td class="tg-r8fz">{{substr($r->nama,0,8)}}</td>
@@ -89,26 +192,52 @@
                             $airkotor = $airkotor + $r->byr_airkotor;
                             $lain = $lain + $r->byr_lain;
                             $jumlah = $jumlah + $r->realisasi;
+                            
+                            $listrik1 += $r->byr_listrik - $r->byr_denlistrik;
+                            $denlistrik1 += $r->byr_denlistrik;
+                            $airbersih1 += $r->byr_airbersih - $r->byr_denairbersih;
+                            $denairbersih1 += $r->byr_denairbersih;
+                            $keamanan1 += ($r->byr_keamanan);
+                            $ipk1 += ($r->byr_ipk);
+                            $kebersihan901 += ($r->byr_kebersihan * (90 / 100));
+                            $kebersihan101 += ($r->byr_kebersihan * (10 / 100));
+                            $airkotor1 += $r->byr_airkotor;
+                            $lain1 += $r->byr_lain;
+                            $jumlah1 += $r->realisasi;
                             $i++;
                             ?>
                         @endforeach
+                        <tr>
+                            <td class="tg-r8fz" colspan="4"><b>Total<b></td>
+                            <td class="tg-r8fx"><b>{{number_format($listrik)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($denlistrik)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($airbersih)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($denairbersih)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($keamanan)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($ipk)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($kebersihan90)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($kebersihan10)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($airkotor)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($lain)}}</b></td>
+                            <td class="tg-r8fx"><b>{{number_format($jumlah)}}</b></td>
+                        </tr>
                     </tbody>
                     <tr>
                         <td class="tg-g255" colspan="15" style="height:1px"></td>
                     </tr>
                     <tr>
-                        <td class="tg-r8fz" colspan="4"><b>Total<b></td>
-                        <td class="tg-r8fx"><b>{{number_format($listrik)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($denlistrik)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($airbersih)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($denairbersih)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($keamanan)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($ipk)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($kebersihan90)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($kebersihan10)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($airkotor)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($lain)}}</b></td>
-                        <td class="tg-r8fx"><b>{{number_format($jumlah)}}</b></td>
+                        <td class="tg-r8fz" colspan="4"><b>Jumlah Total<b></td>
+                        <td class="tg-r8fx"><b>{{number_format($listrik1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($denlistrik1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($airbersih1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($denairbersih1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($keamanan1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($ipk1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($kebersihan901)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($kebersihan101)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($airkotor1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($lain1)}}</b></td>
+                        <td class="tg-r8fx"><b>{{number_format($jumlah1)}}</b></td>
                     </tr>
                 </table>
             </main>
