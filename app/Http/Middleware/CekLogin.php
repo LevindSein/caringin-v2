@@ -22,6 +22,12 @@ class CekLogin
      * @param  \Closure  $next
      * @return mixed
      */
+
+    public function rnd_string(){
+        $str = str_shuffle("0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789");
+        return substr($str,0,15);
+    }
+
     public function handle(Request $request, Closure $next, $page)
     {
         if($page == 'home'){
@@ -51,7 +57,7 @@ class CekLogin
                     Session::put('login',$user->username.'-'.$user->role);
                     Session::put('otoritas',NULL);
 
-                    Session::put('cryptString',md5($request->username));
+                    Session::put('cryptString', substr($this->rnd_string().$request->username, -20));
 
                     $request->request->add(['role' => $user->role]);
                     $request->request->add(['nama' => $user->nama]);

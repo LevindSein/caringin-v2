@@ -193,6 +193,11 @@ Route::middleware('ceklogin:dashboard')->group(function () {
 });
 
 Route::middleware('ceklogin:layanan')->group(function (){
+    Route::get('layanan/bongkaran/generate', [LayananController::class, 'bongkaranGenerate']);
+    Route::get('layanan/bongkaran/show/{id}', [LayananController::class, 'bongkaranShow']);
+    Route::post('layanan/bongkaran/surat', [LayananController::class, 'bongkaranSurat']);
+    Route::post('layanan/bongkaran/selesai/{id}', [LayananController::class, 'bongkaranSelesai']);
+    Route::get('layanan/bongkaran', [LayananController::class, 'bongkaranIndex']);
     Route::get('layanan/alatmeter/riwayat', [LayananController::class, 'alatMeterRiwayat']);
     Route::get('layanan/alatmeter/bongkar', [LayananController::class, 'alatMeterBongkar']);
     Route::get('layanan/alatmeter/ganti', [LayananController::class, 'alatMeterGanti']);

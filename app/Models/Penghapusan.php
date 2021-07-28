@@ -96,6 +96,7 @@ class Penghapusan extends Model
         'lok_tempat',
         'via_hapus',
         'tgl_hapus',
+        'stt_hapus',
         'updated_at',
         'created_at'
     ];

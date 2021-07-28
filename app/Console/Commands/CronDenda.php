@@ -89,12 +89,24 @@ class CronDenda extends Command
                             if($diff == 0 || $diff == 1 || $diff == 2 || $diff == 3){
                                 $diff = $diff + 1;
                             }
+                            else if($diff > 3){
+                                $diff = 4;
+                            }
+                            else{
+                                $diff = 0;
+                            }
                         }
 
                         if($day2 - $day1 <= 0){
                             $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
                             if($diff == 1 || $diff == 2 || $diff == 3 || $diff == 4){
                                 $diff = $diff;
+                            }
+                            else if($diff > 4){
+                                $diff = 4;
+                            }
+                            else{
+                                $diff = 0;
                             }
                         }
 
@@ -123,26 +135,11 @@ class CronDenda extends Command
                         
                         Tagihan::totalTagihan($t->id);
 
-                        if($t->stt_denda == 2){
+                        if($t->stt_denda >= 2){
                             $tempat = TempatUsaha::where('kd_kontrol',$t->kd_kontrol)->first();
                             if($tempat != NULL){
-                                $tempat->stt_bongkar = 0;
-                                $tempat->save();
-                            }
-                        }
-
-                        if($t->stt_denda == 3){
-                            $tempat = TempatUsaha::where('kd_kontrol',$t->kd_kontrol)->first();
-                            if($tempat != NULL){
-                                $tempat->stt_bongkar = 1;
-                                $tempat->save();
-                            }
-                        }
-
-                        if($t->stt_denda == 4){
-                            $tempat = TempatUsaha::where('kd_kontrol',$t->kd_kontrol)->first();
-                            if($tempat != NULL){
-                                $tempat->stt_bongkar = 1;
+                                $nilai = max($tempat->stt_bongkar, $t->stt_denda);
+                                $tempat->stt_bongkar = $nilai;
                                 $tempat->save();
                             }
                         }

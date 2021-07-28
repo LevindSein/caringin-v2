@@ -174,11 +174,14 @@
                                 </a>
                                 <div class="collapse {{ (request()->is('layanan/*')) ? 'show' : '' }}" id="navbar-layanan">
                                     <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link {{ (request()->is('layanan/nasabah*')) ? 'text-teal' : '' }}" href="{{url('layanan/nasabah')}}">Nasabah</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link {{ (request()->is('layanan/alatmeter*')) ? 'text-teal' : '' }}" href="{{url('layanan/alatmeter')}}">Alat&nbsp;Meter</a>
+                                        </li> -->
+                                        <li class="nav-item">
+                                            <a class="nav-link {{ (request()->is('layanan/bongkaran*')) ? 'text-teal' : '' }}" href="{{url('layanan/bongkaran')}}">Bongkaran</a>
                                         </li>
                                     </ul>
                                 </div>

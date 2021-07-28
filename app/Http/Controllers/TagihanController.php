@@ -427,6 +427,7 @@ class TagihanController extends Controller
                 $hapus->lok_tempat = $data->lok_tempat;
                 $hapus->tgl_hapus = date("Y-m-d",strtotime(Carbon::now()));
                 $hapus->via_hapus = Session::get('username');
+                $hapus->stt_hapus = 1; //penghapusan Tagihan
 
                 if(empty($request->checkListrik) == FALSE){
                     $hapus->daya_listrik  = $data->daya_listrik;
@@ -617,10 +618,10 @@ class TagihanController extends Controller
         {
             if(Session::get('role') == 'admin'){
                 $wherein = Session::get('otoritas')->otoritas;
-                $data = Penghapusan::whereIn('blok',$wherein)->orderBy('kd_kontrol','asc');
+                $data = Penghapusan::whereIn('blok',$wherein)->where('stt_hapus',1)->orderBy('kd_kontrol','asc');
             }
             else{
-                $data = Penghapusan::orderBy('kd_kontrol','asc');
+                $data = Penghapusan::where('stt_hapus',1)->orderBy('kd_kontrol','asc');
             }
             return DataTables::of($data)
                 ->addColumn('action', function($data){
@@ -2161,12 +2162,24 @@ class TagihanController extends Controller
                             if($diff == 0 || $diff == 1 || $diff == 2 || $diff == 3){
                                 $diff = $diff + 1;
                             }
+                            else if($diff > 3){
+                                $diff = 4;
+                            }
+                            else{
+                                $diff = 0;
+                            }
                         }
 
                         if($day2 - $day1 <= 0){
                             $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
                             if($diff == 1 || $diff == 2 || $diff == 3 || $diff == 4){
                                 $diff = $diff;
+                            }
+                            else if($diff > 4){
+                                $diff = 4;
+                            }
+                            else{
+                                $diff = 0;
                             }
                         }
 
@@ -2190,17 +2203,10 @@ class TagihanController extends Controller
                                 $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
                             }
                         }
-                        
-                        if($tagihan->stt_denda == 2){
-                            $tempat->stt_bongkar = 0;
-                        }
 
-                        if($tagihan->stt_denda == 3){
-                            $tempat->stt_bongkar = 1;
-                        }
-
-                        if($t->stt_denda == 4){
-                            $tempat->stt_bongkar = 1;
+                        if($tagihan->stt_denda >= 2){
+                            $nilai = max($tempat->stt_bongkar, $tagihan->stt_denda);
+                            $tempat->stt_bongkar = $nilai;
                         }
                     }
                 }
