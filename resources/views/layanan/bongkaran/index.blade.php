@@ -78,7 +78,7 @@
                     <span>Pilih surat yang ingin diunduh terkait pembongkaran di bawah ini.</span><br><br>
                     <select class="form-control" name="surat" id="surat">
                         <option value="peringatan">Peringatan</option>
-                        <option value="pembongkaran">Pembongkaran</option>
+                        <option value="pembongkaran">Perintah Bongkar</option>
                         <option value="berita_acara">Berita Acara</option>
                     </select>
                 </div>

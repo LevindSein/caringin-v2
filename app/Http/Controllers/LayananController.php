@@ -10,6 +10,8 @@ use App\Models\Tagihan;
 use App\Models\Pedagang;
 use App\Models\IndoDate;
 use App\Models\Terbilang;
+use App\Models\Carbonet;
+use App\Models\Sinkronisasi;
 use Carbon\Carbon;
 
 use App\Models\LevindCrypt;
@@ -81,11 +83,11 @@ class LayananController extends Controller
         $kontrol = TempatUsaha::find($id)->kd_kontrol;
         $dataset = TempatUsaha::find($id);
         $surat = $request->surat;
+        $dataset['cetak'] = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
         
         if($surat == 'peringatan'){
             $surat = "Peringatan";
             $dataset['pengguna'] = Pedagang::find($dataset->id_pengguna)->nama;
-            $dataset['cetak'] = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
             $dataset['admin'] = Session::get('username');
             $tagihan = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1]])->get();
             $total = 0;
@@ -110,7 +112,17 @@ class LayananController extends Controller
         }
         else{
             $surat = "Berita Acara";
-            $pdf = PDF::loadview('layanan.bongkaran.surat.berita-acara',['data' => $dataset]);
+            $dataset['pengguna'] = Pedagang::find($dataset->id_pengguna)->nama;
+            
+            $date = date('Y-m-01', strtotime(Carbon::now()));
+            $month = date('m', strtotime(Carbon::now()));
+            $year = date('Y', strtotime(Carbon::now()));
+            $sync = Sinkronisasi::where('sinkron',$date)->first();
+            $sync->surat += 1;
+            $nomorSurat = sprintf("%'03d", $sync->surat) . '/BA/U.ME/' . Carbonet::roman($month) . "/$year";
+            $sync->save();
+
+            $pdf = PDF::loadview('layanan.bongkaran.surat.berita-acara',['data' => $dataset, 'nomor' => $nomorSurat]);
             return $pdf->download("surat-berita-acara $kontrol.pdf");
         }
     }
@@ -120,14 +132,14 @@ class LayananController extends Controller
             $id = LevindCrypt::decryptString($id);
             $kontrol = TempatUsaha::find($id)->kd_kontrol;
             
-            $tempat = TempatUsaha::find($id);
-            $tempat->stt_bongkar = 0;
-            $tempat->save();
+            // $tempat = TempatUsaha::find($id);
+            // $tempat->stt_bongkar = 0;
+            // $tempat->save();
 
-            $tagihan = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1]])->get();
-            foreach($tagihan as $t){
-                $t->delete();
-            }
+            // $tagihan = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1]])->get();
+            // foreach($tagihan as $t){
+            //     $t->delete();
+            // }
 
             return response()->json(['success' => 'Bongkaran diselesaikan.']);
         }
