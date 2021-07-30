@@ -222,9 +222,9 @@
                             <td class="tg-spw3" colspan="2"><br><br>Bandung, {{$data->cetak}}</td>
                         </tr>
                         <tr>
-                            <td class="tg-spw3" colspan="2">Pelanggan<br><br><br><br><br>{{$data->pengguna}}</td>
+                            <td class="tg-spw3" colspan="2">Pelanggan,<br><br><br><br><br>{{$data->pengguna}}</td>
                             <td class="tg-spw3"></td>
-                            <td class="tg-spw3" colspan="2">Unit Mekanikal & Elektrikal<br><br><br><br><br>__________________</td>
+                            <td class="tg-spw3" colspan="2">Unit Mekanikal & Elektrikal,<br><br><br><br><br>__________________</td>
                         </tr>
                     </tbody>
                 </table>

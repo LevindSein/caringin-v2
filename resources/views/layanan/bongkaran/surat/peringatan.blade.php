@@ -267,7 +267,7 @@
                         </tr>
                         <tr>
                             <td class="tg-spw3" colspan="3"></td>
-                            <td class="tg-spw3" colspan="2">Admin<br><br><br><br><br>{{$data->admin}}</td>
+                            <td class="tg-spw3" colspan="2">Admin,<br><br><br><br><br>{{$data->admin}}</td>
                         </tr>
                     </tbody>
                 </table>

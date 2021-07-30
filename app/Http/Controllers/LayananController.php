@@ -12,6 +12,8 @@ use App\Models\IndoDate;
 use App\Models\Terbilang;
 use App\Models\Carbonet;
 use App\Models\Sinkronisasi;
+use App\Models\AlatAir;
+use App\Models\AlatListrik;
 use Carbon\Carbon;
 
 use App\Models\LevindCrypt;
@@ -107,8 +109,33 @@ class LayananController extends Controller
         }
         else if($surat == 'pembongkaran'){
             $surat = "Pembongkaran";
-            $pdf = PDF::loadview('layanan.bongkaran.surat.pembongkaran',['data' => $dataset]);
-            return $pdf->download("surat-pembongkaran $kontrol.pdf");
+            $dataset['admin'] = Session::get('username');
+            $pengguna = Pedagang::find($dataset->id_pengguna);
+
+            $date = date('Y-m-01', strtotime(Carbon::now()));
+            $month = date('m', strtotime(Carbon::now()));
+            $year = date('Y', strtotime(Carbon::now()));
+            $sync = Sinkronisasi::where('sinkron',$date)->first();
+            $sync->surat += 1;
+
+            $dataset['air'] = 0;
+            $dataset['listrik'] = 0;
+
+            if($dataset->id_meteran_air != NULL){
+                $dataset['data_air'] = AlatAir::find($dataset->id_meteran_air);
+                $dataset['air'] = 1;
+                $dataset['nomor_air'] = sprintf("%'03d", $sync->surat) . '/PBMA/U.ME/' . Carbonet::roman($month) . "/$year";
+            }
+            if($dataset->id_meteran_listrik != NULL){
+                $dataset['data_listrik'] = AlatListrik::find($dataset->id_meteran_listrik);
+                $dataset['listrik'] = 1;
+                $dataset['nomor_listrik'] = sprintf("%'03d", $sync->surat) . '/PBML/U.ME/' . Carbonet::roman($month) . "/$year";
+            }
+
+            $sync->save();
+
+            $pdf = PDF::loadview('layanan.bongkaran.surat.pembongkaran',['data' => $dataset, 'pengguna' => $pengguna]);
+            return $pdf->download("surat-perintah-bongkar $kontrol.pdf");
         }
         else{
             $surat = "Berita Acara";
