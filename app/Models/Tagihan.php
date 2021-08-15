@@ -9,13 +9,8 @@ use Illuminate\Support\Facades\Session;
 
 use App\Models\TarifListrik;
 use App\Models\TarifAirBersih;
-use App\Models\TarifKeamananIpk;
-use App\Models\TarifKebersihan;
-use App\Models\TarifAirKotor;
-use App\Models\TarifLain;
 
 use App\Models\TempatUsaha;
-use App\Models\Tagihan;
 
 use App\Models\HariLibur;
 
@@ -138,7 +133,7 @@ class Tagihan extends Model
                 ->select(DB::raw("SUM(sel_$fas) as selisih"))
                 ->get();
             }
-            
+
             return $data[0]->selisih;
         }
         catch(\Exception $e){
@@ -149,7 +144,7 @@ class Tagihan extends Model
     public static function listrik($awal, $akhir, $daya, $id){
         $tarif = TarifListrik::first();
         $tagihan = Tagihan::find($id);
-        
+
         if($akhir >= $awal)
             $pakai_listrik = $akhir - $awal;
         else{
@@ -164,10 +159,10 @@ class Tagihan extends Model
             else{
                 abort(500);
             }
-            
+
             $pakai_listrik = $denom - $awal;
             $pakai_listrik = $pakai_listrik + $akhir;
-        }   
+        }
 
         $a = round(($daya * $tarif->trf_standar) / 1000);
         $blok1_listrik = $tarif->trf_blok1 * $a;
@@ -179,7 +174,7 @@ class Tagihan extends Model
         $c = $blok1_listrik + $blok2_listrik + $beban_listrik;
 
         $rekmin_listrik = $tarif->trf_rekmin * $daya;
-        
+
         if($tarif->trf_rekmin > 0){
             $batas_rekmin = round(18 * $daya /1000);
 
@@ -236,12 +231,12 @@ class Tagihan extends Model
                 $diskon = $tagihan->sub_listrik;
             }
         }
-        
-        $total = $tagihan->sub_listrik - $diskon; 
+
+        $total = $tagihan->sub_listrik - $diskon;
         $tagihan->dis_listrik = $diskon;
         $tagihan->ttl_listrik = $total + $tagihan->den_listrik;
         $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
-        
+
         $tagihan->stt_listrik = 1;
 
         $warna = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_listrik',1]])->orderBy('id','desc')->limit(3)->get();
@@ -251,11 +246,11 @@ class Tagihan extends Model
                 $warna_ku = $warna_ku + $war->pakai_listrik;
             }
             $warna = round($warna_ku / 3);
-        
+
             $lima_persen             = $warna * (5/100);
             $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
             $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
-            
+
             if($pakai_listrik <= $lima_persen){
                 $warna = 1;
             }
@@ -274,7 +269,7 @@ class Tagihan extends Model
         }
 
         $tagihan->warna_listrik = $warna;
-        
+
         $tagihan->save();
     }
 
@@ -302,10 +297,10 @@ class Tagihan extends Model
                 else{
                     abort(500);
                 }
-                
+
                 $pakai_listrik = $denom - $awal;
                 $pakai_listrik = $pakai_listrik + $akhir;
-            }   
+            }
 
             $a = round(($daya * $tarif->trf_standar) / 1000);
             $blok1_listrik = $tarif->trf_blok1 * $a;
@@ -317,7 +312,7 @@ class Tagihan extends Model
             $c = $blok1_listrik + $blok2_listrik + $beban_listrik;
 
             $rekmin_listrik = $tarif->trf_rekmin * $daya;
-            
+
             if($tarif->trf_rekmin > 0){
                 $batas_rekmin = round(18 * $daya /1000);
 
@@ -355,7 +350,7 @@ class Tagihan extends Model
             $tagihan->bpju_listrik = $bpju_listrik;
             $tagihan->sub_listrik = round($ttl_listrik + ($ttl_listrik * ($tarif->trf_ppn / 100)));
             $tagihan->via_tambah  = Session::get('username');
-            
+
             $total = $tagihan->sub_listrik - $tagihan->dis_listrik;
             $tagihan->ttl_listrik = $total + $tagihan->den_listrik;
             $tagihan->sel_listrik = $tagihan->ttl_listrik - $tagihan->rea_listrik;
@@ -367,11 +362,11 @@ class Tagihan extends Model
                     $warna_ku = $warna_ku + $war->pakai_listrik;
                 }
                 $warna = round($warna_ku / 3);
-            
+
                 $lima_persen             = $warna * (5/100);
                 $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
                 $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
-                
+
                 if($pakai_listrik <= $lima_persen){
                     $warna = 1;
                 }
@@ -390,7 +385,7 @@ class Tagihan extends Model
             }
 
             $tagihan->warna_listrik = $warna;
-            
+
             $tagihan->save();
 
             Tagihan::totalTagihan($tagihan->id);
@@ -420,7 +415,7 @@ class Tagihan extends Model
             else{
                 abort(500);
             }
-            
+
             $pakai_airbersih = $denom - $awal;
             $pakai_airbersih = $pakai_airbersih + $akhir;
         }
@@ -429,16 +424,16 @@ class Tagihan extends Model
             $a = 10 * $tarif->trf_1;
             $b = ($pakai_airbersih - 10) * $tarif->trf_2;
             $byr_airbersih = $a + $b;
-    
+
             $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
             $beban_airbersih = $tarif->trf_beban;
             $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
 
             $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
         }
-        else{      
+        else{
             $byr_airbersih = $pakai_airbersih * $tarif->trf_1;
-    
+
             $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
             $beban_airbersih = $tarif->trf_beban;
             $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
@@ -490,11 +485,11 @@ class Tagihan extends Model
                             $sale = $tagihan->sub_airbersih * ($persen / 100);
                         }
                         if($charge[1] == 'byr'){
-                            $sale = $tagihan->byr_airbersih * ($persen / 100); 
+                            $sale = $tagihan->byr_airbersih * ($persen / 100);
                         }
                         $disc = $disc + $sale;
                     }
-                    
+
                     $disc   = $disc + ($disc * ($tarif->trf_ppn / 100));
                     $disc   = $tagihan->sub_airbersih - $disc;
                     $diskon = $disc;
@@ -508,11 +503,11 @@ class Tagihan extends Model
             }
         }
 
-        $total = $tagihan->sub_airbersih - $diskon; 
+        $total = $tagihan->sub_airbersih - $diskon;
         $tagihan->dis_airbersih = $diskon;
         $tagihan->ttl_airbersih = $total + $tagihan->den_airbersih;
         $tagihan->sel_airbersih = $tagihan->ttl_airbersih - $tagihan->rea_airbersih;
-        
+
         $tagihan->stt_airbersih = 1;
 
         $warna = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_airbersih',1]])->orderBy('id','desc')->limit(3)->get();
@@ -522,11 +517,11 @@ class Tagihan extends Model
                 $warna_ku = $warna_ku + $war->pakai_airbersih;
             }
             $warna = round($warna_ku / 3);
-        
+
             $lima_persen             = $warna * (5/100);
             $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
             $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
-            
+
             if($pakai_airbersih <= $lima_persen){
                 $warna = 1;
             }
@@ -545,7 +540,7 @@ class Tagihan extends Model
         }
 
         $tagihan->warna_airbersih = $warna;
-       
+
         $tagihan->save();
     }
 
@@ -572,32 +567,32 @@ class Tagihan extends Model
                 else{
                     abort(500);
                 }
-                
+
                 $pakai_airbersih = $denom - $awal;
                 $pakai_airbersih = $pakai_airbersih + $akhir;
             }
-    
+
             if($pakai_airbersih > 10){
                 $a = 10 * $tarif->trf_1;
                 $b = ($pakai_airbersih - 10) * $tarif->trf_2;
                 $byr_airbersih = $a + $b;
-        
+
                 $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
                 $beban_airbersih = $tarif->trf_beban;
                 $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
-    
+
                 $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
             }
-            else{      
+            else{
                 $byr_airbersih = $pakai_airbersih * $tarif->trf_1;
-        
+
                 $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
                 $beban_airbersih = $tarif->trf_beban;
                 $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
-    
+
                 $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
             }
-    
+
             $tagihan->awal_airbersih = $awal;
             $tagihan->akhir_airbersih = $akhir;
             $tagihan->pakai_airbersih = $pakai_airbersih;
@@ -611,7 +606,7 @@ class Tagihan extends Model
             $total = $tagihan->sub_airbersih - $tagihan->dis_airbersih;
             $tagihan->ttl_airbersih = $total + $tagihan->den_airbersih;
             $tagihan->sel_airbersih = $tagihan->ttl_airbersih - $tagihan->rea_airbersih;
-    
+
             $warna = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_airbersih',1]])->orderBy('id','desc')->limit(3)->get();
             if($warna != NULL){
                 $warna_ku = 0;
@@ -619,11 +614,11 @@ class Tagihan extends Model
                     $warna_ku = $warna_ku + $war->pakai_airbersih;
                 }
                 $warna = round($warna_ku / 3);
-            
+
                 $lima_persen             = $warna * (5/100);
                 $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
                 $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
-                
+
                 if($pakai_airbersih <= $lima_persen){
                     $warna = 1;
                 }
@@ -640,13 +635,13 @@ class Tagihan extends Model
             else{
                 $warna = 0;
             }
-    
+
             $tagihan->warna_airbersih = $warna;
-           
+
             $tagihan->save();
-            
+
             Tagihan::totalTagihan($tagihan->id);
-            
+
             $i++;
         }
         return $i;
@@ -655,53 +650,53 @@ class Tagihan extends Model
     public static function totalTagihan($id){
         $tagihan = Tagihan::find($id);
         //Subtotal
-        $subtotal = 
-                    $tagihan->sub_listrik     + 
-                    $tagihan->sub_airbersih   + 
-                    $tagihan->sub_keamananipk + 
-                    $tagihan->sub_kebersihan  + 
-                    $tagihan->ttl_airkotor    + 
+        $subtotal =
+                    $tagihan->sub_listrik     +
+                    $tagihan->sub_airbersih   +
+                    $tagihan->sub_keamananipk +
+                    $tagihan->sub_kebersihan  +
+                    $tagihan->ttl_airkotor    +
                     $tagihan->ttl_lain;
         $tagihan->sub_tagihan = $subtotal;
-        
+
         //Diskon
-        $diskon = 
-                $tagihan->dis_listrik     + 
-                $tagihan->dis_airbersih   + 
-                $tagihan->dis_keamananipk + 
+        $diskon =
+                $tagihan->dis_listrik     +
+                $tagihan->dis_airbersih   +
+                $tagihan->dis_keamananipk +
                 $tagihan->dis_kebersihan;
         $tagihan->dis_tagihan = $diskon;
 
         //Denda
         $tagihan->den_tagihan = $tagihan->den_listrik + $tagihan->den_airbersih;
-        
+
         //TOTAL
-        $total = 
-                $tagihan->ttl_listrik     + 
-                $tagihan->ttl_airbersih   + 
-                $tagihan->ttl_keamananipk + 
-                $tagihan->ttl_kebersihan  + 
-                $tagihan->ttl_airkotor    + 
+        $total =
+                $tagihan->ttl_listrik     +
+                $tagihan->ttl_airbersih   +
+                $tagihan->ttl_keamananipk +
+                $tagihan->ttl_kebersihan  +
+                $tagihan->ttl_airkotor    +
                 $tagihan->ttl_lain;
         $tagihan->ttl_tagihan = $total;
 
         //Realisasi
-        $realisasi = 
-                    $tagihan->rea_listrik     + 
-                    $tagihan->rea_airbersih   + 
-                    $tagihan->rea_keamananipk + 
-                    $tagihan->rea_kebersihan  + 
-                    $tagihan->rea_airkotor    + 
+        $realisasi =
+                    $tagihan->rea_listrik     +
+                    $tagihan->rea_airbersih   +
+                    $tagihan->rea_keamananipk +
+                    $tagihan->rea_kebersihan  +
+                    $tagihan->rea_airkotor    +
                     $tagihan->rea_lain;
         $tagihan->rea_tagihan = $realisasi;
 
         //Selisih
         $selisih =
-                    $tagihan->sel_listrik     + 
-                    $tagihan->sel_airbersih   + 
-                    $tagihan->sel_keamananipk + 
-                    $tagihan->sel_kebersihan  + 
-                    $tagihan->sel_airkotor    + 
+                    $tagihan->sel_listrik     +
+                    $tagihan->sel_airbersih   +
+                    $tagihan->sel_keamananipk +
+                    $tagihan->sel_kebersihan  +
+                    $tagihan->sel_airkotor    +
                     $tagihan->sel_lain;
         $tagihan->sel_tagihan = $selisih;
 
@@ -713,7 +708,7 @@ class Tagihan extends Model
         $today = strtotime($today);
         try{
             $t = Tagihan::find($id);
-            
+
             $sekarang = date('Y-m-d',$today);
             $tgl_tagihan = strtotime($t->tgl_tagihan);
             $expired = date('Y-m-15',$tgl_tagihan);
@@ -740,16 +735,16 @@ class Tagihan extends Model
 
                 $date1 = $t->tgl_expired;
                 $date2 = date('Y-m-d',$today);
-                
+
                 $ts1 = strtotime($date1);
                 $ts2 = strtotime($date2);
-                
+
                 $year1 = date('Y', $ts1);
                 $year2 = date('Y', $ts2);
-                
+
                 $month1 = date('m', $ts1);
                 $month2 = date('m', $ts2);
-                
+
                 $day1 = date('d', $ts1);
                 $day2 = date('d', $ts2);
 
@@ -801,7 +796,7 @@ class Tagihan extends Model
                 }
 
                 $t->save();
-                
+
                 Tagihan::totalTagihan($t->id);
 
                 if($t->stt_denda >= 2){

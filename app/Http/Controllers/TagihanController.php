@@ -43,7 +43,7 @@ class TagihanController extends Controller
     }
 
     public function index(Request $request)
-    {    
+    {
         $now = date("Y-m-d",strtotime(Carbon::now()));
         $check = date("Y-m-23",strtotime(Carbon::now()));
 
@@ -206,7 +206,7 @@ class TagihanController extends Controller
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk !== NULL)
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
-                    else 
+                    else
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_kebersihan', function ($data) {
@@ -281,7 +281,7 @@ class TagihanController extends Controller
     public function initiate(){
         try{
             $data = array();
-            
+
             //Sinkronisasi
             $now = date("Y-m-d",strtotime(Carbon::now()));
             $check = date("Y-m-23",strtotime(Carbon::now()));
@@ -299,7 +299,7 @@ class TagihanController extends Controller
                 $data['sync_text'] = "Synchronize";
             else
                 $data['sync_text'] = "Unsynchronize";
-                
+
             $data['sync'] = "$tanggal";
 
             $periode = '';
@@ -370,7 +370,7 @@ class TagihanController extends Controller
 
             $air = Tagihan::where('stt_airbersih',0)
             ->count();
-            
+
             $report = Tagihan::where('review',0)
             ->count();
         }
@@ -389,14 +389,14 @@ class TagihanController extends Controller
             return response()->json(['result' => $data]);
         }
     }
-    
+
     public function destroy(Request $request,$id){
         if(request()->ajax()){
             try{
                 $id = LevindCrypt::decryptString($id);
-                
+
                 $data = Tagihan::find($id);
-                
+
                 $hapus = Penghapusan::find($data->id);
                 if($hapus == NULL){
                     $hapus       = new Penghapusan;
@@ -432,7 +432,7 @@ class TagihanController extends Controller
                 if(empty($request->checkListrik) == FALSE){
                     $hapus->daya_listrik  = $data->daya_listrik;
                     $data->daya_listrik   = NULL;
-                    
+
                     $hapus->awal_listrik  = $data->awal_listrik;
                     $data->awal_listrik   = NULL;
 
@@ -604,7 +604,7 @@ class TagihanController extends Controller
                 $data = Tagihan::find($id);
                 if($data->ttl_tagihan == 0)
                     $data->delete();
-                    
+
                 return response()->json(['success' => 'Data telah dihapus.']);
             }
             catch(\Exception $e){
@@ -700,7 +700,7 @@ class TagihanController extends Controller
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="No data, click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;"><i class="fas fa-times fa-sm"></i></span></a>';
                     else if ($data->ttl_keamananipk == 0 && $data->stt_keamananipk !== NULL)
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">0</span></a>';
-                    else 
+                    else
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Click more!" class="totalkeamananipk" id="'.LevindCrypt::encryptString($data->id).'"><span style="color:#172b4d;">'.$hasil.'</span></a>';
                 })
                 ->editColumn('ttl_kebersihan', function ($data) {
@@ -778,9 +778,9 @@ class TagihanController extends Controller
                     $data = new Tagihan;
                     $data->id = $hapus->id;
                     $data->no_faktur = $hapus->faktur;
-                    $data->nama = $hapus->nama; 
+                    $data->nama = $hapus->nama;
                     $data->blok = $hapus->blok;
-                    $data->kd_kontrol = $hapus->kd_kontrol; 
+                    $data->kd_kontrol = $hapus->kd_kontrol;
                     $data->bln_pakai = $hapus->bln_pakai;
                     $data->tgl_tagihan = $hapus->tgl_tagihan;
                     $data->bln_tagihan = $hapus->bln_tagihan;
@@ -867,67 +867,67 @@ class TagihanController extends Controller
                 else{
                     if($hapus->stt_listrik !== NULL){
                         $data->daya_listrik  = $hapus->daya_listrik;
-                        
+
                         $data->awal_listrik  = $hapus->awal_listrik;
-    
+
                         $data->akhir_listrik = $hapus->akhir_listrik;
-    
+
                         $data->pakai_listrik = $hapus->pakai_listrik;
-    
+
                         $data->byr_listrik   = $hapus->byr_listrik;
-    
+
                         $data->rekmin_listrik = $hapus->rekmin_listrik;
-    
+
                         $data->blok1_listrik  = $hapus->blok1_listrik;
-    
+
                         $data->blok2_listrik  = $hapus->blok2_listrik;
-    
+
                         $data->beban_listrik = $hapus->beban_listrik;
-    
+
                         $data->bpju_listrik  = $hapus->bpju_listrik;
-    
+
                         $data->sub_listrik   = $hapus->sub_listrik;
-    
+
                         $data->dis_listrik   = $hapus->dis_listrik;
-    
+
                         $data->ttl_listrik   = $hapus->ttl_listrik;
-    
+
                         $data->rea_listrik   = $hapus->rea_listrik;
-    
+
                         $data->sel_listrik   = $hapus->sel_listrik;
-    
+
                         $data->den_listrik   = $hapus->den_listrik;
-    
+
                         $data->stt_listrik   = $hapus->stt_listrik;
                     }
-                    
+
                     if($hapus->stt_airbersih !== NULL){
                         $data->awal_airbersih = $hapus->awal_airbersih;
-    
+
                         $data->akhir_airbersih = $hapus->akhir_airbersih;
-    
+
                         $data->pakai_airbersih = $hapus->pakai_airbersih;
-    
+
                         $data->byr_airbersih = $hapus->byr_airbersih;
-    
+
                         $data->pemeliharaan_airbersih = $hapus->pemeliharaan_airbersih;
-    
+
                         $data->beban_airbersih = $hapus->beban_airbersih;
-    
+
                         $data->arkot_airbersih = $hapus->arkot_airbersih;
-    
+
                         $data->sub_airbersih = $hapus->sub_airbersih;
-    
+
                         $data->dis_airbersih = $hapus->dis_airbersih;
-    
+
                         $data->ttl_airbersih = $hapus->ttl_airbersih;
-    
+
                         $data->rea_airbersih = $hapus->rea_airbersih;
-    
+
                         $data->sel_airbersih = $hapus->sel_airbersih;
-    
+
                         $data->den_airbersih   = $hapus->den_airbersih;
-    
+
                         $data->stt_airbersih = $hapus->stt_airbersih;
                     }
 
@@ -1065,7 +1065,7 @@ class TagihanController extends Controller
 
                 $data->ket = $ket;
                 $data->reviewer = Session::get('username');
-                
+
                 //1 = Verified
                 //0 = Checking
                 //2 = Edited
@@ -1111,7 +1111,7 @@ class TagihanController extends Controller
                             $i++;
                         }
                     }
-                } 
+                }
                 $data['status']  = true;
                 $data['message'] = "Berhasil melakukan $status $i dari $banyak data";
                 $data['periode'] = $periode;
@@ -1121,7 +1121,7 @@ class TagihanController extends Controller
                 $data['message'] = "Gagal Mengambil Data";
                 $data['periode'] = $periode;
             }
-            
+
             return response()->json(['result' => $data]);
         }
     }
@@ -1207,7 +1207,7 @@ class TagihanController extends Controller
             $bulan = date('Y-m',strtotime(Carbon::now()));
             $bulan = IndoDate::bulanS($bulan,' ');
         }
-        
+
         if($date > $check){
             $tanggal = date('Y-m-01',strtotime(Carbon::now()));
             $tanggal = new Carbonet($tanggal, 1);
@@ -1253,7 +1253,7 @@ class TagihanController extends Controller
 
             //KeamananIpk
             $keamananipk = $d->ttl_keamananipk;
-            
+
             //Kebersihan
             $kebersihan = $d->ttl_kebersihan;
 
@@ -1292,7 +1292,7 @@ class TagihanController extends Controller
             }
             $pemberitahuan[$i]['total']     = $total;
             $pemberitahuan[$i]['terbilang'] = '('.ucfirst(Terbilang::convert($total)).')';
-            
+
             $i++;
         }
 
@@ -1310,7 +1310,7 @@ class TagihanController extends Controller
                 $bulan = date('Y-m',strtotime(Carbon::now()));
                 $bulan = IndoDate::bulanS($bulan,' ');
             }
-            
+
             if($date > $check){
                 $tanggal = date('Y-m-01',strtotime(Carbon::now()));
                 $tanggal = new Carbonet($tanggal, 1);
@@ -1380,7 +1380,7 @@ class TagihanController extends Controller
 
                 //KeamananIpk
                 $keamananipk = $d->ttl_keamananipk;
-                
+
                 //Kebersihan
                 $kebersihan = $d->ttl_kebersihan;
 
@@ -1422,7 +1422,7 @@ class TagihanController extends Controller
                 $pemberitahuan[$i]['total']     = $total;
                 $pemberitahuan[$i]['terbilang'] = '('.ucfirst(Terbilang::convert($total)).')';
                 $pemberitahuan[$i]['faktur']    = $no_faktur;
-                
+
                 $i++;
             }
 
@@ -1449,7 +1449,7 @@ class TagihanController extends Controller
         }
         else{
             $suggest = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_listrik',1]])->orderBy('id','desc')->limit(3)->get();
-            
+
             $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
             if($tempat != NULL){
                 $meter = AlatListrik::find($tempat->id_meteran_listrik);
@@ -1497,13 +1497,13 @@ class TagihanController extends Controller
 
         $daya = explode(',',$request->daya);
         $daya = implode('',$daya);
-        
+
         $awal = explode(',',$request->awal);
         $awal = implode('',$awal);
-        
+
         $akhir = explode(',',$request->akhir);
         $akhir = implode('',$akhir);
-        
+
         Tagihan::listrik($awal, $akhir, $daya, $id);
 
         $tempat = TempatUsaha::where('kd_kontrol',$request->kd_kontrol)->first();
@@ -1544,7 +1544,7 @@ class TagihanController extends Controller
         }
         else{
             $suggest = Tagihan::where([['kd_kontrol',$tagihan->kd_kontrol],['stt_publish',1],['stt_airbersih',1]])->orderBy('id','desc')->limit(3)->get();
-            
+
             $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
             if($tempat != NULL){
                 $meter = AlatAir::find($tempat->id_meteran_air);
@@ -1570,7 +1570,7 @@ class TagihanController extends Controller
             }
 
             $tagihan['awal_airbersih'] = $awal;
-            
+
             $ket = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
             if($ket != NULL){
                 $ket = $ket;
@@ -1592,10 +1592,10 @@ class TagihanController extends Controller
 
         $awal = explode(',',$request->awal);
         $awal = implode('',$awal);
-        
+
         $akhir = explode(',',$request->akhir);
         $akhir = implode('',$akhir);
-        
+
         Tagihan::airbersih($awal, $akhir, $id);
 
         $tempat = TempatUsaha::where('kd_kontrol',$request->kd_kontrol)->first();
@@ -1635,7 +1635,7 @@ class TagihanController extends Controller
                     $banyak  = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_airbersih',1]])->count();
                     $status = "Air Bersih";
                     $i = Tagihan::refreshAirBersih($periode);
-                } 
+                }
                 $data['status']  = true;
                 $data['message'] = "Berhasil melakukan pengitungan ulang tarif $status $i dari $banyak data";
                 $data['periode'] = $periode;
@@ -1645,7 +1645,7 @@ class TagihanController extends Controller
                 $data['message'] = "Gagal Mengambil Data";
                 $data['periode'] = $periode;
             }
-            
+
             return response()->json(['result' => $data]);
         }
     }
@@ -1655,7 +1655,7 @@ class TagihanController extends Controller
             $periode = $request->manual_tahun."-".$request->manual_bulan;
 
             $tempat = TempatUsaha::find($request->kontrol_manual);
-            
+
             $tagihan = Tagihan::where([['bln_tagihan', $periode],['kd_kontrol',$tempat->kd_kontrol]])->first();
             if($tagihan != NULL){
                 $periode = IndoDate::bulan($periode, " ");
@@ -1673,12 +1673,12 @@ class TagihanController extends Controller
                     $data['listrik'] = true;
                 else
                     $data['listrik'] = false;
-                
+
                 if($tempat->trf_airbersih !== NULL)
                     $data['airbersih'] = true;
                 else
                     $data['asirbersih'] = false;
-                
+
                 if($tempat->trf_keamananipk !== NULL)
                     $data['keamananipk'] = true;
                 else
@@ -1699,11 +1699,11 @@ class TagihanController extends Controller
                 else
                     $data['lain'] = false;
 
-                return response()->json(['result' => $data]); 
+                return response()->json(['result' => $data]);
             }
         }
     }
-    
+
     public function manual(Request $request){
         if(request()->ajax()){
             try{
@@ -1758,16 +1758,16 @@ class TagihanController extends Controller
                 if($request->stt_listrik == 1){
                     $daya = explode(',',$request->dayaListrik_manual);
                     $daya = implode('',$daya);
-                    
+
                     $awal = explode(',',$request->awalListrik_manual);
                     $awal = implode('',$awal);
-                    
+
                     $akhir = explode(',',$request->akhirListrik_manual);
                     $akhir = implode('',$akhir);
-                    
+
                     //Rumus
                     $tarif = TarifListrik::first();
-                    
+
                     if($akhir >= $awal)
                         $pakai_listrik = $akhir - $awal;
                     else{
@@ -1782,10 +1782,10 @@ class TagihanController extends Controller
                         else{
                             abort(500);
                         }
-                        
+
                         $pakai_listrik = $denom - $awal;
                         $pakai_listrik = $pakai_listrik + $akhir;
-                    }   
+                    }
 
                     $a = round(($daya * $tarif->trf_standar) / 1000);
                     $blok1_listrik = $tarif->trf_blok1 * $a;
@@ -1797,7 +1797,7 @@ class TagihanController extends Controller
                     $c = $blok1_listrik + $blok2_listrik + $beban_listrik;
 
                     $rekmin_listrik = $tarif->trf_rekmin * $daya;
-                    
+
                     if($tarif->trf_rekmin > 0){
                         $batas_rekmin = round(18 * $daya /1000);
 
@@ -1842,8 +1842,8 @@ class TagihanController extends Controller
                         $diskon = $tempat->dis_listrik;
                         $diskon = ($tagihan->sub_listrik * $diskon) / 100;
                     }
-                    
-                    $total = $tagihan->sub_listrik - $diskon; 
+
+                    $total = $tagihan->sub_listrik - $diskon;
                     $tagihan->dis_listrik = $diskon;
                     $tagihan->ttl_listrik = $total;
                     $tagihan->rea_listrik = 0;
@@ -1856,11 +1856,11 @@ class TagihanController extends Controller
                             $warna_ku = $warna_ku + $war->pakai_listrik;
                         }
                         $warna = round($warna_ku / 3);
-                    
+
                         $lima_persen             = $warna * (5/100);
                         $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
                         $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
-                        
+
                         if($pakai_listrik <= $lima_persen){
                             $warna = 1;
                         }
@@ -1879,7 +1879,7 @@ class TagihanController extends Controller
                     }
 
                     $tagihan->warna_listrik = $warna;
-            
+
                     if($periode >= $sekarang){
                         $meter = AlatListrik::find($tempat->id_meteran_listrik);
                         if($meter != NULL){
@@ -1891,11 +1891,11 @@ class TagihanController extends Controller
 
                     $tagihan->stt_listrik = 1;
                 }
-                
+
                 if($request->stt_airbersih == 1){
                     $awal = explode(',',$request->awalAirBersih_manual);
                     $awal = implode('',$awal);
-                    
+
                     $akhir = explode(',',$request->akhirAirBersih_manual);
                     $akhir = implode('',$akhir);
 
@@ -1915,7 +1915,7 @@ class TagihanController extends Controller
                         else{
                             abort(500);
                         }
-                        
+
                         $pakai_airbersih = $denom - $awal;
                         $pakai_airbersih = $pakai_airbersih + $akhir;
                     }
@@ -1924,16 +1924,16 @@ class TagihanController extends Controller
                         $a = 10 * $tarif->trf_1;
                         $b = ($pakai_airbersih - 10) * $tarif->trf_2;
                         $byr_airbersih = $a + $b;
-                
+
                         $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
                         $beban_airbersih = $tarif->trf_beban;
                         $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
 
                         $ttl_airbersih = $byr_airbersih + $pemeliharaan_airbersih + $beban_airbersih + $arkot_airbersih;
                     }
-                    else{      
+                    else{
                         $byr_airbersih = $pakai_airbersih * $tarif->trf_1;
-                
+
                         $pemeliharaan_airbersih = $tarif->trf_pemeliharaan;
                         $beban_airbersih = $tarif->trf_beban;
                         $arkot_airbersih = ($tarif->trf_arkot / 100) * $byr_airbersih;
@@ -1982,18 +1982,18 @@ class TagihanController extends Controller
                                     $sale = $tagihan->sub_airbersih * ($persen / 100);
                                 }
                                 if($charge[1] == 'byr'){
-                                    $sale = $tagihan->byr_airbersih * ($persen / 100); 
+                                    $sale = $tagihan->byr_airbersih * ($persen / 100);
                                 }
                                 $disc = $disc + $sale;
                             }
-                            
+
                             $disc   = $disc + ($disc * ($tarif->trf_ppn / 100));
                             $disc   = $tagihan->sub_airbersih - $disc;
                             $diskon = $disc;
                         }
                     }
 
-                    $total = $tagihan->sub_airbersih - $diskon; 
+                    $total = $tagihan->sub_airbersih - $diskon;
                     $tagihan->dis_airbersih = $diskon;
                     $tagihan->ttl_airbersih = $total;
                     $tagihan->rea_airbersih = 0;
@@ -2006,11 +2006,11 @@ class TagihanController extends Controller
                             $warna_ku = $warna_ku + $war->pakai_airbersih;
                         }
                         $warna = round($warna_ku / 3);
-                    
+
                         $lima_persen             = $warna * (5/100);
                         $seratussepuluh_persen   = ($warna * (110/100)) + $warna;
                         $seratuslimapuluh_persen = ($warna * (150/100)) + $warna;
-                        
+
                         if($pakai_airbersih <= $lima_persen){
                             $warna = 1;
                         }
@@ -2029,7 +2029,7 @@ class TagihanController extends Controller
                     }
 
                     $tagihan->warna_airbersih = $warna;
-            
+
                     if($periode >= $sekarang){
                         $meter = AlatAir::find($tempat->id_meteran_air);
                         if($meter != NULL){
@@ -2040,7 +2040,7 @@ class TagihanController extends Controller
 
                     $tagihan->stt_airbersih = 1;
                 }
-                
+
                 if($request->stt_keamananipk == 1){
                     if($request->keamananIpk_manual == 0){
                         $subtotal  = 0;
@@ -2049,7 +2049,7 @@ class TagihanController extends Controller
                     else{
                         $subtotal = explode(',',$request->keamananIpk_manual);
                         $subtotal = implode('',$subtotal);
-                        
+
                         if($request->disKeamananIpk_manual != 0){
                             $diskon = explode(',',$request->disKeamananIpk_manual);
                             $diskon = implode('',$diskon);
@@ -2072,7 +2072,7 @@ class TagihanController extends Controller
                         $tempat->dis_keamananipk = $diskon;
                     }
                 }
-                
+
                 if($request->stt_kebersihan == 1){
                     if($request->kebersihan_manual == 0){
                         $subtotal  = 0;
@@ -2081,7 +2081,7 @@ class TagihanController extends Controller
                     else{
                         $subtotal = explode(',',$request->kebersihan_manual);
                         $subtotal = implode('',$subtotal);
-                        
+
                         if($request->disKebersihan_manual != 0){
                             $diskon = explode(',',$request->disKebersihan_manual);
                             $diskon = implode('',$diskon);
@@ -2101,7 +2101,7 @@ class TagihanController extends Controller
                         $tempat->dis_kebersihan = $diskon;
                     }
                 }
-                
+
                 if($request->stt_airkotor == 1){
                     if($request->airKotor_manual == 0){
                         $subtotal  = 0;
@@ -2115,7 +2115,7 @@ class TagihanController extends Controller
                     $tagihan->sel_airkotor = $tagihan->ttl_airkotor;
                     $tagihan->stt_airkotor = 1;
                 }
-                
+
                 if($request->stt_lain == 1){
                     if($request->lain_manual == 0){
                         $subtotal  = 0;
@@ -2144,16 +2144,16 @@ class TagihanController extends Controller
 
                         $date1 = $tagihan->tgl_expired;
                         $date2 = date('Y-m-d',$today);
-                        
+
                         $ts1 = strtotime($date1);
                         $ts2 = strtotime($date2);
-                        
+
                         $year1 = date('Y', $ts1);
                         $year2 = date('Y', $ts2);
-                        
+
                         $month1 = date('m', $ts1);
                         $month2 = date('m', $ts2);
-                        
+
                         $day1 = date('d', $ts1);
                         $day2 = date('d', $ts2);
 
@@ -2212,20 +2212,20 @@ class TagihanController extends Controller
                 }
 
                 //Subtotal
-                $subtotal = 
-                        $tagihan->sub_listrik     + 
-                        $tagihan->sub_airbersih   + 
-                        $tagihan->sub_keamananipk + 
-                        $tagihan->sub_kebersihan  + 
-                        $tagihan->ttl_airkotor    + 
+                $subtotal =
+                        $tagihan->sub_listrik     +
+                        $tagihan->sub_airbersih   +
+                        $tagihan->sub_keamananipk +
+                        $tagihan->sub_kebersihan  +
+                        $tagihan->ttl_airkotor    +
                         $tagihan->ttl_lain;
                 $tagihan->sub_tagihan = $subtotal;
 
                 //Diskon
-                $diskon = 
-                    $tagihan->dis_listrik     + 
-                    $tagihan->dis_airbersih   + 
-                    $tagihan->dis_keamananipk + 
+                $diskon =
+                    $tagihan->dis_listrik     +
+                    $tagihan->dis_airbersih   +
+                    $tagihan->dis_keamananipk +
                     $tagihan->dis_kebersihan;
                 $tagihan->dis_tagihan = $diskon;
 
@@ -2233,32 +2233,32 @@ class TagihanController extends Controller
                 $tagihan->den_tagihan = $tagihan->den_listrik + $tagihan->den_airbersih;
 
                 //TOTAL
-                $total = 
-                    $tagihan->ttl_listrik     + 
-                    $tagihan->ttl_airbersih   + 
-                    $tagihan->ttl_keamananipk + 
-                    $tagihan->ttl_kebersihan  + 
-                    $tagihan->ttl_airkotor    + 
+                $total =
+                    $tagihan->ttl_listrik     +
+                    $tagihan->ttl_airbersih   +
+                    $tagihan->ttl_keamananipk +
+                    $tagihan->ttl_kebersihan  +
+                    $tagihan->ttl_airkotor    +
                     $tagihan->ttl_lain;
                 $tagihan->ttl_tagihan = $total;
 
                 //Realisasi
-                $realisasi = 
-                        $tagihan->rea_listrik     + 
-                        $tagihan->rea_airbersih   + 
-                        $tagihan->rea_keamananipk + 
-                        $tagihan->rea_kebersihan  + 
-                        $tagihan->rea_airkotor    + 
+                $realisasi =
+                        $tagihan->rea_listrik     +
+                        $tagihan->rea_airbersih   +
+                        $tagihan->rea_keamananipk +
+                        $tagihan->rea_kebersihan  +
+                        $tagihan->rea_airkotor    +
                         $tagihan->rea_lain;
                 $tagihan->rea_tagihan = $realisasi;
 
                 //Selisih
                 $selisih =
-                        $tagihan->sel_listrik     + 
-                        $tagihan->sel_airbersih   + 
-                        $tagihan->sel_keamananipk + 
-                        $tagihan->sel_kebersihan  + 
-                        $tagihan->sel_airkotor    + 
+                        $tagihan->sel_listrik     +
+                        $tagihan->sel_airbersih   +
+                        $tagihan->sel_keamananipk +
+                        $tagihan->sel_kebersihan  +
+                        $tagihan->sel_airkotor    +
                         $tagihan->sel_lain;
                 $tagihan->sel_tagihan = $selisih;
 
@@ -2309,17 +2309,17 @@ class TagihanController extends Controller
                     $daya = $request->dayaListrik_edit;
                     $daya = explode(',',$daya);
                     $daya = implode("",$daya);
-    
+
                     $awal = $request->awalListrik_edit;
                     $awal = explode(',',$awal);
                     $awal = implode("",$awal);
-    
+
                     $akhir = $request->akhirListrik_edit;
                     $akhir = explode(',',$akhir);
                     $akhir = implode("",$akhir);
 
                     $tagihan = Tagihan::find($id);
-    
+
                     if($periode >= $sekarang){
                         $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
                         if($tempat != NULL){
@@ -2331,7 +2331,7 @@ class TagihanController extends Controller
                             }
                         }
                     }
-    
+
                     //Update Tagihan
                     Tagihan::listrik($awal,$akhir,$daya,$id);
                 }
@@ -2339,13 +2339,13 @@ class TagihanController extends Controller
                     $awal = $request->awalAirBersih_edit;
                     $awal = explode(',',$awal);
                     $awal = implode("",$awal);
-    
+
                     $akhir = $request->akhirAirBersih_edit;
                     $akhir = explode(',',$akhir);
                     $akhir = implode("",$akhir);
-                    
+
                     $tagihan = Tagihan::find($id);
-    
+
                     if($periode >= $sekarang){
                         $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
                         if($tempat != NULL){
@@ -2356,7 +2356,7 @@ class TagihanController extends Controller
                             }
                         }
                     }
-    
+
                     //Update Tagihan
                     Tagihan::airbersih($awal,$akhir,$id);
                 }
@@ -2365,11 +2365,11 @@ class TagihanController extends Controller
                     $tarif = $request->keamananIpk_edit;
                     $tarif = explode(',',$tarif);
                     $tarif = implode("",$tarif);
-    
+
                     $diskon = $request->disKeamananIpk_edit;
                     $diskon = explode(',',$diskon);
                     $diskon = implode("",$diskon);
-    
+
                     $tagihan = Tagihan::find($id);
                     $tagihan->sub_keamananipk = $tarif;
                     $tagihan->dis_keamananipk = $diskon;
@@ -2378,9 +2378,9 @@ class TagihanController extends Controller
                     $tagihan->ttl_keamanan = ($tarif->prs_keamanan / 100) * $tagihan->ttl_keamananipk;
                     $tagihan->ttl_ipk = ($tarif->prs_ipk / 100) * $tagihan->ttl_keamananipk;
                     $tagihan->sel_keamananipk = $tagihan->ttl_keamananipk - $tagihan->rea_keamananipk;
-                    
+
                     $tagihan->stt_keamananipk = 1;
-    
+
                     if($periode >= $sekarang){
                         //Diskon Tempat
                         $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
@@ -2397,18 +2397,18 @@ class TagihanController extends Controller
                     $tarif = $request->kebersihan_edit;
                     $tarif = explode(',',$tarif);
                     $tarif = implode("",$tarif);
-    
+
                     $diskon = $request->disKebersihan_edit;
                     $diskon = explode(',',$diskon);
                     $diskon = implode("",$diskon);
-    
+
                     $tagihan = Tagihan::find($id);
                     $tagihan->sub_kebersihan = $tarif;
                     $tagihan->dis_kebersihan = $diskon;
                     $tagihan->ttl_kebersihan = $tarif - $diskon;
                     $tagihan->sel_kebersihan = $tagihan->ttl_kebersihan - $tagihan->rea_kebersihan;
                     $tagihan->stt_kebersihan = 1;
-    
+
                     if($periode >= $sekarang){
                         //Diskon Tempat
                         $tempat = TempatUsaha::where('kd_kontrol',$tagihan->kd_kontrol)->first();
@@ -2417,7 +2417,7 @@ class TagihanController extends Controller
                             $tempat->save();
                         }
                     }
-    
+
                     $tagihan->save();
                 }
 
@@ -2425,7 +2425,7 @@ class TagihanController extends Controller
                     $tarif = $request->airKotor_edit;
                     $tarif = explode(',',$tarif);
                     $tarif = implode("",$tarif);
-    
+
                     $tagihan = Tagihan::find($id);
                     $tagihan->ttl_airkotor = $tarif;
                     $tagihan->sel_airkotor = $tagihan->ttl_airkotor - $tagihan->rea_airkotor;
@@ -2437,7 +2437,7 @@ class TagihanController extends Controller
                     $tarif = $request->lain_edit;
                     $tarif = explode(',',$tarif);
                     $tarif = implode("",$tarif);
-    
+
                     $tagihan = Tagihan::find($id);
                     $tagihan->ttl_lain = $tarif;
                     $tagihan->sel_lain = $tagihan->ttl_lain - $tagihan->rea_lain;
@@ -2454,9 +2454,9 @@ class TagihanController extends Controller
                         Tagihan::hapusDenda($id);
                     }
                 }
-                
+
                 Tagihan::totalTagihan($id);
-                
+
                 return response()->json(['success' => "Data Berhasil Diupdate"]);
             }
             catch(\Exception $e){
@@ -2482,7 +2482,7 @@ class TagihanController extends Controller
             if($fas == 'keamananipk'){
                 $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_keamananipk','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
             }
-            
+
             if($fas == 'kebersihan'){
                 $data['rincian'] = Tagihan::where([['kd_kontrol',$data->kd_kontrol],['stt_kebersihan','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
             }
@@ -2530,7 +2530,7 @@ class TagihanController extends Controller
             if($fas == 'keamananipk'){
                 $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_keamananipk','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
             }
-            
+
             if($fas == 'kebersihan'){
                 $data['rincian'] = Penghapusan::where([['kd_kontrol',$data->kd_kontrol],['stt_kebersihan','!=',NULL]])->orderBy('bln_tagihan','desc')->limit(7)->get();
             }
@@ -2564,20 +2564,20 @@ class TagihanController extends Controller
     public function total($id){
         $tagihan = Tagihan::find($id);
         //Subtotal
-        $subtotal = 
-                $tagihan->sub_listrik     + 
-                $tagihan->sub_airbersih   + 
-                $tagihan->sub_keamananipk + 
-                $tagihan->sub_kebersihan  + 
-                $tagihan->ttl_airkotor    + 
+        $subtotal =
+                $tagihan->sub_listrik     +
+                $tagihan->sub_airbersih   +
+                $tagihan->sub_keamananipk +
+                $tagihan->sub_kebersihan  +
+                $tagihan->ttl_airkotor    +
                 $tagihan->ttl_lain;
         $tagihan->sub_tagihan = $subtotal;
 
         //Diskon
-        $diskon = 
-            $tagihan->dis_listrik     + 
-            $tagihan->dis_airbersih   + 
-            $tagihan->dis_keamananipk + 
+        $diskon =
+            $tagihan->dis_listrik     +
+            $tagihan->dis_airbersih   +
+            $tagihan->dis_keamananipk +
             $tagihan->dis_kebersihan;
         $tagihan->dis_tagihan = $diskon;
 
@@ -2585,32 +2585,32 @@ class TagihanController extends Controller
         $tagihan->den_tagihan = $tagihan->den_listrik + $tagihan->den_airbersih;
 
         //TOTAL
-        $total = 
-            $tagihan->ttl_listrik     + 
-            $tagihan->ttl_airbersih   + 
-            $tagihan->ttl_keamananipk + 
-            $tagihan->ttl_kebersihan  + 
-            $tagihan->ttl_airkotor    + 
+        $total =
+            $tagihan->ttl_listrik     +
+            $tagihan->ttl_airbersih   +
+            $tagihan->ttl_keamananipk +
+            $tagihan->ttl_kebersihan  +
+            $tagihan->ttl_airkotor    +
             $tagihan->ttl_lain;
         $tagihan->ttl_tagihan = $total;
 
         //Realisasi
-        $realisasi = 
-                $tagihan->rea_listrik     + 
-                $tagihan->rea_airbersih   + 
-                $tagihan->rea_keamananipk + 
-                $tagihan->rea_kebersihan  + 
-                $tagihan->rea_airkotor    + 
+        $realisasi =
+                $tagihan->rea_listrik     +
+                $tagihan->rea_airbersih   +
+                $tagihan->rea_keamananipk +
+                $tagihan->rea_kebersihan  +
+                $tagihan->rea_airkotor    +
                 $tagihan->rea_lain;
         $tagihan->rea_tagihan = $realisasi;
 
         //Selisih
         $selisih =
-                $tagihan->sel_listrik     + 
-                $tagihan->sel_airbersih   + 
-                $tagihan->sel_keamananipk + 
-                $tagihan->sel_kebersihan  + 
-                $tagihan->sel_airkotor    + 
+                $tagihan->sel_listrik     +
+                $tagihan->sel_airbersih   +
+                $tagihan->sel_keamananipk +
+                $tagihan->sel_kebersihan  +
+                $tagihan->sel_airkotor    +
                 $tagihan->sel_lain;
         $tagihan->sel_tagihan = $selisih;
 

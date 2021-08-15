@@ -54,9 +54,12 @@ class LayananController extends Controller
         return view('layanan.alatmeter.riwayat');
     }
 
-    public function bongkaranIndex(){
+    public function bongkaranIndex(Request $request){
         if(request()->ajax()){
-            $data = TempatUsaha::where('stt_bongkar','>',1)->orderBy('stt_bongkar','desc');
+            if($request->permohonan == 'enabled')
+                $data = TempatUsaha::orderBy('stt_bongkar','desc')->orderBy('kd_kontrol','asc')->get();
+            else
+                $data = TempatUsaha::where('stt_bongkar','>',1)->orderBy('stt_bongkar','desc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                         $button = '<button data-toggle="tooltip" data-original-title="Unduh Surat" name="surat" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="surat btn btn-sm btn-info">Surat</button>';
@@ -64,10 +67,15 @@ class LayananController extends Controller
                         return $button;
                 })
                 ->editColumn('stt_bongkar', function($data){
-                    if($data->stt_bongkar < 4)
-                        $button = '<span style="color:#e74a3b;">'.$data->stt_bongkar.' Bulan</span>';
-                    else
-                        $button = '<span style="color:#e74a3b;">&GreaterEqual; '.$data->stt_bongkar.' Bulan</span>';
+                    if($data->stt_bongkar > 1){
+                        if($data->stt_bongkar < 4)
+                            $button = '<span style="color:#e74a3b;">'.$data->stt_bongkar.' Bulan</span>';
+                        else
+                            $button = '<span style="color:#e74a3b;">&GreaterEqual; '.$data->stt_bongkar.' Bulan</span>';
+                    }
+                    else{
+                        $button = '&mdash;';
+                    }
                     return $button;
                 })
                 ->addColumn('show', function($data){
@@ -136,6 +144,13 @@ class LayananController extends Controller
 
             $pdf = PDF::loadview('layanan.bongkaran.surat.pembongkaran',['data' => $dataset, 'pengguna' => $pengguna]);
             return $pdf->download("surat-perintah-bongkar $kontrol.pdf");
+        }
+        else if($surat == "permohonan"){
+            $surat = "Permohonan";
+            $dataset = array();
+
+            $pdf = PDF::loadview('layanan.bongkaran.surat.permohonan',['data' => $dataset]);
+            return $pdf->download("surat-permohonan $kontrol.pdf");
         }
         else{
             $surat = "Berita Acara";

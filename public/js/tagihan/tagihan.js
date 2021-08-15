@@ -55,12 +55,12 @@ $(document).ready(function(){
                         })
                     }
                 }
-                
+
                 setCookie('report', data.result.report, 1);
             }
         })
     }
-    setInterval(function(){ 
+    setInterval(function(){
         badge()
     }, 5000);
 
@@ -83,7 +83,7 @@ $(document).ready(function(){
         }
         return null;
     }
-    function eraseCookie(name) {   
+    function eraseCookie(name) {
         document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 
@@ -116,7 +116,7 @@ $(document).ready(function(){
 		{
 			action_url = "/tagihan/sync/unsynchronize/" + sync;
 		}
-        
+
 		if($('#sync_status').val() == 'synchronize')
 		{
 			action_url = "/tagihan/sync/synchronize/" + sync;
@@ -205,16 +205,16 @@ $(document).ready(function(){
 
                 if(data.result.stt_airbersih === null)
                     $('#notifAirBersih').prop("disabled",true);
-                
+
                 if(data.result.stt_keamananipk === null)
                     $('#notifKeamananIpk').prop("disabled",true);
-                    
+
                 if(data.result.stt_kebersihan === null)
                     $('#notifKebersihan').prop("disabled",true);
-                    
+
                 if(data.result.stt_airkotor === null)
                     $('#notifAirKotor').prop("disabled",true);
-                
+
                 if(data.result.stt_lain === null)
                     $('#notifLain').prop("disabled",true);
             }
@@ -239,7 +239,7 @@ $(document).ready(function(){
                     html = '<div class="alert alert-success" id="success-alert"> <strong>Sukses! </strong>' + data.success + '</div>';
                 if(data.errors)
                     html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
-                $('#form_result').html(html);     
+                $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -261,7 +261,7 @@ $(document).ready(function(){
         $("#publishModal").show();
         $('#form_result').html('');
     });
-    
+
     $(document).on('click', '.cancel-publish', function(){
 		$('#publish_action').val('unpublish');
 		$('.titles').text('Cancel Publish Tagihan');
@@ -305,7 +305,7 @@ $(document).ready(function(){
                     });
                     // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
                 }
-                // $('#form_result').html(html);     
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -370,13 +370,13 @@ $(document).ready(function(){
                     });
                     // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.message + '</div>';
                 }
-                // $('#form_result').html(html);     
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
                         $("#success-alert,#error-alert").slideUp(500);
                 });
-                
+
                 setTimeout(function(){
                     $('#refresh').removeClass("btn-success").addClass("btn-primary").html('<i class="fas fa-sync-alt"></i> Refresh Data');
                     $('#refresh-data').text("Refresh Data");
@@ -414,7 +414,7 @@ $(document).ready(function(){
                     $(".daya-listrik").text(data.result.daya_listrik.toLocaleString("en-US"));
                 else
                     $(".daya-listrik").html("&mdash;");
-                
+
                 if(data.result.awal_listrik !== null)
                     $(".awal-listrik").text(data.result.awal_listrik.toLocaleString("en-US"));
                 else
@@ -450,7 +450,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_listrik > 0 && data.result.stt_listrik != null)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_listrik == 0 && data.result.stt_listrik != null)
@@ -471,7 +471,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.rincian.length; i++){
@@ -490,7 +490,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].ttl_listrik.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
@@ -524,14 +524,14 @@ $(document).ready(function(){
 
                 if(data.result.awal_airbersih !== null)
                     $(".awal-airbersih").text(data.result.awal_airbersih.toLocaleString("en-US"));
-                else 
+                else
                     $(".awal-airbersih").html("&mdash;");
-                
+
                 if(data.result.akhir_airbersih !== null)
                     $(".akhir-airbersih").text(data.result.akhir_airbersih.toLocaleString("en-US"));
                 else
                     $(".akhir-airbersih").html("&mdash;")
-                
+
                 if(data.result.pakai_airbersih !== null)
                     $(".pakai-airbersih").html("<span style='color:green;'>" + data.result.pakai_airbersih.toLocaleString("en-US") + "</span");
                 else
@@ -557,7 +557,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_airbersih > 0 && data.result.stt_airbersih != null)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_airbersih == 0 && data.result.stt_airbersih != null)
@@ -578,7 +578,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.rincian.length; i++){
@@ -597,7 +597,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].ttl_airbersih.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
@@ -648,7 +648,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_keamananipk > 0 && data.result.stt_keamananipk != null)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_keamananipk == 0 && data.result.stt_keamananipk != null)
@@ -669,7 +669,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.rincian.length; i++){
@@ -688,7 +688,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].ttl_keamananipk.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
@@ -739,7 +739,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_kebersihan > 0 && data.result.stt_kebersihan != null)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_kebersihan == 0 && data.result.stt_kebersihan != null)
@@ -760,7 +760,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.rincian.length; i++){
@@ -779,7 +779,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].ttl_kebersihan.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
@@ -829,7 +829,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_airkotor > 0 && data.result.stt_airkotor != null)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_airkotor == 0 && data.result.stt_airkotor != null)
@@ -851,7 +851,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.rincian.length; i++){
@@ -870,7 +870,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].ttl_airkotor.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
@@ -920,7 +920,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_lain > 0 && data.result.stt_lain != null)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_lain == 0 && data.result.stt_lain != null)
@@ -941,7 +941,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.rincian.length; i++){
@@ -960,7 +960,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].ttl_lain.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
@@ -1017,7 +1017,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_tagihan > 0 && data.result.stt_lunas == 0)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_tagihan == 0 && data.result.stt_lunas == 1)
@@ -1038,7 +1038,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.rincian.length; i++){
@@ -1057,7 +1057,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.rincian[i].ttl_tagihan.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
@@ -1090,12 +1090,12 @@ $(document).ready(function(){
                 $(".history-heading").text("Riwayat Details Tagihan");
 
                 $(".pengguna").text(data.result.nama);
-    
+
                 if(data.result.daya_listrik !== null)
                     $(".daya-listrik").text(data.result.daya_listrik.toLocaleString("en-US"));
                 else
                     $(".daya-listrik").html("&mdash;");
-                
+
                 if(data.result.awal_listrik !== null)
                     $(".awal-listrik").text(data.result.awal_listrik.toLocaleString("en-US"));
                 else
@@ -1114,17 +1114,17 @@ $(document).ready(function(){
                 $(".diskon-listrik").html("<span style='color:red;'>" + data.result.dis_listrik.toLocaleString("en-US") + "</span");
                 $(".tagihan-listrik").html("<span style='color:green;'>" + data.result.ttl_listrik.toLocaleString("en-US") + "</span");
                 $(".denda-listrik").html("<span style='color:blue;'>" + data.result.den_listrik.toLocaleString("en-US") + "</span");
-                
+
                 if(data.result.awal_airbersih !== null)
                     $(".awal-airbersih").text(data.result.awal_airbersih.toLocaleString("en-US"));
-                else 
+                else
                     $(".awal-airbersih").html("&mdash;");
-                
+
                 if(data.result.akhir_airbersih !== null)
                     $(".akhir-airbersih").text(data.result.akhir_airbersih.toLocaleString("en-US"));
                 else
                     $(".akhir-airbersih").html("&mdash;")
-                
+
                 if(data.result.pakai_airbersih !== null)
                     $(".pakai-airbersih").html("<span style='color:green;'>" + data.result.pakai_airbersih.toLocaleString("en-US") + "</span");
                 else
@@ -1136,12 +1136,12 @@ $(document).ready(function(){
 
                 $(".diskon-keamananipk").html("<span style='color:red;'>" + data.result.dis_keamananipk.toLocaleString("en-US") + "</span");
                 $(".tagihan-keamananipk").html("<span style='color:green;'>" + data.result.ttl_keamananipk.toLocaleString("en-US") + "</span");
-                
+
                 $(".diskon-kebersihan").html("<span style='color:red;'>" + data.result.dis_kebersihan.toLocaleString("en-US") + "</span");
                 $(".tagihan-kebersihan").html("<span style='color:green;'>" + data.result.ttl_kebersihan.toLocaleString("en-US") + "</span");
-                
+
                 $(".tagihan-airkotor").html("<span style='color:green;'>" + data.result.ttl_airkotor.toLocaleString("en-US") + "</span");
-                
+
                 $(".tagihan-lain").html("<span style='color:green;'>" + data.result.ttl_lain.toLocaleString("en-US") + "</span");
 
                 if(data.result.no_alamat !== null)
@@ -1158,7 +1158,7 @@ $(document).ready(function(){
                     $(".lokasi").text(data.result.lok_tempat);
                 else
                     $(".lokasi").html("&mdash;");
-                
+
                 if(data.result.sel_tagihan > 0 && data.result.stt_lunas == 0)
                     $(".pembayaran").html("<span style='color:red;'>Belum Lunas</span");
                 else if(data.result.sel_tagihan == 0 && data.result.stt_lunas == 1)
@@ -1179,7 +1179,7 @@ $(document).ready(function(){
                     $(".publisher").text(data.result.via_publish);
                 else
                     $(".publisher").html("&mdash;");
-                    
+
                 $(".pengelola").text(data.result.via_tambah);
 
                 for(i = 0; i < data.result.listrik.length; i++){
@@ -1198,15 +1198,15 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.listrik[i].ttl_listrik.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
                 if(data.result.listrik.length > 0){
                     html = '<br>';
-                    $('#rincianrow').append(html);   
+                    $('#rincianrow').append(html);
                 }
-                
+
                 for(i = 0; i < data.result.airbersih.length; i++){
                     html = '';
                     html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
@@ -1223,15 +1223,15 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.airbersih[i].ttl_airbersih.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
-                
+
                 if(data.result.airbersih.length > 0){
                     html = '<br>';
-                    $('#rincianrow').append(html);   
+                    $('#rincianrow').append(html);
                 }
-                
+
                 for(i = 0; i < data.result.keamananipk.length; i++){
                     html = '';
                     html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
@@ -1248,15 +1248,15 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.keamananipk[i].ttl_keamananipk.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
-                
+
                 if(data.result.keamananipk.length > 0){
                     html = '<br>';
-                    $('#rincianrow').append(html);   
+                    $('#rincianrow').append(html);
                 }
-                
+
                 for(i = 0; i < data.result.kebersihan.length; i++){
                     html = '';
                     html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
@@ -1273,15 +1273,15 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.kebersihan[i].ttl_kebersihan.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
                 if(data.result.kebersihan.length > 0){
                     html = '<br>';
-                    $('#rincianrow').append(html);   
+                    $('#rincianrow').append(html);
                 }
-                
+
                 for(i = 0; i < data.result.airkotor.length; i++){
                     html = '';
                     html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
@@ -1298,15 +1298,15 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.airkotor[i].ttl_airkotor.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
                 if(data.result.airkotor.length > 0){
                     html = '<br>';
-                    $('#rincianrow').append(html);   
+                    $('#rincianrow').append(html);
                 }
-                
+
                 for(i = 0; i < data.result.lain.length; i++){
                     html = '';
                     html += '<div class="card-profile-stats d-flex justify-content-between" style="margin-bottom:-2rem">';
@@ -1323,13 +1323,13 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.lain[i].ttl_lain.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 
                 if(data.result.lain.length > 0){
                     html = '<br>';
-                    $('#rincianrow').append(html);   
+                    $('#rincianrow').append(html);
                 }
 
                 html = '<hr>';
@@ -1351,7 +1351,7 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;">' + data.result.tagihan[i].ttl_tagihan.toLocaleString("en-Us") + '</span>';
                     html +=     '</div>';
                     html += '</div>';
-                    
+
                     $('#rincianrow').append(html);
                 }
 

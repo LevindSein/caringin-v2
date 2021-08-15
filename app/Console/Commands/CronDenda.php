@@ -7,8 +7,9 @@ use App\Models\Tagihan;
 use App\Models\TempatUsaha;
 use App\Models\TarifAirBersih;
 use App\Models\TarifListrik;
-use Exception;
 use Carbon\Carbon;
+use Log;
+use Exception;
 
 class CronDenda extends Command
 {
@@ -71,16 +72,16 @@ class CronDenda extends Command
 
                         $date1 = $t->tgl_expired;
                         $date2 = date('Y-m-d',$today);
-                        
+
                         $ts1 = strtotime($date1);
                         $ts2 = strtotime($date2);
-                        
+
                         $year1 = date('Y', $ts1);
                         $year2 = date('Y', $ts2);
-                        
+
                         $month1 = date('m', $ts1);
                         $month2 = date('m', $ts2);
-                        
+
                         $day1 = date('d', $ts1);
                         $day2 = date('d', $ts2);
 
@@ -132,7 +133,7 @@ class CronDenda extends Command
                         }
 
                         $t->save();
-                        
+
                         Tagihan::totalTagihan($t->id);
 
                         if($t->stt_denda >= 2){
@@ -146,10 +147,10 @@ class CronDenda extends Command
                     }
                 }
             }
-            \Log::info('Denda Fine');
+            Log::info('Denda Fine');
         }
-        catch(\Exception $e){
-            \Log::info($e);
+        catch(Exception $e){
+            Log::info($e);
         }
     }
 }

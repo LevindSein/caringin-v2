@@ -1,8 +1,25 @@
 $(document).ready(function(){
+    var permohonanCookie = getCookie('permohonan');
+    var url_bongkaran = '';
+    if(permohonanCookie == "enabled"){
+        url_bongkaran = "/layanan/bongkaran?permohonan=enabled"
+        $("#chg_bongkaran").html('<i class="fas fa-fw fa-home fa-sm text-white"></i>');
+        $("#title_bongkaran").text("Layanan Bongkaran (Permohonan)");
+        $("#surat").hide();
+        $("#surat_permohonan").show();
+    }
+    else{
+        url_bongkaran = "/layanan/bongkaran";
+        $("#chg_bongkaran").text("Permohonan");
+        $("#title_bongkaran").text("Layanan Bongkaran");
+        $("#surat").show();
+        $("#surat_permohonan").hide();
+    }
+    
 	var dtable = $('#tabelBongkaran').DataTable({
 		serverSide: true,
 		ajax: {
-			url: "/layanan/bongkaran",
+			url: url_bongkaran,
             cache:false,
 		},
 		columns: [
@@ -49,6 +66,25 @@ $(document).ready(function(){
             $('#refresh-img').hide();
         }, 2000);
     });
+
+    $(document).on('click', '#chg_bongkaran', function(){
+        var check = getCookie('permohonan');
+        if(check == 'enabled'){
+            setCookie('permohonan', 'disabled', 1);
+            $("#chg_bongkaran").text("Permohonan");
+            $("#title_bongkaran").text("Layanan Bongkaran");
+            $("#surat").show();
+            $("#surat_permohonan").hide();
+        }
+        else{
+            setCookie('permohonan', 'enabled', 1);
+            $("#chg_bongkaran").html('<i class="fas fa-fw fa-home fa-sm text-white"></i>');
+            $("#title_bongkaran").text("Layanan Bongkaran (Permohonan)");
+            $("#surat").hide();
+            $("#surat_permohonan").show();
+        }
+        location.reload();
+	});
     
     var id;
 
@@ -139,4 +175,27 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+    function setCookie(name,value,days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+    function eraseCookie(name) {   
+        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
 });

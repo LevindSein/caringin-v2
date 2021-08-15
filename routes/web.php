@@ -70,7 +70,6 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\WorkController;
 
 //Login
-use App\Models\User;
 use App\Models\LoginLog;
 use App\Models\LevindCrypt;
 
@@ -122,7 +121,7 @@ Route::get('login', function(){
     }
 
     return view('home.login',['time'=>$time]);
-})->name('login'); 
+})->name('login');
 
 //LOGIN
 Route::post('storelogin',function(Request $request){
@@ -148,7 +147,7 @@ Route::post('storelogin',function(Request $request){
 //LOGOUT
 Route::get('logout',function(){
     Session::flush();
-    \Artisan::call('cache:clear');
+    Artisan::call('cache:clear');
     return redirect()->route('login')->with('success','Sampai Jumpa Lagi');
 });
 
@@ -170,12 +169,12 @@ Route::middleware('ceklogin:kasir')->group(function(){
     Route::post('kasir/printer/{printer}',[KasirController::class, 'printer']);
     Route::get('kasir/utama',[KasirController::class, 'getutama']);
     Route::get('kasir/utama/bulan',[KasirController::class, 'getutamaBulan']);
-    
+
     Route::get('kasir/sisa',[KasirController::class, 'getsisa']);
     Route::get('kasir/selesai',[KasirController::class, 'getselesai']);
-    
+
     Route::get('kasir/penerimaan',[KasirController::class, 'penerimaan']);
-    
+
     Route::get('kasir/restore',[KasirController::class, 'restore']);
     Route::post('kasir/restore/{id}',[KasirController::class, 'restoreStore']);
 

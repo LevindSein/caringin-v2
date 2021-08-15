@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-
 use App\Models\Dashboard;
 use App\Models\TempatUsaha;
 use Carbon\Carbon;
-use App\Models\Tagihan;
-use App\Models\Pembayaran;
 
 class DashboardController extends Controller
 {
@@ -22,7 +17,7 @@ class DashboardController extends Controller
         $today = Carbon::now();
         $today = strtotime($today);
         $tahun = date("Y", $today);
-        
+
         $rincian = Dashboard::rincian($tahun);
         $pendapatan = Dashboard::pendapatan($tahun);
         $akumulasi = Dashboard::akumulasi($tahun);

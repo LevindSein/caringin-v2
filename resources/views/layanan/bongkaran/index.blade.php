@@ -5,11 +5,12 @@
 @endsection
 
 @section('judul')
-<h6 class="h2 text-white d-inline-block mb-0">Layanan Bongkaran</h6>
+<h6 class="h2 text-white d-inline-block mb-0" id="title_bongkaran"></h6>
 @endsection
 
 @section('button')
 <div>
+    <button name="chg_bongkaran" id="chg_bongkaran" class="btn btn-sm btn-info"></button>
     <button name="riwayat_bongkaran" id="riwayat_bongkaran" class="btn btn-sm btn-success"><i class="fas fa-fw fa-book fa-sm text-white-50"></i> Riwayat</button>
     <a href="{{url('layanan/bongkaran/generate')}}" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Generate" target="_blank"><i class="fas fa-fw fa-download text-white"></i></a>
 </div>
@@ -78,6 +79,11 @@
                     <span>Pilih surat yang ingin diunduh terkait pembongkaran di bawah ini.</span><br><br>
                     <select class="form-control" name="surat" id="surat">
                         <option value="peringatan">Peringatan</option>
+                        <option value="pembongkaran">Perintah Bongkar</option>
+                        <option value="berita_acara">Berita Acara</option>
+                    </select>
+                    <select class="form-control" name="surat" id="surat_permohonan">
+                        <option value="permohonan">Permohonan</option>
                         <option value="pembongkaran">Perintah Bongkar</option>
                         <option value="berita_acara">Berita Acara</option>
                     </select>
