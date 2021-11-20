@@ -21,7 +21,7 @@ $(document).ready(function(){
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [1,2] }, 
+            { "bSortable": false, "aTargets": [1,2] },
             { "bSearchable": false, "aTargets": [1,2] }
         ],
         order:[[0, 'asc']],
@@ -41,7 +41,7 @@ $(document).ready(function(){
             }, 10)
         },
     });
-      
+
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
     $('#refresh').click(function(){
         $('#refresh-img').show();
@@ -115,7 +115,7 @@ $(document).ready(function(){
 
 		$('#myModal').modal('show');
     });
-    
+
     $(document).on('click', '.edit', function(){
 		id = $(this).attr('id');
         $('#hidden_id').val(id);
@@ -195,34 +195,34 @@ $(document).ready(function(){
                     var valPemilik = data.result.pemilik;
 
                     valPemilik.forEach(function(e){
-                        if(!s1.find('option:contains(' + e + ')').length) 
+                        if(!s1.find('option:contains(' + e + ')').length)
                             s1.append($('<option>').text(e));
                     });
-                    s1.val(valPemilik).trigger("change"); 
+                    s1.val(valPemilik).trigger("change");
                 }
                 else{
                     $("#pemilik").prop("checked", false);
                     $("#displayPemilik").hide();
                 }
-                
+
                 if(data.result.checkPengguna == 'checked'){
                     $("#pengguna").prop("checked", true);
                     $('#alamatPengguna').prop('required', true);
                     $("#displayPengguna").show();
 
                     var valPengguna = data.result.pengguna;
-                    
+
                     valPengguna.forEach(function(e){
-                        if(!s2.find('option:contains(' + e + ')').length) 
+                        if(!s2.find('option:contains(' + e + ')').length)
                             s2.append($('<option>').text(e));
                     });
-                    s2.val(valPengguna).trigger("change"); 
+                    s2.val(valPengguna).trigger("change");
                 }
                 else{
                     $("#pengguna").prop("checked", false);
                     $("#displayPengguna").hide();
                 }
-                
+
                 $('#myModal').modal('show');
 			}
 		})
@@ -277,7 +277,7 @@ $(document).ready(function(){
             }
 		});
     });
-    
+
     function evaluate() {
         var item = $(this);
         var relatedItem = $("#" + item.attr("data-related-item")).parent();
@@ -291,7 +291,7 @@ $(document).ready(function(){
     $('input[type="checkbox"]')
         .click(evaluate)
         .each(evaluate);
-    
+
     $('#nama').on('input',function(){
         if($('#action').val() == 'Add'){
             nama = $(this).val();
@@ -374,7 +374,7 @@ $(document).ready(function(){
                         confirmButtonClass: 'btn btn-danger'
                     });
                 }
-                // $('#form_result').html(html);     
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -410,23 +410,23 @@ $(document).ready(function(){
                     $('.alamat').text(data.result.alamat);
                 else
                     $('.alamat').html("&mdash;");
-                
+
                 if(data.result.hp !== null)
                     $('#whatsapp-number').attr("href", "https://api.whatsapp.com/send?phone=" + data.result.hp + "&text=*Selamat%20Berniaga%20Mitra%20BP3C*").attr("target", "_blank")
                     .css("pointer-events","").removeClass("btn-dark").addClass("btn-success");
                 else
                     $('#whatsapp-number').attr("href","#").removeAttr("target").css("pointer-events","none").removeClass("btn-success").addClass("btn-dark");
-                
+
                 if(data.result.email !== null)
                     $('#email-number').attr("href", "mailto:" + data.result.email).attr("target", "_blank").css("pointer-events","").removeClass("btn-dark").addClass("btn-danger");
                 else
                     $('#email-number').attr("href","#").removeAttr("target").css("pointer-events", "none").removeClass("btn-danger").addClass("btn-dark");
-                
+
                 $('#show-details').modal('show');
 			}
 		});
 	});
-    
+
     function checkPemilik() {
         if ($('#pemilik').is(':checked')) {
             document
@@ -465,7 +465,7 @@ $(document).ready(function(){
         keys = ['0','1','2','3','4','5','6','7','8','9']
         return keys.indexOf(e.key) > -1
     });
-    
+
     $("#nama").on("change paste keyup", function(e){
         $(e.target).val($(e.target).val().replace(/[^a-zA-Z.\s]/gi,''));
     });

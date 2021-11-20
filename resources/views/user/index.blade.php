@@ -11,10 +11,10 @@
 @section('button')
 @if(Session::get('role') == 'master')
 <div>
-    <button 
+    <button
         type="button"
         name="add_user"
-        id="add_user" 
+        id="add_user"
         class="btn btn-sm btn-success">
         <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> User</button>
 </div>
@@ -195,8 +195,8 @@
                                 class="form-control"
                                 name="password"
                                 id="password">
-                            <span 
-                                toggle="#password" 
+                            <span
+                                toggle="#password"
                                 style="float:right;margin-right:10px;margin-top:-30px;position:relative;z-index:2;"
                                 class="fa fa-fw fa-eye toggle-password"></span>
                         </div>
@@ -254,13 +254,13 @@
                         <label class="form-control-label" for="email">Email</label>
                         <div class="input-group">
                             <input
-                                autocomplete="off" 
-                                type="text" 
-                                class="form-control" 
-                                maxlength="20" 
-                                name="email" 
-                                id="email" 
-                                placeholder="youremail" 
+                                autocomplete="off"
+                                type="text"
+                                class="form-control"
+                                maxlength="20"
+                                name="email"
+                                id="email"
+                                placeholder="youremail"
                                 aria-describedby="inputGroupPrepend">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroupPrepend">@gmail.com</span>
@@ -273,15 +273,15 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroupPrepend">+62</span>
                             </div>
-                            <input 
-                                required 
+                            <input
+                                required
                                 autocomplete="off"
-                                type="tel" 
-                                class="form-control" 
-                                maxlength="12" 
-                                name="hp" 
-                                id="hp" 
-                                placeholder="8783847xxx" 
+                                type="tel"
+                                class="form-control"
+                                maxlength="12"
+                                name="hp"
+                                id="hp"
+                                placeholder="8783847xxx"
                                 aria-describedby="inputGroupPrepend">
                         </div>
                     </div>

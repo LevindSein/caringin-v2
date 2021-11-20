@@ -26,7 +26,7 @@ $(document).ready(function () {
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [1,2,3,4] }, 
+            { "bSortable": false, "aTargets": [1,2,3,4] },
             { "bSearchable": false, "aTargets": [1,2,3,4] }
         ],
         order:[[0, 'asc']],
@@ -39,14 +39,14 @@ $(document).ready(function () {
         drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
-                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');
             }
             setTimeout( function () {
                 $("[data-toggle='tooltip']").tooltip();
             }, 10)
         },
     }).columns.adjust().draw();
-    
+
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
     $('#refresh').click(function(){
         $('#refresh-img').show();
@@ -85,7 +85,7 @@ $(document).ready(function () {
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [1,4] }, 
+                    { "bSortable": false, "aTargets": [1,4] },
                     { "bSearchable": false, "aTargets": [1,4] }
                 ],
                 order: [[0, 'asc']],
@@ -98,7 +98,7 @@ $(document).ready(function () {
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -147,7 +147,7 @@ $(document).ready(function () {
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [2,5] }, 
+                    { "bSortable": false, "aTargets": [2,5] },
                     { "bSearchable": false, "aTargets": [2,5] }
                 ],
                 order:[[0, 'asc']],
@@ -157,7 +157,7 @@ $(document).ready(function () {
                 "drawCallback": function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                 },
                 responsive: true,
@@ -169,7 +169,7 @@ $(document).ready(function () {
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -215,7 +215,7 @@ $(document).ready(function () {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-		$.ajax({       
+		$.ajax({
 			url: "/kasir/restore/"+id,
             cache:false,
 			method:"POST",
@@ -289,7 +289,7 @@ $(document).ready(function () {
                 $("#lokasi").val(data.hidden.lokasi);
                 $("#faktur").val(data.hidden.faktur);
                 $("#ref").val(data.hidden.ref);
-                
+
                 total = 0;
 
                 //Listrik
@@ -330,11 +330,11 @@ $(document).ready(function () {
                     $("#checkListrik").prop("checked", true).prop("disabled", false);
                     checkListrik = 1;
                 }
-                
+
                 $("#taglistrik").val(data.hidden.listrik);
                 $("#tagtunglistrik").val(data.hidden.tunglistrik);
                 $("#tagdenlistrik").val(data.hidden.denlistrik);
-                
+
                 $("#tagdylistrik").val(data.hidden.dylistrik);
                 $("#tagawlistrik").val(data.hidden.awlistrik);
                 $("#tagaklistrik").val(data.hidden.aklistrik);
@@ -414,7 +414,7 @@ $(document).ready(function () {
                     $("#checkAirBersih").prop("checked", true).prop("disabled", false);
                     checkAirBersih = 1;
                 }
-                
+
                 $("#tagairbersih").val(data.hidden.airbersih);
                 $("#tagtungairbersih").val(data.hidden.tungairbersih);
                 $("#tagdenairbersih").val(data.hidden.denairbersih);
@@ -428,7 +428,7 @@ $(document).ready(function () {
                         checkAirBersih = 0;
                         total = total - airbersih - tungairbersih - denairbersih;
                         $("#fasAirBersih").hide();
-                        
+
                         $.ajax({
                             url :"/encrypt/value",
                             dataType:"json",
@@ -448,7 +448,7 @@ $(document).ready(function () {
                         checkAirBersih = 1;
                         total = total + airbersih + tungairbersih + denairbersih;
                         $("#fasAirBersih").show();
-                                
+
                         $("#tagairbersih").val(data.hidden.airbersih);
                         $("#tagtungairbersih").val(data.hidden.tungairbersih);
                         $("#tagdenairbersih").val(data.hidden.denairbersih);
@@ -497,7 +497,7 @@ $(document).ready(function () {
                         checkKeamananIpk = 0;
                         total = total - keamananipk - tungkeamananipk;
                         $("#fasKeamananIpk").hide();
-                        
+
                         $.ajax({
                             url :"/encrypt/value",
                             dataType:"json",
@@ -573,7 +573,7 @@ $(document).ready(function () {
                         checkKebersihan = 1;
                         total = total + kebersihan + tungkebersihan;
                         $("#fasKebersihan").show();
-                        
+
                         $("#tagkebersihan").val(data.hidden.kebersihan);
                         $("#tagtungkebersihan").val(data.hidden.tungkebersihan);
                     }
@@ -703,14 +703,14 @@ $(document).ready(function () {
 
                 //Total
                 $("#nominalTotal").html("Rp. " + total.toLocaleString("en-US"));
-                
+
                 // $("#totalTagihan").val(total);
 
                 if(checkListrik == 0 && checkAirBersih == 0 && checkKeamananIpk == 0 && checkKebersihan == 0 && checkAirKotor == 0 && checkLain == 0)
                     $("#printStruk").prop("disabled",true);
                 else
                     $("#printStruk").prop("disabled",false);
-                
+
                 $('#checkListrik, #checkAirBersih, #checkKeamananIpk, #checkKebersihan, #checkAirKotor, #checkLain').on("click", function() {
                     if(checkListrik == 0 && checkAirBersih == 0 && checkKeamananIpk == 0 && checkKebersihan == 0 && checkAirKotor == 0 && checkLain == 0){
                         $("#printStruk").prop("disabled",true);
@@ -773,7 +773,7 @@ $(document).ready(function () {
                         kasir_print('/kasir/bayar/' + data.hidden);
                     }
 				}
-                
+
                 $('#tabelKasir').DataTable().ajax.reload(function(){}, false);
                 // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
@@ -790,7 +790,7 @@ $(document).ready(function () {
     });
 
     $("#sebagian").prop('required',false);
-            
+
     $('#sebagian').select2({
         placeholder: '--- Pilih Blok ---',
         ajax: {
@@ -829,7 +829,7 @@ $(document).ready(function () {
     function pc_print(data){
         var socket = new WebSocket("ws://127.0.0.1:40213/");
         socket.bufferType = "arraybuffer";
-        socket.onerror = function(error) {  
+        socket.onerror = function(error) {
             console.log("Transaksi Berhasil Tanpa Print Struk");
             swal({
                 title: 'Info',
@@ -838,7 +838,7 @@ $(document).ready(function () {
                 buttonsStyling: false,
                 confirmButtonClass: 'btn btn-info'
             });
-        };			
+        };
         socket.onopen = function() {
             socket.send(data);
             socket.close(1000, "Work complete");
@@ -850,7 +850,7 @@ $(document).ready(function () {
                 confirmButtonClass: 'btn btn-success'
             });
         };
-    }	
+    }
 
     function android_print(data){
         window.location.href = data;
@@ -866,7 +866,7 @@ $(document).ready(function () {
     function ajax_print(url) {
         $.get(url, function (data) {
             var ua = navigator.userAgent.toLowerCase();
-            var isAndroid = ua.indexOf("android") > -1; 
+            var isAndroid = ua.indexOf("android") > -1;
             if(isAndroid) {
                 android_print(data);
             }else{
@@ -881,7 +881,7 @@ $(document).ready(function () {
     function pcc_print(data){
         var socket = new WebSocket("ws://127.0.0.1:40213/");
         socket.bufferType = "arraybuffer";
-        socket.onerror = function(error) {  
+        socket.onerror = function(error) {
             console.log("Transaksi Berhasil Tanpa Print Struk");
             swal({
                 title: 'Info',
@@ -890,12 +890,12 @@ $(document).ready(function () {
                 buttonsStyling: false,
                 confirmButtonClass: 'btn btn-info'
             });
-        };			
+        };
         socket.onopen = function() {
             socket.send(data);
             socket.close(1000, "Work complete");
         };
-    }	
+    }
 
     function androidd_print(data){
         window.location.href = data;
@@ -904,7 +904,7 @@ $(document).ready(function () {
     function kasir_print(url) {
         $.get(url, function (data) {
             var ua = navigator.userAgent.toLowerCase();
-            var isAndroid = ua.indexOf("android") > -1; 
+            var isAndroid = ua.indexOf("android") > -1;
             if(isAndroid) {
                 androidd_print(data);
             }else{
@@ -929,7 +929,7 @@ $(document).ready(function () {
         }
 
     });
-    
+
     $(document).on('click', '#workasir', function(){
         $.ajaxSetup({
             headers: {

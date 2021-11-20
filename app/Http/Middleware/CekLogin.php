@@ -35,7 +35,7 @@ class CekLogin
                 'username' => ['required', 'string', 'min:4', 'max:30', 'exists:App\Models\User,username', 'alpha_dash'],
                 'password' => ['required', 'min:6'],
             ]);
-        
+
             if($error->fails())
             {
                 return redirect()->route('login')->with('error','Username atau Password Salah');

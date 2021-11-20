@@ -105,11 +105,11 @@ class PedagangController extends Controller
             else{
                 return response()->json(['errors' => 'Data Gagal Ditambah.']);
             }
-        
+
             if($request->email == NULL) {
                 $data['email'] = NULL;
             }
-            
+
             if($request->hp[0] == '0') {
                 $hp = '62'.substr($request->hp,1);
                 $data['hp'] = $hp;
@@ -189,7 +189,7 @@ class PedagangController extends Controller
                 $hp = substr($data->hp,2);
                 $data['hp'] = $hp;
             }
-            
+
             $data['pemilik'] = 0;
             $data['checkPemilik'] = 'unchecked';
             $data['pengguna'] = 0;
@@ -244,7 +244,7 @@ class PedagangController extends Controller
             if($request->email == NULL) {
                 $data['email'] = NULL;
             }
-            
+
             if($request->hp[0] == '0') {
                 $hp = '62'.substr($request->hp,1);
                 $data['hp'] = $hp;
@@ -271,9 +271,9 @@ class PedagangController extends Controller
                                 $hapus->id_pemilik = NULL;
                                 $hapus->save();
                             }
-                        }   
+                        }
                     }
-                    
+
                     foreach($alamatPemilik as $alamat){
                         $tempat = TempatUsaha::find($alamat);
                         if($tempat != NULL){
@@ -289,7 +289,7 @@ class PedagangController extends Controller
                             $hapus = TempatUsaha::find($t->id);
                             $hapus->id_pemilik = NULL;
                             $hapus->save();
-                        }   
+                        }
                     }
                 }
 
@@ -304,7 +304,7 @@ class PedagangController extends Controller
                                 $hapus->id_pengguna = NULL;
                                 $hapus->save();
                             }
-                        }   
+                        }
                     }
 
                     foreach($alamatPengguna as $alamat){
@@ -322,7 +322,7 @@ class PedagangController extends Controller
                             $hapus = TempatUsaha::find($t->id);
                             $hapus->id_pengguna = NULL;
                             $hapus->save();
-                        }   
+                        }
                     }
                 }
                 return response()->json(['success' => 'Data Berhasil Diedit.']);

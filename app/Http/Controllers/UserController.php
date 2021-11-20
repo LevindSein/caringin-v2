@@ -172,11 +172,11 @@ class UserController extends Controller
                 'email'    => strtolower($request->email.'@gmail.com'),
                 'role'     => $request->role,
             ];
-        
+
             if($request->email == NULL) {
                 $data['email'] = NULL;
             }
-            
+
             if($request->hp[0] == '0') {
                 $hp = '62'.substr($request->hp,1);
                 $data['hp'] = $hp;
@@ -277,11 +277,11 @@ class UserController extends Controller
                 'email'    => strtolower($request->email.'@gmail.com'),
                 'role'     => $request->role,
             ];
-        
+
             if($request->email == NULL) {
                 $data['email'] = NULL;
             }
-            
+
             if($request->hp[0] == '0') {
                 $hp = '62'.substr($request->hp,1);
                 $data['hp'] = $hp;
@@ -300,7 +300,7 @@ class UserController extends Controller
                     $user->otoritas = NULL;
                     $user->save();
                 }
-                
+
                 $dataset['status'] = 'success';
                 $dataset['message'] = 'Data Berhasil Diupdate';
                 $dataset['role'] = $request->role;
@@ -341,7 +341,7 @@ class UserController extends Controller
             }
         }
     }
-    
+
     /**
      * Reset the specified resource from storage.
      *
@@ -389,7 +389,7 @@ class UserController extends Controller
             }
             else{
                 $otoritas  = json_decode($data->otoritas);
-                
+
                 if(isset($otoritas->otoritas))
                     $data['bloks'] = $otoritas->otoritas;
                 else
@@ -404,62 +404,62 @@ class UserController extends Controller
                     $data['tempatusaha'] = $otoritas->tempatusaha;
                 else
                     $data['tempatusaha'] = false;
-                
+
                 if(isset($otoritas->tagihan))
                     $data['tagihan'] = $otoritas->tagihan;
                 else
                     $data['tagihan'] = false;
-                
+
                 if(isset($otoritas->blok))
                     $data['blok'] = $otoritas->blok;
                 else
                     $data['blok'] = false;
-                
+
                 if(isset($otoritas->pemakaian))
                     $data['pemakaian'] = $otoritas->pemakaian;
                 else
                     $data['pemakaian'] = false;
-                
+
                 if(isset($otoritas->pendapatan))
                     $data['pendapatan'] = $otoritas->pendapatan;
                 else
                     $data['pendapatan'] = false;
-                
+
                 if(isset($otoritas->tunggakan))
                     $data['tunggakan'] = $otoritas->tunggakan;
                 else
                     $data['tunggakan'] = false;
-                
+
                 if(isset($otoritas->datausaha))
                     $data['datausaha'] = $otoritas->datausaha;
                 else
                     $data['datausaha'] = false;
-            
+
                 if(isset($otoritas->publish))
                     $data['publish'] = $otoritas->publish;
                 else
                     $data['publish'] = false;
-                
+
                 if(isset($otoritas->alatmeter))
                     $data['alatmeter'] = $otoritas->alatmeter;
                 else
                     $data['alatmeter'] = false;
-                
+
                 if(isset($otoritas->tarif))
                     $data['tarif'] = $otoritas->tarif;
                 else
                     $data['tarif'] = false;
-                
+
                 if(isset($otoritas->harilibur))
                     $data['harilibur'] = $otoritas->harilibur;
                 else
                     $data['harilibur'] = false;
-                
+
                 if(isset($otoritas->layanan))
                     $data['layanan'] = $otoritas->layanan;
                 else
                     $data['layanan'] = false;
-                
+
                 if(isset($otoritas->simulasi))
                     $data['simulasi'] = $otoritas->simulasi;
                 else

@@ -11,17 +11,17 @@
 
 @section('button')
 @if($agent->isDesktop())
-<a 
-    href="{{url('tempatusaha')}}" 
+<a
+    href="{{url('tempatusaha')}}"
     type="submit"
     data-toggle="tooltip" data-original-title="Home"
     class="btn btn-sm btn-info"><i class="fas fa-fw fa-home fa-sm text-white"></i>
 </a>
 @if(Session::get('role') == 'master')
-<button 
+<button
     type="button"
     name="add_tempat"
-    id="add_tempat" 
+    id="add_tempat"
     class="btn btn-sm btn-success">
     <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> Tempat Usaha</button>
 @endif
@@ -185,15 +185,15 @@
                                     <div class="form-group" style="display:none" id="diskonBayarAir">
                                         <div class="col-sm-12">
                                             <div class="input-group">
-                                                <input 
-                                                    type="number" 
-                                                    autocomplete="off" 
-                                                    class="form-control" 
+                                                <input
+                                                    type="number"
+                                                    autocomplete="off"
+                                                    class="form-control"
                                                     min="0"
                                                     max="100"
-                                                    name="persenDiskonAir" 
-                                                    id="persenDiskonAir" 
-                                                    placeholder="Persen" 
+                                                    name="persenDiskonAir"
+                                                    id="persenDiskonAir"
+                                                    placeholder="Persen"
                                                     aria-describedby="inputGroupPrepend">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend">%</span>
@@ -273,15 +273,15 @@
                                             <div class="form-group" style="display:none" id="displayCharge">
                                                 <div class="col-sm-12" id="chargeAir">
                                                     <div class="input-group">
-                                                        <input 
-                                                            type="number" 
-                                                            autocomplete="off" 
-                                                            class="form-control" 
+                                                        <input
+                                                            type="number"
+                                                            autocomplete="off"
+                                                            class="form-control"
                                                             min="0"
                                                             max="100"
-                                                            name="persenChargeAir" 
-                                                            id="persenChargeAir" 
-                                                            placeholder="Persen" 
+                                                            name="persenChargeAir"
+                                                            id="persenChargeAir"
+                                                            placeholder="Persen"
                                                             aria-describedby="inputGroupPrepend">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text" id="inputGroupPrepend">%</span>
@@ -331,15 +331,15 @@
                                     <div style="display:none" id="displayListrikDiskon">
                                         <div class="col-sm-12" id="diskonBayarListrik">
                                             <div class="input-group">
-                                                <input 
-                                                    type="number" 
-                                                    autocomplete="off" 
-                                                    class="form-control" 
+                                                <input
+                                                    type="number"
+                                                    autocomplete="off"
+                                                    class="form-control"
                                                     min="0"
                                                     max="100"
-                                                    name="persenDiskonListrik" 
-                                                    id="persenDiskonListrik" 
-                                                    placeholder="Persen" 
+                                                    name="persenDiskonListrik"
+                                                    id="persenDiskonListrik"
+                                                    placeholder="Persen"
                                                     aria-describedby="inputGroupPrepend">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend">%</span>
@@ -389,13 +389,13 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
                                                 </div>
-                                                <input 
-                                                    type="text" 
-                                                    autocomplete="off" 
+                                                <input
+                                                    type="text"
+                                                    autocomplete="off"
                                                     class="form-control"
-                                                    name="diskonKeamananIpk" 
-                                                    id="diskonKeamananIpk" 
-                                                    placeholder="Nominal" 
+                                                    name="diskonKeamananIpk"
+                                                    id="diskonKeamananIpk"
+                                                    placeholder="Nominal"
                                                     aria-describedby="inputGroupPrepend">
                                             </div>
                                         </div>
@@ -442,13 +442,13 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
                                                 </div>
-                                                <input 
+                                                <input
                                                     type="text"
-                                                    autocomplete="off" 
+                                                    autocomplete="off"
                                                     class="form-control"
-                                                    name="diskonKebersihan" 
-                                                    id="diskonKebersihan" 
-                                                    placeholder="Nominal" 
+                                                    name="diskonKebersihan"
+                                                    id="diskonKebersihan"
+                                                    placeholder="Nominal"
                                                     aria-describedby="inputGroupPrepend">
                                             </div>
                                         </div>
@@ -477,7 +477,7 @@
                                 </select>
                             </div>
 
-                            
+
                             <div class="form-check">
                                 <input
                                     class="form-check-input"

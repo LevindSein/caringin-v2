@@ -62,7 +62,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        
+
         'ceklogin' => \App\Http\Middleware\CekLogin::class,
         'dashboard' => \App\Http\Middleware\Dashboard::class,
         'layanan' => \App\Http\Middleware\Layanan::class,
@@ -87,7 +87,7 @@ class Kernel extends HttpKernel
         'human' => \App\Http\Middleware\Human::class,
 
         'kasir' => \App\Http\Middleware\Kasir::class,
-        
+
         'keuangan' => \App\Http\Middleware\Keuangan::class,
     ];
 }

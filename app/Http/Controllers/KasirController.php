@@ -176,7 +176,7 @@ class KasirController extends Controller
             $enkripsi = array();
 
             //Periode ini -----------------------------------------
-            
+
             $data = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1],['bln_tagihan','>=',date('Y-m',strtotime(Carbon::now()))]])->orderBy('bln_tagihan','asc')->get();
             $dataset['listrik'] = 0;
             $dataset['airbersih'] = 0;
@@ -184,12 +184,12 @@ class KasirController extends Controller
             $dataset['kebersihan'] = 0;
             $dataset['airkotor'] = 0;
             $dataset['lain'] = 0;
-            
+
             $dataset['dylistrik'] = 0;
             $dataset['awlistrik'] = 0;
             $dataset['aklistrik'] = 0;
             $dataset['pklistrik'] = 0;
-            
+
             $dataset['awairbersih'] = 0;
             $dataset['akairbersih'] = 0;
             $dataset['pkairbersih'] = 0;
@@ -200,16 +200,16 @@ class KasirController extends Controller
             $enkripsi['kebersihan'] = LevindCrypt::encryptString(0);
             $enkripsi['airkotor'] = LevindCrypt::encryptString(0);
             $enkripsi['lain'] = LevindCrypt::encryptString(0);
-            
+
             $enkripsi['dylistrik'] = LevindCrypt::encryptString(0);
             $enkripsi['awlistrik'] = LevindCrypt::encryptString(0);
             $enkripsi['aklistrik'] = LevindCrypt::encryptString(0);
             $enkripsi['pklistrik'] = LevindCrypt::encryptString(0);
-            
+
             $enkripsi['awairbersih'] = LevindCrypt::encryptString(0);
             $enkripsi['akairbersih'] = LevindCrypt::encryptString(0);
             $enkripsi['pkairbersih'] = LevindCrypt::encryptString(0);
-            
+
             if($data != NULL){
                 $listrik = 0;
                 $denlistrik = 0;
@@ -226,22 +226,22 @@ class KasirController extends Controller
                     $awallistrik = $d->awal_listrik;
                     $akhirlistrik = $d->akhir_listrik;
                     $pakailistrik = $d->pakai_listrik;
-                    
+
                     $airbersih = $airbersih + $d->sel_airbersih;
                     $denairbersih = $denairbersih + $d->den_airbersih;
                     $awalairbersih = $d->awal_airbersih;
                     $akhirairbersih = $d->akhir_airbersih;
                     $pakaiairbersih = $d->pakai_airbersih;
-                    
+
                     $keamananipk = $keamananipk + $d->sel_keamananipk;
-    
+
                     $kebersihan = $kebersihan + $d->sel_kebersihan;
-                    
+
                     $airkotor = $airkotor + $d->sel_airkotor;
-    
+
                     $lain = $lain + $d->sel_lain;
                 }
-                
+
                 if($listrik != 0 || $listrik != NULL){
                     $dataset['listrik'] = $listrik - $denlistrik;
                     $dataset['dylistrik'] = $dayalistrik;
@@ -294,7 +294,7 @@ class KasirController extends Controller
                     $enkripsi['lain'] =  LevindCrypt::encryptString($lain);
                 }
             }
-            
+
             //Periode Lalu ----------------------------------------
 
             $data = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1],['stt_denda','!=',NULL],['bln_tagihan','<',date('Y-m',strtotime(Carbon::now()))]])->get();
@@ -322,16 +322,16 @@ class KasirController extends Controller
                 foreach($data as $d){
                     $listrik    = $listrik + $d->sel_listrik;
                     $denlistrik = $denlistrik + $d->den_listrik;
-                    
+
                     $airbersih    = $airbersih + $d->sel_airbersih;
                     $denairbersih = $denairbersih + $d->den_airbersih;
 
                     $keamananipk = $keamananipk + $d->sel_keamananipk;
 
                     $kebersihan = $kebersihan + $d->sel_kebersihan;
-                    
+
                     $airkotor = $airkotor + $d->sel_airkotor;
-                    
+
                     $lain = $lain + $d->sel_lain;
                 }
 
@@ -341,10 +341,10 @@ class KasirController extends Controller
                     //Enkripsi
                     $enkripsi['tunglistrik'] =  LevindCrypt::encryptString($listrik - $denlistrik);
                 }
-                
+
                 if($airbersih != 0 || $airbersih != NULL){
                     $dataset['tungairbersih'] = $airbersih - $denairbersih;
-                    
+
                     //Enkripsi
                     $enkripsi['tungairbersih'] =  LevindCrypt::encryptString($airbersih - $denairbersih);
                 }
@@ -358,21 +358,21 @@ class KasirController extends Controller
 
                 if($kebersihan != 0 || $kebersihan != NULL){
                     $dataset['tungkebersihan'] = $kebersihan;
-                    
+
                     //Enkripsi
                     $enkripsi['tungkebersihan'] =  LevindCrypt::encryptString($kebersihan);
                 }
 
                 if($airkotor != 0 || $airkotor != NULL){
                     $dataset['tungairkotor'] = $airkotor;
-                    
+
                     //Enkripsi
                     $enkripsi['tungairkotor'] =  LevindCrypt::encryptString($airkotor);
                 }
 
                 if($lain != 0 || $lain != NULL){
                     $dataset['tunglain'] = $lain;
-                    
+
                     //Enkripsi
                     $enkripsi['tunglain'] =  LevindCrypt::encryptString($lain);
                 }
@@ -392,7 +392,7 @@ class KasirController extends Controller
                 foreach($data as $d){
                     if($d->sel_listrik > 0)
                         $listrik = $listrik + $d->den_listrik;
-                    
+
                     if($d->sel_airbersih > 0)
                         $airbersih = $airbersih + $d->den_airbersih;
 
@@ -409,7 +409,7 @@ class KasirController extends Controller
                             $nomor = '0'.$nomor;
                         else
                             $nomor = $nomor;
-        
+
                         $no_faktur = $nomor.'/'.str_replace('-','/',$tgl_faktur);
                         $faktur->save();
                         $d->no_faktur = $no_faktur;
@@ -502,27 +502,27 @@ class KasirController extends Controller
             $struk->tagaklistrik = LevindCrypt::decryptString($request->tagaklistrik);
             $struk->tagdylistrik = LevindCrypt::decryptString($request->tagdylistrik);
             $struk->tagpklistrik = LevindCrypt::decryptString($request->tagpklistrik);
-            
+
             $struk->tagairbersih = LevindCrypt::decryptString($request->tagairbersih);
             $struk->tagtungairbersih = LevindCrypt::decryptString($request->tagtungairbersih);
             $struk->tagdenairbersih = LevindCrypt::decryptString($request->tagdenairbersih);
             $struk->tagawairbersih = LevindCrypt::decryptString($request->tagawairbersih);
             $struk->tagakairbersih = LevindCrypt::decryptString($request->tagakairbersih);
             $struk->tagpkairbersih = LevindCrypt::decryptString($request->tagpkairbersih);
-            
+
             $struk->tagkeamananipk = LevindCrypt::decryptString($request->tagkeamananipk);
             $struk->tagtungkeamananipk = LevindCrypt::decryptString($request->tagtungkeamananipk);
-            
+
             $struk->tagkebersihan = LevindCrypt::decryptString($request->tagkebersihan);
             $struk->tagtungkebersihan = LevindCrypt::decryptString($request->tagtungkebersihan);
-            
+
             $struk->tagairkotor = LevindCrypt::decryptString($request->tagairkotor);
             $struk->tagtungairkotor = LevindCrypt::decryptString($request->tagtungairkotor);
-            
+
             $struk->taglain = LevindCrypt::decryptString($request->taglain);
             $struk->tagtunglain = LevindCrypt::decryptString($request->tagtunglain);
-            
-            $totalTagihan = 
+
+            $totalTagihan =
                 $struk->taglistrik +
                 $struk->tagtunglistrik +
                 $struk->tagdenlistrik +
@@ -539,9 +539,9 @@ class KasirController extends Controller
                 $struk->tagtunglain;
 
             $struk->totalTagihan = $totalTagihan;
-            
+
             $struk->bayar = date('d/m/Y H:i:s',strtotime(Carbon::now()));
-            
+
             $struk->kasir = Session::get('username');
             $struk->save();
 
@@ -550,7 +550,7 @@ class KasirController extends Controller
                 $tanggal = date("Y-m-d", strtotime(Carbon::now()));
                 $bulan = date("Y-m", strtotime(Carbon::now()));
                 $tahun = date("Y", strtotime(Carbon::now()));
-    
+
                 //--------------------------------------------------------------
                 $pembayaran = new Pembayaran;
                 $pembayaran->ref       = LevindCrypt::decryptString($request->ref);
@@ -592,13 +592,13 @@ class KasirController extends Controller
                     $selisih = $selisih - $pembayaran->byr_listrik;
                     $diskon = $diskon + $pembayaran->dis_listrik;
                 }
-                
+
                 if(empty($request->checkAirBersih) == FALSE){
                     $pembayaran->byr_airbersih = $d->sel_airbersih;
                     $pembayaran->byr_denairbersih = $d->den_airbersih;
                     $pembayaran->sel_airbersih = 0;
                     $pembayaran->dis_airbersih = $d->dis_airbersih;
-                    
+
                     $total = $total + $pembayaran->byr_airbersih;
                     $selisih = $selisih - $pembayaran->byr_airbersih;
                     $diskon = $diskon + $pembayaran->dis_airbersih;
@@ -613,14 +613,14 @@ class KasirController extends Controller
                     $selisih = $selisih - $pembayaran->byr_airbersih;
                     $diskon = $diskon + $pembayaran->dis_airbersih;
                 }
-                
+
                 if(empty($request->checkKeamananIpk) == FALSE){
                     $pembayaran->byr_keamanan = $d->ttl_keamanan;
                     $pembayaran->byr_ipk      = $d->ttl_ipk;
                     $pembayaran->byr_keamananipk = $d->sel_keamananipk;
                     $pembayaran->sel_keamananipk = 0;
                     $pembayaran->dis_keamananipk = $d->dis_keamananipk;
-                    
+
                     $total = $total + $pembayaran->byr_keamananipk;
                     $selisih = $selisih - $pembayaran->byr_keamananipk;
                     $diskon = $diskon + $pembayaran->dis_keamananipk;
@@ -641,7 +641,7 @@ class KasirController extends Controller
                     $pembayaran->byr_kebersihan = $d->sel_kebersihan;
                     $pembayaran->sel_kebersihan = 0;
                     $pembayaran->dis_kebersihan = $d->dis_kebersihan;
-                    
+
                     $total = $total + $pembayaran->byr_kebersihan;
                     $selisih = $selisih - $pembayaran->byr_kebersihan;
                     $diskon = $diskon + $pembayaran->dis_kebersihan;
@@ -659,7 +659,7 @@ class KasirController extends Controller
                 if(empty($request->checkAirKotor) == FALSE){
                     $pembayaran->byr_airkotor = $d->sel_airkotor;
                     $pembayaran->sel_airkotor = 0;
-                    
+
                     $total = $total + $pembayaran->byr_airkotor;
                     $selisih = $selisih - $pembayaran->byr_airkotor;
                 }
@@ -674,7 +674,7 @@ class KasirController extends Controller
                 if(empty($request->checkLain) == FALSE){
                     $pembayaran->byr_lain = $d->sel_lain;
                     $pembayaran->sel_lain = 0;
-                    
+
                     $total = $total + $pembayaran->byr_lain;
                     $selisih = $selisih - $pembayaran->byr_lain;
                 }
@@ -780,20 +780,20 @@ class KasirController extends Controller
             $enkripsi['tagaklistrik'] = $request->tagaklistrik;
             $enkripsi['tagdylistrik'] = $request->tagdylistrik;
             $enkripsi['tagpklistrik'] = $request->tagpklistrik;
-            
+
             $enkripsi['tagairbersih'] = $request->tagairbersih;
             $enkripsi['tagtungairbersih'] = $request->tagtungairbersih;
             $enkripsi['tagdenairbersih'] = $request->tagdenairbersih;
             $enkripsi['tagawairbersih'] = $request->tagawairbersih;
             $enkripsi['tagakairbersih'] = $request->tagakairbersih;
             $enkripsi['tagpkairbersih'] = $request->tagpkairbersih;
-            
+
             $enkripsi['tagkeamananipk'] = $request->tagkeamananipk;
             $enkripsi['tagtungkeamananipk'] = $request->tagtungkeamananipk;
-            
+
             $enkripsi['tagkebersihan'] = $request->tagkebersihan;
             $enkripsi['tagtungkebersihan'] = $request->tagtungkebersihan;
-            
+
             $enkripsi['tagairkotor'] = $request->tagairkotor;
             $enkripsi['tagtungairkotor'] = $request->tagtungairkotor;
 
@@ -833,7 +833,7 @@ class KasirController extends Controller
         $awallistrik     = number_format(LevindCrypt::decryptString($json->tagawlistrik));
         $akhirlistrik    = number_format(LevindCrypt::decryptString($json->tagaklistrik));
         $pakailistrik    = number_format(LevindCrypt::decryptString($json->tagpklistrik));
-        
+
         $airbersih       = number_format(LevindCrypt::decryptString($json->tagairbersih));
         $tungairbersih   = number_format(LevindCrypt::decryptString($json->tagtungairbersih));
         $denairbersih    = number_format(LevindCrypt::decryptString($json->tagdenairbersih));
@@ -843,13 +843,13 @@ class KasirController extends Controller
 
         $keamananipk     = number_format(LevindCrypt::decryptString($json->tagkeamananipk));
         $tungkeamananipk = number_format(LevindCrypt::decryptString($json->tagtungkeamananipk));
-        
+
         $kebersihan      = number_format(LevindCrypt::decryptString($json->tagkebersihan));
         $tungkebersihan  = number_format(LevindCrypt::decryptString($json->tagtungkebersihan));
-        
+
         $airkotor        = number_format(LevindCrypt::decryptString($json->tagairkotor));
         $tungairkotor    = number_format(LevindCrypt::decryptString($json->tagtungairkotor));
-        
+
         $lain            = number_format(LevindCrypt::decryptString($json->taglain));
         $tunglain        = number_format(LevindCrypt::decryptString($json->tagtunglain));
 
@@ -990,7 +990,7 @@ class KasirController extends Controller
                     }
                 }
                 $printer -> feed();
-                
+
                 $printer -> setJustification(Printer::JUSTIFY_CENTER);
                 $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
                 $printer -> text(new Struk70mm("Total",$total,true,true));
@@ -1190,7 +1190,7 @@ class KasirController extends Controller
             $shift = '1';
         }
         return view('kasir.bulanan.penerimaan',[
-            'tanggal'   => IndoDate::tanggal($tanggal,' '), 
+            'tanggal'   => IndoDate::tanggal($tanggal,' '),
             'cetak'     => $cetak,
             'rekap'     => $rekap,
             't_rekap'   => $t_rekap,
@@ -1244,24 +1244,24 @@ class KasirController extends Controller
                             $tagihan->sel_lain = $tagihan->ttl_lain;
                             $tagihan->stt_lunas   = 0;
                         }
-                        
+
                         $tagihan->stt_denda = $p->stt_denda;
 
                         //Subtotal
-                        $subtotal = 
-                                $tagihan->sub_listrik     + 
-                                $tagihan->sub_airbersih   + 
-                                $tagihan->sub_keamananipk + 
-                                $tagihan->sub_kebersihan  + 
-                                $tagihan->ttl_airkotor    + 
+                        $subtotal =
+                                $tagihan->sub_listrik     +
+                                $tagihan->sub_airbersih   +
+                                $tagihan->sub_keamananipk +
+                                $tagihan->sub_kebersihan  +
+                                $tagihan->ttl_airkotor    +
                                 $tagihan->ttl_lain;
                         $tagihan->sub_tagihan = $subtotal;
 
                         //Diskon
-                        $diskon = 
-                            $tagihan->dis_listrik     + 
-                            $tagihan->dis_airbersih   + 
-                            $tagihan->dis_keamananipk + 
+                        $diskon =
+                            $tagihan->dis_listrik     +
+                            $tagihan->dis_airbersih   +
+                            $tagihan->dis_keamananipk +
                             $tagihan->dis_kebersihan;
                         $tagihan->dis_tagihan = $diskon;
 
@@ -1269,35 +1269,35 @@ class KasirController extends Controller
                         $tagihan->den_tagihan = $tagihan->den_listrik + $tagihan->den_airbersih;
 
                         //TOTAL
-                        $total = 
-                            $tagihan->ttl_listrik     + 
-                            $tagihan->ttl_airbersih   + 
-                            $tagihan->ttl_keamananipk + 
-                            $tagihan->ttl_kebersihan  + 
-                            $tagihan->ttl_airkotor    + 
+                        $total =
+                            $tagihan->ttl_listrik     +
+                            $tagihan->ttl_airbersih   +
+                            $tagihan->ttl_keamananipk +
+                            $tagihan->ttl_kebersihan  +
+                            $tagihan->ttl_airkotor    +
                             $tagihan->ttl_lain;
                         $tagihan->ttl_tagihan = $total;
 
                         //Realisasi
-                        $realisasi = 
-                                $tagihan->rea_listrik     + 
-                                $tagihan->rea_airbersih   + 
-                                $tagihan->rea_keamananipk + 
-                                $tagihan->rea_kebersihan  + 
-                                $tagihan->rea_airkotor    + 
+                        $realisasi =
+                                $tagihan->rea_listrik     +
+                                $tagihan->rea_airbersih   +
+                                $tagihan->rea_keamananipk +
+                                $tagihan->rea_kebersihan  +
+                                $tagihan->rea_airkotor    +
                                 $tagihan->rea_lain;
                         $tagihan->rea_tagihan = $realisasi;
 
                         //Selisih
                         $selisih =
-                                $tagihan->sel_listrik     + 
-                                $tagihan->sel_airbersih   + 
-                                $tagihan->sel_keamananipk + 
-                                $tagihan->sel_kebersihan  + 
-                                $tagihan->sel_airkotor    + 
+                                $tagihan->sel_listrik     +
+                                $tagihan->sel_airbersih   +
+                                $tagihan->sel_keamananipk +
+                                $tagihan->sel_kebersihan  +
+                                $tagihan->sel_airkotor    +
                                 $tagihan->sel_lain;
                         $tagihan->sel_tagihan = $selisih;
-                        
+
                         $tagihan->save();
 
                         $p->delete();
@@ -1306,12 +1306,12 @@ class KasirController extends Controller
                         return response()->json(['errors' => 'Restorasi Gagal']);
                     }
                 }
-    
+
                 $struk = StrukPembayaran::where('ref',$ref)->first();
                 if($struk != NULL){
                     $struk->delete();
                 }
-    
+
                 return response()->json(['success' => 'Restorasi Sukses']);
             }
             catch(\Exception $e){
@@ -1444,14 +1444,14 @@ class KasirController extends Controller
 
     public function getsisa(Request $request){
         $bulan   = IndoDate::bulan(date('Y-m',strtotime(Carbon::now())),' ');
-        
+
         if($request->sisatagihan == 'all'){
             $dataset = Tagihan::where([['stt_lunas',0],['stt_publish',1],['sel_tagihan','>',0]])->select('blok')->groupBy('blok')->orderBy('blok','asc')->get();
         }
         else{
             $dataset = Tagihan::where([['stt_lunas',0],['stt_publish',1],['sel_tagihan','>',0]])->whereIn('blok',$request->sebagian)->select('blok')->groupBy('blok')->orderBy('blok','asc')->get();
         }
-        
+
         $rekap       = array();
         $rek         = 0;
         $listrik     = 0;
@@ -1486,7 +1486,7 @@ class KasirController extends Controller
                 DB::raw('SUM(sel_tagihan)      as jumlah'),
                 DB::raw('SUM(dis_tagihan)      as diskon'))
             ->get();
-            
+
             $rekap[$i]['listrik']     = $setor[0]->listrik - $setor[0]->denlistrik;
             $rekap[$i]['denlistrik']  = $setor[0]->denlistrik;
             $rekap[$i]['airbersih']   = $setor[0]->airbersih - $setor[0]->denairbersih;
@@ -1624,7 +1624,7 @@ class KasirController extends Controller
             $awallistrik     = number_format($struk->tagawlistrik);
             $akhirlistrik    = number_format($struk->tagaklistrik);
             $pakailistrik    = number_format($struk->tagpklistrik);
-            
+
             $airbersih       = number_format($struk->tagairbersih);
             $tungairbersih   = number_format($struk->tagtungairbersih);
             $denairbersih    = number_format($struk->tagdenairbersih);
@@ -1634,13 +1634,13 @@ class KasirController extends Controller
 
             $keamananipk     = number_format($struk->tagkeamananipk);
             $tungkeamananipk = number_format($struk->tagtungkeamananipk);
-            
+
             $kebersihan      = number_format($struk->tagkebersihan);
             $tungkebersihan  = number_format($struk->tagtungkebersihan);
-            
+
             $airkotor        = number_format($struk->tagairkotor);
             $tungairkotor    = number_format($struk->tagtungairkotor);
-            
+
             $lain            = number_format($struk->taglain);
             $tunglain        = number_format($struk->tagtunglain);
 
@@ -1710,10 +1710,10 @@ class KasirController extends Controller
                         $i++;
                         $feed = 1;
                     }
-                    
+
                     if($feed == 1)
                         $printer -> feed();
-                    
+
                     if($struk->tagairbersih != 0){
                         $printer -> setJustification(Printer::JUSTIFY_CENTER);
                         $printer -> text(new Struk70mm("$i. Air Bersih",$airbersih,true));
@@ -1736,10 +1736,10 @@ class KasirController extends Controller
                         $i++;
                         $feed = 2;
                     }
-                    
+
                     if($feed == 2)
                         $printer -> feed();
-                    
+
                     if($struk->tagkeamananipk != 0){
                         $printer -> setJustification(Printer::JUSTIFY_CENTER);
                         $printer -> text(new Struk70mm("$i. Keamanan IPK",$keamananipk,true));
@@ -1752,10 +1752,10 @@ class KasirController extends Controller
                         $i++;
                         $feed = 3;
                     }
-                    
+
                     if($feed == 3)
                         $printer -> feed();
-                    
+
                     if($struk->tagkebersihan != 0){
                         $printer -> setJustification(Printer::JUSTIFY_CENTER);
                         $printer -> text(new Struk70mm("$i. Kebersihan",$kebersihan,true));
@@ -1768,10 +1768,10 @@ class KasirController extends Controller
                         $i++;
                         $feed = 4;
                     }
-                    
+
                     if($feed == 4)
                         $printer -> feed();
-                    
+
                     if($struk->tagairkotor != 0){
                         $printer -> setJustification(Printer::JUSTIFY_CENTER);
                         $printer -> text(new Struk70mm("$i. Air Kotor",$airkotor,true));
@@ -1784,10 +1784,10 @@ class KasirController extends Controller
                         $i++;
                         $feed = 5;
                     }
-                    
+
                     if($feed == 5)
                         $printer -> feed();
-                    
+
                     if($struk->taglain != 0){
                         $printer -> setJustification(Printer::JUSTIFY_CENTER);
                         $printer -> text(new Struk70mm("$i. Lain Lain",$lain,true));
@@ -1800,10 +1800,10 @@ class KasirController extends Controller
                         $i++;
                         $feed = 6;
                     }
-                    
+
                     if($feed == 6)
                         $printer -> feed();
-                    
+
                     $printer -> setJustification(Printer::JUSTIFY_CENTER);
                     $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
                     $printer -> text(new Struk70mm("Total",$total,true,true));
@@ -1836,7 +1836,7 @@ class KasirController extends Controller
                 Session::put('printer', $printer);
                 if($printer == 'mm80')
                     $printer = 'Desktop Printer Lebar 80mm';
-                else 
+                else
                     $printer = 'Android Printer Lebar 50mm';
                 return response()->json(['success' => "Berhasil Menggunakan $printer"]);
             }

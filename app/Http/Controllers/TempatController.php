@@ -136,9 +136,9 @@ class TempatController extends Controller
                     'lokasi'   => ['max:50'],
                     'usaha'    => ['max:30'],
                 );
-    
+
                 $error = Validator::make($request->all(), $rules);
-    
+
                 if($error->fails())
                 {
                     return response()->json(['errors' => 'Gagal Mengambil Data']);
@@ -150,25 +150,25 @@ class TempatController extends Controller
                 //blok
                 $blok = $request->blok;
                 $tempat->blok = $blok;
-                
+
                 //no_alamat
                 $los = strtoupper($request->los);
                 $tempat->no_alamat = $los;
-                
+
                 //jml_alamat
                 $los = explode(",",$los);
                 $tempat->jml_alamat = count($los);
-                
+
                 //kd_kontrol
                 $kode = TempatUsaha::kode($blok,$los);
                 $tempat->kd_kontrol = $kode;
-                
+
                 //bentuk_usaha
                 if($request->usaha != null)
                     $tempat->bentuk_usaha = ucwords($request->usaha);
                 else
                     $tempat->bentuk_usaha = NULL;
-                
+
                 //lok_tempat
                 $lokasi = $request->lokasi;
                 if($lokasi != NULL){
@@ -362,7 +362,7 @@ class TempatController extends Controller
             $data['email_pengguna'] = NULL;
             $data['pemilik'] = NULL;
 
-            //fasilitas 
+            //fasilitas
             $data['faslistrik'] = NULL;
             $data['fasairbersih'] = NULL;
             $data['faskeamananipk'] = NULL;
@@ -554,9 +554,9 @@ class TempatController extends Controller
                     'lokasi'   => ['max:50'],
                     'usaha'    => ['max:30'],
                 );
-    
+
                 $error = Validator::make($request->all(), $rules);
-    
+
                 if($error->fails())
                 {
                     return response()->json(['errors' => 'Gagal Mengambil Data']);
@@ -570,21 +570,21 @@ class TempatController extends Controller
                 //blok
                 $blok = $request->blok;
                 $tempat->blok = $blok;
-                
+
                 //no_alamat
                 $los = strtoupper($request->los);
                 $tempat->no_alamat = $los;
                 $alamat = $los;
-                
+
                 //jml_alamat
                 $los = explode(",",$los);
                 $tempat->jml_alamat = count($los);
-                
+
                 //kd_kontrol
                 $kode = TempatUsaha::kode($blok,$los);
                 $kodeLama = $tempat->kd_kontrol;
                 $tempat->kd_kontrol = $kode;
-                
+
                 //bentuk_usaha
                 if($request->usaha != null){
                     $tempat->bentuk_usaha = ucwords($request->usaha);
@@ -684,13 +684,13 @@ class TempatController extends Controller
                     $tempat->trf_listrik = 1;
                     $id_meteran_listrik = $request->meterListrik;
                     $tempat->id_meteran_listrik = $id_meteran_listrik;
-                
+
                     $meteran = AlatListrik::find($id_meteran_listrik);
                     $tempat->daya = $meteran->daya;
                     $meteran->stt_sedia = 1;
                     $meteran->stt_bayar = 1;
                     $meteran->save();
-                    
+
                     if(empty($request->dis_listrik) == FALSE){
                         if($request->persenDiskonListrik == NULL){
                             $tempat->dis_listrik = 0;
@@ -850,7 +850,7 @@ class TempatController extends Controller
                         $alat->save();
                     }
                 }
-                
+
                 if($data->id_meteran_air != NULL){
                     $alat = AlatAir::find($airId);
                     if($alat != NULL){
@@ -923,7 +923,7 @@ class TempatController extends Controller
         else if($fas == 'lain'){
             $fasilitas = 'Lain - Lain';
         }
-        
+
         if($fas == 'diskon'){
             $view = 'tempatusaha.diskon';
         }
@@ -945,7 +945,7 @@ class TempatController extends Controller
 
     public function qr($id){
         $id = LevindCrypt::decryptString($id);
-        
+
         $dataset = TempatUsaha::find($id);
         $kode = 'KODEKONTROL@'.$dataset->kd_kontrol;
         $kontrol = $dataset->kd_kontrol;

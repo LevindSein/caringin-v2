@@ -44,6 +44,11 @@ class CronDenda extends Command
      */
     public function handle()
     {
+        $tempat = TempatUsaha::get();
+        foreach($tempat as $t){
+            $t->stt_bongkar = NULL;
+            $t->save();
+        }
         $today = Carbon::now();
         $today = strtotime($today);
         try{

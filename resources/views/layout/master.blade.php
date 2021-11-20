@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html> 
+<html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Aplikasi Pengelolaan Pasar Induk Caringin">
         <meta name="author" content="Levind Sein & Maizu">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-        
+
         <!-- Title -->
 
         @yield('title')
@@ -28,10 +28,10 @@
         <link rel="stylesheet" href="{{asset('argon/vendor/sweetalert2/dist/sweetalert2.min.css')}}">
         <link rel="stylesheet" href="{{asset('argon/vendor/select2/dist/css/select2.min.css')}}">
         <link rel="stylesheet" href="{{asset('argon/css/argon.min.css')}}" type="text/css">
-        
+
         <script src="{{asset('argon/vendor/jquery/dist/jquery.min.js')}}"></script>
     </head>
- 
+
     <body>
         <div class="se-pre-con"></div>
         <!-- Sidenav -->
@@ -54,7 +54,7 @@
                         NGINX
                         @endif
                         </b>
-                        </span>  
+                        </span>
                     </a>
                     <div class="ml-auto" id="event-xl">
                         <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
@@ -315,7 +315,7 @@
                                     <i class="fad fa-dollar-sign text-yellow"></i>
                                     <span class="nav-link-text">Kasir</span></a>
                             </li>
-                            
+
                             <!-- Nav Item - User -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">
@@ -330,7 +330,7 @@
                                     <span class="nav-link-text">Riwayat&nbsp;Login</span></a>
                             </li>
                             @endif
-                            
+
                             <!-- Nav Item - Informasi -->
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->is('information*')) ? 'active' : '' }}" href="{{url('information')}}">
@@ -423,7 +423,7 @@
             </nav>
             <!-- Header -->
             <div class="header bg-vine pb-6">
-                @include('message.flash-message') 
+                @include('message.flash-message')
                 <div class="container-fluid">
                     <div class="header-body">
                         <div class="row align-items-center py-4">
@@ -471,7 +471,7 @@
                 </div>
             </div>
         </div>
-        
+
         @yield('modal')
 
         <script>
@@ -479,7 +479,7 @@
                 $(".se-pre-con").fadeIn("slow").fadeOut("slow");
             });
         </script>
-        
+
         <!-- Argon Scripts -->
         <!-- Core -->
         <script src="{{asset('argon/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
@@ -499,12 +499,12 @@
 
         <!-- Argon JS -->
         <script src="{{asset('argon/js/argon.min.js')}}"></script>
-        
+
         <script src="{{asset('vendor/chart-js/Chart.min.js')}}"></script>
-        
+
         <!--for column table toggle-->
         @yield('js')
-        
+
         <script>
             $(document).ready(function() {
                 $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {

@@ -23,7 +23,7 @@ $(document).ready(function(){
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [2,3,4] }, 
+            { "bSortable": false, "aTargets": [2,3,4] },
             { "bSearchable": false, "aTargets": [2,3,4] }
         ],
         responsive:true,
@@ -35,7 +35,7 @@ $(document).ready(function(){
         drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
-                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');
             }
             setTimeout( function () {
                 $("[data-toggle='tooltip']").tooltip();
@@ -76,7 +76,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [2,3] }, 
+                    { "bSortable": false, "aTargets": [2,3] },
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
                 responsive:true,
@@ -88,7 +88,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -131,7 +131,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [2,3] }, 
+                    { "bSortable": false, "aTargets": [2,3] },
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
                 responsive:true,
@@ -143,7 +143,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -186,7 +186,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [2,3] }, 
+                    { "bSortable": false, "aTargets": [2,3] },
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
                 responsive:true,
@@ -198,7 +198,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -241,7 +241,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [2,3] }, 
+                    { "bSortable": false, "aTargets": [2,3] },
                     { "bSearchable": false, "aTargets": [2,3] }
                 ],
                 responsive:true,
@@ -253,7 +253,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -362,7 +362,7 @@ $(document).ready(function(){
             }
 		});
     });
-    
+
     $(document).on('click', '.edit', function(){
 		id = $(this).attr('id');
         $("#divPassword").hide();
@@ -396,7 +396,7 @@ $(document).ready(function(){
                 if(data.result.role == 'kasir'){
                     $("#roleKasir").prop("checked", true);
                 }
-                
+
 				$('#hidden_id').val(id);
 				$('.titles').text('Edit User');
 				$('#action_btn').val('Update');
@@ -502,7 +502,7 @@ $(document).ready(function(){
                     });
                     // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.errors + '</div>';
                 }
-                // $('#form_result').html(html);  
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -535,7 +535,7 @@ $(document).ready(function(){
             cache: true
         }
     });
-    
+
     $(document).on('click', '.otoritas', function(){
 		id = $(this).attr('id');
 		nama = $(this).attr('nama');
@@ -573,7 +573,7 @@ $(document).ready(function(){
                     var s1 = $("#blokOtoritas").select2();
                     var valBlok = data.result.bloks;
                     valBlok.forEach(function(e){
-                        if(!s1.find('option:contains(' + e + ')').length) 
+                        if(!s1.find('option:contains(' + e + ')').length)
                             s1.append($('<option>').text(e));
                     });
                     s1.val(valBlok).trigger("change");
@@ -601,7 +601,7 @@ $(document).ready(function(){
                     if(data.result.pedagang == true) $("#pedagang").prop("checked", true);
 
                     if(data.result.tempatusaha == true) $("#tempatusaha").prop("checked", true);
-                    
+
                     if(data.result.tagihan == true) $("#tagihan").prop("checked", true);
 
                     if(data.result.blok == true) $("#blok").prop("checked", true);
@@ -609,17 +609,17 @@ $(document).ready(function(){
                     if(data.result.pemakaian == true) $("#pemakaian").prop("checked", true);
 
                     if(data.result.pendapatan == true) $("#pendapatan").prop("checked", true);
-                    
+
                     if(data.result.tunggakan == true) $("#tunggakan").prop("checked", true);
 
                     if(data.result.datausaha == true) $("#datausaha").prop("checked", true);
-                    
+
                     if(data.result.publish == true) $("#publish").prop("checked", true);
 
                     if(data.result.alatmeter == true) $("#alatmeter").prop("checked", true);
-                    
+
                     if(data.result.tarif == true) $("#tarif").prop("checked", true);
-                    
+
                     if(data.result.harilibur == true) $("#harilibur").prop("checked", true);
 
                     if(data.result.layanan == true) $("#layanan").prop("checked", true);
@@ -706,7 +706,7 @@ $(document).ready(function(){
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-		$.ajax({       
+		$.ajax({
 			url: '/user/reset/' + reset_id,
             cache:false,
 			method:"POST",
@@ -751,18 +751,18 @@ $(document).ready(function(){
                     $('.alamat').text(data.result.alamat);
                 else
                     $('.alamat').html("&mdash;");
-                
+
                 if(data.result.hp !== null)
                     $('#whatsapp-number').attr("href", "https://api.whatsapp.com/send?phone=" + data.result.hp + "&text=*Selamat%20Berniaga%20Mitra%20BP3C*").attr("target", "_blank")
                     .css("pointer-events","").removeClass("btn-dark").addClass("btn-success");
                 else
                     $('#whatsapp-number').attr("href","#").removeAttr("target").css("pointer-events","none").removeClass("btn-success").addClass("btn-dark");
-                
+
                 if(data.result.email !== null)
                     $('#email-number').attr("href", "mailto:" + data.result.email).attr("target", "_blank").css("pointer-events","").removeClass("btn-dark").addClass("btn-danger");
                 else
                     $('#email-number').attr("href","#").removeAttr("target").css("pointer-events", "none").removeClass("btn-danger").addClass("btn-dark");
-                
+
                 $('#show-details').modal('show');
 			}
 		});

@@ -12,10 +12,10 @@
 <!-- <a href="#" class="btn btn-sm btn-neutral">New</a> -->
 @if(Session::get('role') == 'master')
 <div>
-    <button 
+    <button
         type="button"
         name="add_pedagang"
-        id="add_pedagang" 
+        id="add_pedagang"
         class="btn btn-sm btn-success">
         <i class="fas fa-fw fa-plus fa-sm text-white-50"></i> Pedagang</button>
     <a href="{{url('pedagang/generate')}}" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Generate" target="_blank"><i class="fas fa-fw fa-download text-white"></i></a>
@@ -156,7 +156,7 @@
                                     <select style="width:100%" class="alamatPemilik" name="alamatPemilik[]" id="alamatPemilik" multiple></select>
                                 </div>
                             </div>
-                            
+
                             <div class="form-check">
                                 <input
                                     class="form-check-input"

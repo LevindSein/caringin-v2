@@ -50,7 +50,7 @@ class LayananController extends Controller
         if(request()->ajax()){
 
         }
-        
+
         return view('layanan.alatmeter.riwayat');
     }
 
@@ -59,7 +59,7 @@ class LayananController extends Controller
             if($request->permohonan == 'enabled')
                 $data = TempatUsaha::orderBy('stt_bongkar','desc')->orderBy('kd_kontrol','asc')->get();
             else
-                $data = TempatUsaha::where('stt_bongkar','>',1)->orderBy('stt_bongkar','desc');
+                $data = TempatUsaha::where('stt_bongkar','>',3)->orderBy('stt_bongkar','desc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                         $button = '<button data-toggle="tooltip" data-original-title="Unduh Surat" name="surat" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="surat btn btn-sm btn-info">Surat</button>';
@@ -94,7 +94,7 @@ class LayananController extends Controller
         $dataset = TempatUsaha::find($id);
         $surat = $request->surat;
         $dataset['cetak'] = IndoDate::tanggal(date('Y-m-d',strtotime(Carbon::now())),' ')." ".date('H:i:s',strtotime(Carbon::now()));
-        
+
         if($surat == 'peringatan'){
             $surat = "Peringatan";
             $dataset['pengguna'] = Pedagang::find($dataset->id_pengguna)->nama;
@@ -111,7 +111,7 @@ class LayananController extends Controller
                 $expired = IndoDate::tanggal(date('Y-m-15',strtotime(Carbon::now())), ' ');
             else
                 $expired = IndoDate::tanggal(date("Y-m-15", strtotime("+1 month", strtotime(Carbon::now()))), ' ');
-            
+
             $pdf = PDF::loadview('layanan.bongkaran.surat.peringatan',['data' => $dataset, 'tagihan' => $tagihan, 'total' => $total, 'terbilang' => $terbilang, 'expired' => $expired]);
             return $pdf->download("surat-peringatan $kontrol.pdf");
         }
@@ -155,7 +155,7 @@ class LayananController extends Controller
         else{
             $surat = "Berita Acara";
             $dataset['pengguna'] = Pedagang::find($dataset->id_pengguna)->nama;
-            
+
             $date = date('Y-m-01', strtotime(Carbon::now()));
             $month = date('m', strtotime(Carbon::now()));
             $year = date('Y', strtotime(Carbon::now()));
@@ -173,7 +173,7 @@ class LayananController extends Controller
         try{
             $id = LevindCrypt::decryptString($id);
             $kontrol = TempatUsaha::find($id)->kd_kontrol;
-            
+
             // $tempat = TempatUsaha::find($id);
             // $tempat->stt_bongkar = 0;
             // $tempat->save();
@@ -195,7 +195,7 @@ class LayananController extends Controller
         $kontrol = TempatUsaha::find($id)->kd_kontrol;
 
         $dataset = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1]])->get();
-        
+
         foreach($dataset as $d){
             $d['bulan'] = IndoDate::bulanS($d->bln_tagihan, ' ');
         }

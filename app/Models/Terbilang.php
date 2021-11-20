@@ -33,17 +33,17 @@ class Terbilang extends Model
 			$temp = self::penyebut($nilai/1000000000) . " miliar" . self::penyebut(fmod($nilai,1000000000));
 		} else if ($nilai < 1000000000000000) {
 			$temp = self::penyebut($nilai/1000000000000) . " triliun" . self::penyebut(fmod($nilai,1000000000000));
-		}     
+		}
 		return $temp;
 	}
- 
+
 	public static function convert($nilai) {
         $penyebut = new Terbilang;
 		if($nilai < 0) {
 			$hasil = "minus ". trim($penyebut->penyebut($nilai)). " rupiah";
 		} else {
 			$hasil = trim($penyebut->penyebut($nilai)). " rupiah";
-		}     		
+		}
 		return $hasil;
 	}
 
