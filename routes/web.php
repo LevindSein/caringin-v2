@@ -261,6 +261,7 @@ Route::middleware('ceklogin:tagihan')->group(function (){
 Route::middleware('ceklogin:potensi')->group(function () {
     Route::post('potensi/tempatusaha/download',[PotensiController::class, 'tempatUsahaDownload']);
     Route::get('potensi/tempatusaha',[PotensiController::class, 'tempatUsaha']);
+
     Route::get('potensi/tagihan',[PotensiController::class, 'tagihan']);
 });
 

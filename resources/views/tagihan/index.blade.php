@@ -15,22 +15,22 @@
 
 @section('button')
 @if($agent->isDesktop())
-<a 
+<a
     href="{{url('tagihan')}}"
     class="btn btn-sm btn-success"
     data-toggle="tooltip" data-original-title="Home">
     <i class="fas fa-home text-white"></i>
 </a>
 @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->tagihan))
-<button 
+<button
     name="add_listrik"
-    id="add_listrik" 
+    id="add_listrik"
     class="btn btn-sm btn-warning">
     <i class="fas fa-plus text-white-50"></i>Listrik<span class="badge badge-pill badge-light badge-listrik"></span>
 </button>
-<button 
+<button
     name="add_air"
-    id="add_air" 
+    id="add_air"
     class="btn btn-sm btn-info">
     <i class="fas fa-plus text-white-50"></i>Air Bersih<span class="badge badge-pill badge-light badge-air"></span>
 </button>
@@ -54,7 +54,7 @@
     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myRefresh" type="button"><i class="fas fa-fw fa-sync-alt text-gray"></i><span>Refresh Tarif</span></a>
     <div class="dropdown-divider"></div>
     @endif
-    
+
     @if(Session::get('role') == 'master' || Session::get('role') == 'admin' && (Session::get('otoritas')->publish))
     <a class="dropdown-item publish" id="publish" href="#" data-toggle="modal" data-target="#publishModal" type="button"><i class="fas fa-fw fa-paper-plane text-gray"></i><span>Publish Tagihan</span></a>
     <a class="dropdown-item cancel-publish" id="cancel-publish" href="#" data-toggle="modal" data-target="#publishModal" type="button"><i class="far fa-fw fa-paper-plane text-gray"></i><span>Cancel Publish</span></a>
@@ -65,7 +65,7 @@
     <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myTempat"><i class="far fa-fw fa-file text-gray"></i><span>Form Tagihan</span></a>
     <a type="button" class="dropdown-item" href="{{url('tagihan/print')}}" target="_blank"><i class="far fa-fw fa-file text-gray"></i><span>Form Pendataan</span></a>
     <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPemberitahuan"><i class="fas fa-fw fa-exclamation text-gray"></i><span>Pemberitahuan</span></a>
-    
+
     @if(Session::get('role') == 'master')
     <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPembayaran"><i class="fas fa-fw fa-dollar-sign text-gray"></i><span>Pembayaran</span></a>
     @endif
@@ -725,7 +725,7 @@
                                 <label class="form-control-label" for="dayaListrik_manual">Daya Listrik</label>
                                 <input
                                     autocomplete="off"
-                                    type="text" 
+                                    type="text"
                                     pattern="^[\d,]+$"
                                     maxLength="10"
                                     name="dayaListrik_manual"
@@ -736,7 +736,7 @@
                                 <label class="form-control-label" for="awalListrik_manual">Stand Awal Listrik</label>
                                 <input
                                     autocomplete="off"
-                                    type="text" 
+                                    type="text"
                                     pattern="^[\d,]+$"
                                     maxLength="10"
                                     name="awalListrik_manual"
@@ -748,7 +748,7 @@
                                 <div class="input-group">
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         name="akhirListrik_manual"
                                         maxLength="10"
@@ -756,7 +756,7 @@
                                         id="akhirListrik_manual">
                                     <div class="input-group-prepend">
                                         <div class="col">
-                                            <input 
+                                            <input
                                                 class="input-group-text"
                                                 type="checkbox"
                                                 name="resetListrik_manual"
@@ -770,12 +770,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div id="manairbersih"> 
+                        <div id="manairbersih">
                             <div class="form-group col-lg-12">
                                 <label class="form-control-label" for="awalAirBersih_manual">Stand Awal Air</label>
                                 <input
                                     autocomplete="off"
-                                    type="text" 
+                                    type="text"
                                     pattern="^[\d,]+$"
                                     name="awalAirBersih_manual"
                                     maxLength="10"
@@ -787,7 +787,7 @@
                                 <div class="input-group">
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         name="akhirAirBersih_manual"
                                         maxLength="10"
@@ -795,7 +795,7 @@
                                         id="akhirAirBersih_manual">
                                     <div class="input-group-prepend">
                                         <div class="col">
-                                            <input 
+                                            <input
                                                 class="input-group-text"
                                                 type="checkbox"
                                                 name="resetAirBersih_manual"
@@ -816,9 +816,9 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
                                     </div>
-                                    <input 
+                                    <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="keamananIpk_manual"
@@ -835,7 +835,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="disKeamananIpk_manual"
@@ -857,7 +857,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="kebersihan_manual"
@@ -874,7 +874,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="disKebersihan_manual"
@@ -896,7 +896,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="airKotor_manual"
@@ -918,7 +918,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="lain_manual"
@@ -992,7 +992,7 @@
                                 <label class="form-control-label" for="dayaListrik_edit">Daya Listrik</label>
                                 <input
                                     autocomplete="off"
-                                    type="text" 
+                                    type="text"
                                     pattern="^[\d,]+$"
                                     maxLength="10"
                                     name="dayaListrik_edit"
@@ -1003,7 +1003,7 @@
                                 <label class="form-control-label" for="awalListrik_edit">Stand Awal Listrik</label>
                                 <input
                                     autocomplete="off"
-                                    type="text" 
+                                    type="text"
                                     pattern="^[\d,]+$"
                                     maxLength="10"
                                     name="awalListrik_edit"
@@ -1015,7 +1015,7 @@
                                 <div class="input-group">
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         name="akhirListrik_edit"
                                         maxLength="10"
@@ -1023,7 +1023,7 @@
                                         id="akhirListrik_edit">
                                     <div class="input-group-prepend">
                                         <div class="col">
-                                            <input 
+                                            <input
                                                 class="input-group-text"
                                                 type="checkbox"
                                                 name="resetListrik_edit"
@@ -1037,12 +1037,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div id="editAirBersih"> 
+                        <div id="editAirBersih">
                             <div class="form-group col-lg-12">
                                 <label class="form-control-label" for="awalAirBersih_edit">Stand Awal Air</label>
                                 <input
                                     autocomplete="off"
-                                    type="text" 
+                                    type="text"
                                     pattern="^[\d,]+$"
                                     name="awalAirBersih_edit"
                                     maxLength="10"
@@ -1054,7 +1054,7 @@
                                 <div class="input-group">
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         name="akhirAirBersih_edit"
                                         maxLength="10"
@@ -1062,7 +1062,7 @@
                                         id="akhirAirBersih_edit">
                                     <div class="input-group-prepend">
                                         <div class="col">
-                                            <input 
+                                            <input
                                                 class="input-group-text"
                                                 type="checkbox"
                                                 name="resetAirBersih_edit"
@@ -1083,9 +1083,9 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
                                     </div>
-                                    <input 
+                                    <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="keamananIpk_edit"
@@ -1102,7 +1102,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="disKeamananIpk_edit"
@@ -1124,7 +1124,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="kebersihan_edit"
@@ -1141,7 +1141,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="disKebersihan_edit"
@@ -1163,7 +1163,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="airKotor_edit"
@@ -1185,7 +1185,7 @@
                                     </div>
                                     <input
                                         autocomplete="off"
-                                        type="text" 
+                                        type="text"
                                         pattern="^[\d,]+$"
                                         maxLength="10"
                                         name="lain_edit"
@@ -1517,7 +1517,7 @@ $(document).ready(function(){
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [9,10] }, 
+            { "bSortable": false, "aTargets": [9,10] },
             { "bSearchable": false, "aTargets": [9,10] }
         ],
         pageLength: 5,
@@ -1533,7 +1533,7 @@ $(document).ready(function(){
         "drawCallback": function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
-                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');
             }
             setTimeout( function () {
                 $("[data-toggle='tooltip']").tooltip();
@@ -1541,7 +1541,7 @@ $(document).ready(function(){
         },
     });
     <?php } ?>
-    
+
     <?php if($agent->isDesktop() == false){ ?>
     var dtable = $('#tabelTagihan').DataTable({
 		serverSide: true,
@@ -1567,7 +1567,7 @@ $(document).ready(function(){
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [2,3] }, 
+            { "bSortable": false, "aTargets": [2,3] },
             { "bSearchable": false, "aTargets": [2,3] }
         ],
         responsive: true,
@@ -1579,7 +1579,7 @@ $(document).ready(function(){
         "drawCallback": function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
-                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');
             }
             setTimeout( function () {
                 $("[data-toggle='tooltip']").tooltip();
@@ -1629,16 +1629,16 @@ $(document).ready(function(){
 
                 if(data.result.stt_airbersih === null)
                     $('#checkAirBersih').prop("disabled",true);
-                
+
                 if(data.result.stt_keamananipk === null)
                     $('#checkKeamananIpk').prop("disabled",true);
-                    
+
                 if(data.result.stt_kebersihan === null)
                     $('#checkKebersihan').prop("disabled",true);
-                    
+
                 if(data.result.stt_airkotor === null)
                     $('#checkAirKotor').prop("disabled",true);
-                
+
                 if(data.result.stt_lain === null)
                     $('#checkLain').prop("disabled",true);
             }
@@ -1682,7 +1682,7 @@ $(document).ready(function(){
                     });
                     // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
                 }
-                // $('#form_result').html(html);     
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -1804,7 +1804,7 @@ $(document).ready(function(){
                 if(data.errors){
                     $("#myManualCheck").modal("hide");
                     html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.errors + '</div>';
-                    $('#form_result').html(html);     
+                    $('#form_result').html(html);
                     $("#success-alert,#error-alert,#info-alert,#warning-alert")
                         .fadeTo(1500, 750)
                         .slideUp(1500, function () {
@@ -1865,8 +1865,8 @@ $(document).ready(function(){
                             var awal = $('#awalListrik_manual').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                        
+                            awal = parseInt(awal);
+
                             var akhir = $('#akhirListrik_manual').val();
                             akhir = akhir.split(',');
                             akhir = akhir.join('');
@@ -1897,13 +1897,13 @@ $(document).ready(function(){
                             var awal = $('#awalListrik_manual').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                        
+                            awal = parseInt(awal);
+
                             var akhir = $('#akhirListrik_manual').val();
                             akhir = akhir.split(',');
                             akhir = akhir.join('');
                             akhir = parseInt(akhir);
-                            
+
                             if(this.checked) {
                                 if(daya > 0){
                                     listrik = 1;
@@ -1925,7 +1925,7 @@ $(document).ready(function(){
                     else{
                         listrik = 1;
                     }
-                    
+
                     if(data.result.airbersih){
                         $("#manairbersih").show();
                         $("#awalAirBersih_manual").prop("required", true);
@@ -1944,7 +1944,7 @@ $(document).ready(function(){
                                 'input',
                                 event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
                             );
-                        
+
                         $("#akhirAirBersih_manual,#awalAirBersih_manual").on("change paste keyup", function() {
                             var akhir = $('#akhirAirBersih_manual').val();
                             akhir = akhir.split(',');
@@ -1954,8 +1954,8 @@ $(document).ready(function(){
                             var awal = $('#awalAirBersih_manual').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                            
+                            awal = parseInt(awal);
+
                             if(akhir >= awal){
                                 airbersih = 1;
                             }
@@ -1973,13 +1973,13 @@ $(document).ready(function(){
                             var awal = $('#awalAirBersih_manual').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                        
+                            awal = parseInt(awal);
+
                             var akhir = $('#akhirAirBersih_manual').val();
                             akhir = akhir.split(',');
                             akhir = akhir.join('');
                             akhir = parseInt(akhir);
-                            
+
                             if(this.checked) {
                                 airbersih = 1;
                             }
@@ -2025,8 +2025,8 @@ $(document).ready(function(){
                             var awal = $('#disKeamananIpk_manual').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                            
+                            awal = parseInt(awal);
+
                             if(akhir >= awal){
                                 keamananipk = 1;
                             }
@@ -2044,7 +2044,7 @@ $(document).ready(function(){
                         $("#kebersihan_manual").prop("required", true);
                         $("#disKebersihan_manual").prop("required", true);
                         $("#stt_kebersihan").val(1);
-                        
+
                         document
                             .getElementById('kebersihan_manual')
                             .addEventListener(
@@ -2067,8 +2067,8 @@ $(document).ready(function(){
                             var awal = $('#disKebersihan_manual').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                            
+                            awal = parseInt(awal);
+
                             if(akhir >= awal){
                                 kebersihan = 1;
                             }
@@ -2168,7 +2168,7 @@ $(document).ready(function(){
                 }
             }
         })
-    });    
+    });
 
     $('#form_manual').on('submit', function(event){
 		event.preventDefault();
@@ -2200,7 +2200,7 @@ $(document).ready(function(){
 			}
 		});
     });
-    
+
     $(document).on('click', '.edit', function(){
 		id = $(this).attr('id');
         $('#hidden_id').val(id);
@@ -2294,8 +2294,8 @@ $(document).ready(function(){
                         var awal = $('#awalListrik_edit').val();
                         awal = awal.split(',');
                         awal = awal.join('');
-                        awal = parseInt(awal); 
-                    
+                        awal = parseInt(awal);
+
                         var akhir = $('#akhirListrik_edit').val();
                         akhir = akhir.split(',');
                         akhir = akhir.join('');
@@ -2326,8 +2326,8 @@ $(document).ready(function(){
                             var awal = $('#awalListrik_edit').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                        
+                            awal = parseInt(awal);
+
                             var akhir = $('#akhirListrik_edit').val();
                             akhir = akhir.split(',');
                             akhir = akhir.join('');
@@ -2358,13 +2358,13 @@ $(document).ready(function(){
                             var awal = $('#awalListrik_edit').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                        
+                            awal = parseInt(awal);
+
                             var akhir = $('#akhirListrik_edit').val();
                             akhir = akhir.split(',');
                             akhir = akhir.join('');
                             akhir = parseInt(akhir);
-                            
+
                             if(this.checked) {
                                 if(daya > 0){
                                     listrik = 1;
@@ -2430,8 +2430,8 @@ $(document).ready(function(){
                         var awal = $('#awalAirBersih_edit').val();
                         awal = awal.split(',');
                         awal = awal.join('');
-                        awal = parseInt(awal); 
-                        
+                        awal = parseInt(awal);
+
                         if(akhir >= awal){
                             airbersih = 1;
                         }
@@ -2444,7 +2444,7 @@ $(document).ready(function(){
                                 airbersih = 0;
                             }
                         }
-                        
+
                         $("#akhirAirBersih_edit,#awalAirBersih_edit").on("change paste keyup", function() {
                             var akhir = $('#akhirAirBersih_edit').val();
                             akhir = akhir.split(',');
@@ -2454,8 +2454,8 @@ $(document).ready(function(){
                             var awal = $('#awalAirBersih_edit').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                            
+                            awal = parseInt(awal);
+
                             if(akhir >= awal){
                                 airbersih = 1;
                             }
@@ -2473,13 +2473,13 @@ $(document).ready(function(){
                             var awal = $('#awalAirBersih_edit').val();
                             awal = awal.split(',');
                             awal = awal.join('');
-                            awal = parseInt(awal); 
-                        
+                            awal = parseInt(awal);
+
                             var akhir = $('#akhirAirBersih_edit').val();
                             akhir = akhir.split(',');
                             akhir = akhir.join('');
                             akhir = parseInt(akhir);
-                            
+
                             if(this.checked) {
                                 airbersih = 1;
                             }
@@ -2539,8 +2539,8 @@ $(document).ready(function(){
                     var awal = $('#disKeamananIpk_edit').val();
                     awal = awal.split(',');
                     awal = awal.join('');
-                    awal = parseInt(awal); 
-                    
+                    awal = parseInt(awal);
+
                     if(akhir >= awal){
                         keamananipk = 1;
                     }
@@ -2557,8 +2557,8 @@ $(document).ready(function(){
                         var awal = $('#disKeamananIpk_edit').val();
                         awal = awal.split(',');
                         awal = awal.join('');
-                        awal = parseInt(awal); 
-                        
+                        awal = parseInt(awal);
+
                         if(akhir >= awal){
                             keamananipk = 1;
                         }
@@ -2578,7 +2578,7 @@ $(document).ready(function(){
                     $("#kebersihan_edit").prop("required", true);
                     $("#disKebersihan_edit").prop("required", true);
                     $("#edit_kebersihan").val(1);
-                    
+
                     document
                         .getElementById('kebersihan_edit')
                         .addEventListener(
@@ -2600,8 +2600,8 @@ $(document).ready(function(){
                     var awal = $('#disKebersihan_edit').val();
                     awal = awal.split(',');
                     awal = awal.join('');
-                    awal = parseInt(awal); 
-                    
+                    awal = parseInt(awal);
+
                     if(akhir >= awal){
                         kebersihan = 1;
                     }
@@ -2618,8 +2618,8 @@ $(document).ready(function(){
                         var awal = $('#disKebersihan_edit').val();
                         awal = awal.split(',');
                         awal = awal.join('');
-                        awal = parseInt(awal); 
-                        
+                        awal = parseInt(awal);
+
                         if(akhir >= awal){
                             kebersihan = 1;
                         }

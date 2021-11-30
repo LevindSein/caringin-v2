@@ -386,6 +386,10 @@ $(document).ready(function(){
                     $('#ketStatus').show();
                     $('#ket_tempat').val(data.result.ket_tempat);
                 }
+                else if(data.result.stt_tempat == 3){
+                    $("#myStatus3").prop("checked", true);
+                    $('#ketStatus').hide();
+                }
 
                 if(data.result.trf_airbersih !== null || data.result.meterAirId !== null){
                     if(data.result.trf_airbersih !== null){
@@ -909,6 +913,15 @@ $(document).ready(function(){
             document
                 .getElementById('ket_tempat')
                 .required = true;
+        }
+        else if ($('#myStatus3').is(':checked')) {
+            document
+                .getElementById('ketStatus')
+                .style
+                .display = 'none';
+            document
+                .getElementById('ket_tempat')
+                .required = false;
         }
         else {
             document

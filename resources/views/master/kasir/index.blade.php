@@ -103,7 +103,7 @@
                     <div class="form-group col-lg-12">
                         <input
                             required
-                            placeholder="Masukkan Tanggal Penerimaan" 
+                            placeholder="Masukkan Tanggal Penerimaan"
                             class="form-control"
                             autocomplete="off"
                             type="date"
@@ -195,7 +195,7 @@ $(document).ready(function () {
         drawCallback: function( settings ) {
             $(".dataTables_scrollBody").scrollTop(scrollPosition);
             if(typeof rowIndex != 'undefined') {
-                dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                dtable.row(rowIndex).nodes().to$().addClass('row_selected');
             }
             $('[data-toggle="tooltip"]').tooltip();
         },
@@ -212,7 +212,7 @@ $(document).ready(function () {
             $('#refresh-img').hide();
         }, 2000);
     });
-    
+
     var restore_id
     $(document).on('click', '.restore', function(){
 		restore_id = $(this).attr('id');
@@ -228,7 +228,7 @@ $(document).ready(function () {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-		$.ajax({       
+		$.ajax({
 			url: "/master/kasir/restore/" + restore_id,
             cache:false,
 			method:"POST",
@@ -281,7 +281,7 @@ $(document).ready(function () {
     });
 
     $("#sebagian").prop('required',false);
-            
+
     $('#sebagian').select2({
         placeholder: '--- Pilih Blok ---',
         ajax: {

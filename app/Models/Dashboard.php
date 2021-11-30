@@ -61,21 +61,21 @@ class Dashboard extends Model
             else{
                 $ttl_keamananipk = $data[0]->keamananipk;
             }
-            
+
             if($data[0]->kebersihan == NULL){
                 $ttl_kebersihan = 0;
             }
             else{
                 $ttl_kebersihan = $data[0]->kebersihan;
             }
-            
+
             $listrik[$j] = $ttl_listrik;
             $airbersih[$j] = $ttl_airbersih;
             $keamananipk[$j] = $ttl_keamananipk;
             $kebersihan[$j] = $ttl_kebersihan;
             $j++;
         }
-        
+
         return array($listrik,$airbersih,$keamananipk,$kebersihan);
     }
 
@@ -122,7 +122,7 @@ class Dashboard extends Model
             else{
                 $ttl_selisih = $data[0]->selisih;
             }
-            
+
             $tagihan[$j] = $ttl_tagihan;
             $realisasi[$j] = $ttl_realisasi;
             $selisih[$j] = $ttl_selisih;
@@ -178,13 +178,13 @@ class Dashboard extends Model
             else{
                 $ttl_selisih = $ttl_selisih + $data[0]->selisih;
             }
-            
+
             $tagihanAku[$j] = $ttl_tagihan;
             $realisasiAku[$j] = $ttl_realisasi;
             $selisihAku[$j] = $ttl_selisih;
             $j++;
         }
-        
+
         return array($tagihanAku,$realisasiAku,$selisihAku);
     }
 
@@ -211,7 +211,7 @@ class Dashboard extends Model
 
         return $realisasi[0]->realisasi;
     }
-    
+
     public static function reaKebersihan($thn){
         $realisasi = Tagihan::where('thn_tagihan',$thn)
         ->select(DB::raw('SUM(rea_kebersihan) as realisasi'))
@@ -219,7 +219,7 @@ class Dashboard extends Model
 
         return $realisasi[0]->realisasi;
     }
-    
+
     public static function selAirBersih($thn){
         $selisih = Tagihan::where('thn_tagihan',$thn)
         ->select(DB::raw('SUM(sel_airbersih) as selisih'))
@@ -235,7 +235,7 @@ class Dashboard extends Model
 
         return $selisih[0]->selisih;
     }
-    
+
     public static function selKeamananIpk($thn){
         $selisih = Tagihan::where('thn_tagihan',$thn)
         ->select(DB::raw('SUM(sel_keamananipk) as selisih'))
@@ -243,7 +243,7 @@ class Dashboard extends Model
 
         return $selisih[0]->selisih;
     }
-    
+
     public static function selKebersihan($thn){
         $selisih = Tagihan::where('thn_tagihan',$thn)
         ->select(DB::raw('SUM(sel_kebersihan) as selisih'))
