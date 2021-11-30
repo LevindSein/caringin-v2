@@ -655,6 +655,10 @@ $(document).ready(function(){
                     $('.status').html("<span style='color:red;'>Pasif</span");
                     $('.keterangan').text(data.result.ket_tempat);
                 }
+                else if(data.result.stt_tempat == 3){
+                    $('.status').html("<span style='color:blue;'>Bebas Bayar</span");
+                    $('.keterangan').html("&mdash;");
+                }
 
                 //Fasilitas
                 if(data.result.faslistrik != null){
@@ -811,6 +815,8 @@ $(document).ready(function(){
                     html +=         '<span class="heading" style="font-size:.875rem;color:green">Aktif</span>';
                     if(data.result.rincian[i].stt_tempat == 2)
                     html +=         '<span class="heading" style="font-size:.875rem;color:red">Pasif</span>';
+                    if(data.result.rincian[i].stt_tempat == 3)
+                    html +=         '<span class="heading" style="font-size:.875rem;color:blue">Bebas</span>';
                     html +=     '</div>';
                     html +=     '<div>';
                     html +=         '<span class="heading" style="font-size:.875rem;">' + pengguna + '</span>';

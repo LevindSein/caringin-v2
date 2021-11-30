@@ -25,6 +25,9 @@ use App\Http\Controllers\TempatController;
 //Tagihan
 use App\Http\Controllers\TagihanController;
 
+//Potensi
+use App\Http\Controllers\PotensiController;
+
 //Laporan
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PendapatanController;
@@ -253,6 +256,12 @@ Route::middleware('ceklogin:tagihan')->group(function (){
     Route::get('tagihan/sync/initiate',[TagihanController::class, 'initiate']);
     Route::get('tagihan/sync/badge',[TagihanController::class, 'badge']);
     Route::get('tagihan', [TagihanController::class, 'index'])->name('tagihan');
+});
+
+Route::middleware('ceklogin:potensi')->group(function () {
+    Route::post('potensi/tempatusaha/download',[PotensiController::class, 'tempatUsahaDownload']);
+    Route::get('potensi/tempatusaha',[PotensiController::class, 'tempatUsaha']);
+    Route::get('potensi/tagihan',[PotensiController::class, 'tagihan']);
 });
 
 Route::middleware('ceklogin:pemakaian')->group(function(){

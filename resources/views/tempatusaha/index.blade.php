@@ -576,6 +576,17 @@
                                     class="form-control"
                                     placeholder="Jelaskan Kondisi Tempat">
                             </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="status"
+                                    id="myStatus3"
+                                    value="3">
+                                <label class="form-control-label" for="myStatus3">
+                                    Bebas Bayar
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

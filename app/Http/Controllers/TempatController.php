@@ -85,6 +85,8 @@ class TempatController extends Controller
                         return '<span style="color:green;">'.$data->kd_kontrol.'</span>';
                     else if($data->stt_tempat == 2)
                         return '<span style="color:red;">'.$data->kd_kontrol.'</span>';
+                    else if($data->stt_tempat == 3)
+                        return '<span style="color:blue;">'.$data->kd_kontrol.'</span>';
                     else
                         return '<span>'.$data->kd_kontrol.'</span>';
                 })
@@ -332,6 +334,9 @@ class TempatController extends Controller
                 else if($stt_tempat == "2"){
                     $tempat->stt_tempat = 2;
                     $tempat->ket_tempat = $request->ket_tempat;
+                }
+                else if($stt_tempat == "3"){
+                    $tempat->stt_tempat = 3;
                 }
 
                 //Save Record Tempat Usaha Baru
@@ -795,6 +800,10 @@ class TempatController extends Controller
                 else if($stt_tempat == "2"){
                     $tempat->stt_tempat = 2;
                     $tempat->ket_tempat = $request->ket_tempat;
+                }
+                else if($stt_tempat == "3"){
+                    $tempat->stt_tempat = 3;
+                    $tempat->ket_tempat = NULL;
                 }
 
                 //Save Record Tempat Usaha Baru

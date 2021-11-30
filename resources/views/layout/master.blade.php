@@ -214,6 +214,30 @@
                                     <span class="nav-link-text">Tagihan</span></a>
                             </li>
                             @endif
+
+                            @if(Session::get('role') == 'master')
+                            <!-- Nav Item - Laporan -->
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request()->is('potensi/*')) ? 'active' : '' }}" href="#navbar-potensi" data-toggle="collapse" role="button" aria-expanded="{{ (request()->is('potensi/*')) ? 'true' : 'false' }}" aria-controls="navbar-potensi">
+                                    <i class="fad fa-rocket text-success"></i>
+                                    <span class="nav-link-text">Potensi</span>
+                                </a>
+                                <div class="collapse {{ (request()->is('potensi/*')) ? 'show' : '' }}" id="navbar-potensi">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            @if(Session::get('role') == 'master')
+                                            <a class="nav-link {{ (request()->is('potensi/tempatusaha')) ? 'text-teal' : '' }}" href="{{url('potensi/tempatusaha')}}">Tempat Usaha</a>
+                                            @endif
+                                        </li>
+                                        <li class="nav-item">
+                                            @if(Session::get('role') == 'master')
+                                            <a class="nav-link {{ (request()->is('potensi/tagihan')) ? 'text-teal' : '' }}" href="{{url('potensi/tagihan')}}">Tagihan</a>
+                                            @endif
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            @endif
                         </ul>
                         <!-- Divider -->
                         <hr class="my-3">
