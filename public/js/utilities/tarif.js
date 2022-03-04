@@ -83,7 +83,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [0,4] }, 
+                    { "bSortable": false, "aTargets": [0,4] },
                     { "bSearchable": false, "aTargets": [0,4] }
                 ],
                 responsive:true,
@@ -95,7 +95,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -138,7 +138,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [0,2] }, 
+                    { "bSortable": false, "aTargets": [0,2] },
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
                 responsive:true,
@@ -150,7 +150,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -193,7 +193,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [0,2] }, 
+                    { "bSortable": false, "aTargets": [0,2] },
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
                 responsive:true,
@@ -205,7 +205,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -248,7 +248,7 @@ $(document).ready(function(){
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [0,2] }, 
+                    { "bSortable": false, "aTargets": [0,2] },
                     { "bSearchable": false, "aTargets": [0,2] }
                 ],
                 responsive:true,
@@ -260,7 +260,7 @@ $(document).ready(function(){
                 drawCallback: function( settings ) {
                     $(".dataTables_scrollBody").scrollTop(scrollPosition);
                     if(typeof rowIndex != 'undefined') {
-                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');                       
+                        dtable.row(rowIndex).nodes().to$().addClass('row_selected');
                     }
                     setTimeout( function () {
                         $("[data-toggle='tooltip']").tooltip();
@@ -280,11 +280,11 @@ $(document).ready(function(){
             });
         }
     });
-    
+
     $("#tab-c-0").click(function(){
         $('#div-refresh').hide();
     });
-    
+
     $("#tab-c-1").click(function(){
         $('#div-refresh').hide();
     });
@@ -296,11 +296,11 @@ $(document).ready(function(){
 		$('#form_result').html('');
         $('#form_tarif')[0].reset();
         $('#myModal').modal('show');
-        
+
         $('input[id="myCheck1"]').attr('disabled',false);
         $('input[id="myCheck2"]').attr('disabled',false);
         $('input[id="myCheck3"]').attr('disabled',false);
-        $('input[id="myCheck5"]').attr('disabled',false); 
+        $('input[id="myCheck5"]').attr('disabled',false);
 
         $("#checkKeamananIpk").prop("checked", false);
         $("#displayKeamananIpk").hide();
@@ -323,7 +323,7 @@ $(document).ready(function(){
         id = $(this).attr('id');
         fas = $(this).attr('fas');
         $('#form_result').html('');
-        
+
         $('#keamananIpk').prop('required',false);
         $('#prs_keamanan').prop('required',false);
         $('#prs_ipk').prop('required',false);
@@ -341,15 +341,15 @@ $(document).ready(function(){
                     $('input[id="myCheck1"]').attr('disabled',false).prop("checked", true);
                     $('input[id="myCheck2"]').attr('disabled',true).prop("checked", false);
                     $('input[id="myCheck3"]').attr('disabled',true).prop("checked", false);
-                    $('input[id="myCheck5"]').attr('disabled',true).prop("checked", false);  
-                    
+                    $('input[id="myCheck5"]').attr('disabled',true).prop("checked", false);
+
                     $("#displayKeamananIpk").show();
                     $("#displayKebersihan").hide();
                     $("#displayAirKotor").hide();
                     $("#displayLain").hide();
 
                     $('#keamananIpk').val(data.result.keamananipk);
-                    
+
                     $('#prs_keamanan').val(data.result.prs_keamanan);
                     $('#prs_ipk').val(data.result.prs_ipk);
                 }
@@ -358,13 +358,13 @@ $(document).ready(function(){
                     $('input[id="myCheck1"]').attr('disabled',true).prop("checked", false);
                     $('input[id="myCheck2"]').attr('disabled',false).prop("checked", true);
                     $('input[id="myCheck3"]').attr('disabled',true).prop("checked", false);
-                    $('input[id="myCheck5"]').attr('disabled',true).prop("checked", false);  
-                    
+                    $('input[id="myCheck5"]').attr('disabled',true).prop("checked", false);
+
                     $("#displayKeamananIpk").hide();
                     $("#displayKebersihan").show();
                     $("#displayAirKotor").hide();
                     $("#displayLain").hide();
-                    
+
                     $('#kebersihan').val(data.result);
                 }
 
@@ -372,8 +372,8 @@ $(document).ready(function(){
                     $('input[id="myCheck1"]').attr('disabled',true).prop("checked", false);
                     $('input[id="myCheck2"]').attr('disabled',true).prop("checked", false);
                     $('input[id="myCheck3"]').attr('disabled',false).prop("checked", true);
-                    $('input[id="myCheck5"]').attr('disabled',true).prop("checked", false);  
-                    
+                    $('input[id="myCheck5"]').attr('disabled',true).prop("checked", false);
+
                     $("#displayKeamananIpk").hide();
                     $("#displayKebersihan").hide();
                     $("#displayAirKotor").show();
@@ -386,16 +386,16 @@ $(document).ready(function(){
                     $('input[id="myCheck1"]').attr('disabled',true).prop("checked", false);
                     $('input[id="myCheck2"]').attr('disabled',true).prop("checked", false);
                     $('input[id="myCheck3"]').attr('disabled',true).prop("checked", false);
-                    $('input[id="myCheck5"]').attr('disabled',false).prop("checked", true);  
-                    
+                    $('input[id="myCheck5"]').attr('disabled',false).prop("checked", true);
+
                     $("#displayKeamananIpk").hide();
                     $("#displayKebersihan").hide();
                     $("#displayAirKotor").hide();
                     $("#displayLain").show();
-                    
+
                     $('#lain').val(data.result);
                 }
-                
+
 				$('#hidden_id').val(id);
 				$('.titles').text('Edit Tarif');
 				$('#action_btn').val('Update');
@@ -546,7 +546,7 @@ $(document).ready(function(){
                     });
                     // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.errors + '</div>';
                 }
-                // $('#form_result').html(html);   
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -573,7 +573,7 @@ $(document).ready(function(){
     $('input[type="checkbox"]')
         .click(evaluate)
         .each(evaluate);
-    
+
     document
         .getElementById('keamananIpk')
         .addEventListener(
@@ -625,7 +625,7 @@ $(document).ready(function(){
         .click(checkKeamananIpk)
         .each(checkKeamananIpk);
 
-    
+
     function checkKebersihan() {
         if ($('#myCheck2').is(':checked')) {
             document
@@ -708,7 +708,7 @@ $(document).ready(function(){
         event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
     );
 
-    
+
     document
     .getElementById('blok1')
     .addEventListener(
@@ -739,7 +739,7 @@ $(document).ready(function(){
         'input',
         event => event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
     );
-    
+
     $('#rekmin').keypress(function(event) {
         if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
             event.preventDefault();

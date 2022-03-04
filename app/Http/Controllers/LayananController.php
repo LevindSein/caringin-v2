@@ -59,7 +59,7 @@ class LayananController extends Controller
             if($request->permohonan == 'enabled')
                 $data = TempatUsaha::orderBy('stt_bongkar','desc')->orderBy('kd_kontrol','asc')->get();
             else
-                $data = TempatUsaha::where('stt_bongkar','>',3)->orderBy('stt_bongkar','desc');
+                $data = TempatUsaha::where('stt_bongkar','>=',2)->orderBy('stt_bongkar','desc');
             return DataTables::of($data)
                 ->addColumn('action', function($data){
                         $button = '<button data-toggle="tooltip" data-original-title="Unduh Surat" name="surat" id="'.LevindCrypt::encryptString($data->id).'" nama="'.$data->kd_kontrol.'" class="surat btn btn-sm btn-info">Surat</button>';

@@ -24,7 +24,7 @@ $(document).ready(function () {
             }
         },
         aoColumnDefs: [
-            { "bSortable": false, "aTargets": [5] }, 
+            { "bSortable": false, "aTargets": [5] },
             { "bSearchable": false, "aTargets": [5] }
         ],
         responsive:true,
@@ -67,7 +67,7 @@ $(document).ready(function () {
                     }
                 },
                 aoColumnDefs: [
-                    { "bSortable": false, "aTargets": [4] }, 
+                    { "bSortable": false, "aTargets": [4] },
                     { "bSearchable": false, "aTargets": [4] }
                 ],
                 responsive:true,
@@ -85,7 +85,7 @@ $(document).ready(function () {
             });
         }
     });
-    
+
     setInterval(function(){ dtable.ajax.reload(function(){console.log("Refresh Automatic")}, false); }, 60000);
     $('#refresh').click(function(){
         $('#refresh-img').show();
@@ -141,7 +141,7 @@ $(document).ready(function () {
                     $("#standListrik").prop('required',false);
                     $("#dayaListrik").prop('required',false);
                 }
-                
+
 				$('#hidden_id').val(id);
 				$('.titles').text('Edit Alat');
 				$('#action_btn').val('Update');
@@ -281,7 +281,7 @@ $(document).ready(function () {
                     });
                     // html = '<div class="alert alert-danger" id="error-alert"> <strong>Oops! </strong>' + data.result.errors + '</div>';
                 }
-                // $('#form_result').html(html);   
+                // $('#form_result').html(html);
                 $("#success-alert,#error-alert,#info-alert,#warning-alert")
                     .fadeTo(1000, 500)
                     .slideUp(1000, function () {
@@ -320,10 +320,10 @@ $(document).ready(function () {
     $('input[type="radio"]')
         .click(statusMeter)
         .each(statusMeter);
-    
+
     $('#myModal').on('shown.bs.modal', function () {
         $('#nomor').trigger('focus');
-    }); 
+    });
 
     document
         .getElementById('standAir')

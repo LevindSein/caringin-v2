@@ -112,7 +112,7 @@ class AlatController extends Controller
                 $nomor = $request->nomor;
                 $nomor = strtoupper($nomor);
             }
-            
+
             $dataset = array();
             $kode = str_shuffle('0123456789');
             $kode = substr($kode,0,5);
@@ -151,7 +151,7 @@ class AlatController extends Controller
                 $dataset['status'] = 'success';
                 $dataset['message'] = 'Data Berhasil Ditambah';
                 $dataset['role'] = $role;
-                return response()->json(['result' => $dataset]);  
+                return response()->json(['result' => $dataset]);
             }
             catch(\Exception $e){
                 $dataset['status'] = 'error';
@@ -207,7 +207,7 @@ class AlatController extends Controller
                 $nomor = $request->nomor;
                 $nomor = strtoupper($nomor);
             }
-            
+
             $dataset = array();
 
             try{
@@ -239,7 +239,7 @@ class AlatController extends Controller
                 $dataset['status'] = 'success';
                 $dataset['message'] = 'Data Berhasil Diupdate';
                 $dataset['role'] = $role;
-                return response()->json(['result' => $dataset]);  
+                return response()->json(['result' => $dataset]);
             }
             catch(\Exception $e){
                 $dataset['status'] = 'error';

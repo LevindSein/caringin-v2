@@ -23,7 +23,7 @@ class BongkaranExport implements FromView
         $today = Carbon::now();
         $today = strtotime($today);
 
-        $dataset = TempatUsaha::where('stt_bongkar','>',3)->orderBy('stt_bongkar','desc')->orderBy('kd_kontrol','asc')->get();
+        $dataset = TempatUsaha::where('stt_bongkar','>=',2)->orderBy('kd_kontrol','asc')->orderBy('stt_bongkar','desc')->get();
         foreach ($dataset as $d){
             $data = Tagihan::where([['kd_kontrol',$d->kd_kontrol],['stt_lunas',0],['stt_publish',1]])->select('sel_tagihan','bln_tagihan')->get();
             $tagihan = 0;
