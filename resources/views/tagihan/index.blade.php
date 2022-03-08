@@ -62,6 +62,7 @@
     @endif
 
     <a class="dropdown-item cari-periode" href="#" type="button"><i class="fas fa-fw fa-search text-gray"></i><span>Cari Periode</span></a>
+    <a id="data-tunggakan" class="dropdown-item" href="javascript:void(0)" type="button"><i class="far fa-fw fa-file text-gray"></i><span>Data Tunggakan</span></a>
     <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myTempat"><i class="far fa-fw fa-file text-gray"></i><span>Form Tagihan</span></a>
     <a type="button" class="dropdown-item" href="{{url('tagihan/print')}}" target="_blank"><i class="far fa-fw fa-file text-gray"></i><span>Form Pendataan</span></a>
     <a type="button" class="dropdown-item" href="#" data-toggle="modal" data-target="#myPemberitahuan"><i class="fas fa-fw fa-exclamation text-gray"></i><span>Pemberitahuan</span></a>
@@ -1484,6 +1485,7 @@
 @endsection
 
 @section('js')
+@include('tagihan.modal._data-tunggakan')
 <script>
 $(document).ready(function(){
     <?php if($agent->isDesktop()){ ?>

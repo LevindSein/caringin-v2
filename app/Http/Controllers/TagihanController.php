@@ -2616,4 +2616,46 @@ class TagihanController extends Controller
 
         $tagihan->save();
     }
+
+    public function dataTunggakan(Request $request){
+        $blok = strtoupper($request->blok_tunggakan);
+
+        $dari = $request->tahun_dari_tunggakan."-".$request->bulan_dari_tunggakan;
+        $bulan_dari = IndoDate::bulan($dari, ' ');
+
+        $ke = $request->tahun_ke_tunggakan."-".$request->bulan_ke_tunggakan;
+        $bulan_ke = IndoDate::bulan($ke, ' ');
+
+        if(strtotime($dari) > strtotime($ke)){
+            $c = $dari;
+            $bulan_c = $bulan_dari;
+
+            $dari = $ke;
+            $bulan_dari = $bulan_ke;
+
+            $ke = $c;
+            $bulan_ke = $bulan_c;
+        }
+
+        if($blok == 'SEMUA'){
+            $data = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
+            ->where('stt_lunas', 0)
+            ->get();
+        }
+        else{
+            $data = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
+            ->where([
+                ['stt_lunas', 0],
+                ['blok', $blok]
+            ])
+            ->get();
+        }
+
+        return view("tagihan.tunggakan.index", [
+            'blok' => $blok,
+            'dari' => $bulan_dari,
+            'ke'   => $bulan_ke,
+            'data' => $data
+        ]);
+    }
 }
