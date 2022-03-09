@@ -499,6 +499,19 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input
+                                checked
+                                class="form-check-input"
+                                type="checkbox"
+                                name="pemberitahuan_tunggakan"
+                                id="pemberitahuan-tunggakan">
+                            <label class="form-control-label" for="pemberitahuan-tunggakan">
+                                Print Pemberitahuan Tunggakan
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Cetak" />

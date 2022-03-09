@@ -1,3 +1,7 @@
+@php
+    use App\Models\IndoDate;
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,7 +17,7 @@
                 <thead>
                     <tr>
                         <th colspan="10" style="border-style:none;">
-                            <h2>DATA TUNGGAKAN</h2>
+                            <h2>RINCIAN DATA TUNGGAKAN</h2>
                             <h3>{{$blok}}</h3>
                             <h4>{{$dari}} s.d {{$ke}}</h4>
                         </th>
@@ -39,7 +43,6 @@
                     $airkotor=0;
                     $lain=0;
                     $total=0;
-                    use App\Models\IndoDate;
                     ?>
                     @foreach($data as $d)
                     <tbody>

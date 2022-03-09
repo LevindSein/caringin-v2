@@ -1275,14 +1275,21 @@ class TagihanController extends Controller
             $tunggakan = 0;
             $denda = 0;
 
-            $tagihan = Tagihan::where([['stt_lunas',0],['tgl_tagihan','<',$tanggal],['kd_kontrol',$d->kd_kontrol]])->get();
-            foreach($tagihan as $t){
-                $tunggakan = $tunggakan + $t->sel_tagihan;
-                $denda = $denda + $t->den_tagihan;
-                $lain = $lain + $t->sel_lain;
+            if($request->pemberitahuan_tunggakan){
+
+                $tagihan = Tagihan::where([['stt_lunas',0],['tgl_tagihan','<',$tanggal],['kd_kontrol',$d->kd_kontrol]])->get();
+                foreach($tagihan as $t){
+                    $tunggakan = $tunggakan + $t->sel_tagihan;
+                    $denda = $denda + $t->den_tagihan;
+                    $lain = $lain + $t->sel_lain;
+                }
+
+                $pemberitahuan[$i][7] = $tunggakan - $denda;
+            }
+            else{
+                $pemberitahuan[$i][7] = 0;
             }
 
-            $pemberitahuan[$i][7] = $tunggakan - $denda;
             $pemberitahuan[$i][8] = $denda;
             $pemberitahuan[$i][9] = $lain;
 
@@ -2638,12 +2645,12 @@ class TagihanController extends Controller
         }
 
         if($blok == 'SEMUA'){
-            $data = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
+            $rincian = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
             ->where('stt_lunas', 0)
             ->get();
         }
         else{
-            $data = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
+            $rincian = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
             ->where([
                 ['stt_lunas', 0],
                 ['blok', $blok]
@@ -2655,7 +2662,7 @@ class TagihanController extends Controller
             'blok' => $blok,
             'dari' => $bulan_dari,
             'ke'   => $bulan_ke,
-            'data' => $data
+            'data' => $rincian
         ]);
     }
 }
