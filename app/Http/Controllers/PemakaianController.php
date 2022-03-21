@@ -48,7 +48,7 @@ class PemakaianController extends Controller
 
         if($fasilitas == 'keamananipk'){
             $rekap = Pemakaian::rekapKeamananIpk($bulan);
-            
+
             $time = strtotime($bulan);
             $bln = date("Y-m", strtotime("+1 month", $time));
 
@@ -62,7 +62,7 @@ class PemakaianController extends Controller
 
         if($fasilitas == 'kebersihan'){
             $rekap = Pemakaian::rekapKebersihan($bulan);
-            
+
             $time = strtotime($bulan);
             $bln = date("Y-m", strtotime("+1 month", $time));
 
@@ -73,11 +73,11 @@ class PemakaianController extends Controller
                 'rincian'=>Pemakaian::rincianKebersihan($bulan),
             ]);
         }
-        
+
         if($fasilitas == 'airkotor'){
             return view('laporan.pemakaian.airkotor');
         }
-            
+
         if($fasilitas == 'lain'){
             return view('laporan.pemakaian.lain');
         }
@@ -98,7 +98,7 @@ class PemakaianController extends Controller
             $rekapKebersihan  = Pemakaian::rekapDisKebersihan($bulan);
             $rekapListrik     = Pemakaian::rekapDisListrik($bulan);
             $rekapAirBersih   = Pemakaian::rekapDisAirBersih($bulan);
-            
+
             $time = strtotime($bulan);
             $bln = date("Y-m", strtotime("+1 month", $time));
 

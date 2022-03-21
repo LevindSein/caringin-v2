@@ -226,7 +226,7 @@ class Pemakaian extends Model
                 )
             ->orderBy('tagihan.kd_kontrol','asc')
             ->get();
-            
+
             $dataset[$i][2] = Tagihan::where([
                 ['tagihan.bln_pakai',$bulan],
                 ['tagihan.stt_airbersih',1],
@@ -328,7 +328,7 @@ class Pemakaian extends Model
                 )
             ->orderBy('tagihan.kd_kontrol','asc')
             ->get();
-            
+
             $dataset[$i][2] = Tagihan::
             where([
                 ['tagihan.bln_pakai',$bulan],
@@ -427,7 +427,7 @@ class Pemakaian extends Model
                 )
             ->orderBy('tagihan.kd_kontrol','asc')
             ->get();
-            
+
             $dataset[$i][2] = Tagihan::
             where([
                 ['tagihan.bln_pakai',$bulan],
@@ -644,7 +644,7 @@ class Pemakaian extends Model
                 )
             ->orderBy('tagihan.kd_kontrol','asc')
             ->get();
-            
+
             $dataset[$i][2] = Tagihan::
             where([
                 ['tagihan.bln_pakai',$bulan],
@@ -747,7 +747,7 @@ class Pemakaian extends Model
                 )
             ->orderBy('tagihan.kd_kontrol','asc')
             ->get();
-            
+
             $dataset[$i][2] = Tagihan::
             where([
                 ['tagihan.bln_pakai',$bulan],
@@ -993,7 +993,7 @@ class Pemakaian extends Model
                 )
             ->orderBy('tagihan.kd_kontrol','asc')
             ->get();
-            
+
             $dataset[$i][2] = Tagihan::where([
                 ['tagihan.bln_pakai',$bulan],
                 ['tagihan.stt_airbersih',1],

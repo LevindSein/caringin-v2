@@ -2645,11 +2645,50 @@ class TagihanController extends Controller
         }
 
         if($blok == 'SEMUA'){
+            $rekap = Tagihan::
+            whereBetween('bln_tagihan', [$dari, $ke])
+            ->where('stt_lunas', 0)
+            ->select(
+                    'kd_kontrol',
+                    DB::raw('SUM(sel_listrik) as listrik'),
+                    DB::raw('SUM(sel_airbersih) as airbersih'),
+                    DB::raw('SUM(sel_keamananipk) as keamananipk'),
+                    DB::raw('SUM(sel_kebersihan) as kebersihan'),
+                    DB::raw('SUM(sel_airkotor) as airkotor'),
+                    DB::raw('SUM(sel_lain) as lain'),
+                    DB::raw('SUM(sel_tagihan) as tagihan'),
+                    DB::raw('COUNT(*) as periode')
+                )
+            ->groupBy('kd_kontrol')
+            ->orderBy('kd_kontrol','asc')
+            ->get();
+
             $rincian = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
             ->where('stt_lunas', 0)
             ->get();
         }
         else{
+            $rekap = Tagihan::
+            whereBetween('bln_tagihan', [$dari, $ke])
+            ->where([
+                ['stt_lunas', 0],
+                ['blok', $blok]
+            ])
+            ->select(
+                    'kd_kontrol',
+                    DB::raw('SUM(sel_listrik) as listrik'),
+                    DB::raw('SUM(sel_airbersih) as airbersih'),
+                    DB::raw('SUM(sel_keamananipk) as keamananipk'),
+                    DB::raw('SUM(sel_kebersihan) as kebersihan'),
+                    DB::raw('SUM(sel_airkotor) as airkotor'),
+                    DB::raw('SUM(sel_lain) as lain'),
+                    DB::raw('SUM(sel_tagihan) as tagihan'),
+                    DB::raw('COUNT(*) as periode')
+                )
+            ->groupBy('kd_kontrol')
+            ->orderBy('kd_kontrol','asc')
+            ->get();
+
             $rincian = Tagihan::whereBetween('bln_tagihan', [$dari, $ke])
             ->where([
                 ['stt_lunas', 0],
@@ -2659,10 +2698,11 @@ class TagihanController extends Controller
         }
 
         return view("tagihan.tunggakan.index", [
-            'blok' => $blok,
-            'dari' => $bulan_dari,
-            'ke'   => $bulan_ke,
-            'data' => $rincian
+            'blok'    => $blok,
+            'dari'    => $bulan_dari,
+            'ke'      => $bulan_ke,
+            'rincian' => $rincian,
+            'rekap'   => $rekap
         ]);
     }
 }
