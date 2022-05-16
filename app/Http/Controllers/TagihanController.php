@@ -1634,12 +1634,12 @@ class TagihanController extends Controller
 
             try{
                 if($action == 'listrik'){
-                    $banyak  = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_listrik',1]])->count();
+                    $banyak  = Tagihan::where([['bln_tagihan',$periode],['stt_lunas',0],['stt_listrik',1]])->count();
                     $status = "Listrik";
                     $i = Tagihan::refreshListrik($periode);
                 }
                 else{
-                    $banyak  = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_airbersih',1]])->count();
+                    $banyak  = Tagihan::where([['bln_tagihan',$periode],['stt_lunas',0],['stt_airbersih',1]])->count();
                     $status = "Air Bersih";
                     $i = Tagihan::refreshAirBersih($periode);
                 }

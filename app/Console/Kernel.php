@@ -30,7 +30,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('cron:kerjakasir')->dailyAt('06:00');
         $schedule->command('cron:tutupkasir')->dailyAt('16:00');
         $schedule->command('cron:login')->dailyAt('03:00');
-        $schedule->command('cron:backup')->dailyAt('05:00');
+        $schedule->command('backup:run --only-db')->dailyAt('05:00');
+        $schedule->command('backup:clean')->dailyAt('05:15');
     }
 
     /**

@@ -275,7 +275,7 @@ class Tagihan extends Model
 
     public static function refreshListrik($periode){
         $tarif = TarifListrik::first();
-        $data = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_listrik',1]])->get();
+        $data = Tagihan::where([['bln_tagihan',$periode],['stt_lunas',0],['stt_listrik',1]])->get();
 
         $i = 0;
         foreach($data as $tagihan){
@@ -546,7 +546,7 @@ class Tagihan extends Model
 
     public static function refreshAirBersih($periode){
         $tarif = TarifAirBersih::first();
-        $data = Tagihan::where([['bln_tagihan',$periode],['stt_bayar',0],['stt_airbersih',1]])->get();
+        $data = Tagihan::where([['bln_tagihan',$periode],['stt_lunas',0],['stt_airbersih',1]])->get();
 
         $i = 0;
         foreach($data as $tagihan){

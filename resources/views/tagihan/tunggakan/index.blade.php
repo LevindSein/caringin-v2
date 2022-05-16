@@ -81,6 +81,13 @@
                 </thead>
             </table>
         </main>
+        <div id="notices">
+            <div style="text-align:right;">
+                <b>Bandung, {{\Carbon\Carbon::now()}}</b>
+            </div>
+            <br><br><br><br><br>
+            <div class="notice" style="text-align:right;">{{Session::get('username')}}</div>
+        </div>
         <div style="page-break-before:always"></div>
         <main>
             <table class="tg">
@@ -151,5 +158,12 @@
                 </thead>
             </table>
         </main>
+        <div id="notices">
+            <div style="text-align:right;">
+                <b>Bandung, {{\Carbon\Carbon::now()}}</b>
+            </div>
+            <br><br><br><br><br>
+            <div class="notice" style="text-align:right;">{{Session::get('username')}}</div>
+        </div>
     </body>
 </html>
