@@ -33,7 +33,6 @@
     <div class="dropdown-divider"></div>
     @if(Session::get('role') == 'master')
     <a href="#" class="dropdown-item" type="button" name="add_tempat" id="add_tempat">Tambah Tempat</a>
-    <div class="dropdown-divider"></div>
     @endif
     @endif
     @if(Session::get('role') == 'master' || Session::get('role') == 'manajer')
@@ -50,6 +49,8 @@
     <a class="dropdown-item {{ (request()->is('tempatusaha/fasilitas/airkotor')) ? 'active' : '' }}" href="{{url('tempatusaha/fasilitas/airkotor')}}">Air Kotor</a>
     <a class="dropdown-item {{ (request()->is('tempatusaha/fasilitas/diskon')) ? 'active' : '' }}" href="{{url('tempatusaha/fasilitas/diskon')}}">Diskon / Bebas Bayar</a>
     <a class="dropdown-item {{ (request()->is('tempatusaha/fasilitas/lain')) ? 'active' : '' }}" href="{{url('tempatusaha/fasilitas/lain')}}">Lain - Lain</a>
+    <div class="dropdown-divider"></div>
+    <a href="{{url('tempatusaha/excel')}}" class="dropdown-item" type="button" id="generate">Generate Excel</a>
 </div>
 @endsection
 

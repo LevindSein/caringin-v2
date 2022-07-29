@@ -32,8 +32,10 @@ use App\Models\IndoDate;
 use App\Models\Dokumen;
 
 use App\Models\LevindCrypt;
+use App\Exports\TempatExport;
 
 use Carbon\Carbon;
+use Excel;
 
 class TempatController extends Controller
 {
@@ -964,5 +966,9 @@ class TempatController extends Controller
             'kode'=>$kode,
             'kontrol'=>$kontrol
         ]);
+    }
+
+    public function excel(){
+        return Excel::download(new TempatExport, 'Data_Tempat_'. Carbon::now() . '.xlsx');
     }
 }

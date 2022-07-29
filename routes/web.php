@@ -216,6 +216,7 @@ Route::middleware('ceklogin:pedagang')->group(function (){
 });
 
 Route::middleware('ceklogin:tempatusaha')->group(function (){
+    Route::get('tempatusaha/excel', [TempatController::class, 'excel']);
     Route::get('tempatusaha/show/{id}', [TempatController::class, 'show']);
     Route::get('tempatusaha/alat', [TempatController::class, 'alat']);
     Route::get('tempatusaha/qr/{id}',[TempatController::class, 'qr']);

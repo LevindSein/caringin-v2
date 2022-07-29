@@ -27,7 +27,7 @@ class PendapatanController extends Controller
     public function index(Request $request){
         if(request()->ajax())
         {
-            $data = Pembayaran::orderBy('tgl_bayar','desc');
+            $data = Pembayaran::orderBy('tgl_bayar','desc')->limit(10000);
             return DataTables::of($data)
             ->editColumn('ttl_tagihan', function ($data) {
                 return number_format($data->ttl_tagihan);
@@ -156,19 +156,19 @@ class PendapatanController extends Controller
                 $data['byr_listrik'] = $tagihan[0]->listrik;
                 $data['byr_denlistrik'] = $tagihan[0]->denlistrik;
                 $data['dis_listrik'] = $tagihan[0]->dislistrik;
-                
+
                 $data['byr_airbersih'] = $tagihan[0]->airbersih;
                 $data['byr_denairbersih'] = $tagihan[0]->denairbersih;
                 $data['dis_airbersih'] = $tagihan[0]->disairbersih;
-                
+
                 $data['byr_keamananipk'] = $tagihan[0]->keamananipk;
                 $data['dis_keamananipk'] = $tagihan[0]->diskeamananipk;
-                
+
                 $data['byr_kebersihan'] = $tagihan[0]->kebersihan;
                 $data['dis_kebersihan'] = $tagihan[0]->diskebersihan;
-                
+
                 $data['byr_airkotor'] = $tagihan[0]->airkotor;
-                
+
                 $data['byr_lain'] = $tagihan[0]->lain;
 
                 $data['bulan'] = IndoDate::bulan($id, " ");
@@ -200,19 +200,19 @@ class PendapatanController extends Controller
                 $data['byr_listrik'] = $tagihan[0]->listrik;
                 $data['byr_denlistrik'] = $tagihan[0]->denlistrik;
                 $data['dis_listrik'] = $tagihan[0]->dislistrik;
-                
+
                 $data['byr_airbersih'] = $tagihan[0]->airbersih;
                 $data['byr_denairbersih'] = $tagihan[0]->denairbersih;
                 $data['dis_airbersih'] = $tagihan[0]->disairbersih;
-                
+
                 $data['byr_keamananipk'] = $tagihan[0]->keamananipk;
                 $data['dis_keamananipk'] = $tagihan[0]->diskeamananipk;
-                
+
                 $data['byr_kebersihan'] = $tagihan[0]->kebersihan;
                 $data['dis_kebersihan'] = $tagihan[0]->diskebersihan;
-                
+
                 $data['byr_airkotor'] = $tagihan[0]->airkotor;
-                
+
                 $data['byr_lain'] = $tagihan[0]->lain;
             }
 
@@ -289,10 +289,10 @@ class PendapatanController extends Controller
                 )
                 ->get();
             }
-            
+
             return view("laporan.pendapatan.generate.harian.$fasilitas",[
                 'rekap'   => $rekap,
-                'dataset' => $dataset, 
+                'dataset' => $dataset,
                 'tanggal' => IndoDate::tanggal($tanggal, " "),
                 'cetak'   => $cetak,
             ]);
@@ -323,7 +323,7 @@ class PendapatanController extends Controller
             else if($fasilitas == 'tagihan'){
                 $dataset = Pembayaran::where('bln_bayar',$periode)->orderBy('kd_kontrol','asc')->get();
             }
-            
+
             return view("laporan.pendapatan.generate.bulanan.$fasilitas",[
                 'dataset' => $dataset,
                 'bulan'   => IndoDate::bulan($periode, " "),
@@ -356,7 +356,7 @@ class PendapatanController extends Controller
             else if($fasilitas == 'tagihan'){
                 $dataset = Pembayaran::where('thn_bayar',$periode)->orderBy('kd_kontrol','asc')->get();
             }
-            
+
             return view("laporan.pendapatan.generate.tahunan.$fasilitas",[
                 'dataset' => $dataset,
                 'tahun'   => $periode,
