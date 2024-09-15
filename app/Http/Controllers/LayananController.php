@@ -172,11 +172,11 @@ class LayananController extends Controller
     public function bongkaranSelesai($id){
         try{
             $id = LevindCrypt::decryptString($id);
-            $kontrol = TempatUsaha::find($id)->kd_kontrol;
+            // $kontrol = TempatUsaha::find($id)->kd_kontrol;
 
-            // $tempat = TempatUsaha::find($id);
-            // $tempat->stt_bongkar = 0;
-            // $tempat->save();
+            $tempat = TempatUsaha::find($id);
+            $tempat->stt_bongkar = 0;
+            $tempat->save();
 
             // $tagihan = Tagihan::where([['kd_kontrol',$kontrol],['stt_lunas',0],['stt_publish',1]])->get();
             // foreach($tagihan as $t){

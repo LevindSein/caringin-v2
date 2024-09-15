@@ -60,35 +60,6 @@ class TempatUsaha extends Model
             ->get();
     }
 
-    public function pengguna()
-    {
-        return $this->belongsTo(User::class, 'id_pengguna')->withDefault([
-            'id' => null,
-            'name' => '-'
-        ]);
-    }
-
-    public function pemilik(){
-        return $this->belongsTo(User::class, 'id_pemilik')->withDefault([
-            'id' => null,
-            'name' => '-'
-        ]);
-    }
-
-    public static function status($val){
-        switch ($val) {
-            case 3:
-                return 'Bebas Bayar';
-                break;
-            case 1:
-                return 'Aktif';
-                break;
-            default:
-                return 'Nonaktif';
-                break;
-        }
-    }
-
     public static function fasilitas($fas){
         if($fas == 'diskon'){
             return TempatUsaha::where('tempat_usaha.dis_airbersih','!=',NULL)
@@ -140,7 +111,7 @@ class TempatUsaha extends Model
     public static function airAvailable(){
         return DB::table('meteran_air')->where('stt_sedia',0)->get();
     }
-
+    
     public static function listrikAvailable(){
         return DB::table('meteran_listrik')->where('stt_sedia',0)->get();
     }
@@ -148,15 +119,15 @@ class TempatUsaha extends Model
     public static function trfKeamananIpk(){
         return DB::table('trf_keamanan_ipk')->orderBy('tarif','asc')->get();
     }
-
+    
     public static function trfKebersihan(){
         return DB::table('trf_kebersihan')->orderBy('tarif','asc')->get();
     }
-
+    
     public static function trfAirKotor(){
         return DB::table('trf_air_kotor')->orderBy('tarif','asc')->get();
     }
-
+    
     public static function trfLain(){
         return DB::table('trf_lain')->orderBy('tarif','asc')->get();
     }

@@ -618,10 +618,10 @@ class TagihanController extends Controller
         {
             if(Session::get('role') == 'admin'){
                 $wherein = Session::get('otoritas')->otoritas;
-                $data = Penghapusan::whereIn('blok',$wherein)->where('stt_hapus',1)->orderBy('kd_kontrol','asc');
+                $data = Penghapusan::whereIn('blok',$wherein)->where('stt_hapus',1)->orderBy('kd_kontrol','asc')->orderBy('bln_pakai', 'asc');
             }
             else{
-                $data = Penghapusan::where('stt_hapus',1)->orderBy('kd_kontrol','asc');
+                $data = Penghapusan::where('stt_hapus',1)->orderBy('kd_kontrol','asc')->orderBy('bln_pakai', 'asc');
             }
             return DataTables::of($data)
                 ->addColumn('action', function($data){

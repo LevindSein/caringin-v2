@@ -270,11 +270,11 @@
                         </tr>
                         <tr>
                             <td class="tg-0r15">-</td>
-                            <td class="tg-tb37" colspan="4">Pembayaran via Bank BRI 0401.01.000928.307 An. Sri Indra Nurhayati. Hindari <b>denda</b>, bayar sebelum tanggal 15.</td>
+                            <td class="tg-tb37" colspan="4">Pembayaran via Bank BRI 0401.01.000239.300 An. PT Pengelola Pusat Perdagangan Caringin. Hindari <b>denda</b>, bayar sebelum tanggal 15.</td>
                         </tr>
                         <tr>
                             <td class="tg-0r16">-</td>
-                            <td class="tg-zd55" colspan="4">Pemberitahuan ini merupakan edaran yang sah. Sudah termasuk PPN.</td>
+                            <td class="tg-zd55" colspan="4">Pemberitahuan ini merupakan edaran yang sah. Sudah termasuk PPN. TDL sesuai aturan Pemerintah.</td>
                         </tr>
                     </tbody>
                 </table>

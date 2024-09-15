@@ -59,7 +59,7 @@ use App\Http\Controllers\UserController;
 
 //Information
 use App\Http\Controllers\InformationController;
-
+use App\Http\Controllers\MandiriController;
 //Saran
 use App\Http\Controllers\SaranController;
 
@@ -205,6 +205,8 @@ Route::middleware('ceklogin:layanan')->group(function (){
     Route::get('layanan/alatmeter/ganti', [LayananController::class, 'alatMeterGanti']);
     Route::get('layanan/alatmeter', [LayananController::class, 'alatMeterIndex']);
     Route::get('layanan/nasabah', [LayananController::class, 'nasabahIndex']);
+
+    Route::get('layanan/mandiri', [MandiriController::class, 'index']);
 });
 
 Route::middleware('ceklogin:pedagang')->group(function (){

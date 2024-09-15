@@ -1,2 +1,0 @@
-1. Bikin Daftar Tunggakan los yang menunggak Februari ke Belakang dan yang Bulan yang sedang Berjalan
-2. Bikin Daftar seperti no.1, hanya saja khusus FIB
